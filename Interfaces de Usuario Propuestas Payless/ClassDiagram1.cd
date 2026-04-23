@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseVenta">
+    <Position X="5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABRAAAAAAAAAAAAAAAAAQABAABAAACAAAAgAAAAAA=</HashCode>
+      <FileName>ClaseVenta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario.Rol" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ClaseUsuario.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAABAACAAAAAAJAAQAAAAAAAAAAAAACAAAEIEEAAAI=</HashCode>
+      <FileName>ClaseUsuario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

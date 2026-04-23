@@ -1,0 +1,1 @@
+Si el archivo sale dañado al abrir, talvez serrando el proyecto y volviéndolo a abrir se arregla, me pasa cuando guardo algún cambio y lo cierro y después lo vuelva abrir. El proyecto se hiso en la versión de visual studio 2026
