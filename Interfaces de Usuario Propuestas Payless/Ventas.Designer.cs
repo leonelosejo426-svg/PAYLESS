@@ -61,6 +61,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -70,7 +71,6 @@
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.textBox9 = new System.Windows.Forms.TextBox();
-            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -92,11 +92,11 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Font = new System.Drawing.Font("Times New Roman", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label13.Location = new System.Drawing.Point(29, 251);
+            this.label13.Location = new System.Drawing.Point(43, 248);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(102, 32);
+            this.label13.Size = new System.Drawing.Size(113, 36);
             this.label13.TabIndex = 4;
             this.label13.Text = "Payless";
             // 
@@ -405,6 +405,16 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
+            // button4
+            // 
+            this.button4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(1438, 423);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(216, 42);
+            this.button4.TabIndex = 115;
+            this.button4.Text = "Imprimir Factura";
+            this.button4.UseVisualStyleBackColor = true;
+            // 
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(1464, 315);
@@ -487,16 +497,6 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(101, 30);
             this.textBox9.TabIndex = 109;
-            // 
-            // button4
-            // 
-            this.button4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(1438, 423);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(216, 42);
-            this.button4.TabIndex = 115;
-            this.button4.Text = "Imprimir Factura";
-            this.button4.UseVisualStyleBackColor = true;
             // 
             // Ventas
             // 
