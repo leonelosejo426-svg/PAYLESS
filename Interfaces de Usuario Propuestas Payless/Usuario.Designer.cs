@@ -380,7 +380,7 @@
             this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox2.Size = new System.Drawing.Size(1276, 108);
+            this.groupBox2.Size = new System.Drawing.Size(1321, 108);
             this.groupBox2.TabIndex = 26;
             this.groupBox2.TabStop = false;
             // 
@@ -544,7 +544,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(1287, 118);
+            this.button4.Location = new System.Drawing.Point(1307, 148);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(110, 35);
             this.button4.TabIndex = 84;
@@ -557,7 +557,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(1452, 838);
+            this.ClientSize = new System.Drawing.Size(1491, 846);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.comboBox3);
