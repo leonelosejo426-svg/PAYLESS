@@ -16,5 +16,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             InitializeComponent();
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Devoluciones_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
