@@ -97,7 +97,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             new Cliente().Show();
             this.Hide();
-        
+
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)

@@ -31,7 +31,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (ClaseSesion.RolActual != "ADMIN")
             {
                 MessageBox.Show("No tienes acceso");
-                this.Close();
+                this.Hide();
             }
 
 

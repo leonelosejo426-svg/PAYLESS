@@ -56,9 +56,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
             {
                 MessageBox.Show("No tienes acceso");
-                this.Close();
+                this.Hide();
             }
-        
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+            new Productos().Show();
+            this.Hide();
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

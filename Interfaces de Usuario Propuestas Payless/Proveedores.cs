@@ -24,7 +24,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
             {
                 MessageBox.Show("No tienes acceso");
-                this.Close();
+                this.Hide();
             }
 
         }
@@ -63,11 +63,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label20_Click_1(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
-            {
-                MessageBox.Show("No tienes acceso");
-                return;
-            }
+            
 
             new Cliente().Show();
             this.Hide();
@@ -75,11 +71,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label17_Click_1(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
-            {
-                MessageBox.Show("No tienes acceso");
-                return; 
-            }
+            
 
             new Usuario().Show();
             this.Hide();
@@ -92,11 +84,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label15_Click_1(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
-            {
-                MessageBox.Show("No tienes acceso");
-                return;
-            }
+            
 
             new Productos().Show();
             this.Hide();
