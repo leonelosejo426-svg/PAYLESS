@@ -54,6 +54,7 @@
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
     <Compile Include="ClaseProductos.cs" />
+    <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
     <Compile Include="Cliente.cs">
       <SubType>Form</SubType>

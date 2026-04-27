@@ -21,5 +21,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void Ventas_Load(object sender, EventArgs e)
+        {
+            if (ClaseSesion.RolActual != "ADMIN")
+            {
+                MessageBox.Show("No tienes acceso");
+                this.Close();
+            }
+        }
     }
 }

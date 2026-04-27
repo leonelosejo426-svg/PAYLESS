@@ -29,16 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblVenta = new System.Windows.Forms.Label();
+            this.lblCaja = new System.Windows.Forms.Label();
             this.lblCliente = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label19 = new System.Windows.Forms.Label();
-            this.lblUsuario = new System.Windows.Forms.Label();
+            this.lblUsuarios = new System.Windows.Forms.Label();
             this.lblProductos = new System.Windows.Forms.Label();
             this.lblProveedores = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label18 = new System.Windows.Forms.Label();
+            this.lblSesion = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,10 +56,12 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Firebrick;
+            this.groupBox1.Controls.Add(this.lblVenta);
+            this.groupBox1.Controls.Add(this.lblCaja);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.lblUsuario);
+            this.groupBox1.Controls.Add(this.lblUsuarios);
             this.groupBox1.Controls.Add(this.lblProductos);
             this.groupBox1.Controls.Add(this.lblProveedores);
             this.groupBox1.Controls.Add(this.label13);
@@ -66,6 +70,31 @@
             this.groupBox1.Size = new System.Drawing.Size(228, 802);
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
+            // 
+            // lblVenta
+            // 
+            this.lblVenta.AutoSize = true;
+            this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVenta.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lblVenta.Location = new System.Drawing.Point(59, 660);
+            this.lblVenta.Name = "lblVenta";
+            this.lblVenta.Size = new System.Drawing.Size(82, 32);
+            this.lblVenta.TabIndex = 13;
+            this.lblVenta.Text = "Venta";
+            this.lblVenta.Click += new System.EventHandler(this.lblVenta_Click);
+            // 
+            // lblCaja
+            // 
+            this.lblCaja.AutoSize = true;
+            this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCaja.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lblCaja.Location = new System.Drawing.Point(59, 597);
+            this.lblCaja.Name = "lblCaja";
+            this.lblCaja.Size = new System.Drawing.Size(71, 32);
+            this.lblCaja.TabIndex = 12;
+            this.lblCaja.Text = "Caja";
+            this.lblCaja.Click += new System.EventHandler(this.lblCaja_Click);
             // 
             // lblCliente
             // 
@@ -96,24 +125,24 @@
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label19.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label19.Location = new System.Drawing.Point(66, 691);
+            this.label19.Location = new System.Drawing.Point(59, 736);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(92, 32);
             this.label19.TabIndex = 10;
             this.label19.Text = "Ayuda";
             // 
-            // lblUsuario
+            // lblUsuarios
             // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblUsuario.Location = new System.Drawing.Point(60, 437);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(109, 32);
-            this.lblUsuario.TabIndex = 8;
-            this.lblUsuario.Text = "Usuario";
-            this.lblUsuario.Click += new System.EventHandler(this.label17_Click);
+            this.lblUsuarios.AutoSize = true;
+            this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuarios.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.lblUsuarios.Location = new System.Drawing.Point(60, 437);
+            this.lblUsuarios.Name = "lblUsuarios";
+            this.lblUsuarios.Size = new System.Drawing.Size(109, 32);
+            this.lblUsuarios.TabIndex = 8;
+            this.lblUsuarios.Text = "Usuario";
+            this.lblUsuarios.Click += new System.EventHandler(this.label17_Click);
             // 
             // lblProductos
             // 
@@ -156,7 +185,7 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
             this.panel2.Controls.Add(this.pictureBox2);
-            this.panel2.Controls.Add(this.label18);
+            this.panel2.Controls.Add(this.lblSesion);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(224, -16);
             this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -175,16 +204,16 @@
             this.pictureBox2.TabIndex = 12;
             this.pictureBox2.TabStop = false;
             // 
-            // label18
+            // lblSesion
             // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label18.Location = new System.Drawing.Point(797, 78);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(137, 26);
-            this.label18.TabIndex = 11;
-            this.label18.Text = "Acerca De...";
+            this.lblSesion.AutoSize = true;
+            this.lblSesion.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSesion.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblSesion.Location = new System.Drawing.Point(808, 65);
+            this.lblSesion.Name = "lblSesion";
+            this.lblSesion.Size = new System.Drawing.Size(137, 26);
+            this.lblSesion.TabIndex = 11;
+            this.lblSesion.Text = "Acerca De...";
             // 
             // label1
             // 
@@ -283,17 +312,19 @@
         private System.Windows.Forms.Label lblCliente;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.Label lblUsuarios;
         private System.Windows.Forms.Label lblProductos;
         private System.Windows.Forms.Label lblProveedores;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label lblSesion;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Label lblCaja;
+        private System.Windows.Forms.Label lblVenta;
     }
 }

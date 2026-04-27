@@ -2,27 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Login : Form
     {
-        List<ClaseUsuario> usuarios = new List<ClaseUsuario>()
-        {
-            new ClaseUsuario("gerente", "Admin123!", ClaseUsuario.Rol.Gerente),
-            new ClaseUsuario("cajero", "Caja123!", ClaseUsuario.Rol.Cajero),
-            new ClaseUsuario("bodega", "Bodega123!", ClaseUsuario.Rol.Bodega),
-            new ClaseUsuario("supervisor", "Super123!", ClaseUsuario.Rol.Supervisor),
-            new ClaseUsuario("contador", "Conta123!", ClaseUsuario.Rol.Contador)
-        };
-
-
         public Login()  
         {
             InitializeComponent();
@@ -35,37 +27,68 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var usuario = usuarios.FirstOrDefault(u =>
-                u.Usuario == txtUsuario.Text &&
-                u.Contraseña == txtContraseña.Text
-                );
+        
+                string usuario = txtUsuario.Text;
+                string contraseña = txtContraseña.Text;
 
-                if (usuario == null)
-                {
-                    MessageBox.Show("Usuario o contraseña incorrectos");
+            switch (usuario)
+            {
+                case "Leonel":
+                    if (contraseña == "leonel123")
+                    {
+                        ClaseSesion.UsuarioActual = "Leonel";
+                        ClaseSesion.RolActual = "ADMIN";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
+
+                case "Kelly":
+                    if (contraseña == "kelly123")
+                    {
+                        ClaseSesion.UsuarioActual = "Kelly";
+                        ClaseSesion.RolActual = "KELLY";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
+
+                case "Paola":
+                    if (contraseña == "paola123")
+                    {
+                        ClaseSesion.UsuarioActual = "Paola";
+                        ClaseSesion.RolActual = "PAOLA";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
+
+                case "Felipe":
+                    if (contraseña == "felipe123")
+                    {
+                        ClaseSesion.UsuarioActual = "Felipe";
+                        ClaseSesion.RolActual = "FELIPE";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
+
+                case "Yubelkis":
+                    if (contraseña == "yubelkis123")
+                    {
+                        ClaseSesion.UsuarioActual = "Yubelkis";
+                        ClaseSesion.RolActual = "YUBELKIS";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
+
+                default:
+                    MessageBox.Show("Usuario no existe");
                     return;
-                }
-
-                MessageBox.Show($"Bienvenido {txtUsuario.Text} al Sistema de la Empresa Payless");
-
-                Menú_Principal ventana = new Menú_Principal(usuario);
-                ventana.Show();
-
-                this.Hide();
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            MessageBox.Show("Bienvenido " + ClaseSesion.UsuarioActual + "!");
+            this.Hide();
+            new Menú_Principal().Show();
 
-
-            
         }
-
+  
         private void button2_Click(object sender, EventArgs e)
         {
             Application.Exit();
