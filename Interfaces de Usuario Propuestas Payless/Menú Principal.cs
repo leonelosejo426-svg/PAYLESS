@@ -7,89 +7,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Menú_Principal : Form
     {
 
-
-        ClaseUsuario usuarioActual;
-
-
-
-
-
-
-        public Menú_Principal(ClaseUsuario user)
+        public Menú_Principal()
         {
             InitializeComponent();
-            usuarioActual = user;
-
         }
-
-
-
-
-        private bool TieneAcceso(string pantalla)
-        {
-            switch (usuarioActual.RolUsuario)
-            {
-                case ClaseUsuario.Rol.Gerente:
-                    return true; // accede a todo
-
-                case ClaseUsuario.Rol.Cajero:
-                    return pantalla == "Clientes" || pantalla ==  "Productos";
-
-                case ClaseUsuario.Rol.Bodega:
-                    return pantalla == "Productos" || pantalla == "Proveedores";
-
-                case ClaseUsuario.Rol.Supervisor:
-                    return pantalla == "Productos" || pantalla == "Proveedores" || pantalla == "Clientes";
-
-                case ClaseUsuario.Rol.Contador:
-                    return pantalla == "Clientes";
-
-                default:
-                    return false;
-            }
-        }
-
-
-
-
-
-
         private void FormMenu_Load(object sender, EventArgs e)
         {
-           /* if (usuarioActual.RolUsuario == CuentaUsuario.Rol.Cajero)
-            {
-                lblProductos.Enabled = false;
-                lblProveedores.Enabled = false;
-                lblUsuario.Enabled = false;
-            }
-
-            if (usuarioActual.RolUsuario == CuentaUsuario.Rol.Bodega)
-            {
-                lblCliente.Enabled = false;
-                lblUsuario.Enabled = false;
-            }*/
         }
-
-
-
-
         private void label15_Click(object sender, EventArgs e)
         {
-            if (!TieneAcceso("Productos"))
+
+            if (ClaseSesion.RolActual != "ADMIN")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
             }
 
-            Productos ventana = new Productos();
-            ventana.Show();
-
+            new Productos().Show();
             this.Hide();
         }
 
@@ -117,44 +58,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label14_Click(object sender, EventArgs e)
         {
-            if (!TieneAcceso("Proveedores"))
+
+
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
             }
 
-            Proveedores ventana = new Proveedores();
-            ventana.Show();
-
+            new Proveedores().Show();
             this.Hide();
+
         }
 
         private void label17_Click(object sender, EventArgs e)
         {
-            if (!TieneAcceso("Usuarios"))
+
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
             }
 
-            Usuario ventana = new Usuario();
-            ventana.Show();
-
+            new Usuario().Show();
             this.Hide();
         }
+        
 
         private void label20_Click(object sender, EventArgs e)
         {
-            if (!TieneAcceso("Clientes"))
+
+
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
             }
 
-            Cliente ventana = new Cliente();
-            ventana.Show();
-
+            new Cliente().Show();
             this.Hide();
+
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -164,7 +107,79 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Menú_Principal_Load(object sender, EventArgs e)
         {
+            lblSesion.Text =  ClaseSesion.UsuarioActual;
 
+            // Deshabilitar todo primero
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            //lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+            lblCliente.Enabled = false;
+            //lblCredito.Enabled = false;
+            //lblDevoluciones.Enabled = false;
+
+            // Activar según usuario
+            switch (ClaseSesion.RolActual)
+            {
+                case "ADMIN":
+                    lblCaja.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+                    lblVenta.Enabled = true;
+                    //lblCompras.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblCliente.Enabled = true;
+                    //lblCredito.Enabled = true;
+                    //lblDevoluciones.Enabled = true;
+                    break;
+
+                case "KELLY":
+                    lblCaja.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    break;
+
+                case "PAOLA":
+                    //lblDevoluciones.Enabled = true;
+                    break;
+
+                case "FELIPE":
+                    //lblCompras.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    break;
+
+                case "YUBELKIS":
+                    lblCliente.Enabled = true;
+                    //lblCredito.Enabled = true;
+                    break;
+            }
         }
+
+        private void lblCaja_Click(object sender, EventArgs e)
+        {
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
+            {
+                MessageBox.Show("No tienes acceso");
+                return;
+            }
+
+            new Caja().Show();
+            this.Hide();
+        }
+
+        private void lblVenta_Click(object sender, EventArgs e)
+        {
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
+            {
+                MessageBox.Show("No tienes acceso");
+                return;
+            }
+
+            new Ventas().Show();
+            this.Hide();
+        }
+    
     }
+    
 }

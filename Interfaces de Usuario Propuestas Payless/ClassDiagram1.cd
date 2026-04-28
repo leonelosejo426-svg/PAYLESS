@@ -9,16 +9,23 @@
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario">
     <Position X="9.5" Y="1.5" Width="1.5" />
-    <NestedTypes>
-      <Enum Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario.Rol" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>ClaseUsuario.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAABAACAAAAAAJAAQAAAAAAAAAAAAACAAAEIEEAAAI=</HashCode>
+      <HashCode>AAAABAACAAAAAAJAAQAAAAAAAAAAAAACAAAEAEEAAAI=</HashCode>
       <FileName>ClaseUsuario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProductos">
+    <Position X="0.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClaseProductos.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseSesion" Collapsed="true">
+    <Position X="6.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClaseSesion.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

@@ -21,6 +21,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Proveedores_Load(object sender, EventArgs e)
         {
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
+            {
+                MessageBox.Show("No tienes acceso");
+                this.Hide();
+            }
 
         }
 
@@ -50,7 +55,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menú_Principal(usuarioActual);
+            Menú_Principal ventana = new Menú_Principal();
             ventana.Show();
 
             this.Hide();
@@ -58,17 +63,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label20_Click_1(object sender, EventArgs e)
         {
-            Cliente ventana = new Cliente();
-            ventana.Show();
+            
 
+            new Cliente().Show();
             this.Hide();
         }
 
         private void label17_Click_1(object sender, EventArgs e)
         {
-            Usuario ventana = new Usuario();
-            ventana.Show();
+            
 
+            new Usuario().Show();
             this.Hide();
         }
 
@@ -79,10 +84,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label15_Click_1(object sender, EventArgs e)
         {
-            Productos ventana = new Productos();
-            ventana.Show();
+            
 
+            new Productos().Show();
             this.Hide();
+
         }
     }
 }

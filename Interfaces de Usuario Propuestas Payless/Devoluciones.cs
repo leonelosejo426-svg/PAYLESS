@@ -10,25 +10,21 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Ventas : Form
+    public partial class Devoluciones : Form
     {
-        public Ventas()
+        public Devoluciones()
         {
             InitializeComponent();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void Ventas_Load(object sender, EventArgs e)
+        private void Devoluciones_Load(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN")
-            {
-                MessageBox.Show("No tienes acceso");
-                this.Close();
-            }
+
         }
     }
 }

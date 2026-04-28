@@ -45,10 +45,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menú_Principal(usuarioActual);
+            Menú_Principal ventana = new Menú_Principal();
             ventana.Show();
 
             this.Hide();
+        }
+
+        private void Cliente_Load(object sender, EventArgs e)
+        {
+            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
+            {
+                MessageBox.Show("No tienes acceso");
+                this.Hide();
+            }
+
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+            new Productos().Show();
+            this.Hide();
+        }
+
+        private void label20_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

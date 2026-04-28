@@ -264,6 +264,7 @@
             this.label20.Size = new System.Drawing.Size(99, 32);
             this.label20.TabIndex = 11;
             this.label20.Text = "Cliente";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // pictureBox2
             // 
@@ -323,6 +324,7 @@
             this.label15.Size = new System.Drawing.Size(135, 32);
             this.label15.TabIndex = 6;
             this.label15.Text = "Productos";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // label14
             // 
@@ -430,6 +432,7 @@
             this.Name = "Cliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cliente";
+            this.Load += new System.EventHandler(this.Cliente_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

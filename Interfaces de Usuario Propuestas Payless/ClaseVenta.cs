@@ -11,12 +11,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private int _numeroVenta;
         private int _idVenta;
-        private DateTime _fecha;
-        private decimal _total;
-        private Boolean _estado;
         private int _idCliente;
         private int _idUsuario;
         private int _idCaja;
+        private DateTime _fecha;
+        private decimal _total;
+        private Boolean _estado;
+        
 
     }
 }
