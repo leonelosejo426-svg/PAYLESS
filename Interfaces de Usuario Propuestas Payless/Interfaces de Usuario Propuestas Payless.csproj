@@ -56,6 +56,7 @@
     <Compile Include="ClaseProductos.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
+    <Compile Include="Clase_Usuario.cs" />
     <Compile Include="Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +69,12 @@
     </Compile>
     <Compile Include="Compras.Designer.cs">
       <DependentUpon>Compras.cs</DependentUpon>
+      </Compile>
+    <Compile Include="Devoluciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Devoluciones.Designer.cs">
+      <DependentUpon>Devoluciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Diagrama.cs" />
     <Compile Include="Login.cs">
@@ -119,6 +126,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Devoluciones.resx">
+      <DependentUpon>Devoluciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
