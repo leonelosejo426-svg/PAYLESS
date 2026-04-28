@@ -79,5 +79,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap WhatsApp_Image_2026_03_17_at_5_12_14_PM__1_ {
+            get {
+                object obj = ResourceManager.GetObject("WhatsApp Image 2026-03-17 at 5.12.14 PM (1)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

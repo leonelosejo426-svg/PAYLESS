@@ -69,7 +69,7 @@
     </Compile>
     <Compile Include="Compras.Designer.cs">
       <DependentUpon>Compras.cs</DependentUpon>
-      </Compile>
+    </Compile>
     <Compile Include="Devoluciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,6 +127,9 @@
     <EmbeddedResource Include="Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Compras.resx">
+      <DependentUpon>Compras.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </EmbeddedResource>
@@ -180,6 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\images.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhatsApp Image 2026-03-17 at 5.12.14 PM %281%29.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
