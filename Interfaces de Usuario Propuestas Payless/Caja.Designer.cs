@@ -34,24 +34,23 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Monto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblAperturadecaja = new System.Windows.Forms.Label();
             this.txtIngresos = new System.Windows.Forms.TextBox();
             this.lblIngresos = new System.Windows.Forms.Label();
             this.txtSaldoactual = new System.Windows.Forms.TextBox();
             this.lblSaldoactual = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lblUsuario = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtegresos = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.btnAperturadecaja = new System.Windows.Forms.Button();
-            this.btnRegistrodeegresos = new System.Windows.Forms.Button();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Monto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnMenu = new System.Windows.Forms.Button();
+            this.btnRegistrodeegresos = new System.Windows.Forms.Button();
+            this.btnAperturadecaja = new System.Windows.Forms.Button();
+            this.txtegresos = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblUsuario = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -132,6 +131,34 @@
             this.dataGridView1.Size = new System.Drawing.Size(645, 172);
             this.dataGridView1.TabIndex = 74;
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Fecha";
+            this.Column1.MinimumWidth = 8;
+            this.Column1.Name = "Column1";
+            this.Column1.Width = 150;
+            // 
+            // Tipo
+            // 
+            this.Tipo.HeaderText = "Tipo";
+            this.Tipo.MinimumWidth = 8;
+            this.Tipo.Name = "Tipo";
+            this.Tipo.Width = 150;
+            // 
+            // Descripción
+            // 
+            this.Descripción.HeaderText = "Descripción";
+            this.Descripción.MinimumWidth = 8;
+            this.Descripción.Name = "Descripción";
+            this.Descripción.Width = 150;
+            // 
+            // Monto
+            // 
+            this.Monto.HeaderText = "Monto";
+            this.Monto.MinimumWidth = 8;
+            this.Monto.Name = "Monto";
+            this.Monto.Width = 150;
+            // 
             // lblAperturadecaja
             // 
             this.lblAperturadecaja.AutoSize = true;
@@ -199,7 +226,6 @@
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.btnCierredecaja);
             this.groupBox1.Controls.Add(this.btnAperturadecaja);
-            this.groupBox1.Controls.Add(this.textBox6);
             this.groupBox1.Controls.Add(this.txtegresos);
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.lblUsuario);
@@ -218,73 +244,19 @@
             this.groupBox1.TabIndex = 81;
             this.groupBox1.TabStop = false;
             // 
-            // groupBox2
+            // btnMenu
             // 
-            this.groupBox2.BackColor = System.Drawing.Color.DarkOrange;
-            this.groupBox2.Controls.Add(this.dataGridView1);
-            this.groupBox2.Location = new System.Drawing.Point(36, 439);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(714, 201);
-            this.groupBox2.TabIndex = 0;
-            this.groupBox2.TabStop = false;
-            // 
-            // lblUsuario
-            // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.ForeColor = System.Drawing.Color.Black;
-            this.lblUsuario.Location = new System.Drawing.Point(166, 246);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(86, 27);
-            this.lblUsuario.TabIndex = 81;
-            this.lblUsuario.Text = "Usuario";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(464, 335);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(100, 26);
-            this.label7.TabIndex = 82;
-            this.label7.Text = "Egresos:";
-            // 
-            // txtegresos
-            // 
-            this.txtegresos.BackColor = System.Drawing.Color.White;
-            this.txtegresos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtegresos.ForeColor = System.Drawing.Color.Black;
-            this.txtegresos.Location = new System.Drawing.Point(588, 327);
-            this.txtegresos.Multiline = true;
-            this.txtegresos.Name = "txtegresos";
-            this.txtegresos.Size = new System.Drawing.Size(170, 36);
-            this.txtegresos.TabIndex = 83;
-            // 
-            // textBox6
-            // 
-            this.textBox6.BackColor = System.Drawing.Color.White;
-            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.ForeColor = System.Drawing.Color.Black;
-            this.textBox6.Location = new System.Drawing.Point(588, 377);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(170, 37);
-            this.textBox6.TabIndex = 84;
-            // 
-            // btnAperturadecaja
-            // 
-            this.btnAperturadecaja.BackColor = System.Drawing.Color.Transparent;
-            this.btnAperturadecaja.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAperturadecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAperturadecaja.ForeColor = System.Drawing.Color.Black;
-            this.btnAperturadecaja.Location = new System.Drawing.Point(36, 655);
-            this.btnAperturadecaja.Name = "btnAperturadecaja";
-            this.btnAperturadecaja.Size = new System.Drawing.Size(204, 34);
-            this.btnAperturadecaja.TabIndex = 85;
-            this.btnAperturadecaja.Text = "Apertura de caja:";
-            this.btnAperturadecaja.UseVisualStyleBackColor = false;
+            this.btnMenu.BackColor = System.Drawing.Color.Transparent;
+            this.btnMenu.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMenu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMenu.ForeColor = System.Drawing.Color.Black;
+            this.btnMenu.Location = new System.Drawing.Point(677, 43);
+            this.btnMenu.Name = "btnMenu";
+            this.btnMenu.Size = new System.Drawing.Size(128, 34);
+            this.btnMenu.TabIndex = 87;
+            this.btnMenu.Text = "Menú";
+            this.btnMenu.UseVisualStyleBackColor = false;
+            this.btnMenu.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnRegistrodeegresos
             // 
@@ -299,47 +271,62 @@
             this.btnRegistrodeegresos.Text = "Registro de egresos";
             this.btnRegistrodeegresos.UseVisualStyleBackColor = false;
             // 
-            // Column1
+            // btnAperturadecaja
             // 
-            this.Column1.HeaderText = "Fecha";
-            this.Column1.MinimumWidth = 8;
-            this.Column1.Name = "Column1";
-            this.Column1.Width = 150;
+            this.btnAperturadecaja.BackColor = System.Drawing.Color.Transparent;
+            this.btnAperturadecaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAperturadecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAperturadecaja.ForeColor = System.Drawing.Color.Black;
+            this.btnAperturadecaja.Location = new System.Drawing.Point(36, 655);
+            this.btnAperturadecaja.Name = "btnAperturadecaja";
+            this.btnAperturadecaja.Size = new System.Drawing.Size(204, 34);
+            this.btnAperturadecaja.TabIndex = 85;
+            this.btnAperturadecaja.Text = "Apertura de caja:";
+            this.btnAperturadecaja.UseVisualStyleBackColor = false;
             // 
-            // Tipo
+            // txtegresos
             // 
-            this.Tipo.HeaderText = "Tipo";
-            this.Tipo.MinimumWidth = 8;
-            this.Tipo.Name = "Tipo";
-            this.Tipo.Width = 150;
+            this.txtegresos.BackColor = System.Drawing.Color.White;
+            this.txtegresos.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtegresos.ForeColor = System.Drawing.Color.Black;
+            this.txtegresos.Location = new System.Drawing.Point(588, 327);
+            this.txtegresos.Multiline = true;
+            this.txtegresos.Name = "txtegresos";
+            this.txtegresos.Size = new System.Drawing.Size(170, 36);
+            this.txtegresos.TabIndex = 83;
             // 
-            // Descripción
+            // label7
             // 
-            this.Descripción.HeaderText = "Descripción";
-            this.Descripción.MinimumWidth = 8;
-            this.Descripción.Name = "Descripción";
-            this.Descripción.Width = 150;
+            this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Black;
+            this.label7.Location = new System.Drawing.Point(464, 335);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(100, 26);
+            this.label7.TabIndex = 82;
+            this.label7.Text = "Egresos:";
             // 
-            // Monto
+            // lblUsuario
             // 
-            this.Monto.HeaderText = "Monto";
-            this.Monto.MinimumWidth = 8;
-            this.Monto.Name = "Monto";
-            this.Monto.Width = 150;
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.ForeColor = System.Drawing.Color.Black;
+            this.lblUsuario.Location = new System.Drawing.Point(166, 246);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(86, 27);
+            this.lblUsuario.TabIndex = 81;
+            this.lblUsuario.Text = "Usuario";
             // 
-            // btnMenu
+            // groupBox2
             // 
-            this.btnMenu.BackColor = System.Drawing.Color.Transparent;
-            this.btnMenu.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMenu.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnMenu.ForeColor = System.Drawing.Color.Black;
-            this.btnMenu.Location = new System.Drawing.Point(677, 43);
-            this.btnMenu.Name = "btnMenu";
-            this.btnMenu.Size = new System.Drawing.Size(128, 34);
-            this.btnMenu.TabIndex = 87;
-            this.btnMenu.Text = "Menú";
-            this.btnMenu.UseVisualStyleBackColor = false;
-            this.btnMenu.Click += new System.EventHandler(this.button1_Click);
+            this.groupBox2.BackColor = System.Drawing.Color.DarkOrange;
+            this.groupBox2.Controls.Add(this.dataGridView1);
+            this.groupBox2.Location = new System.Drawing.Point(36, 439);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(714, 201);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
             // 
             // Caja
             // 
@@ -380,7 +367,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btnRegistrodeegresos;
         private System.Windows.Forms.Button btnAperturadecaja;
-        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.TextBox txtegresos;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label lblUsuario;
