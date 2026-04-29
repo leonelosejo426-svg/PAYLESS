@@ -53,6 +53,7 @@
     <Compile Include="Caja.Designer.cs">
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
+    <Compile Include="Clase usuario.cs" />
     <Compile Include="ClaseProductos.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
@@ -69,12 +70,6 @@
     </Compile>
     <Compile Include="Compras.Designer.cs">
       <DependentUpon>Compras.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Credito.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Credito.Designer.cs">
-      <DependentUpon>Credito.cs</DependentUpon>
     </Compile>
     <Compile Include="Devoluciones.cs">
       <SubType>Form</SubType>
