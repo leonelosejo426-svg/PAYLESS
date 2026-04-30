@@ -56,6 +56,7 @@
     <Compile Include="ClaseCliente.cs" />
     <Compile Include="Clase credito.cs" />
     <Compile Include="ClaseDetalleVenta.cs" />
+    <Compile Include="ClaseProducto.cs" />
     <Compile Include="ClaseProductos.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
@@ -150,14 +151,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Proveedores.resx">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </EmbeddedResource>
@@ -192,6 +187,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\WhatsApp Image 2026-03-17 at 5.12.14 PM %281%29.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo payless.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
