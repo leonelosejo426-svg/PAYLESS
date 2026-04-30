@@ -21,17 +21,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label18_Click(object sender, EventArgs e)
         {
-            Cliente ventana = new Cliente();
-            ventana.Show();
-
+            new Cliente().Show();
             this.Hide();
         }
 
         private void label15_Click(object sender, EventArgs e)
         {
-            Productos ventana = new Productos();
-            ventana.Show();
-
+            new Productos().Show();
             this.Hide();
         }
 
@@ -54,7 +50,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
             {
                 MessageBox.Show("No tienes acceso");
+
+                new Menú_Principal().Show(); 
                 this.Hide();
+
+                return;
             }
 
 
@@ -62,7 +62,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label17_Click(object sender, EventArgs e)
         {
-           ;
+            
         }
     }
 }

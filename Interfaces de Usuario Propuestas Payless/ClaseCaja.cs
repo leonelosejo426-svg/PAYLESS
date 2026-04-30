@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseProductos
+    internal class ClaseCaja
     {
+
+        private DateTime _fechaApertura;
+        private decimal _saldoInicial;
+        private decimal _saldoFinal;
+
     }
 }
