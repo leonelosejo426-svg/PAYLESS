@@ -12,5 +12,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _nombreUsuario;
         private string _passwordHash;
         private int _idRol;
+
+
     }
 }
