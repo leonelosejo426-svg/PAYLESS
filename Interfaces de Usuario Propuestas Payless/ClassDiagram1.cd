@@ -9,23 +9,69 @@
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario">
     <Position X="9.5" Y="1.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAAABAACAAAAAAJAAQAAAAAAAAAAAAACAAAEAEEAAAI=</HashCode>
       <FileName>ClaseUsuario.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProductos">
-    <Position X="0.75" Y="3.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ClaseProductos.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseSesion" Collapsed="true">
-    <Position X="6.5" Y="5.25" Width="1.5" />
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseSesion">
+    <Position X="1" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>ClaseSesion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.Clase_credito">
+    <Position X="7.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Clase credito.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProveedor">
+    <Position X="10.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <FileName>ClaseProveedor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProducto">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BEAAAAAAAAAAAAAAEAAAAAAAAAAAAAAgAAAAAAIAAUA=</HashCode>
+      <FileName>ClaseProducto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseEgresoCaja">
+    <Position X="0.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAEAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>ClaseEgresoCaja.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleVenta">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAggBAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ClaseDetalleVenta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCliente">
+    <Position X="5.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAIAAAA=</HashCode>
+      <FileName>ClaseCliente.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCaja">
+    <Position X="7.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAABA=</HashCode>
+      <FileName>ClaseCaja.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
