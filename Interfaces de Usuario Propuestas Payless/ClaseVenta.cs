@@ -16,7 +16,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idCaja;
         private DateTime _fecha;
         private decimal _total;
-        private Boolean _estado;
+        private Boolean _estado; 
         
 
     }
