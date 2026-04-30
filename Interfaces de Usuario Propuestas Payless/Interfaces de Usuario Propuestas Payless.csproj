@@ -53,10 +53,15 @@
     <Compile Include="Caja.Designer.cs">
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClaseProductos.cs" />
+    <Compile Include="ClaseCaja.cs" />
+    <Compile Include="ClaseCliente.cs" />
+    <Compile Include="Clase credito.cs" />
+    <Compile Include="ClaseDetalleVenta.cs" />
+    <Compile Include="ClaseEgresoCaja.cs" />
+    <Compile Include="ClaseProducto.cs" />
+    <Compile Include="ClaseProveedor.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
-    <Compile Include="Clase_Usuario.cs" />
     <Compile Include="Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,7 +79,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Credito.Designer.cs">
-      <DependentUpon>Credito.cs</DependentUpon>
+      <DependentUpon>Credito.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Devoluciones.cs">
       <SubType>Form</SubType>
@@ -138,6 +145,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Credito.resx">
       <DependentUpon>Credito.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Credito.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
