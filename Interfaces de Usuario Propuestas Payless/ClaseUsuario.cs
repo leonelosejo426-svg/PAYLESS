@@ -8,7 +8,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public class ClaseUsuario
     {
-        
+
+
+
+
 
         private string _nombreCompleto;
         private string _estado;

@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Compras : Form
+    public partial class Credito : Form
     {
-        public Compras()
+        public Credito()
         {
             InitializeComponent();
-        }
-
-        private void Compras_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -27,18 +22,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
-        private void textBox2_TextChanged(object sender, EventArgs e)
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void InitializeComponent()
         {
-
-        }
-
-        private void label10_Click(object sender, EventArgs e)
-        {
+            this.SuspendLayout();
+            // 
+            // Credito
+            // 
+            this.ClientSize = new System.Drawing.Size(278, 244);
+            this.Name = "Credito";
+            this.ResumeLayout(false);
 
         }
     }

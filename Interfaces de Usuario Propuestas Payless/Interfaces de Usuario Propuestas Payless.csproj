@@ -56,9 +56,15 @@
     <Compile Include="Clase Login.cs" />
     <Compile Include="ClaseLogin.cs" />
     <Compile Include="ClaseProductos.cs" />
+    <Compile Include="ClaseCaja.cs" />
+    <Compile Include="ClaseCliente.cs" />
+    <Compile Include="Clase credito.cs" />
+    <Compile Include="ClaseDetalleVenta.cs" />
+    <Compile Include="ClaseEgresoCaja.cs" />
+    <Compile Include="ClaseProducto.cs" />
+    <Compile Include="ClaseProveedor.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
-    <Compile Include="Clase_Usuario.cs" />
     <Compile Include="Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +77,14 @@
     </Compile>
     <Compile Include="Compras.Designer.cs">
       <DependentUpon>Compras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Credito.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Credito.Designer.cs">
+      <DependentUpon>Credito.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Devoluciones.cs">
       <SubType>Form</SubType>
@@ -129,6 +143,15 @@
     <EmbeddedResource Include="Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Compras.resx">
+      <DependentUpon>Compras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Credito.resx">
+      <DependentUpon>Credito.cs</DependentUpon>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Credito.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </EmbeddedResource>
@@ -143,14 +166,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="Proveedores.resx">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </EmbeddedResource>
@@ -182,6 +199,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\images.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WhatsApp Image 2026-03-17 at 5.12.14 PM %281%29.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo payless.jpeg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
