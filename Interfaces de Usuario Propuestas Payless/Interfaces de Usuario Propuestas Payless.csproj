@@ -54,6 +54,7 @@
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
     <Compile Include="ClaseCliente.cs" />
+    <Compile Include="Clase credito.cs" />
     <Compile Include="ClaseProductos.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
@@ -130,6 +131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Compras.resx">
       <DependentUpon>Compras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Credito.resx">
+      <DependentUpon>Credito.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
