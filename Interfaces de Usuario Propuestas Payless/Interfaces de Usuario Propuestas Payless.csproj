@@ -59,11 +59,9 @@
     <Compile Include="ClaseDetalleVenta.cs" />
     <Compile Include="ClaseEgresoCaja.cs" />
     <Compile Include="ClaseProducto.cs" />
-    <Compile Include="ClaseProductos.cs" />
     <Compile Include="ClaseProveedor.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
-    <Compile Include="Clase_Usuario.cs" />
     <Compile Include="Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
