@@ -54,6 +54,7 @@
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
     <Compile Include="Clase Login.cs" />
+    <Compile Include="ClaseLogin.cs" />
     <Compile Include="ClaseProductos.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
