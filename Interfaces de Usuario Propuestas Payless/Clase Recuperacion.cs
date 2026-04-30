@@ -9,7 +9,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     class Clase_Recuperacion
     {
         private int _idRecuperacion;
-        private string _tokén;
+        private string _token;
         private int _idVenta;
     }
 }
