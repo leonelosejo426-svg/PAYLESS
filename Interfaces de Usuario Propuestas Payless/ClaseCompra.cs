@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    class Clase_Devolucion_Venta
+    internal class ClaseCompra
     {
-        private int _idDevolucion;
-        private decimal _monto;
-        private int _idVenta;
-        
-
+        private int _idCompra;
+        private decimal _total;
+        private int _idProveedor;
     }
 }

@@ -547,6 +547,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void dataGridView1_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
+            this.SuspendLayout();
+            // 
+            // Credito
+            // 
+            this.ClientSize = new System.Drawing.Size(278, 244);
+            this.Name = "Credito";
+            this.ResumeLayout(false);
 
         }
     }
