@@ -11,5 +11,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idRecuperacion;
         private string _token;
         private int _idVenta;
+
     }
 }
