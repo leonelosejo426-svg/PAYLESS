@@ -8,14 +8,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public class ClaseUsuario
     {
-        public enum Rol
-        {
-            Gerente,
-            Cajero,
-            Bodega,
-            Supervisor,
-            Contador
-        }
+
+
+
+
 
         private string _nombreCompleto;
         private string _estado;
@@ -27,7 +23,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string Password;
 
 
-        public Rol RolUsuario { get; set; }
+        
 
         
 
@@ -63,11 +59,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         // Constructor
-        public ClaseUsuario(string usuario, string contraseña, Rol rol)
+        public ClaseUsuario(string usuario, string contraseña)
         {
             this.Usuario = usuario;
             this.Contraseña = contraseña;
-            this.RolUsuario = rol;
+           
 
         }
 
