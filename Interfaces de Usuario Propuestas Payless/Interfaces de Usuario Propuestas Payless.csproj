@@ -63,6 +63,7 @@
     <Compile Include="ClaseEgresoCaja.cs" />
     <Compile Include="ClaseProducto.cs" />
     <Compile Include="ClaseProveedor.cs" />
+    <Compile Include="ClaseRecuperacion.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
     <Compile Include="Cliente.cs">
