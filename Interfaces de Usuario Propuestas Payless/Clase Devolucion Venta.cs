@@ -11,6 +11,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idDevolucion;
         private decimal _monto;
         private int _idVenta;
+
         
 
     }
