@@ -22,6 +22,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
+        private void groupBox1_Enter_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+
         private void Ventas_Load(object sender, EventArgs e)
         {
             if (ClaseSesion.RolActual != "ADMIN")
