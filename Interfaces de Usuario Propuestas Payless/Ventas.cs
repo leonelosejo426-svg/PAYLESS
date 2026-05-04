@@ -19,9 +19,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menú_Principal();
-            ventana.Show();
-            this.Hide();
+            
         }
     }
 }
