@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="ClaseCompra.cs" />
     <Compile Include="ClaseDetalleCompra.cs" />
+    <Compile Include="ClaseDevolucionVenta.cs" />
     <Compile Include="ClaseLogin.cs" />
     <Compile Include="ClaseCaja.cs" />
     <Compile Include="ClaseCliente.cs" />
