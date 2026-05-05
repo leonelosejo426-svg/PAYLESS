@@ -9,9 +9,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseCaja
     {
 
+        private int _idCaja;
         private DateTime _fechaApertura;
+        private DateTime _fechaCierre;
         private decimal _saldoInicial;
         private decimal _saldoFinal;
+        private int _idUsuario;
 
     }
 }
