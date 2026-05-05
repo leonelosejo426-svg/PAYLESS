@@ -18,6 +18,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idUsuario;
         private int _idCaja;
 
+        internal ClaseDevolucionVenta ClaseDevolucionVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
 
+        internal ClaseDetalleVenta ClaseDetalleVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

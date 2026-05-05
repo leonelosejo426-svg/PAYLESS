@@ -11,5 +11,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idCompra;
         private decimal _total;
         private int _idProveedor;
+
+        internal ClaseDetalleCompra ClaseDetalleCompra
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

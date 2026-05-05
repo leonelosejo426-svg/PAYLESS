@@ -13,5 +13,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _nombre;
         private bool _estado;
 
+        internal ClaseCompra ClaseCompra
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
