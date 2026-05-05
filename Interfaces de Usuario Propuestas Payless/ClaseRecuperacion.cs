@@ -13,5 +13,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _token;
         private int _idUsuario;
 
+        public ClaseUsuario ClaseUsuario
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

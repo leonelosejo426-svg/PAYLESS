@@ -11,5 +11,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idCredito;
         private decimal _monto;
         private int _idCliente;
+
+        internal ClaseDetalleVenta ClaseDetalleVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

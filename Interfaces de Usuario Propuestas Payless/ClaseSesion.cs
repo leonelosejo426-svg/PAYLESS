@@ -12,5 +12,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public static string UsuarioActual;
         public static string RolActual;
 
+        public ClaseUsuario ClaseUsuario
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

@@ -58,6 +58,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 : throw new Exception("Contraseña inválida: debe tener mayúscula, minúscula, número, símbolo y 6-40 caracteres");
         }
 
+        internal ClaseVenta ClaseVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseCaja ClaseCaja
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         // Constructor
         public ClaseUsuario(string usuario, string contraseña)
         {

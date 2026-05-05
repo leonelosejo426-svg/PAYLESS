@@ -1,78 +1,175 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseVenta">
-    <Position X="5" Y="1.5" Width="1.5" />
+    <Position X="6" Y="0.75" Width="1.5" />
+    <AssociationLine Name="ClaseDetalleVenta" Type="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleVenta" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="7.5" Y="2.562" />
+        <Point X="7.938" Y="2.562" />
+        <Point X="7.938" Y="4.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.97" Y="0.891" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAABRAAAAAAAAAAAAAAAAAQABAABAAACAAAAgAAAAAA=</HashCode>
+      <HashCode>AAABQAAABAAAAAAAAAAAAAQAAAABAAACAAAAgAQIAAA=</HashCode>
       <FileName>ClaseVenta.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseDevolucionVenta" />
+      <Property Name="ClaseDetalleVenta" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario">
-    <Position X="9.5" Y="1.5" Width="1.5" />
+    <Position X="2.75" Y="1" Width="2" />
     <Compartments>
       <Compartment Name="Properties" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAABAACAAAAAAJAAQAAAAAAAAAAAAACAAAEAEEAAAI=</HashCode>
+      <HashCode>AAAADAACAAAAAAZAAQAAAAAAAAAAAAACAAAEAEEAAAI=</HashCode>
       <FileName>ClaseUsuario.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseVenta" />
+      <Property Name="ClaseCaja" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseSesion">
-    <Position X="1" Y="4" Width="1.5" />
+    <Position X="0.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAAABAACAAAAAAAAAAAAAA=</HashCode>
       <FileName>ClaseSesion.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseUsuario" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.Clase_credito">
-    <Position X="7.25" Y="5.5" Width="1.5" />
+    <Position X="12.25" Y="1.25" Width="1.5" />
+    <AssociationLine Name="ClaseDetalleVenta" Type="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleVenta" ManuallyRouted="true">
+      <Path>
+        <Point X="12.25" Y="2.673" />
+        <Point X="11.002" Y="2.673" />
+        <Point X="11.002" Y="3.491" />
+        <Point X="8.63" Y="3.491" />
+        <Point X="8.63" Y="4.25" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.211" Y="0.85" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <HashCode>AAAAAAAABAAAAAAAAAAAACEAAAAAAAAAAAAAgAAAAAA=</HashCode>
       <FileName>Clase credito.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseDetalleVenta" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProveedor">
-    <Position X="10.25" Y="5.5" Width="1.5" />
+    <Position X="11.75" Y="8.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAAAAAEAAAAQAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>ClaseProveedor.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseCompra" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProducto">
-    <Position X="3.5" Y="4.75" Width="1.5" />
+    <Position X="10.5" Y="3.75" Width="2" />
+    <AssociationLine Name="ClaseDetalleCompra" Type="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleCompra">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.758" />
+      </MemberNameLabel>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>BEAAAAAAAAAAAAAAEAAAAAAAAAAAAAAgAAAAAAIAAUA=</HashCode>
+      <HashCode>BEBAEAAABAAQCAAAEAAAAAAAAAAAAAAgAAAAAAIBAUA=</HashCode>
       <FileName>ClaseProducto.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseDetalleCompra" />
+      <Property Name="ClaseDetalleVenta" />
+      <Property Name="ClaseInventario" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseEgresoCaja">
-    <Position X="0.75" Y="1.25" Width="1.5" />
+    <Position X="2.25" Y="8.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAAAEAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAFAAAAAAAAAAQEAAAAAAEAAAAAAAACAAAAAAAAAAA=</HashCode>
       <FileName>ClaseEgresoCaja.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseCaja" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleVenta">
-    <Position X="2.75" Y="1.75" Width="1.5" />
+    <Position X="7.5" Y="4.25" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAggBAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AGAAAAAAAAAAAAAAAAAAACAAAggBAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ClaseDetalleVenta.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCliente">
-    <Position X="5.75" Y="4.75" Width="1.5" />
+    <Position X="9.25" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAIAAAA=</HashCode>
+      <HashCode>AAABCAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAIAAAA=</HashCode>
       <FileName>ClaseCliente.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseVenta" />
+      <Property Name="Clase_credito" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCaja">
-    <Position X="7.5" Y="2.5" Width="1.5" />
+    <Position X="5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAABA=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAQAAAAAAABCAAEAAAAAABA=</HashCode>
       <FileName>ClaseCaja.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseInventario">
+    <Position X="14.25" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAEAAAAAQAAA=</HashCode>
+      <FileName>ClaseInventario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseDevolucionVenta">
+    <Position X="7.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAAABAAA=</HashCode>
+      <FileName>ClaseDevolucionVenta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseRecuperacion">
+    <Position X="2.25" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAQAABAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>ClaseRecuperacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseUsuario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleCompra">
+    <Position X="14" Y="7.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>ClaseDetalleCompra.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCompra">
+    <Position X="9.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAUAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>ClaseCompra.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ClaseDetalleCompra" />
+    </ShowAsAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
