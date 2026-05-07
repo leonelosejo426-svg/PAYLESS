@@ -88,7 +88,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label15_Click_1(object sender, EventArgs e)
         {
-            
 
             new Productos().Show();
             this.Hide();

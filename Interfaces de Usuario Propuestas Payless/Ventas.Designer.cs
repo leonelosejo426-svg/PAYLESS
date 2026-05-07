@@ -96,6 +96,7 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
             // button3
@@ -774,7 +775,7 @@
             this.label20.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label20.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(28, 927);
+            this.label20.Location = new System.Drawing.Point(32, 944);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(105, 26);
@@ -826,6 +827,7 @@
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.Color.Black;
+            this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Location = new System.Drawing.Point(4, -13);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(267, 997);
@@ -840,7 +842,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(2042, 986);
             this.Controls.Add(this.label26);
-            this.Controls.Add(this.label20);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label21);
             this.Controls.Add(this.label22);
@@ -868,6 +869,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
