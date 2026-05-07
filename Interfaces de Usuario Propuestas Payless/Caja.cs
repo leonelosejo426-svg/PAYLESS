@@ -43,5 +43,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             
         }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
