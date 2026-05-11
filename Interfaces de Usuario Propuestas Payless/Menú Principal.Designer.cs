@@ -30,6 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menú_Principal));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblCaja = new System.Windows.Forms.Label();
+            this.lblCredito = new System.Windows.Forms.Label();
+            this.lblDevoluciones = new System.Windows.Forms.Label();
+            this.lblVenta = new System.Windows.Forms.Label();
+            this.lblCompras = new System.Windows.Forms.Label();
+            this.lblUsuarios = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.lblProveedores = new System.Windows.Forms.Label();
+            this.lblProductos = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
@@ -39,15 +48,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel2.SuspendLayout();
@@ -58,15 +58,15 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.groupBox1.Controls.Add(this.label25);
-            this.groupBox1.Controls.Add(this.label24);
-            this.groupBox1.Controls.Add(this.label23);
-            this.groupBox1.Controls.Add(this.label22);
-            this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.label20);
-            this.groupBox1.Controls.Add(this.label19);
-            this.groupBox1.Controls.Add(this.label18);
-            this.groupBox1.Controls.Add(this.label17);
+            this.groupBox1.Controls.Add(this.lblCaja);
+            this.groupBox1.Controls.Add(this.lblCredito);
+            this.groupBox1.Controls.Add(this.lblDevoluciones);
+            this.groupBox1.Controls.Add(this.lblVenta);
+            this.groupBox1.Controls.Add(this.lblCompras);
+            this.groupBox1.Controls.Add(this.lblUsuarios);
+            this.groupBox1.Controls.Add(this.lblCliente);
+            this.groupBox1.Controls.Add(this.lblProveedores);
+            this.groupBox1.Controls.Add(this.lblProductos);
             this.groupBox1.Controls.Add(this.pictureBox4);
             this.groupBox1.Location = new System.Drawing.Point(1, -13);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -76,6 +76,132 @@
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // lblCaja
+            // 
+            this.lblCaja.AutoSize = true;
+            this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCaja.ForeColor = System.Drawing.Color.White;
+            this.lblCaja.Location = new System.Drawing.Point(18, 586);
+            this.lblCaja.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCaja.Name = "lblCaja";
+            this.lblCaja.Size = new System.Drawing.Size(105, 26);
+            this.lblCaja.TabIndex = 128;
+            this.lblCaja.Text = "💰   Caja";
+            this.lblCaja.Click += new System.EventHandler(this.lblCaja_Click_1);
+            // 
+            // lblCredito
+            // 
+            this.lblCredito.AutoSize = true;
+            this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCredito.ForeColor = System.Drawing.Color.White;
+            this.lblCredito.Location = new System.Drawing.Point(18, 536);
+            this.lblCredito.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCredito.Name = "lblCredito";
+            this.lblCredito.Size = new System.Drawing.Size(135, 26);
+            this.lblCredito.TabIndex = 127;
+            this.lblCredito.Text = "🧾   Credito";
+            this.lblCredito.Click += new System.EventHandler(this.lblCredito_Click);
+            // 
+            // lblDevoluciones
+            // 
+            this.lblDevoluciones.AutoSize = true;
+            this.lblDevoluciones.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblDevoluciones.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDevoluciones.ForeColor = System.Drawing.Color.White;
+            this.lblDevoluciones.Location = new System.Drawing.Point(13, 486);
+            this.lblDevoluciones.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblDevoluciones.Name = "lblDevoluciones";
+            this.lblDevoluciones.Size = new System.Drawing.Size(190, 26);
+            this.lblDevoluciones.TabIndex = 126;
+            this.lblDevoluciones.Text = "🔄   Devoluciones";
+            this.lblDevoluciones.Click += new System.EventHandler(this.lblDevoluciones_Click);
+            // 
+            // lblVenta
+            // 
+            this.lblVenta.AutoSize = true;
+            this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVenta.ForeColor = System.Drawing.Color.White;
+            this.lblVenta.Location = new System.Drawing.Point(13, 434);
+            this.lblVenta.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblVenta.Name = "lblVenta";
+            this.lblVenta.Size = new System.Drawing.Size(124, 26);
+            this.lblVenta.TabIndex = 125;
+            this.lblVenta.Text = "🛒   Ventas";
+            this.lblVenta.Click += new System.EventHandler(this.lblVenta_Click_1);
+            // 
+            // lblCompras
+            // 
+            this.lblCompras.AutoSize = true;
+            this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCompras.ForeColor = System.Drawing.Color.White;
+            this.lblCompras.Location = new System.Drawing.Point(13, 374);
+            this.lblCompras.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCompras.Name = "lblCompras";
+            this.lblCompras.Size = new System.Drawing.Size(149, 26);
+            this.lblCompras.TabIndex = 124;
+            this.lblCompras.Text = "💳   Compras";
+            this.lblCompras.Click += new System.EventHandler(this.label21_Click);
+            // 
+            // lblUsuarios
+            // 
+            this.lblUsuarios.AutoSize = true;
+            this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuarios.ForeColor = System.Drawing.Color.White;
+            this.lblUsuarios.Location = new System.Drawing.Point(13, 318);
+            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblUsuarios.Name = "lblUsuarios";
+            this.lblUsuarios.Size = new System.Drawing.Size(146, 26);
+            this.lblUsuarios.TabIndex = 123;
+            this.lblUsuarios.Text = "👥   Usuarios";
+            this.lblUsuarios.Click += new System.EventHandler(this.lblUsuarios_Click);
+            // 
+            // lblCliente
+            // 
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCliente.ForeColor = System.Drawing.Color.White;
+            this.lblCliente.Location = new System.Drawing.Point(13, 258);
+            this.lblCliente.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(140, 26);
+            this.lblCliente.TabIndex = 122;
+            this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
+            this.lblCliente.Click += new System.EventHandler(this.lblCliente_Click);
+            // 
+            // lblProveedores
+            // 
+            this.lblProveedores.AutoSize = true;
+            this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProveedores.ForeColor = System.Drawing.Color.White;
+            this.lblProveedores.Location = new System.Drawing.Point(12, 206);
+            this.lblProveedores.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblProveedores.Name = "lblProveedores";
+            this.lblProveedores.Size = new System.Drawing.Size(183, 26);
+            this.lblProveedores.TabIndex = 121;
+            this.lblProveedores.Text = "🚚   Proveedores";
+            this.lblProveedores.Click += new System.EventHandler(this.lblProveedores_Click);
+            // 
+            // lblProductos
+            // 
+            this.lblProductos.AutoSize = true;
+            this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProductos.ForeColor = System.Drawing.Color.White;
+            this.lblProductos.Location = new System.Drawing.Point(13, 161);
+            this.lblProductos.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblProductos.Name = "lblProductos";
+            this.lblProductos.Size = new System.Drawing.Size(160, 26);
+            this.lblProductos.TabIndex = 120;
+            this.lblProductos.Text = "🛍️   Productos";
+            this.lblProductos.Click += new System.EventHandler(this.lblProductos_Click);
             // 
             // pictureBox4
             // 
@@ -96,7 +222,7 @@
             this.panel2.Controls.Add(this.lblSesion);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(199, -13);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(991, 90);
             this.panel2.TabIndex = 61;
@@ -190,123 +316,6 @@
             this.pictureBox3.TabIndex = 71;
             this.pictureBox3.TabStop = false;
             // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label25.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.ForeColor = System.Drawing.Color.White;
-            this.label25.Location = new System.Drawing.Point(18, 586);
-            this.label25.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(105, 26);
-            this.label25.TabIndex = 128;
-            this.label25.Text = "💰   Caja";
-            // 
-            // label24
-            // 
-            this.label24.AutoSize = true;
-            this.label24.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label24.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.ForeColor = System.Drawing.Color.White;
-            this.label24.Location = new System.Drawing.Point(18, 536);
-            this.label24.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(135, 26);
-            this.label24.TabIndex = 127;
-            this.label24.Text = "🧾   Credito";
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label23.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.Color.White;
-            this.label23.Location = new System.Drawing.Point(13, 486);
-            this.label23.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(190, 26);
-            this.label23.TabIndex = 126;
-            this.label23.Text = "🔄   Devoluciones";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label22.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.Color.White;
-            this.label22.Location = new System.Drawing.Point(13, 434);
-            this.label22.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(124, 26);
-            this.label22.TabIndex = 125;
-            this.label22.Text = "🛒   Ventas";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label21.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(13, 374);
-            this.label21.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(149, 26);
-            this.label21.TabIndex = 124;
-            this.label21.Text = "💳   Compras";
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label20.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.ForeColor = System.Drawing.Color.White;
-            this.label20.Location = new System.Drawing.Point(13, 318);
-            this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(146, 26);
-            this.label20.TabIndex = 123;
-            this.label20.Text = "👥   Usuarios";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label19.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.ForeColor = System.Drawing.Color.White;
-            this.label19.Location = new System.Drawing.Point(13, 258);
-            this.label19.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(140, 26);
-            this.label19.TabIndex = 122;
-            this.label19.Text = "🧑‍🤝‍🧑   Clientes";
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label18.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(12, 206);
-            this.label18.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(183, 26);
-            this.label18.TabIndex = 121;
-            this.label18.Text = "🚚   Proveedores";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label17.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.White;
-            this.label17.Location = new System.Drawing.Point(13, 161);
-            this.label17.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(160, 26);
-            this.label17.TabIndex = 120;
-            this.label17.Text = "🛍️   Productos";
-            // 
             // Menú_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -349,14 +358,14 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox5;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label lblCaja;
+        private System.Windows.Forms.Label lblCredito;
+        private System.Windows.Forms.Label lblDevoluciones;
+        private System.Windows.Forms.Label lblVenta;
+        private System.Windows.Forms.Label lblCompras;
+        private System.Windows.Forms.Label lblUsuarios;
+        private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.Label lblProveedores;
+        private System.Windows.Forms.Label lblProductos;
     }
 }

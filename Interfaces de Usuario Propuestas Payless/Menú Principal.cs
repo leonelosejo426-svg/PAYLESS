@@ -184,6 +184,69 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+            Compras ventana = new Compras();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblVenta_Click_1(object sender, EventArgs e)
+        {
+            Ventas ventana = new Ventas();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblDevoluciones_Click(object sender, EventArgs e)
+        {
+            Devoluciones ventana = new Devoluciones();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCredito_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCaja_Click_1(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblUsuarios_Click(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCliente_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblProveedores_Click(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblProductos_Click(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos();
+            ventana.Show();
+            this.Hide();
+        }
     }
     
 }
