@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ventas));
@@ -137,6 +139,14 @@
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle19.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(59)))), ((int)(((byte)(48)))));
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(59)))), ((int)(((byte)(48)))));
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -156,6 +166,14 @@
             this.Column7,
             this.Column8,
             this.Column9});
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle20.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridView1.DefaultCellStyle = dataGridViewCellStyle20;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -630,6 +648,7 @@
             this.label18.Size = new System.Drawing.Size(124, 26);
             this.label18.TabIndex = 6;
             this.label18.Text = "🛒   Ventas";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // label17
             // 
@@ -644,6 +663,7 @@
             this.label17.Size = new System.Drawing.Size(149, 26);
             this.label17.TabIndex = 5;
             this.label17.Text = "💳   Compras";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // label16
             // 
@@ -658,6 +678,7 @@
             this.label16.Size = new System.Drawing.Size(146, 26);
             this.label16.TabIndex = 4;
             this.label16.Text = "👥   Usuarios";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // label15
             // 
@@ -672,6 +693,7 @@
             this.label15.Size = new System.Drawing.Size(140, 26);
             this.label15.TabIndex = 3;
             this.label15.Text = "🧑‍🤝‍🧑   Clientes";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // label14
             // 
@@ -686,6 +708,7 @@
             this.label14.Size = new System.Drawing.Size(183, 26);
             this.label14.TabIndex = 2;
             this.label14.Text = "🚚   Proveedores";
+            this.label14.Click += new System.EventHandler(this.label14_Click);
             // 
             // label13
             // 
@@ -700,6 +723,7 @@
             this.label13.Size = new System.Drawing.Size(160, 26);
             this.label13.TabIndex = 1;
             this.label13.Text = "🛍️   Productos";
+            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // groupBox3
             // 
@@ -781,6 +805,7 @@
             this.label20.Size = new System.Drawing.Size(105, 26);
             this.label20.TabIndex = 114;
             this.label20.Text = "💰   Caja";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // label21
             // 
@@ -795,6 +820,7 @@
             this.label21.Size = new System.Drawing.Size(135, 26);
             this.label21.TabIndex = 113;
             this.label21.Text = "🧾   Credito";
+            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // label22
             // 
@@ -809,6 +835,7 @@
             this.label22.Size = new System.Drawing.Size(190, 26);
             this.label22.TabIndex = 112;
             this.label22.Text = "🔄   Devoluciones";
+            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // label26
             // 
@@ -823,6 +850,7 @@
             this.label26.Size = new System.Drawing.Size(107, 26);
             this.label26.TabIndex = 115;
             this.label26.Text = "☰   Menú";
+            this.label26.Click += new System.EventHandler(this.label26_Click);
             // 
             // groupBox4
             // 
