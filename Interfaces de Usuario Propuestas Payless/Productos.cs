@@ -20,10 +20,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menú_Principal();
-            ventana.Show();
 
-            this.Hide();
         }
 
         private void Productos_Load(object sender, EventArgs e)
@@ -57,6 +54,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         private void label15_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
         {
 
         }

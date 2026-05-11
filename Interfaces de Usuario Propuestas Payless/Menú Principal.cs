@@ -179,7 +179,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             new Ventas().Show();
             this.Hide();
         }
-    
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
     
 }

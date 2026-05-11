@@ -10,8 +10,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
 
         private int _idEgreso;
+        private string _descripcion;
         private decimal _monto;
+        private DateTime _fecha;
         private int _idCaja;
 
+        internal ClaseCaja ClaseCaja
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
