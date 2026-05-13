@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Devoluciones));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -144,14 +144,14 @@
             // dataGridView1
             // 
             this.dataGridView1.BackgroundColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle21.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle21.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle21.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle21.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle21.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle21;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Producto,
@@ -271,14 +271,14 @@
             // 
             // dataGridView2
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle22.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView2.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Código,
@@ -346,6 +346,7 @@
             this.label25.Size = new System.Drawing.Size(105, 26);
             this.label25.TabIndex = 130;
             this.label25.Text = "💰   Caja";
+            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // pictureBox1
             // 
@@ -357,6 +358,7 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 120;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // label24
             // 
@@ -385,6 +387,7 @@
             this.label23.Size = new System.Drawing.Size(190, 26);
             this.label23.TabIndex = 128;
             this.label23.Text = "🔄   Devoluciones";
+            this.label23.Click += new System.EventHandler(this.label23_Click);
             // 
             // label22
             // 
@@ -399,6 +402,7 @@
             this.label22.Size = new System.Drawing.Size(124, 26);
             this.label22.TabIndex = 127;
             this.label22.Text = "🛒   Ventas";
+            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // label21
             // 
@@ -413,6 +417,7 @@
             this.label21.Size = new System.Drawing.Size(149, 26);
             this.label21.TabIndex = 126;
             this.label21.Text = "💳   Compras";
+            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // label20
             // 
@@ -427,6 +432,7 @@
             this.label20.Size = new System.Drawing.Size(146, 26);
             this.label20.TabIndex = 125;
             this.label20.Text = "👥   Usuarios";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // label19
             // 
@@ -441,6 +447,7 @@
             this.label19.Size = new System.Drawing.Size(140, 26);
             this.label19.TabIndex = 124;
             this.label19.Text = "🧑‍🤝‍🧑   Clientes";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // label18
             // 
@@ -455,6 +462,7 @@
             this.label18.Size = new System.Drawing.Size(183, 26);
             this.label18.TabIndex = 123;
             this.label18.Text = "🚚   Proveedores";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // label17
             // 
@@ -469,6 +477,7 @@
             this.label17.Size = new System.Drawing.Size(160, 26);
             this.label17.TabIndex = 122;
             this.label17.Text = "🛍️   Productos";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // button5
             // 
@@ -494,6 +503,7 @@
             this.label4.Size = new System.Drawing.Size(95, 26);
             this.label4.TabIndex = 131;
             this.label4.Text = "☰ Menu";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // groupBox3
             // 
@@ -513,6 +523,7 @@
             this.groupBox3.Size = new System.Drawing.Size(200, 629);
             this.groupBox3.TabIndex = 132;
             this.groupBox3.TabStop = false;
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
             // 
             // Devoluciones
             // 
