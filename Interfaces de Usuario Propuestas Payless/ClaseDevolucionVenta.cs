@@ -10,7 +10,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
 
         private int _idDevolucion;
+
+        private DateTime _fecha;
+
+        private string _motivo;
+
         private decimal _monto;
+
         private int _idVenta;
 
     }

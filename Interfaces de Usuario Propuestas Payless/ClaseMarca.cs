@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseInventario
+    internal class ClaseMarca
     {
 
-        private int _idInventario;
-        private int _idProducto;
-        private int _stockActual;
-        private int _stockMinimo;
+        private int _idmarca;
+        private string _nombre_marca;
+        private string _descripcion;
 
     }
 }

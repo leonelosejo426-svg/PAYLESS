@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseCompra
+    internal class ClaseRol
     {
-        private int _idCompra;
 
-        private DateTime _fecha;
+        private int _idrol;
+        private int _nombre_rol;
+        private string _descripcion;
 
-        private decimal _total;
-
-        private int _idProveedor;
     }
 }

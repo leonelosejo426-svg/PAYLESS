@@ -8,8 +8,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     internal class ClaseDetalleCompra
     {
+        private int _idDetalleCompra;
+
         private int _idCompra;
         private int _idProducto;
+
         private int _cantidad;
+
+        private decimal _subtotal;
     }
 }

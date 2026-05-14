@@ -11,14 +11,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private int _idProveedor;
         private string _nombre;
-        private bool _estado;
+        private string _telefono;
+        private string _correo;
+        private string _direccion;
 
-        internal ClaseCompra ClaseCompra
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private bool _estadoProveedor;
+
+        private string _ruc;
+
+        private DateTime _fechaRegistro;
     }
 }
