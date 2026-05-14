@@ -10,28 +10,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
 
         private int _idVenta;
+
         private DateTime _fecha;
+
         private decimal _total;
-        private bool _estadoVenta;
+
+        private bool _estado;
 
         private int _idCliente;
         private int _idUsuario;
         private int _idCaja;
-
-        internal ClaseDevolucionVenta ClaseDevolucionVenta
-        {
-            get => default;
-            set
-            {
-            }
-        }
-
-        internal ClaseDetalleVenta ClaseDetalleVenta
-        {
-            get => default;
-            set
-            {
-            }
-        }
     }
 }

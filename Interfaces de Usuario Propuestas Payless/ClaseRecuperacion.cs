@@ -10,15 +10,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
 
         private int _idRecuperacion;
-        private string _token;
-        private int _idUsuario;
 
-        public ClaseUsuario ClaseUsuario
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private string _correo;
+
+        private string _codigoVerificacion;
+
+        private DateTime _fechaSolicitud;
+
+        private int _idUsuario;
     }
 }

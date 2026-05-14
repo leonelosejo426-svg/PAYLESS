@@ -9,15 +9,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     class Clase_credito
     {
         private int _idCredito;
-        private decimal _monto;
-        private int _idCliente;
 
-        internal ClaseDetalleVenta ClaseDetalleVenta
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        private decimal _monto;
+
+        private DateTime _fechaInicio;
+        private DateTime _fechaLimite;
+
+        private string _estado;
+
+        private int _idCliente;
     }
 }
