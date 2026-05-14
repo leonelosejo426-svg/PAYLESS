@@ -111,5 +111,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
