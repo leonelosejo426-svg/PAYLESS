@@ -39,10 +39,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button4_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menú_Principal();
-            ventana.Show();
 
-            this.Hide();
         }
 
         private void Usuario_Load(object sender, EventArgs e)
@@ -76,6 +73,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label14_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label19_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label22_Click(object sender, EventArgs e)
         {
 
         }
