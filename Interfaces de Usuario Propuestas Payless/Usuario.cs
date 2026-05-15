@@ -21,19 +21,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label18_Click(object sender, EventArgs e)
         {
-            new Cliente().Show();
+            Cliente ventana = new Cliente();
+            ventana.Show();
             this.Hide();
         }
 
         private void label15_Click(object sender, EventArgs e)
         {
-            new Productos().Show();
+            Productos ventana = new Productos();
+            ventana.Show();
             this.Hide();
         }
 
         private void label16_Click(object sender, EventArgs e)
         {
-            new Proveedores().Show();
+            Proveedores ventana = new Proveedores();
+            ventana.Show();
             this.Hide();
         }
 
@@ -59,7 +62,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label17_Click(object sender, EventArgs e)
         {
-            
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Hide();
         }
 
         private void pictureBox4_Click(object sender, EventArgs e)
@@ -79,22 +84,44 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label14_Click(object sender, EventArgs e)
         {
-
+            Menú_Principal ventana = new Menú_Principal();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label13_Click(object sender, EventArgs e)
         {
-
+            Compras ventana = new Compras();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label19_Click(object sender, EventArgs e)
         {
-
+            Ventas ventana = new Ventas();
+            ventana.Show(); 
+            this.Hide();
         }
 
         private void label22_Click(object sender, EventArgs e)
         {
+            Devoluciones ventana = new Devoluciones();
+            ventana.Show();
+            this.Hide();
+        }
 
+        private void label20_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
         }
     }
 }
