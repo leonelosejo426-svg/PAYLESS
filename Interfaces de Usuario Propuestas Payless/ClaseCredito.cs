@@ -18,5 +18,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _estado;
 
         private int _idCliente;
+
+        internal ClaseDetalleVenta ClaseDetalleVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
