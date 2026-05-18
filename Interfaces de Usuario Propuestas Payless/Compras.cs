@@ -137,6 +137,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Devoluciones ventana = new Devoluciones();
             ventana.Show();
             this.Hide();
+        }
+
         private void groupBox5_Enter(object sender, EventArgs e)
         {
 
