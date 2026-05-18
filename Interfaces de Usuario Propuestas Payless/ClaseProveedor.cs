@@ -20,5 +20,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _ruc;
 
         private DateTime _fechaRegistro;
+
+        internal ClaseProducto ClaseProducto
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseCompra ClaseCompra
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

@@ -29,8 +29,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
      private int _idCategoria;
      private int _idMarca;
      private int _idProveedor;
-        
 
-    
+        internal ClaseDetalleVenta ClaseDetalleVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseDetalleCompra ClaseDetalleCompra
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

@@ -13,5 +13,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _nombre_categoria;
         private string _decripcion;
 
+        internal ClaseProducto ClaseProducto
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }
