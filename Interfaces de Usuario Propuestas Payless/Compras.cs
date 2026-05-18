@@ -131,5 +131,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Devoluciones ventana = new Devoluciones();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
