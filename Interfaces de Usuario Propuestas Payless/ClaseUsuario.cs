@@ -23,7 +23,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private bool _estado;
 
-        private int _idRol;
+        private int _idrol;
         
 
         // Usuario con múltiples validaciones en una sola línea
@@ -66,6 +66,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         internal ClaseCaja ClaseCaja
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseLogin ClaseLogin
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseRecuperacion ClaseRecuperacion
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseVenta ClaseVenta1
         {
             get => default;
             set
