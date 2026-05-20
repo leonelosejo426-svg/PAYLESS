@@ -109,18 +109,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             lblSesion.Text =  ClaseSesion.UsuarioActual;
 
-            // Deshabilitar todo primero
+         
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;
             lblVenta.Enabled = false;
-            //lblCompras.Enabled = false;
+            lblCompras.Enabled = false;
             lblUsuarios.Enabled = false;
             lblCliente.Enabled = false;
-            //lblCredito.Enabled = false;
-            //lblDevoluciones.Enabled = false;
+            lblCredito.Enabled = false;
+            lblDevoluciones.Enabled = false;
 
-            // Activar según usuario
+            
             switch (ClaseSesion.RolActual)
             {
                 case "ADMIN":
@@ -128,11 +128,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblProveedores.Enabled = true;
                     lblProductos.Enabled = true;
                     lblVenta.Enabled = true;
-                    //lblCompras.Enabled = true;
+                    lblCompras.Enabled = true;
                     lblUsuarios.Enabled = true;
                     lblCliente.Enabled = true;
-                    //lblCredito.Enabled = true;
-                    //lblDevoluciones.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblDevoluciones.Enabled = true;
                     break;
 
                 case "KELLY":
@@ -141,17 +141,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     break;
 
                 case "PAOLA":
-                    //lblDevoluciones.Enabled = true;
+                    lblDevoluciones.Enabled = true;
                     break;
 
                 case "FELIPE":
-                    //lblCompras.Enabled = true;
+                    lblCompras.Enabled = true;
                     lblUsuarios.Enabled = true;
                     break;
 
                 case "YUBELKIS":
                     lblCliente.Enabled = true;
-                    //lblCredito.Enabled = true;
+                    lblCredito.Enabled = true;
                     break;
             }
         }
