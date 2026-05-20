@@ -116,5 +116,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void label24_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito(); ventana.Show();
+            this.Hide();
+        }
     }
 }
