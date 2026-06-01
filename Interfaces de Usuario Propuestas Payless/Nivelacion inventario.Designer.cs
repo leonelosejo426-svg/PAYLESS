@@ -43,6 +43,9 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
@@ -51,9 +54,6 @@
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Fecha = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -238,6 +238,36 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Ajustes de Nivelacion ";
             // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Firebrick;
+            this.button3.Location = new System.Drawing.Point(423, 158);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(133, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "Generar reporte";
+            this.button3.UseVisualStyleBackColor = false;
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.Firebrick;
+            this.button2.Location = new System.Drawing.Point(445, 125);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 8;
+            this.button2.Text = "Cancelar ";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Firebrick;
+            this.button1.Location = new System.Drawing.Point(420, 95);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(136, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "Nivelar Inventario";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
             // comboBox4
             // 
             this.comboBox4.FormattingEnabled = true;
@@ -311,36 +341,6 @@
             this.label17.Size = new System.Drawing.Size(103, 16);
             this.label17.TabIndex = 0;
             this.label17.Text = "Tipo de ajustes ";
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Firebrick;
-            this.button1.Location = new System.Drawing.Point(420, 95);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(136, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "Nivelar Inventario";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Firebrick;
-            this.button2.Location = new System.Drawing.Point(445, 125);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "Cancelar ";
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Firebrick;
-            this.button3.Location = new System.Drawing.Point(423, 158);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(133, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "Generar reporte";
-            this.button3.UseVisualStyleBackColor = false;
             // 
             // groupBox3
             // 
@@ -452,6 +452,7 @@
             this.groupBox4.TabIndex = 117;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "groupBox4";
+            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // label22
             // 
@@ -655,7 +656,7 @@
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "Nivelacion_inventario";
             this.RightToLeftLayout = true;
-            this.Text = "Nivelacion_inventario";
+            this.Text = "zzzzzz";
             this.Load += new System.EventHandler(this.Nivelacion_inventario_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
