@@ -43,10 +43,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     break;
 
                 case "Kelly":
-                    if (contraseña == "kelly123")
+                    if (contraseña == "keling123")
                     {
-                        ClaseSesion.UsuarioActual = "Kelly";
-                        ClaseSesion.RolActual = "KELLY";
+                        ClaseSesion.UsuarioActual = "Keling";
+                        ClaseSesion.RolActual = "KELING";
                     }
                     else { MessageBox.Show("Contraseña incorrecta"); return; }
                     break;
