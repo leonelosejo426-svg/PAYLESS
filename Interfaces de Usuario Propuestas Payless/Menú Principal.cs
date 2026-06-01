@@ -247,6 +247,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            Nivelacion_inventario ventana = new Nivelacion_inventario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            Nivelacion_inventario ventana = new Nivelacion_inventario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes();
+            ventana.Show();
+            this.Hide();
+        }
     }
     
 }
