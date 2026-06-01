@@ -28,5 +28,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void label26_Click_1(object sender, EventArgs e)
+        {
+            Menú_Principal ventana = new Menú_Principal();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
