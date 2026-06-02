@@ -6,17 +6,14 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseCompra
+    internal class ClaseMarca
     {
-        private int _idCompra;
 
-        private DateTime _fecha;
+        private int _idmarca;
+        private string _nombre_marca;
+        private string _descripcion;
 
-        private decimal _total;
-
-        private int _idProveedor;
-
-        internal ClaseDetalleCompra ClaseDetalleCompra
+        internal ClaseProducto ClaseProducto
         {
             get => default;
             set

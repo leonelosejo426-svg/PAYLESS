@@ -53,19 +53,21 @@
     <Compile Include="Caja.Designer.cs">
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
+    <Compile Include="ClaseCategoria.cs" />
     <Compile Include="ClaseCompra.cs" />
     <Compile Include="ClaseDetalleCompra.cs" />
     <Compile Include="ClaseDevolucionVenta.cs" />
-    <Compile Include="ClaseInventario.cs" />
     <Compile Include="ClaseLogin.cs" />
     <Compile Include="ClaseCaja.cs" />
     <Compile Include="ClaseCliente.cs" />
-    <Compile Include="Clase credito.cs" />
+    <Compile Include="ClaseCredito.cs" />
     <Compile Include="ClaseDetalleVenta.cs" />
     <Compile Include="ClaseEgresoCaja.cs" />
+    <Compile Include="ClaseMarca.cs" />
     <Compile Include="ClaseProducto.cs" />
     <Compile Include="ClaseProveedor.cs" />
     <Compile Include="ClaseRecuperacion.cs" />
+    <Compile Include="ClaseRol.cs" />
     <Compile Include="ClaseSesion.cs" />
     <Compile Include="ClaseVenta.cs" />
     <Compile Include="Cliente.cs">
@@ -94,6 +96,12 @@
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Diagrama.cs" />
+    <Compile Include="inventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="inventario.Designer.cs">
+      <DependentUpon>inventario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +113,12 @@
     </Compile>
     <Compile Include="Menú Principal.Designer.cs">
       <DependentUpon>Menú Principal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nivelacion inventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Nivelacion inventario.Designer.cs">
+      <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </Compile>
     <Compile Include="Productos.cs">
       <SubType>Form</SubType>
@@ -125,6 +139,12 @@
     </Compile>
     <Compile Include="Recuperacion de Cuenta.Designer.cs">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes.Designer.cs">
+      <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
     <Compile Include="Usuario.cs">
       <SubType>Form</SubType>
@@ -153,11 +173,17 @@
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="inventario.resx">
+      <DependentUpon>inventario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menú Principal.resx">
       <DependentUpon>Menú Principal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nivelacion inventario.resx">
+      <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
@@ -171,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recuperacion de Cuenta.resx">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes.resx">
+      <DependentUpon>Reportes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuario.resx">
       <DependentUpon>Usuario.cs</DependentUpon>

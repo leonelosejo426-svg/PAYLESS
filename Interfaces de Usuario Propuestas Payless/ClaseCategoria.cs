@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    class Clase_credito
+    internal class ClaseCategoria
     {
-        private int _idCredito;
-        private decimal _monto;
-        private int _idCliente;
 
-        internal ClaseDetalleVenta ClaseDetalleVenta
+        private int _idcategoria;
+        private string _nombre_categoria;
+        private string _decripcion;
+
+        internal ClaseProducto ClaseProducto
         {
             get => default;
             set

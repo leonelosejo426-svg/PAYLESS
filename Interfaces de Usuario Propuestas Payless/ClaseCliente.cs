@@ -9,8 +9,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     class ClaseCliente
     {
 
-        private int _idcliente;
+        private int _idCliente;
+
         private string _nombre;
+
+        private string _telefono;
+
+        private string _direccion;
+
+        private bool _estado;
 
         internal ClaseVenta ClaseVenta
         {

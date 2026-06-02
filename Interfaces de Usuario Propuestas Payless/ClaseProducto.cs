@@ -9,26 +9,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseProducto
     {
 
-        private int _idProducto;
-        private string _nombre;
-        private decimal _precio;
-        private int _stock;
-        private string _codigo;
-        private DateTime _fechaCreacion;
-        private DateTime _fechaActualizacion;
-        private bool _estadoProducto;
-
-        private int _idCategoria;
-        private int _idProveedor;
-        private int _idMarca;
-
-        internal ClaseDetalleCompra ClaseDetalleCompra
-        {
-            get => default;
-            set
-            {
-            }
-        }
+       
+     private int _idProducto;
+     private string _nombre;
+     
+     private decimal _precioCompra;
+     private decimal _precioVenta;
+     
+     private int _stockActual;
+     private int _stockMinimo;
+     
+     private string _codigo;
+     
+     private DateTime _fechaCreacion;
+     private DateTime _fechaActualizacion;
+     
+     private bool _estadoProducto;
+     
+     private int _idCategoria;
+     private int _idMarca;
+     private int _idProveedor;
 
         internal ClaseDetalleVenta ClaseDetalleVenta
         {
@@ -38,7 +38,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
-        internal ClaseInventario ClaseInventario
+        internal ClaseDetalleCompra ClaseDetalleCompra
         {
             get => default;
             set

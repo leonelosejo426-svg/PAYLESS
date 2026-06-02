@@ -13,25 +13,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
 
-        private string _nombreCompleto;
-        private string _estado;
-        private string telefono;
-        private string _rol;
-        private string _direccion;
-        private string _cedula;
-        private string Username;
-        private string Password;
+        private int _idUsuario;
 
+        private string _nombre;
 
-        
+        private string _username;
 
+        private string _password;
+
+        private bool _estado;
+
+        private int _idrol;
         
 
         // Usuario con múltiples validaciones en una sola línea
         public string Usuario
         {
-            get => Username;
-            set => Username =
+            get => _username;
+            set => _username =
                 (!string.IsNullOrWhiteSpace(value) &&
                  value.Length >= 4 &&
                  value.Length <= 15 &&
@@ -44,8 +43,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // Contraseña con múltiples validaciones en una sola línea
         public string Contraseña
         {
-            get => Password;
-            set => Password =
+            get => _password;
+            set => _password =
                 (!string.IsNullOrWhiteSpace(value) &&
                  value.Length >= 6 &&
                  value.Length <= 40 &&
@@ -67,6 +66,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         internal ClaseCaja ClaseCaja
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseLogin ClaseLogin
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseRecuperacion ClaseRecuperacion
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseVenta ClaseVenta1
         {
             get => default;
             set

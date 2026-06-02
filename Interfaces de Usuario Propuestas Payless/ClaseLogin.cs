@@ -10,7 +10,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
 
         private int _idLogin;
-        private DateTime _fecha;
+
+        private DateTime _fechaIngreso;
+
+        private TimeSpan _horaIngreso;
+
+        private string _estadoLogin;
+
         private int _idUsuario;
 
     }

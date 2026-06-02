@@ -10,11 +10,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
 
         private int _idCaja;
+
         private DateTime _fechaApertura;
         private DateTime _fechaCierre;
+
         private decimal _saldoInicial;
         private decimal _saldoFinal;
+
         private int _idUsuario;
 
+        internal ClaseEgresoCaja ClaseEgresoCaja
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseVenta ClaseVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

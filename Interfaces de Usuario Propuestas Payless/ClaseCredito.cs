@@ -6,28 +6,18 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseVenta
+    class Clase_credito
     {
+        private int _idCredito;
 
-        private int _idVenta;
+        private decimal _monto;
 
-        private DateTime _fecha;
+        private DateTime _fechaInicio;
+        private DateTime _fechaLimite;
 
-        private decimal _total;
-
-        private bool _estado;
+        private string _estado;
 
         private int _idCliente;
-        private int _idUsuario;
-        private int _idCaja;
-
-        internal ClaseDevolucionVenta ClaseDevolucionVenta
-        {
-            get => default;
-            set
-            {
-            }
-        }
 
         internal ClaseDetalleVenta ClaseDetalleVenta
         {
