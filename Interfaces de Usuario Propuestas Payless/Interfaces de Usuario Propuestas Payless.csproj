@@ -96,6 +96,12 @@
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Diagrama.cs" />
+    <Compile Include="Gestion de usuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gestion de usuario.Designer.cs">
+      <DependentUpon>Gestion de usuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="inventario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -172,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Gestion de usuario.resx">
+      <DependentUpon>Gestion de usuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="inventario.resx">
       <DependentUpon>inventario.cs</DependentUpon>
