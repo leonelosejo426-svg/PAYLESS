@@ -85,5 +85,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Caja ventana = new Caja();
             ventana.Show(); this.Hide();
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Reporte_Ventas ventana = new Reporte_Ventas();
+            ventana.Show(); this.Hide();
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            Devoluciones ventana = new Devoluciones(); 
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
