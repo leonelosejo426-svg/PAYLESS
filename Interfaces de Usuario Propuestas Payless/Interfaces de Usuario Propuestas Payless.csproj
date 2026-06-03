@@ -47,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AperturaCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AperturaCaja.Designer.cs">
+      <DependentUpon>AperturaCaja.cs</DependentUpon>
+    </Compile>
     <Compile Include="Caja.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,9 @@
     <Compile Include="Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AperturaCaja.resx">
+      <DependentUpon>AperturaCaja.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Caja.resx">
       <DependentUpon>Caja.cs</DependentUpon>
     </EmbeddedResource>

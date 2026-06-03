@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Caja));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -56,39 +56,36 @@
             this.txtegresos = new System.Windows.Forms.TextBox();
             this.btnAperturadecaja = new System.Windows.Forms.Button();
             this.btnCierredecaja = new System.Windows.Forms.Button();
-            this.btnRegistrodeegresos = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tipo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Monto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtIngresos = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.label1 = new System.Windows.Forms.Label();
+            this.btnGuardarMovimiento = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnArqueodecaja = new System.Windows.Forms.Button();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox4
@@ -291,7 +288,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(1323, 24);
+            this.pictureBox4.Location = new System.Drawing.Point(1229, 19);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(94, 59);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -317,7 +314,7 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(1194, 64);
+            this.label4.Location = new System.Drawing.Point(1094, 59);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 19);
@@ -355,7 +352,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(628, 159);
+            this.label2.Location = new System.Drawing.Point(239, 146);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 19);
             this.label2.TabIndex = 73;
@@ -378,10 +375,10 @@
             this.txtUsuario.BackColor = System.Drawing.Color.White;
             this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsuario.ForeColor = System.Drawing.Color.Black;
-            this.txtUsuario.Location = new System.Drawing.Point(713, 152);
+            this.txtUsuario.Location = new System.Drawing.Point(311, 139);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(208, 34);
+            this.txtUsuario.Size = new System.Drawing.Size(234, 34);
             this.txtUsuario.TabIndex = 71;
             // 
             // txtSaldoactual
@@ -424,9 +421,9 @@
             this.btnAperturadecaja.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnAperturadecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAperturadecaja.ForeColor = System.Drawing.Color.Black;
-            this.btnAperturadecaja.Location = new System.Drawing.Point(1007, 133);
+            this.btnAperturadecaja.Location = new System.Drawing.Point(155, 32);
             this.btnAperturadecaja.Name = "btnAperturadecaja";
-            this.btnAperturadecaja.Size = new System.Drawing.Size(204, 45);
+            this.btnAperturadecaja.Size = new System.Drawing.Size(171, 42);
             this.btnAperturadecaja.TabIndex = 85;
             this.btnAperturadecaja.Text = "Apertura de caja:";
             this.btnAperturadecaja.UseVisualStyleBackColor = false;
@@ -437,36 +434,23 @@
             this.btnCierredecaja.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnCierredecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCierredecaja.ForeColor = System.Drawing.Color.Black;
-            this.btnCierredecaja.Location = new System.Drawing.Point(713, 565);
+            this.btnCierredecaja.Location = new System.Drawing.Point(155, 147);
             this.btnCierredecaja.Name = "btnCierredecaja";
             this.btnCierredecaja.Size = new System.Drawing.Size(171, 36);
             this.btnCierredecaja.TabIndex = 72;
             this.btnCierredecaja.Text = "Cierre de Caja";
             this.btnCierredecaja.UseVisualStyleBackColor = false;
             // 
-            // btnRegistrodeegresos
-            // 
-            this.btnRegistrodeegresos.BackColor = System.Drawing.Color.Silver;
-            this.btnRegistrodeegresos.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRegistrodeegresos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistrodeegresos.ForeColor = System.Drawing.Color.Black;
-            this.btnRegistrodeegresos.Location = new System.Drawing.Point(992, 454);
-            this.btnRegistrodeegresos.Name = "btnRegistrodeegresos";
-            this.btnRegistrodeegresos.Size = new System.Drawing.Size(176, 37);
-            this.btnRegistrodeegresos.TabIndex = 86;
-            this.btnRegistrodeegresos.Text = "Registrar";
-            this.btnRegistrodeegresos.UseVisualStyleBackColor = false;
-            // 
             // dataGridView1
             // 
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Red;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -513,11 +497,9 @@
             // 
             this.groupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
             this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.btnRegistrodeegresos);
-            this.groupBox1.Controls.Add(this.btnAperturadecaja);
-            this.groupBox1.Controls.Add(this.panel1);
+            this.groupBox1.Controls.Add(this.groupBox6);
+            this.groupBox1.Controls.Add(this.dateTimePicker1);
             this.groupBox1.Controls.Add(this.groupBox4);
-            this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.groupBox5);
@@ -525,44 +507,12 @@
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Controls.Add(this.txtUsuario);
-            this.groupBox1.Controls.Add(this.btnCierredecaja);
             this.groupBox1.ForeColor = System.Drawing.Color.Black;
             this.groupBox1.Location = new System.Drawing.Point(-21, 27);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(1469, 671);
+            this.groupBox1.Size = new System.Drawing.Size(1367, 671);
             this.groupBox1.TabIndex = 81;
             this.groupBox1.TabStop = false;
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Black;
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(968, 204);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(367, 47);
-            this.panel1.TabIndex = 123;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(71, 13);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(222, 27);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Registrar Movimiento";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(362, 152);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(208, 34);
-            this.textBox1.TabIndex = 122;
             // 
             // label5
             // 
@@ -570,7 +520,7 @@
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(290, 159);
+            this.label5.Location = new System.Drawing.Point(563, 146);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(54, 19);
             this.label5.TabIndex = 121;
@@ -579,40 +529,27 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.textBox6);
+            this.groupBox5.Controls.Add(this.btnGuardarMovimiento);
+            this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.textBox5);
             this.groupBox5.Controls.Add(this.textBox4);
-            this.groupBox5.Controls.Add(this.textBox3);
             this.groupBox5.Controls.Add(this.label11);
             this.groupBox5.Controls.Add(this.label10);
-            this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Controls.Add(this.label8);
-            this.groupBox5.Location = new System.Drawing.Point(968, 247);
+            this.groupBox5.Location = new System.Drawing.Point(922, 204);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(367, 193);
+            this.groupBox5.Size = new System.Drawing.Size(420, 172);
             this.groupBox5.TabIndex = 120;
             this.groupBox5.TabStop = false;
-            // 
-            // textBox6
-            // 
-            this.textBox6.BackColor = System.Drawing.Color.White;
-            this.textBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox6.ForeColor = System.Drawing.Color.Black;
-            this.textBox6.Location = new System.Drawing.Point(106, 140);
-            this.textBox6.Multiline = true;
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(208, 26);
-            this.textBox6.TabIndex = 80;
             // 
             // textBox5
             // 
             this.textBox5.BackColor = System.Drawing.Color.White;
             this.textBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox5.ForeColor = System.Drawing.Color.Black;
-            this.textBox5.Location = new System.Drawing.Point(106, 103);
+            this.textBox5.Location = new System.Drawing.Point(106, 83);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(208, 26);
+            this.textBox5.Size = new System.Drawing.Size(241, 26);
             this.textBox5.TabIndex = 79;
             // 
             // textBox4
@@ -620,28 +557,17 @@
             this.textBox4.BackColor = System.Drawing.Color.White;
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(106, 63);
+            this.textBox4.Location = new System.Drawing.Point(106, 50);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(208, 26);
+            this.textBox4.Size = new System.Drawing.Size(235, 26);
             this.textBox4.TabIndex = 78;
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.White;
-            this.textBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(106, 31);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(208, 26);
-            this.textBox3.TabIndex = 77;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(20, 63);
+            this.label11.Location = new System.Drawing.Point(20, 50);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(69, 19);
             this.label11.TabIndex = 3;
@@ -651,31 +577,11 @@
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(20, 103);
+            this.label10.Location = new System.Drawing.Point(20, 90);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(50, 19);
             this.label10.TabIndex = 2;
             this.label10.Text = "Monto";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(20, 140);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(80, 19);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "Refereencia";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(20, 31);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(36, 19);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Tipo";
             // 
             // groupBox2
             // 
@@ -687,9 +593,9 @@
             this.groupBox2.Controls.Add(this.lblSaldofinal);
             this.groupBox2.Controls.Add(this.txtegresos);
             this.groupBox2.Controls.Add(this.lblSaldoinicial);
-            this.groupBox2.Location = new System.Drawing.Point(243, 382);
+            this.groupBox2.Location = new System.Drawing.Point(243, 394);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(400, 239);
+            this.groupBox2.Size = new System.Drawing.Size(424, 252);
             this.groupBox2.TabIndex = 119;
             this.groupBox2.TabStop = false;
             this.groupBox2.Enter += new System.EventHandler(this.groupBox2_Enter);
@@ -728,12 +634,67 @@
             this.label6.TabIndex = 118;
             this.label6.Text = "Caja Payless";
             // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.CalendarFont = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dateTimePicker1.Location = new System.Drawing.Point(642, 140);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(285, 26);
+            this.dateTimePicker1.TabIndex = 124;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(81, 13);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(202, 23);
+            this.label1.TabIndex = 80;
+            this.label1.Text = "Registrar Movimientos";
+            // 
+            // btnGuardarMovimiento
+            // 
+            this.btnGuardarMovimiento.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardarMovimiento.Location = new System.Drawing.Point(130, 126);
+            this.btnGuardarMovimiento.Name = "btnGuardarMovimiento";
+            this.btnGuardarMovimiento.Size = new System.Drawing.Size(153, 31);
+            this.btnGuardarMovimiento.TabIndex = 81;
+            this.btnGuardarMovimiento.Text = "Guardar Movimiento";
+            this.btnGuardarMovimiento.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.btnArqueodecaja);
+            this.groupBox6.Controls.Add(this.btnCierredecaja);
+            this.groupBox6.Controls.Add(this.btnAperturadecaja);
+            this.groupBox6.Font = new System.Drawing.Font("Times New Roman", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox6.Location = new System.Drawing.Point(921, 398);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(421, 223);
+            this.groupBox6.TabIndex = 125;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Opciones de caja";
+            // 
+            // btnArqueodecaja
+            // 
+            this.btnArqueodecaja.BackColor = System.Drawing.Color.DarkGray;
+            this.btnArqueodecaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnArqueodecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnArqueodecaja.ForeColor = System.Drawing.Color.Black;
+            this.btnArqueodecaja.Location = new System.Drawing.Point(155, 88);
+            this.btnArqueodecaja.Name = "btnArqueodecaja";
+            this.btnArqueodecaja.Size = new System.Drawing.Size(171, 42);
+            this.btnArqueodecaja.TabIndex = 86;
+            this.btnArqueodecaja.Text = "Arqueo de caja:";
+            this.btnArqueodecaja.UseVisualStyleBackColor = false;
+            // 
             // Caja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1446, 695);
+            this.ClientSize = new System.Drawing.Size(1342, 695);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -751,12 +712,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -788,7 +748,6 @@
         private System.Windows.Forms.TextBox txtegresos;
         private System.Windows.Forms.Button btnAperturadecaja;
         private System.Windows.Forms.Button btnCierredecaja;
-        private System.Windows.Forms.Button btnRegistrodeegresos;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label6;
@@ -799,18 +758,16 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Descripción;
         private System.Windows.Forms.DataGridViewTextBoxColumn Monto;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox6;
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox txtIngresos;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button btnGuardarMovimiento;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Button btnArqueodecaja;
     }
 }
