@@ -143,5 +143,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void textBox2_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
