@@ -410,7 +410,7 @@
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(191, 39);
             this.button3.TabIndex = 142;
-            this.button3.Text = " a ";
+            this.button3.Text = "Ayuda";
             this.button3.UseVisualStyleBackColor = false;
             // 
             // Categoria
