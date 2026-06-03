@@ -128,6 +128,12 @@
     <Compile Include="Recuperacion de Cuenta.Designer.cs">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Respaldo_de_datos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Respaldo_de_datos.Designer.cs">
+      <DependentUpon>Respaldo_de_datos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +179,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recuperacion de Cuenta.resx">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Respaldo_de_datos.resx">
+      <DependentUpon>Respaldo_de_datos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuario.resx">
       <DependentUpon>Usuario.cs</DependentUpon>
