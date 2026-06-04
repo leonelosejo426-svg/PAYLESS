@@ -164,6 +164,12 @@
     <Compile Include="Reporte Ventas.Designer.cs">
       <DependentUpon>Reporte Ventas.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReporteCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteCompra.Designer.cs">
+      <DependentUpon>ReporteCompra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reportes.cs">
       <SubType>Form</SubType>
     </Compile>
