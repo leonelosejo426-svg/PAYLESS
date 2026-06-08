@@ -99,5 +99,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void textBox16_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
