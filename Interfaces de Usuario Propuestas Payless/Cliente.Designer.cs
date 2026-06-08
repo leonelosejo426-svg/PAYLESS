@@ -28,10 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliente));
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -44,6 +49,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
@@ -57,17 +64,9 @@
             this.label18 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.label8 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -78,21 +77,25 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(392, 192);
+            this.comboBox2.Items.AddRange(new object[] {
+            "Nombre",
+            "Cedula",
+            "Código"});
+            this.comboBox2.Location = new System.Drawing.Point(333, 192);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(136, 21);
+            this.comboBox2.Size = new System.Drawing.Size(174, 21);
             this.comboBox2.TabIndex = 27;
             // 
             // dataGridView1
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Red;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nombre,
@@ -107,12 +110,46 @@
             this.dataGridView1.Size = new System.Drawing.Size(833, 270);
             this.dataGridView1.TabIndex = 26;
             // 
+            // nombre
+            // 
+            this.nombre.HeaderText = "Nombre del cliente";
+            this.nombre.MinimumWidth = 8;
+            this.nombre.Name = "nombre";
+            this.nombre.Width = 190;
+            // 
+            // telefono
+            // 
+            this.telefono.HeaderText = "Télefono";
+            this.telefono.MinimumWidth = 8;
+            this.telefono.Name = "telefono";
+            this.telefono.Width = 150;
+            // 
+            // codigo
+            // 
+            this.codigo.HeaderText = "Código";
+            this.codigo.MinimumWidth = 8;
+            this.codigo.Name = "codigo";
+            this.codigo.Width = 150;
+            // 
+            // numero_cedula
+            // 
+            this.numero_cedula.HeaderText = "Numero de Cédula";
+            this.numero_cedula.Name = "numero_cedula";
+            this.numero_cedula.Width = 150;
+            // 
+            // estado
+            // 
+            this.estado.HeaderText = "Estado";
+            this.estado.MinimumWidth = 8;
+            this.estado.Name = "estado";
+            this.estado.Width = 130;
+            // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.Color.Red;
+            this.button2.BackColor = System.Drawing.Color.Black;
             this.button2.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(760, 229);
+            this.button2.Location = new System.Drawing.Point(754, 229);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 43);
             this.button2.TabIndex = 25;
@@ -122,7 +159,7 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.BackColor = System.Drawing.Color.Black;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(841, 229);
@@ -136,21 +173,21 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(785, 127);
+            this.comboBox1.Location = new System.Drawing.Point(171, 192);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(131, 21);
             this.comboBox1.TabIndex = 23;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(619, 127);
+            this.textBox3.Location = new System.Drawing.Point(828, 137);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(142, 20);
             this.textBox3.TabIndex = 22;
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(473, 127);
+            this.textBox2.Location = new System.Drawing.Point(679, 137);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(132, 20);
             this.textBox2.TabIndex = 21;
@@ -181,7 +218,7 @@
             this.label5.BackColor = System.Drawing.Color.White;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(475, 105);
+            this.label5.Location = new System.Drawing.Point(681, 115);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(68, 19);
             this.label5.TabIndex = 18;
@@ -194,7 +231,7 @@
             this.label4.BackColor = System.Drawing.Color.White;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(615, 105);
+            this.label4.Location = new System.Drawing.Point(824, 115);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(56, 19);
             this.label4.TabIndex = 17;
@@ -206,7 +243,7 @@
             this.label3.BackColor = System.Drawing.Color.White;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(784, 106);
+            this.label3.Location = new System.Drawing.Point(170, 171);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(55, 19);
             this.label3.TabIndex = 16;
@@ -218,7 +255,7 @@
             this.label2.BackColor = System.Drawing.Color.White;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(394, 168);
+            this.label2.Location = new System.Drawing.Point(335, 168);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 19);
             this.label2.TabIndex = 15;
@@ -245,6 +282,34 @@
             this.groupBox1.Size = new System.Drawing.Size(166, 676);
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.BackColor = System.Drawing.Color.Black;
+            this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.White;
+            this.label9.Location = new System.Drawing.Point(26, 351);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(122, 19);
+            this.label9.TabIndex = 117;
+            this.label9.Text = "🚚   Proveedores";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.BackColor = System.Drawing.Color.Black;
+            this.label26.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label26.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.ForeColor = System.Drawing.Color.White;
+            this.label26.Location = new System.Drawing.Point(37, 146);
+            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(73, 19);
+            this.label26.TabIndex = 116;
+            this.label26.Text = "☰   Menú";
             // 
             // label20
             // 
@@ -417,23 +482,9 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Clientes";
             // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Red;
-            this.button3.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(882, 67);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(73, 37);
-            this.button3.TabIndex = 84;
-            this.button3.Text = "Menu";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
             // button4
             // 
-            this.button4.BackColor = System.Drawing.Color.Red;
+            this.button4.BackColor = System.Drawing.Color.Black;
             this.button4.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button4.ForeColor = System.Drawing.Color.White;
             this.button4.Location = new System.Drawing.Point(922, 229);
@@ -450,7 +501,7 @@
             this.label8.BackColor = System.Drawing.Color.White;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(179, 168);
+            this.label8.Location = new System.Drawing.Point(490, 111);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(134, 19);
             this.label8.TabIndex = 86;
@@ -459,72 +510,10 @@
             // textBox4
             // 
             this.textBox4.BackColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(171, 192);
+            this.textBox4.Location = new System.Drawing.Point(482, 135);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(180, 20);
             this.textBox4.TabIndex = 87;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.BackColor = System.Drawing.Color.Black;
-            this.label26.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label26.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.ForeColor = System.Drawing.Color.White;
-            this.label26.Location = new System.Drawing.Point(37, 146);
-            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(73, 19);
-            this.label26.TabIndex = 116;
-            this.label26.Text = "☰   Menú";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.Black;
-            this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(26, 351);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(122, 19);
-            this.label9.TabIndex = 117;
-            this.label9.Text = "🚚   Proveedores";
-            // 
-            // nombre
-            // 
-            this.nombre.HeaderText = "Nombre del cliente";
-            this.nombre.MinimumWidth = 8;
-            this.nombre.Name = "nombre";
-            this.nombre.Width = 190;
-            // 
-            // telefono
-            // 
-            this.telefono.HeaderText = "Télefono";
-            this.telefono.MinimumWidth = 8;
-            this.telefono.Name = "telefono";
-            this.telefono.Width = 150;
-            // 
-            // codigo
-            // 
-            this.codigo.HeaderText = "Código";
-            this.codigo.MinimumWidth = 8;
-            this.codigo.Name = "codigo";
-            this.codigo.Width = 150;
-            // 
-            // numero_cedula
-            // 
-            this.numero_cedula.HeaderText = "Numero de Cédula";
-            this.numero_cedula.Name = "numero_cedula";
-            this.numero_cedula.Width = 150;
-            // 
-            // estado
-            // 
-            this.estado.HeaderText = "Estado";
-            this.estado.MinimumWidth = 8;
-            this.estado.Name = "estado";
-            this.estado.Width = 130;
             // 
             // Cliente
             // 
@@ -535,7 +524,6 @@
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.comboBox2);
@@ -586,7 +574,6 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label13;
