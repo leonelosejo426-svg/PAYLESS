@@ -66,5 +66,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void textBox7_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
