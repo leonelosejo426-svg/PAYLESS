@@ -106,7 +106,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label9_Click_1(object sender, EventArgs e)
         {
-            Respaldo_de_datos ventana = new Respaldo_de_datos(); ventana.Show(); this.Hide();
+            Mantenimiento ventana = new Mantenimiento(); ventana.Show(); this.Hide();
         }
     }
 }
