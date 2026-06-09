@@ -318,6 +318,7 @@
             this.label12.Size = new System.Drawing.Size(136, 19);
             this.label12.TabIndex = 93;
             this.label12.Text = "🛠️  Mantenimiento";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // label11
             // 
@@ -555,6 +556,7 @@
             this.button4.TabIndex = 53;
             this.button4.Text = "Gestion de usuario";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click_1);
             // 
             // Usuario
             // 
