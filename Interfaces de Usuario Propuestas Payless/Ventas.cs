@@ -109,5 +109,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             inventario ventana = new inventario();
             ventana.Show(); this.Hide();
         }
+
+        private void label38_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
