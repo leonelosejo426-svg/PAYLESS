@@ -13,5 +13,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _nombre_rol;
         private string _descripcion;
 
+        public ClaseUsuario ClaseUsuario
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

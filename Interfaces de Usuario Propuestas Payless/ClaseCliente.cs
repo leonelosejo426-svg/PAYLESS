@@ -18,5 +18,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _direccion;
 
         private bool _estado;
+
+        internal ClaseVenta ClaseVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal Clase_credito Clase_credito
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 }

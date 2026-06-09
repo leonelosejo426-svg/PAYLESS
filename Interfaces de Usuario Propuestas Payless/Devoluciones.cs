@@ -116,5 +116,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void label24_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito(); ventana.Show();
+            this.Hide();
+        }
+
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

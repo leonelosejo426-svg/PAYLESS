@@ -47,11 +47,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AperturaCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AperturaCaja.Designer.cs">
+      <DependentUpon>AperturaCaja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ArqueodeCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ArqueodeCaja.Designer.cs">
+      <DependentUpon>ArqueodeCaja.cs</DependentUpon>
+    </Compile>
     <Compile Include="Caja.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Caja.Designer.cs">
       <DependentUpon>Caja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Categoria.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Categoria.Designer.cs">
+      <DependentUpon>Categoria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CierredeCaja.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CierredeCaja.Designer.cs">
+      <DependentUpon>CierredeCaja.cs</DependentUpon>
     </Compile>
     <Compile Include="ClaseCategoria.cs" />
     <Compile Include="ClaseCompra.cs" />
@@ -96,6 +120,18 @@
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Diagrama.cs" />
+    <Compile Include="Gestion de usuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Gestion de usuario.Designer.cs">
+      <DependentUpon>Gestion de usuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="inventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="inventario.Designer.cs">
+      <DependentUpon>inventario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +143,12 @@
     </Compile>
     <Compile Include="Menú Principal.Designer.cs">
       <DependentUpon>Menú Principal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nivelacion inventario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Nivelacion inventario.Designer.cs">
+      <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </Compile>
     <Compile Include="Productos.cs">
       <SubType>Form</SubType>
@@ -128,6 +170,30 @@
     <Compile Include="Recuperacion de Cuenta.Designer.cs">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reporte Productos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reporte Productos.Designer.cs">
+      <DependentUpon>Reporte Productos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reporte Ventas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reporte Ventas.Designer.cs">
+      <DependentUpon>Reporte Ventas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReporteCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReporteCompra.Designer.cs">
+      <DependentUpon>ReporteCompra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reportes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes.Designer.cs">
+      <DependentUpon>Reportes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Usuario.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -140,8 +206,20 @@
     <Compile Include="Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AperturaCaja.resx">
+      <DependentUpon>AperturaCaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ArqueodeCaja.resx">
+      <DependentUpon>ArqueodeCaja.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Caja.resx">
       <DependentUpon>Caja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Categoria.resx">
+      <DependentUpon>Categoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CierredeCaja.resx">
+      <DependentUpon>CierredeCaja.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
@@ -155,11 +233,20 @@
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Gestion de usuario.resx">
+      <DependentUpon>Gestion de usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="inventario.resx">
+      <DependentUpon>inventario.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Menú Principal.resx">
       <DependentUpon>Menú Principal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nivelacion inventario.resx">
+      <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
@@ -173,6 +260,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recuperacion de Cuenta.resx">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporte Productos.resx">
+      <DependentUpon>Reporte Productos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporte Ventas.resx">
+      <DependentUpon>Reporte Ventas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReporteCompra.resx">
+      <DependentUpon>ReporteCompra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes.resx">
+      <DependentUpon>Reportes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Usuario.resx">
       <DependentUpon>Usuario.cs</DependentUpon>

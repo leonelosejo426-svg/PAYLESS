@@ -123,5 +123,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
