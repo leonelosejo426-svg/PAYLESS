@@ -66,6 +66,9 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
@@ -80,6 +83,9 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.Black;
+            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.label12);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.label24);
             this.groupBox1.Controls.Add(this.label22);
             this.groupBox1.Controls.Add(this.label21);
@@ -92,7 +98,7 @@
             this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Location = new System.Drawing.Point(-1, -3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(169, 596);
+            this.groupBox1.Size = new System.Drawing.Size(186, 670);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             // 
@@ -109,6 +115,7 @@
             this.label24.Size = new System.Drawing.Size(88, 19);
             this.label24.TabIndex = 119;
             this.label24.Text = "🧾   Credito";
+            this.label24.Click += new System.EventHandler(this.label24_Click);
             // 
             // label22
             // 
@@ -123,6 +130,7 @@
             this.label22.Size = new System.Drawing.Size(84, 19);
             this.label22.TabIndex = 124;
             this.label22.Text = "🛒   Ventas";
+            this.label22.Click += new System.EventHandler(this.label22_Click);
             // 
             // label21
             // 
@@ -137,6 +145,7 @@
             this.label21.Size = new System.Drawing.Size(98, 19);
             this.label21.TabIndex = 123;
             this.label21.Text = "💳   Compras";
+            this.label21.Click += new System.EventHandler(this.label21_Click);
             // 
             // label18
             // 
@@ -145,12 +154,13 @@
             this.label18.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
             this.label18.ForeColor = System.Drawing.Color.White;
-            this.label18.Location = new System.Drawing.Point(26, 333);
+            this.label18.Location = new System.Drawing.Point(26, 335);
             this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(122, 19);
             this.label18.TabIndex = 122;
             this.label18.Text = "🚚   Proveedores";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // label17
             // 
@@ -165,6 +175,7 @@
             this.label17.Size = new System.Drawing.Size(104, 19);
             this.label17.TabIndex = 121;
             this.label17.Text = "🛍️   Productos";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
             // 
             // label19
             // 
@@ -179,6 +190,7 @@
             this.label19.Size = new System.Drawing.Size(94, 19);
             this.label19.TabIndex = 114;
             this.label19.Text = "🧑‍🤝‍🧑   Clientes";
+            this.label19.Click += new System.EventHandler(this.label19_Click);
             // 
             // label20
             // 
@@ -193,6 +205,7 @@
             this.label20.Size = new System.Drawing.Size(97, 19);
             this.label20.TabIndex = 115;
             this.label20.Text = "👥   Usuarios";
+            this.label20.Click += new System.EventHandler(this.label20_Click);
             // 
             // label25
             // 
@@ -207,6 +220,7 @@
             this.label25.Size = new System.Drawing.Size(87, 22);
             this.label25.TabIndex = 120;
             this.label25.Text = "💰   Caja";
+            this.label25.Click += new System.EventHandler(this.label25_Click);
             // 
             // label26
             // 
@@ -241,7 +255,7 @@
             this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Controls.Add(this.label3);
-            this.panel2.Location = new System.Drawing.Point(191, 227);
+            this.panel2.Location = new System.Drawing.Point(209, 227);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(430, 313);
             this.panel2.TabIndex = 4;
@@ -259,7 +273,7 @@
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.Color.Red;
+            this.button3.BackColor = System.Drawing.Color.Black;
             this.button3.ForeColor = System.Drawing.Color.White;
             this.button3.Location = new System.Drawing.Point(206, 280);
             this.button3.Name = "button3";
@@ -272,7 +286,7 @@
             // 
             this.checkBox2.AutoSize = true;
             this.checkBox2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox2.ForeColor = System.Drawing.Color.Red;
+            this.checkBox2.ForeColor = System.Drawing.Color.Black;
             this.checkBox2.Location = new System.Drawing.Point(11, 223);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(318, 42);
@@ -398,7 +412,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.ForeColor = System.Drawing.Color.Black;
             this.label6.Location = new System.Drawing.Point(4, 3);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(132, 19);
@@ -434,7 +448,7 @@
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(191, 2);
+            this.panel1.Location = new System.Drawing.Point(209, 6);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(370, 210);
             this.panel1.TabIndex = 3;
@@ -452,7 +466,7 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.Red;
+            this.button1.BackColor = System.Drawing.Color.Black;
             this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(176, 169);
             this.button1.Name = "button1";
@@ -465,7 +479,7 @@
             // 
             this.checkBox1.AutoSize = true;
             this.checkBox1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.checkBox1.ForeColor = System.Drawing.Color.Red;
+            this.checkBox1.ForeColor = System.Drawing.Color.Black;
             this.checkBox1.Location = new System.Drawing.Point(11, 103);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(318, 42);
@@ -503,16 +517,61 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Respaldo de base de datos ";
             // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Black;
+            this.label10.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(26, 499);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(107, 19);
+            this.label10.TabIndex = 117;
+            this.label10.Text = "🏢   Inventario";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.BackColor = System.Drawing.Color.Black;
+            this.label12.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label12.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.White;
+            this.label12.Location = new System.Drawing.Point(14, 544);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(140, 19);
+            this.label12.TabIndex = 125;
+            this.label12.Text = "🛠️   Mantenimiento";
+            this.label12.Click += new System.EventHandler(this.label12_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Black;
+            this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(26, 620);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(80, 19);
+            this.label13.TabIndex = 119;
+            this.label13.Text = "🆘   Ayuda";
+            // 
             // Mantenimiento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 588);
+            this.ClientSize = new System.Drawing.Size(800, 655);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Name = "Mantenimiento";
             this.Text = "Mantenimiento";
+            this.Load += new System.EventHandler(this.Mantenimiento_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -573,5 +632,8 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
     }
 }
