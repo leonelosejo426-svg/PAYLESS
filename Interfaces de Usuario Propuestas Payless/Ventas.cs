@@ -87,7 +87,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button8_Click(object sender, EventArgs e)
         {
-            Reporte_Ventas ventana = new Reporte_Ventas();
+            Reportes_Venta ventana = new Reportes_Venta();
             ventana.Show(); this.Hide();
 
         }

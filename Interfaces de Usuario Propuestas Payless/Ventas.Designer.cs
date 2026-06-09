@@ -437,7 +437,7 @@
             // textBox2
             // 
             this.textBox2.Font = new System.Drawing.Font("Times New Roman", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(25, 157);
+            this.textBox2.Location = new System.Drawing.Point(25, 169);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
