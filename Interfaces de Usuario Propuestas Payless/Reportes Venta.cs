@@ -10,26 +10,18 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Reporte_Ventas : Form
+    public partial class Reportes_Venta : Form
     {
-        public Reporte_Ventas()
+        public Reportes_Venta()
         {
             InitializeComponent();
         }
 
-        private void label22_Click(object sender, EventArgs e)
+        private void button8_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void label26_Click(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void label20_Click(object sender, EventArgs e)
-        {
-
+            Ventas ventana = new Ventas();
+            ventana.Show();
+            this.Hide();
         }
     }
 }
