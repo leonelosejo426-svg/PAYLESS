@@ -204,5 +204,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
