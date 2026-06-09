@@ -70,8 +70,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label22_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones();
-            ventana.Show(); this.Hide();
+          
         }
 
         private void label21_Click(object sender, EventArgs e)
@@ -83,6 +82,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void label20_Click(object sender, EventArgs e)
         {
             Caja ventana = new Caja();
+            ventana.Show(); this.Hide();
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            Reporte_Ventas ventana = new Reporte_Ventas();
+            ventana.Show(); this.Hide();
+
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            Devoluciones ventana = new Devoluciones(); 
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label22_Click_1(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario();
             ventana.Show(); this.Hide();
         }
     }
