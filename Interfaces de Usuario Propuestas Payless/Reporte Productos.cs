@@ -16,5 +16,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             InitializeComponent();
         }
+
+        private void label21_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void Reporte_Productos_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
