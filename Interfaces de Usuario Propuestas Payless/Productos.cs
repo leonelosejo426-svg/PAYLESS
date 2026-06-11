@@ -84,8 +84,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label22_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones(); ventana.Show();
-            this.Hide();
+         
         }
 
         private void label23_Click(object sender, EventArgs e)
@@ -98,6 +97,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             Compras ventana = new Compras(); ventana.Show();
             this.Hide();
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario(); ventana.Show(); this.Hide();
+        }
+
+        private void label9_Click_1(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento(); ventana.Show(); this.Hide();
         }
     }
 }

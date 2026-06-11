@@ -99,5 +99,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void textBox16_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void label26_Click(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+using System.IO;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,12 +10,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Interfaces_de_Usuario_Propuestas_Payless.ClaseProveedor;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Proveedores : Form
     {
         ClaseUsuario usuarioActual;
+
+
+        List<Proveedor> listaProveedores = new List<Proveedor>();
+        int indiceEditar = -1;
+
+
+
         public Proveedores()
         {
             InitializeComponent();
@@ -21,6 +32,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Proveedores_Load(object sender, EventArgs e)
         {
+
+            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvProveedores.MultiSelect = false;
+
+
+
+
             if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
             {
                 MessageBox.Show("No tienes acceso");
@@ -145,9 +164,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label25_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones();
-            ventana.Show();
-            this.Hide();
+            inventario ventana = new inventario();
+            ventana.Show(); this.Hide();
         }
 
         private void label27_Click(object sender, EventArgs e)
@@ -163,5 +181,140 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            
+
+            Proveedor p = new Proveedor();
+
+            p.RUC = txtRUC.Text;
+            p.Nombre = txtNombre.Text;
+            p.Telefono = txtTelefono.Text;
+            p.Direccion = txtDireccion.Text;
+            p.Estado = cmbEstado.Text;
+
+            listaProveedores.Add(p);
+
+            dgvProveedores.DataSource = null;
+            dgvProveedores.DataSource = listaProveedores;
+
+            Limpiar();
+
+            if (indiceEditar >= 0)
+            {
+                listaProveedores[indiceEditar].RUC = txtRUC.Text;
+                listaProveedores[indiceEditar].Nombre = txtNombre.Text;
+                listaProveedores[indiceEditar].Telefono = txtTelefono.Text;
+                listaProveedores[indiceEditar].Direccion = txtDireccion.Text;
+                listaProveedores[indiceEditar].Estado = cmbEstado.Text;
+
+                indiceEditar = -1;
+            }
+            else
+            {
+                listaProveedores.Add(p);
+            }
+
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+        
+        {
+            if (dgvProveedores.CurrentRow != null)
+            {
+                indiceEditar = dgvProveedores.CurrentRow.Index;
+
+                txtRUC.Text = listaProveedores[indiceEditar].RUC;
+                txtNombre.Text = listaProveedores[indiceEditar].Nombre;
+                txtTelefono.Text = listaProveedores[indiceEditar].Telefono;
+                txtDireccion.Text = listaProveedores[indiceEditar].Direccion;
+                cmbEstado.Text = listaProveedores[indiceEditar].Estado;
+
+                MessageBox.Show("Edita los datos y presiona Agregar para guardar cambios");
+            }
+        }
     }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+           
+        {
+            if (dgvProveedores.CurrentRow != null)
+            {
+                int indice = dgvProveedores.CurrentRow.Index;
+
+                DialogResult r = MessageBox.Show(
+                    "¿Eliminar proveedor?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo
+                );
+
+                if (r == DialogResult.Yes)
+                {
+                    listaProveedores.RemoveAt(indice);
+
+                    dgvProveedores.DataSource = null;
+                    dgvProveedores.DataSource = listaProveedores;
+                }
+            }
+        }
+    }
+
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+
+            string json = JsonConvert.SerializeObject(listaProveedores, Formatting.Indented);
+            File.WriteAllText("proveedores.json", json);
+
+            MessageBox.Show("Datos guardados");
+        }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+       
+        
+            if (File.Exists("proveedores.json"))
+            {
+                string json = File.ReadAllText("proveedores.json");
+
+                listaProveedores = JsonConvert.DeserializeObject<List<Proveedor>>(json);
+
+                dgvProveedores.DataSource = null;
+                dgvProveedores.DataSource = listaProveedores;
+
+                MessageBox.Show("Datos cargados");
+            }
+            else
+            {
+                MessageBox.Show("No existe el archivo");
+            }
+        }
+
+        void Limpiar()
+        {
+            txtRUC.Clear();
+            txtNombre.Clear();
+            txtTelefono.Clear();
+            txtDireccion.Clear();
+            cmbEstado.SelectedIndex = -1;
+        }
+
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            Limpiar();
+        }
+
+        private void label30_Click(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento();
+            ventana.Show();
+            this.Hide();
+        }
+    }
+    
 }
+
+
