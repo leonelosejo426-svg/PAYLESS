@@ -26,5 +26,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Compras = new Compras();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
