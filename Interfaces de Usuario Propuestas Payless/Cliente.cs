@@ -18,9 +18,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public Cliente()
         {
             InitializeComponent();
-            
+
 
         }
+
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
@@ -167,6 +168,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
             this.Hide();
+        }
+
+        private void CBbusqueda_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            txtNombre.Visible = false;
+            txtcedula.Visible = false;
+            txtcodigo.Visible = false;
+
+            txtNombre.Clear();
+            txtcedula.Clear();
+            txtcodigo.Clear();
+
+            switch (CBbusqueda.Text)
+            {
+                case "Nombre":
+                    txtNombre.Visible = true;
+                    LblNombre.Visible = true;
+                    txtNombre.Focus();
+                    break;
+
+                case "Numero de Cédula":
+                    txtcedula.Visible = true;
+                    LblNumero.Visible = true;
+                    txtcedula.Focus();
+                    break;
+
+                case "Código":
+                    txtcodigo.Visible = true;
+                    Lblcodigo.Visible = true;
+                    txtcodigo.Focus();
+                    break;
+            }
+                
+        }
+
+        private void CBestado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CBestado.Items.Add("Activo");
+            CBestado.Items.Add("Inactivo");
+            CBestado.DropDownStyle = ComboBoxStyle.DropDownList;
         }
     }
 }
