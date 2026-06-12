@@ -1,8 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,12 +18,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
         ClaseUsuario usuarioActual;
 
+        //lista cliente
+        List<cliente> listacliente = new List<cliente>();
+
 
         public Cliente()
         {
             InitializeComponent();
 
 
+        }
+        //Clase cliente
+        public class cliente
+        {
+            public string Nombre { get; set; }
+            public string Telefono { get; set; }
+            public string Código { get; set; }
+            public string Cédula { get; set; }
+            public string Estado { get; set; }
         }
 
 
@@ -143,17 +159,84 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string json = JsonConvert.SerializeObject(
+                listacliente,
+                Newtonsoft.Json.Formatting.Indented
+                );
 
+            File.WriteAllText("clientes.json", json);
+            MessageBox.Show("Cliente guardado correctamente");
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (DGVtabla1.CurrentRow != null)
+            {
+                int indice = DGVtabla1.CurrentRow.Index;
 
+                DialogResult respuesta = MessageBox.Show(
+                    "¿ Desea eliminar a este cliente ?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    listacliente.RemoveAt(indice);
+
+                    DGVtabla1.DataSource = null;
+                    DGVtabla1.DataSource = listacliente;
+
+                    MessageBox.Show("Cliente eliminado correctamente");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Seleccione un cliente");
+            }
         }
+       
 
         private void button4_Click(object sender, EventArgs e)
         {
+            StringBuilder html = new StringBuilder();
 
+            html.Append("<html>");
+            html.Append("<head>");
+            html.Append("<title>Reporte</title");
+            html.Append("</head>");
+            html.Append("<body>");
+
+            html.Append("<h1>REPORTE DE CLIENTES</h1>");
+            html.Append("<table border='1' cellpadding='5'>");
+
+            html.Append("<tr>");
+            html.Append("<th>Nombre</th>");
+            html.Append("<th>Telefono</th>");
+            html.Append("<th>Código</th>");
+            html.Append("<th>Cédula</th>");
+            html.Append("<th>Estado</th>");
+            html.Append("</tr>");
+
+            foreach(cliente p in listacliente)
+            {
+                html.Append("<tr>");
+                html.Append("<td>" + p.Nombre + "</td>");
+                html.Append("<td>" + p.Telefono + "</td>");
+                html.Append("<td>" + p.Código + "</td>");
+                html.Append("<td>" + p.Cédula + "</td>");
+                html.Append("<td>" + p.Estado + "</td>");
+            }
+
+            html.Append("</table>");
+            html.Append("</body>");
+            html.Append("</html>");
+
+            File.WriteAllText("Reporte.html", html.ToString());
+            Process.Start("Reporte.html");
+
+            MessageBox.Show("Reporte generado");
         }
 
         private void label10_Click(object sender, EventArgs e)
@@ -209,5 +292,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBestado.Items.Add("Inactivo");
             CBestado.DropDownStyle = ComboBoxStyle.DropDownList;
         }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            if (File.Exists("cliente.json"))
+            {
+                //leer archivo json
+                string json = File.ReadAllText("cliente.json");
+
+                //Convertir Json a lista 
+                listacliente = JsonConvert.DeserializeObject<List<cliente>>(json);
+
+                // Mostrar en datagridview
+                DGVtabla1.DataSource = null;
+                DGVtabla1.DataSource = listacliente;
+
+                MessageBox.Show("Datos cargados correctamente");
+            }
+            else
+            {
+                MessageBox.Show("No existe el archivo");
+            }
+        }
     }
+
 }
