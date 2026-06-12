@@ -201,9 +201,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void lblDevoluciones_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones();
-            ventana.Show();
-            this.Hide();
+            
         }
 
         private void lblCredito_Click(object sender, EventArgs e)
@@ -257,23 +255,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label3_Click(object sender, EventArgs e)
         {
-            Nivelacion_inventario ventana = new Nivelacion_inventario();
-            ventana.Show();
-            this.Hide();
+        
+            
         }
 
         private void label4_Click(object sender, EventArgs e)
         {
-            Nivelacion_inventario ventana = new Nivelacion_inventario();
-            ventana.Show();
-            this.Hide();
+           
         }
 
         private void label5_Click(object sender, EventArgs e)
         {
-            Reportes ventana = new Reportes();
+            
+        }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
-            this.Hide();
+            this.Hide
         }
     }
     
