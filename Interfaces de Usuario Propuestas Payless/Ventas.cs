@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 //using static System.Net.WebRequestMethods;
 
 
@@ -837,32 +838,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void CalcularCambio()
         {
             decimal total =
-                Convert.ToDecimal(txtTotal.Text);
+        Convert.ToDecimal(txtTotal.Text);
 
-            decimal montoCordobas = 0;
-            decimal montoDolares = 0;
+            decimal cordobas = 0;
+            decimal dolares = 0;
 
             decimal.TryParse(
                 txtMontoCordobas.Text,
-                out montoCordobas);
+                out cordobas);
 
             decimal.TryParse(
                 txtMontoDolares.Text,
-                out montoDolares);
+                out dolares);
 
             decimal pagado =
-                montoCordobas +
-                (montoDolares * TIPO_CAMBIO);
+                cordobas +
+                (dolares * TIPO_CAMBIO);
 
             decimal cambio =
                 pagado - total;
 
             if (cambio < 0)
-            {
                 cambio = 0;
-            }
 
-            lblCambio.Text =
+            txtCambio.Text =
                 cambio.ToString("N2");
         }
 
@@ -900,7 +899,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (cmbTipoTarjeta.SelectedIndex == -1)
             {
                 MessageBox.Show(
-                    "Seleccione tipo de tarjeta");
+                    "Seleccione el tipo de tarjeta");
 
                 return false;
             }
@@ -928,15 +927,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 out montoTarjeta))
             {
                 MessageBox.Show(
-                    "Monto de tarjeta inválido");
+                    "Monto inválido");
 
                 return false;
             }
 
-            if (montoTarjeta <= 0)
+            decimal total =
+                Convert.ToDecimal(txtTotal.Text);
+
+            if (montoTarjeta < total)
             {
                 MessageBox.Show(
-                    "Monto de tarjeta inválido");
+                    "El monto de la tarjeta no cubre el total.\n" +
+                    "Faltan C$ " +
+                    (total - montoTarjeta).ToString("N2"));
 
                 return false;
             }
@@ -946,6 +950,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private bool ValidarPagoEfectivo()
         {
+          
             decimal total =
                 Convert.ToDecimal(txtTotal.Text);
 
@@ -964,16 +969,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 cordobas +
                 (dolares * TIPO_CAMBIO);
 
+            if (pagado <= 0)
+            {
+                MessageBox.Show(
+                    "Debe ingresar un monto de pago.");
+
+                return false;
+            }
+
             if (pagado < total)
             {
                 MessageBox.Show(
-                    "Monto insuficiente");
+                    "El monto ingresado es insuficiente.\n" +
+                    "Faltan C$ " +
+                    (total - pagado).ToString("N2"));
 
                 return false;
             }
 
             return true;
         }
+        
 
         private string ObtenerFormaPago()
         {
@@ -1132,7 +1148,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             decimal cambio = 0;
 
             decimal.TryParse(
-                lblCambio.Text,
+                txtCambio.Text,
                 out cambio);
 
             venta.Cambio =
@@ -1178,8 +1194,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGuardarVenta_Click(object sender, EventArgs e)
         {
-            if (!ValidarCliente())
-                return;
+            if(!ValidarCliente())
+        return;
 
             if (!ValidarDetalle())
                 return;
@@ -1398,6 +1414,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 Brushes.Black,
                 20,
                 y);
+        }
+
+        private void btnCargarVenta_Click(object sender, EventArgs e)
+        {
+             }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
