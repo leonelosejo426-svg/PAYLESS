@@ -273,7 +273,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
-            this.Hide
+            this.Hide();
         }
     }
     
