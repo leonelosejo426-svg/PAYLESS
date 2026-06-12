@@ -28,21 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliente));
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.CBbusqueda = new System.Windows.Forms.ComboBox();
+            this.DGVtabla1 = new System.Windows.Forms.DataGridView();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.CBestado = new System.Windows.Forms.ComboBox();
+            this.txtcodigo = new System.Windows.Forms.TextBox();
+            this.txtTelefono = new System.Windows.Forms.TextBox();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.LblNombre = new System.Windows.Forms.Label();
+            this.Lbltelefono = new System.Windows.Forms.Label();
+            this.Lblcodigo = new System.Windows.Forms.Label();
+            this.LblEstado = new System.Windows.Forms.Label();
+            this.LblBusqueda = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -62,177 +67,208 @@
             this.label18 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.btnImprimir = new System.Windows.Forms.Button();
+            this.LblNumero = new System.Windows.Forms.Label();
+            this.txtcedula = new System.Windows.Forms.TextBox();
+            this.btnCargar = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
-            // comboBox2
+            // CBbusqueda
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.CBbusqueda.FormattingEnabled = true;
+            this.CBbusqueda.Items.AddRange(new object[] {
             "Nombre",
-            "Número de cedula",
+            "Número de cédula",
             "Código"});
-            this.comboBox2.Location = new System.Drawing.Point(333, 192);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(174, 21);
-            this.comboBox2.TabIndex = 27;
+            this.CBbusqueda.Location = new System.Drawing.Point(333, 192);
+            this.CBbusqueda.Name = "CBbusqueda";
+            this.CBbusqueda.Size = new System.Drawing.Size(174, 21);
+            this.CBbusqueda.TabIndex = 27;
+            this.CBbusqueda.SelectedIndexChanged += new System.EventHandler(this.CBbusqueda_SelectedIndexChanged);
             // 
-            // dataGridView1
+            // DGVtabla1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            this.DGVtabla1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGVtabla1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nombre,
             this.telefono,
             this.codigo,
             this.numero_cedula,
             this.estado});
-            this.dataGridView1.EnableHeadersVisualStyles = false;
-            this.dataGridView1.Location = new System.Drawing.Point(168, 299);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.Size = new System.Drawing.Size(833, 270);
-            this.dataGridView1.TabIndex = 26;
+            this.DGVtabla1.EnableHeadersVisualStyles = false;
+            this.DGVtabla1.Location = new System.Drawing.Point(168, 299);
+            this.DGVtabla1.Name = "DGVtabla1";
+            this.DGVtabla1.RowHeadersWidth = 62;
+            this.DGVtabla1.Size = new System.Drawing.Size(833, 270);
+            this.DGVtabla1.TabIndex = 26;
             // 
-            // button2
+            // nombre
             // 
-            this.button2.BackColor = System.Drawing.Color.Black;
-            this.button2.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(674, 229);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 43);
-            this.button2.TabIndex = 25;
-            this.button2.Text = "Cancelar";
-            this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.nombre.HeaderText = "Nombre del cliente";
+            this.nombre.MinimumWidth = 8;
+            this.nombre.Name = "nombre";
+            this.nombre.Width = 200;
             // 
-            // button1
+            // telefono
             // 
-            this.button1.BackColor = System.Drawing.Color.Black;
-            this.button1.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(841, 229);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 43);
-            this.button1.TabIndex = 24;
-            this.button1.Text = "Guardar";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.telefono.HeaderText = "Télefono";
+            this.telefono.MinimumWidth = 8;
+            this.telefono.Name = "telefono";
+            this.telefono.Width = 150;
             // 
-            // comboBox1
+            // codigo
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.codigo.HeaderText = "Código";
+            this.codigo.MinimumWidth = 8;
+            this.codigo.Name = "codigo";
+            this.codigo.Width = 150;
+            // 
+            // numero_cedula
+            // 
+            this.numero_cedula.HeaderText = "Numero de Cédula";
+            this.numero_cedula.Name = "numero_cedula";
+            this.numero_cedula.Width = 150;
+            // 
+            // estado
+            // 
+            this.estado.HeaderText = "Estado";
+            this.estado.MinimumWidth = 8;
+            this.estado.Name = "estado";
+            this.estado.Width = 130;
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.BackColor = System.Drawing.Color.Black;
+            this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.ForeColor = System.Drawing.Color.White;
+            this.btnCancelar.Location = new System.Drawing.Point(674, 229);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(75, 43);
+            this.btnCancelar.TabIndex = 25;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.BackColor = System.Drawing.Color.Black;
+            this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardar.ForeColor = System.Drawing.Color.White;
+            this.btnGuardar.Location = new System.Drawing.Point(841, 229);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(75, 43);
+            this.btnGuardar.TabIndex = 24;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // CBestado
+            // 
+            this.CBestado.FormattingEnabled = true;
+            this.CBestado.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.comboBox1.Location = new System.Drawing.Point(171, 192);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(131, 21);
-            this.comboBox1.TabIndex = 23;
+            this.CBestado.Location = new System.Drawing.Point(171, 192);
+            this.CBestado.Name = "CBestado";
+            this.CBestado.Size = new System.Drawing.Size(131, 21);
+            this.CBestado.TabIndex = 23;
+            this.CBestado.SelectedIndexChanged += new System.EventHandler(this.CBestado_SelectedIndexChanged);
             // 
-            // textBox3
+            // txtcodigo
             // 
-            this.textBox3.Location = new System.Drawing.Point(829, 128);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(152, 20);
-            this.textBox3.TabIndex = 22;
+            this.txtcodigo.Location = new System.Drawing.Point(829, 128);
+            this.txtcodigo.Name = "txtcodigo";
+            this.txtcodigo.Size = new System.Drawing.Size(152, 20);
+            this.txtcodigo.TabIndex = 22;
             // 
-            // textBox2
+            // txtTelefono
             // 
-            this.textBox2.Location = new System.Drawing.Point(675, 128);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(143, 20);
-            this.textBox2.TabIndex = 21;
+            this.txtTelefono.Location = new System.Drawing.Point(675, 128);
+            this.txtTelefono.Name = "txtTelefono";
+            this.txtTelefono.Size = new System.Drawing.Size(143, 20);
+            this.txtTelefono.TabIndex = 21;
             // 
-            // textBox1
+            // txtNombre
             // 
-            this.textBox1.BackColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(171, 128);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(286, 20);
-            this.textBox1.TabIndex = 20;
+            this.txtNombre.BackColor = System.Drawing.Color.White;
+            this.txtNombre.Location = new System.Drawing.Point(171, 128);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(286, 20);
+            this.txtNombre.TabIndex = 20;
             // 
-            // label6
+            // LblNombre
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.White;
-            this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.Black;
-            this.label6.Location = new System.Drawing.Point(174, 105);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(115, 19);
-            this.label6.TabIndex = 19;
-            this.label6.Text = "Nombre Cliente";
+            this.LblNombre.AutoSize = true;
+            this.LblNombre.BackColor = System.Drawing.Color.White;
+            this.LblNombre.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblNombre.ForeColor = System.Drawing.Color.Black;
+            this.LblNombre.Location = new System.Drawing.Point(174, 105);
+            this.LblNombre.Name = "LblNombre";
+            this.LblNombre.Size = new System.Drawing.Size(115, 19);
+            this.LblNombre.TabIndex = 19;
+            this.LblNombre.Text = "Nombre Cliente";
             // 
-            // label5
+            // Lbltelefono
             // 
-            this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.White;
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(681, 104);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(68, 19);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "Télefono";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
+            this.Lbltelefono.AutoSize = true;
+            this.Lbltelefono.BackColor = System.Drawing.Color.White;
+            this.Lbltelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbltelefono.ForeColor = System.Drawing.Color.Black;
+            this.Lbltelefono.Location = new System.Drawing.Point(681, 104);
+            this.Lbltelefono.Name = "Lbltelefono";
+            this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
+            this.Lbltelefono.TabIndex = 18;
+            this.Lbltelefono.Text = "Télefono";
+            this.Lbltelefono.Click += new System.EventHandler(this.label5_Click);
             // 
-            // label4
+            // Lblcodigo
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.White;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(825, 106);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 19);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "Código";
+            this.Lblcodigo.AutoSize = true;
+            this.Lblcodigo.BackColor = System.Drawing.Color.White;
+            this.Lblcodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lblcodigo.ForeColor = System.Drawing.Color.Black;
+            this.Lblcodigo.Location = new System.Drawing.Point(825, 106);
+            this.Lblcodigo.Name = "Lblcodigo";
+            this.Lblcodigo.Size = new System.Drawing.Size(56, 19);
+            this.Lblcodigo.TabIndex = 17;
+            this.Lblcodigo.Text = "Código";
             // 
-            // label3
+            // LblEstado
             // 
-            this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.White;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label3.Location = new System.Drawing.Point(170, 171);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(55, 19);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Estado";
+            this.LblEstado.AutoSize = true;
+            this.LblEstado.BackColor = System.Drawing.Color.White;
+            this.LblEstado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblEstado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.LblEstado.Location = new System.Drawing.Point(170, 171);
+            this.LblEstado.Name = "LblEstado";
+            this.LblEstado.Size = new System.Drawing.Size(55, 19);
+            this.LblEstado.TabIndex = 16;
+            this.LblEstado.Text = "Estado";
             // 
-            // label2
+            // LblBusqueda
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.White;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.Black;
-            this.label2.Location = new System.Drawing.Point(335, 168);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 19);
-            this.label2.TabIndex = 15;
-            this.label2.Text = "Buscar por";
+            this.LblBusqueda.AutoSize = true;
+            this.LblBusqueda.BackColor = System.Drawing.Color.White;
+            this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
+            this.LblBusqueda.Location = new System.Drawing.Point(335, 168);
+            this.LblBusqueda.Name = "LblBusqueda";
+            this.LblBusqueda.Size = new System.Drawing.Size(82, 19);
+            this.LblBusqueda.TabIndex = 15;
+            this.LblBusqueda.Text = "Buscar por";
             // 
             // groupBox1
             // 
@@ -502,84 +538,50 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Clientes";
             // 
-            // button4
+            // btnImprimir
             // 
-            this.button4.BackColor = System.Drawing.Color.Black;
-            this.button4.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.ForeColor = System.Drawing.Color.White;
-            this.button4.Location = new System.Drawing.Point(922, 229);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(75, 43);
-            this.button4.TabIndex = 85;
-            this.button4.Text = "Imprimir";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnImprimir.BackColor = System.Drawing.Color.Black;
+            this.btnImprimir.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImprimir.ForeColor = System.Drawing.Color.White;
+            this.btnImprimir.Location = new System.Drawing.Point(922, 229);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(75, 43);
+            this.btnImprimir.TabIndex = 85;
+            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.UseVisualStyleBackColor = false;
+            this.btnImprimir.Click += new System.EventHandler(this.button4_Click);
             // 
-            // label8
+            // LblNumero
             // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.Color.White;
-            this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(490, 103);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(134, 19);
-            this.label8.TabIndex = 86;
-            this.label8.Text = "Numero de Cédula";
+            this.LblNumero.AutoSize = true;
+            this.LblNumero.BackColor = System.Drawing.Color.White;
+            this.LblNumero.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblNumero.ForeColor = System.Drawing.Color.Black;
+            this.LblNumero.Location = new System.Drawing.Point(490, 103);
+            this.LblNumero.Name = "LblNumero";
+            this.LblNumero.Size = new System.Drawing.Size(134, 19);
+            this.LblNumero.TabIndex = 86;
+            this.LblNumero.Text = "Numero de Cédula";
             // 
-            // textBox4
+            // txtcedula
             // 
-            this.textBox4.BackColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(471, 129);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(190, 20);
-            this.textBox4.TabIndex = 87;
+            this.txtcedula.BackColor = System.Drawing.Color.White;
+            this.txtcedula.Location = new System.Drawing.Point(471, 129);
+            this.txtcedula.Name = "txtcedula";
+            this.txtcedula.Size = new System.Drawing.Size(190, 20);
+            this.txtcedula.TabIndex = 87;
             // 
-            // button3
+            // btnCargar
             // 
-            this.button3.BackColor = System.Drawing.Color.Black;
-            this.button3.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(760, 229);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 43);
-            this.button3.TabIndex = 88;
-            this.button3.Text = "Cargar";
-            this.button3.UseVisualStyleBackColor = false;
-            // 
-            // nombre
-            // 
-            this.nombre.HeaderText = "Nombre del cliente";
-            this.nombre.MinimumWidth = 8;
-            this.nombre.Name = "nombre";
-            this.nombre.Width = 200;
-            // 
-            // telefono
-            // 
-            this.telefono.HeaderText = "Télefono";
-            this.telefono.MinimumWidth = 8;
-            this.telefono.Name = "telefono";
-            this.telefono.Width = 150;
-            // 
-            // codigo
-            // 
-            this.codigo.HeaderText = "Código";
-            this.codigo.MinimumWidth = 8;
-            this.codigo.Name = "codigo";
-            this.codigo.Width = 150;
-            // 
-            // numero_cedula
-            // 
-            this.numero_cedula.HeaderText = "Numero de Cédula";
-            this.numero_cedula.Name = "numero_cedula";
-            this.numero_cedula.Width = 150;
-            // 
-            // estado
-            // 
-            this.estado.HeaderText = "Estado";
-            this.estado.MinimumWidth = 8;
-            this.estado.Name = "estado";
-            this.estado.Width = 130;
+            this.btnCargar.BackColor = System.Drawing.Color.Black;
+            this.btnCargar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCargar.ForeColor = System.Drawing.Color.White;
+            this.btnCargar.Location = new System.Drawing.Point(760, 229);
+            this.btnCargar.Name = "btnCargar";
+            this.btnCargar.Size = new System.Drawing.Size(75, 43);
+            this.btnCargar.TabIndex = 88;
+            this.btnCargar.Text = "Cargar";
+            this.btnCargar.UseVisualStyleBackColor = false;
             // 
             // Cliente
             // 
@@ -587,30 +589,30 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1009, 712);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.btnCargar);
+            this.Controls.Add(this.txtcedula);
+            this.Controls.Add(this.LblNumero);
+            this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.CBbusqueda);
+            this.Controls.Add(this.DGVtabla1);
+            this.Controls.Add(this.btnCancelar);
+            this.Controls.Add(this.btnGuardar);
+            this.Controls.Add(this.CBestado);
+            this.Controls.Add(this.txtcodigo);
+            this.Controls.Add(this.txtTelefono);
+            this.Controls.Add(this.txtNombre);
+            this.Controls.Add(this.LblNombre);
+            this.Controls.Add(this.Lbltelefono);
+            this.Controls.Add(this.Lblcodigo);
+            this.Controls.Add(this.LblEstado);
+            this.Controls.Add(this.LblBusqueda);
             this.Name = "Cliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cliente";
             this.Load += new System.EventHandler(this.Cliente_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -624,19 +626,19 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox CBbusqueda;
+        private System.Windows.Forms.DataGridView DGVtabla1;
+        private System.Windows.Forms.Button btnCancelar;
+        private System.Windows.Forms.Button btnGuardar;
+        private System.Windows.Forms.ComboBox CBestado;
+        private System.Windows.Forms.TextBox txtcodigo;
+        private System.Windows.Forms.TextBox txtTelefono;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.Label LblNombre;
+        private System.Windows.Forms.Label Lbltelefono;
+        private System.Windows.Forms.Label Lblcodigo;
+        private System.Windows.Forms.Label LblEstado;
+        private System.Windows.Forms.Label LblBusqueda;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
@@ -651,15 +653,15 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button btnImprimir;
+        private System.Windows.Forms.Label LblNumero;
+        private System.Windows.Forms.TextBox txtcedula;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button btnCargar;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn telefono;
         private System.Windows.Forms.DataGridViewTextBoxColumn codigo;
