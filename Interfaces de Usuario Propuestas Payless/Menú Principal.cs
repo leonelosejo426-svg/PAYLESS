@@ -133,8 +133,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblCliente.Enabled = true;
                     lblCredito.Enabled = true;
-                    lblInventario.Enabled = false;
-                    lblMantenimiento.Enabled = false;
+                    lblInventario.Enabled = true;
+                    lblMantenimiento.Enabled = true;
                     break;
 
                 case "KELLY":
