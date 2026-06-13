@@ -332,19 +332,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 case "Numero de cédula":
                     resultado = listacliente
-                        .Where(c => c.Cedula.Contains(txtcedula.Text))
+                        .Where(c => c.Cédula.Contains(txtcedula.Text))
                         .ToList();
                     break;
 
                 case "Código":
                     resultado = listacliente
-                        .Where(c => c.Codigo.Contains(txtcodigo.Text))
+                        .Where(c => c.Código.Contains(txtcodigo.Text))
                         .ToList();
                     break;
             }
 
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = resultado;
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = resultado;
         }
     }
 
