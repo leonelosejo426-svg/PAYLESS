@@ -358,7 +358,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 Estado = CBestado.Text
             };
 
-            listacliente.Add(nuevoCliente);
+            listacliente.Add(nuevocliente);
 
             DGVtabla1.DataSource = null;
             DGVtabla1.DataSource = listacliente;
