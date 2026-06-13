@@ -167,8 +167,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             File.WriteAllText("clientes.json", json);
             MessageBox.Show("Cliente guardado correctamente");
 
-            dataGridView1.DataSource = null;
-            dataGridView1.DataSource = listacliente;
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = listacliente;
         }
 
         private void button2_Click(object sender, EventArgs e)
