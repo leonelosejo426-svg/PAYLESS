@@ -159,16 +159,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button1_Click(object sender, EventArgs e)
         {
-            cliente nuevocliente = new cliente()
-            {
-                Nombre = txtNombre.Text,
-                Telefono = txtTelefono.Text,
-                Código = txtcodigo.Text,
-                Cédula = txtcedula.Text,
-                Estado = CBestado.Text
-            };
-
-            listacliente.Add(nuevocliente);
 
             string json = JsonConvert.SerializeObject(
                 listacliente,
@@ -177,9 +167,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             File.WriteAllText("clientes.json", json);
             MessageBox.Show("Cliente guardado correctamente");
-
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = listacliente;
 
               
         }
@@ -362,6 +349,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnagregar_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void btnagregar_Click_1(object sender, EventArgs e)
+        {
+            cliente p = new cliente();
+
+            p.Nombre = txtNombre.Text;
+            p.Telefono = txtTelefono.Text;
+            p.Código = txtcodigo.Text;
+            p.Cédula = txtcedula.Text;
+            p.Estado = CBestado.Text;
+
+            //Agregar a la lista 
+            listacliente.Add(p);
+
+            //Mostrar en tabla 
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = listacliente;
+
+            //Limpiar
+            txtNombre.Clear();
+            txtTelefono.Clear();
+            txtcodigo.Clear();
+            txtcedula.Clear();
         }
     }
 
