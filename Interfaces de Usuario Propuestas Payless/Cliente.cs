@@ -209,7 +209,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             html.Append("<html>");
             html.Append("<head>");
-            html.Append("<title>Reporte</title");
+            html.Append("<title>Reporte</title>");
             html.Append("</head>");
             html.Append("<body>");
 
@@ -232,6 +232,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 html.Append("<td>" + p.Código + "</td>");
                 html.Append("<td>" + p.Cédula + "</td>");
                 html.Append("<td>" + p.Estado + "</td>");
+                html.Append("</tr>");
             }
 
             html.Append("</table>");
@@ -343,8 +344,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     break;
             }
 
+            
+        }
+
+        private void btnagregar_Click(object sender, EventArgs e)
+        {
+            cliente nuevocliente = new cliente()
+            {
+                Nombre = txtNombre.Text,
+                Telefono = txtTelefono.Text,
+                Código = txtcodigo.Text,
+                Cédula = txtcedula.Text,
+                Estado = CBestado.Text
+            };
+
+            listacliente.Add(nuevoCliente);
+
             DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = resultado;
+            DGVtabla1.DataSource = listacliente;
         }
     }
 
