@@ -118,7 +118,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblUsuarios.Enabled = false;
             lblCliente.Enabled = false;
             lblCredito.Enabled = false;
-            lblDevoluciones.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
 
             
             switch (ClaseSesion.RolActual)
@@ -132,7 +133,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblCliente.Enabled = true;
                     lblCredito.Enabled = true;
-                    lblDevoluciones.Enabled = true;
+                    lblInventario.Enabled = false;
+                    lblMantenimiento.Enabled = false;
                     break;
 
                 case "KELLY":
@@ -141,7 +143,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     break;
 
                 case "PAOLA":
-                    lblDevoluciones.Enabled = true;
+                   
+                    lblInventario.Enabled = true;
                     break;
 
                 case "FELIPE":
@@ -152,6 +155,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 case "YUBELKIS":
                     lblCliente.Enabled = true;
                     lblCredito.Enabled = true;
+                    lblMantenimiento.Enabled= true;
                     break;
             }
         }
@@ -201,9 +205,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void lblDevoluciones_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones();
-            ventana.Show();
-            this.Hide();
+            
         }
 
         private void lblCredito_Click(object sender, EventArgs e)
@@ -257,21 +259,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label3_Click(object sender, EventArgs e)
         {
-            Nivelacion_inventario ventana = new Nivelacion_inventario();
-            ventana.Show();
-            this.Hide();
+        
+            
         }
 
         private void label4_Click(object sender, EventArgs e)
         {
-            Nivelacion_inventario ventana = new Nivelacion_inventario();
-            ventana.Show();
-            this.Hide();
+           
         }
 
         private void label5_Click(object sender, EventArgs e)
         {
-            Reportes ventana = new Reportes();
+            
+        }
+
+        private void label3_Click_1(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
             this.Hide();
         }

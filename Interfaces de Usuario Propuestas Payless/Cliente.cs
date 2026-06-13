@@ -170,6 +170,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             DGVtabla1.DataSource = null;
             DGVtabla1.DataSource = listacliente;
            
+            
+            Cliente nuevoCliente = new Cliente()
+            {
+                Nombre = txtNombre.Text,
+                Telefono = txtTelefono.Text,
+                Código = txtcodigo.Text,
+                Cédula = txtcedula.Text,
+                Estado = CBestado.Text
+            };
         }
 
         private void button2_Click(object sender, EventArgs e)

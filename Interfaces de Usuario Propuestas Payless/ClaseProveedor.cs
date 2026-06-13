@@ -9,6 +9,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseProveedor
     {
 
+        public class Proveedor
+        {
+            public string RUC { get; set; }
+            public string Nombre { get; set; }
+            public string Telefono { get; set; }
+            public string Direccion { get; set; }
+            public string Estado { get; set; }
+        }
+
+
+
+
+
+
+
+
+
+
         private int _idProveedor;
         private string _nombre;
         private string _telefono;

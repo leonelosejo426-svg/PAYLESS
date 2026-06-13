@@ -16,5 +16,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             InitializeComponent();
         }
+
+        private void btnRegresar_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
