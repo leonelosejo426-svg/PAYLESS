@@ -590,7 +590,7 @@
             this.btnbuscar.BackColor = System.Drawing.Color.Black;
             this.btnbuscar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnbuscar.ForeColor = System.Drawing.Color.White;
-            this.btnbuscar.Location = new System.Drawing.Point(539, 170);
+            this.btnbuscar.Location = new System.Drawing.Point(540, 170);
             this.btnbuscar.Name = "btnbuscar";
             this.btnbuscar.Size = new System.Drawing.Size(75, 43);
             this.btnbuscar.TabIndex = 89;
