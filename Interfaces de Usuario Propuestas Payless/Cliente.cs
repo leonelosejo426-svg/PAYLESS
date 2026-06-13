@@ -159,6 +159,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button1_Click(object sender, EventArgs e)
         {
+            cliente nuevocliente = new cliente()
+            {
+                Nombre = txtNombre.Text,
+                Telefono = txtTelefono.Text,
+                Código = txtcodigo.Text,
+                Cédula = txtcedula.Text,
+                Estado = CBestado.Text
+            };
+
+            listacliente.Add(nuevocliente);
+
             string json = JsonConvert.SerializeObject(
                 listacliente,
                 Newtonsoft.Json.Formatting.Indented
@@ -169,6 +180,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             DGVtabla1.DataSource = null;
             DGVtabla1.DataSource = listacliente;
+
               
         }
 
@@ -349,19 +361,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnagregar_Click(object sender, EventArgs e)
         {
-            cliente nuevocliente = new cliente()
-            {
-                Nombre = txtNombre.Text,
-                Telefono = txtTelefono.Text,
-                Código = txtcodigo.Text,
-                Cédula = txtcedula.Text,
-                Estado = CBestado.Text
-            };
-
-            listacliente.Add(nuevocliente);
-
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = listacliente;
+            
         }
     }
 
