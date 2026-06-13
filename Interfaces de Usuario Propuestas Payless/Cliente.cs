@@ -169,6 +169,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             DGVtabla1.DataSource = null;
             DGVtabla1.DataSource = listacliente;
+            
             Cliente nuevoCliente = new Cliente()
             {
                 Nombre = txtNombre.Text,
