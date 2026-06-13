@@ -118,7 +118,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblUsuarios.Enabled = false;
             lblCliente.Enabled = false;
             lblCredito.Enabled = false;
-            lblInventarrio.Enabled = false;
+            lblInventario.Enabled = false;
             lblMantenimiento.Enabled = false;
 
             
@@ -133,7 +133,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblCliente.Enabled = true;
                     lblCredito.Enabled = true;
-                    lblInventarrio.Enabled = false;
+                    lblInventario.Enabled = false;
                     lblMantenimiento.Enabled = false;
                     break;
 
@@ -143,7 +143,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     break;
 
                 case "PAOLA":
-                    lblDevoluciones.Enabled = true;
+                   
                     lblInventario.Enabled = true;
                     break;
 
