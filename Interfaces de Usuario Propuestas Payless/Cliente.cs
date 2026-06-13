@@ -166,6 +166,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             File.WriteAllText("clientes.json", json);
             MessageBox.Show("Cliente guardado correctamente");
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = listacliente;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -195,6 +198,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("Seleccione un cliente");
             }
+
         }
        
 
@@ -271,7 +275,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     txtNombre.Focus();
                     break;
 
-                case "Numero de Cédula":
+                case "Numero de cédula":
                     txtcedula.Visible = true;
                     LblNumero.Visible = true;
                     txtcedula.Focus();
@@ -288,9 +292,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void CBestado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CBestado.Items.Add("Activo");
-            CBestado.Items.Add("Inactivo");
-            CBestado.DropDownStyle = ComboBoxStyle.DropDownList;
+            
         }
 
         private void btnCargar_Click(object sender, EventArgs e)
@@ -313,6 +315,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("No existe el archivo");
             }
+        }
+
+        private void btnbuscar_Click(object sender, EventArgs e)
+        {
+            List<Cliente> resultado = new List<Cliente>();
+
+            switch (CBbusqueda.Text)
+            {
+                case "Nombre":
+                    resultado = listacliente
+                        .Where(c => c.Nombre.Contains(txtNombre.Text))
+                        .ToList();
+                    break;
+
+                case "Numero de cédula":
+                    resultado = listacliente
+                        .Where(c => c.Cedula.Contains(txtcedula.Text))
+                        .ToList();
+                    break;
+
+                case "Código":
+                    resultado = listacliente
+                        .Where(c => c.Codigo.Contains(txtcodigo.Text))
+                        .ToList();
+                    break;
+            }
+
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = resultado;
         }
     }
 
