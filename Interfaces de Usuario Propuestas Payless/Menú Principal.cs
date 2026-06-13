@@ -118,7 +118,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblUsuarios.Enabled = false;
             lblCliente.Enabled = false;
             lblCredito.Enabled = false;
-            lblDevoluciones.Enabled = false;
+            lblInventarrio.Enabled = false;
+            lblMantenimiento.Enabled = false;
 
             
             switch (ClaseSesion.RolActual)
@@ -132,7 +133,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblCliente.Enabled = true;
                     lblCredito.Enabled = true;
-                    lblDevoluciones.Enabled = true;
+                    lblInventarrio.Enabled = false;
+                    lblMantenimiento.Enabled = false;
                     break;
 
                 case "KELLY":
@@ -142,6 +144,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 case "PAOLA":
                     lblDevoluciones.Enabled = true;
+                    lblInventario.Enabled = true;
                     break;
 
                 case "FELIPE":
@@ -152,6 +155,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 case "YUBELKIS":
                     lblCliente.Enabled = true;
                     lblCredito.Enabled = true;
+                    lblMantenimiento.Enabled= true;
                     break;
             }
         }
