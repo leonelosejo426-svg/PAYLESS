@@ -410,5 +410,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
         }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            Reporte_Productos ventana = new Reporte_Productos();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
