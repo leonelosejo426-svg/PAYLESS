@@ -320,7 +320,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
-            List<Cliente> resultado = new List<Cliente>();
+            List<cliente> resultado = new List<cliente>();
 
             switch (CBbusqueda.Text)
             {
