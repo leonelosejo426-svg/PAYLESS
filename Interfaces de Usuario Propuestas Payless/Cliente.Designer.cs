@@ -30,6 +30,7 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliente));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CBbusqueda = new System.Windows.Forms.ComboBox();
             this.DGVtabla1 = new System.Windows.Forms.DataGridView();
             this.btnEliminar = new System.Windows.Forms.Button();
@@ -115,6 +116,7 @@
             this.DGVtabla1.RowHeadersWidth = 62;
             this.DGVtabla1.Size = new System.Drawing.Size(833, 270);
             this.DGVtabla1.TabIndex = 26;
+            this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGVtabla1_CellContentClick);
             // 
             // btnEliminar
             // 
@@ -567,6 +569,8 @@
             // nombre
             // 
             this.nombre.DataPropertyName = "Nombre";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nombre.DefaultCellStyle = dataGridViewCellStyle2;
             this.nombre.HeaderText = "Nombre del cliente";
             this.nombre.MinimumWidth = 8;
             this.nombre.Name = "nombre";
@@ -582,7 +586,7 @@
             // 
             // codigo
             // 
-            this.codigo.DataPropertyName = "Código";
+            this.codigo.DataPropertyName = "Codigo";
             this.codigo.HeaderText = "Código";
             this.codigo.MinimumWidth = 8;
             this.codigo.Name = "codigo";
@@ -590,7 +594,7 @@
             // 
             // numero_cedula
             // 
-            this.numero_cedula.DataPropertyName = "Cédula";
+            this.numero_cedula.DataPropertyName = "Cedula";
             this.numero_cedula.HeaderText = "Numero de Cédula";
             this.numero_cedula.Name = "numero_cedula";
             this.numero_cedula.Width = 150;
