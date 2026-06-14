@@ -183,13 +183,57 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 txtcodigo.Focus();
                 return;
             }
+           if (CBestado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione un estado");
+                CBestado.Focus();
+                return;
+            }
+           if (listacliente.Any(c => c.Cedula == txtcedula.Text.Trim()))
+            {
+                MessageBox.Show("La cédula ya existe");
+                txtcedula.Focus();
+                return;
+            }
+           if (txtTelefono.Text.Length != 8)
+            {
+                MessageBox.Show("El teléfono debe tener 8 digitos");
+                txtTelefono.Focus();
+                return;
+            }
+            if (txtTelefono.Text.Length != 8)
+            {
+                MessageBox.Show("La cédula debe tenr 14 digitos");
+                txtcedula.Focus();
+                return;
+            }
+            cliente nuevocliente = new cliente();
+            nuevocliente.Nombre = txtNombre.Text;
+            nuevocliente.Telefono = txtTelefono.Text;
+            nuevocliente.Codigo = txtcodigo.Text;
+            nuevocliente.Cedula = txtcedula.Text;
+            nuevocliente.Estado = CBestado.Text;
+
+            listacliente.Add(nuevocliente);
+
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = listacliente;
+
             string json = JsonConvert.SerializeObject(
                 listacliente,
                 Newtonsoft.Json.Formatting.Indented
                 );
-
             File.WriteAllText("clientes.json", json);
+
             MessageBox.Show("Cliente guardado correctamente");
+
+            txtNombre.Clear();
+            txtTelefono.Clear();
+            txtcodigo.Clear();
+            txtcedula.Clear();
+            CBestado.SelectedIndex = -1;
+            txtNombre.Focus();
+
 
               
         }
@@ -343,39 +387,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnbuscar_Click(object sender, EventArgs e)
         {
-            List<cliente> resultado = new List<cliente>();
-
-            switch (CBbusqueda.Text)
-            {
-                case "Nombre":
-                    resultado = listacliente
-                        .Where(c => c.Nombre.Contains(txtNombre.Text))
-                        .ToList();
-                    break;
-
-                case "Numero de cédula":
-                    resultado = listacliente
-                        .Where(c => c.Cedula.Contains(txtcedula.Text))
-                        .ToList();
-                    break;
-
-                case "Código":
-                    resultado = listacliente
-                        .Where(c => c.Codigo.Contains(txtcodigo.Text))
-                        .ToList();
-                    break;
-
-                default:
-                    MessageBox.Show("Seleccione un criterio de busqueda");
-                    return;
-            }
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = resultado;
-
-            if (resultado.Count == 0)
-            {
-                MessageBox.Show("No se encontraron resultados");
-            }
+           // if ()
 
             
         }
@@ -394,6 +406,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             
         }
+       
     }
 
 }
