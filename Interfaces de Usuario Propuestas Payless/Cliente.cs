@@ -257,8 +257,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 {
                     listacliente.RemoveAt(indice);
 
-                    DGVtabla1.DataSource = null;
-                    DGVtabla1.DataSource = listacliente;
+                    MostrarClientes();
 
                     MessageBox.Show("Cliente eliminado correctamente");
                 }
