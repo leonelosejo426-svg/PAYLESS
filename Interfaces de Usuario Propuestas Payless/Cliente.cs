@@ -269,7 +269,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label10_Click(object sender, EventArgs e)
         {
-            inventario ventana = new inventario();
+            Ventas ventana = new Ventas();
             ventana.Show();
             this.Hide();
         }
