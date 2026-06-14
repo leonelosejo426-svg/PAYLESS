@@ -33,8 +33,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             public string Nombre { get; set; }
             public string Telefono { get; set; }
-            public string Código { get; set; }
-            public string Cédula { get; set; }
+            public string Codigo { get; set; }
+            public string Cedula { get; set; }
             public string Estado { get; set; }
         }
 
@@ -159,7 +159,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            if (txtcedula.Text.Trim() == "")
+            {
+                MessageBox.Show("Ingrese la cedula");
+                txtcedula.Focus();
+                return;
+            }
+            if (txtNombre.Text.Trim() == "")
+            {
+                MessageBox.Show("Ingrese un nombre");
+                txtNombre.Focus();
+                return;
+            }
+            if (txtTelefono.Text.Trim() == "")
+            {
+                MessageBox.Show("Ingrece un número de Teléfono");
+                txtcedula.Focus();
+                return;
+            }
+            if (txtcodigo.Text.Trim() == "")
+            {
+                MessageBox.Show("Debe de asignar un codigo");
+                txtcodigo.Focus();
+                return;
+            }
             string json = JsonConvert.SerializeObject(
                 listacliente,
                 Newtonsoft.Json.Formatting.Indented
@@ -228,8 +251,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 html.Append("<tr>");
                 html.Append("<td>" + p.Nombre + "</td>");
                 html.Append("<td>" + p.Telefono + "</td>");
-                html.Append("<td>" + p.Código + "</td>");
-                html.Append("<td>" + p.Cédula + "</td>");
+                html.Append("<td>" + p.Codigo + "</td>");
+                html.Append("<td>" + p.Cedula + "</td>");
                 html.Append("<td>" + p.Estado + "</td>");
                 html.Append("</tr>");
             }
@@ -246,7 +269,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label10_Click(object sender, EventArgs e)
         {
-            inventario ventana = new inventario();
+            Ventas ventana = new Ventas();
             ventana.Show();
             this.Hide();
         }
@@ -332,15 +355,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 case "Numero de cédula":
                     resultado = listacliente
-                        .Where(c => c.Cédula.Contains(txtcedula.Text))
+                        .Where(c => c.Cedula.Contains(txtcedula.Text))
                         .ToList();
                     break;
 
                 case "Código":
                     resultado = listacliente
-                        .Where(c => c.Código.Contains(txtcodigo.Text))
+                        .Where(c => c.Codigo.Contains(txtcodigo.Text))
                         .ToList();
                     break;
+
+                default:
+                    MessageBox.Show("Seleccione un criterio de busqueda");
+                    return;
+            }
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = resultado;
+
+            if (resultado.Count == 0)
+            {
+                MessageBox.Show("No se encontraron resultados");
             }
 
             
@@ -353,26 +387,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnagregar_Click_1(object sender, EventArgs e)
         {
-            cliente p = new cliente();
-
-            p.Nombre = txtNombre.Text;
-            p.Telefono = txtTelefono.Text;
-            p.Código = txtcodigo.Text;
-            p.Cédula = txtcedula.Text;
-            p.Estado = CBestado.Text;
-
-            //Agregar a la lista 
-            listacliente.Add(p);
-
-            //Mostrar en tabla 
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = listacliente;
-
-            //Limpiar
-            txtNombre.Clear();
-            txtTelefono.Clear();
-            txtcodigo.Clear();
-            txtcedula.Clear();
+            
         }
     }
 
