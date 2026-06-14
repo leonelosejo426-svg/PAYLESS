@@ -183,17 +183,63 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 txtcodigo.Focus();
                 return;
             }
+           if (CBestado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione un estado");
+                CBestado.Focus();
+                return;
+            }
+           if (listacliente.Any(c => c.Cedula == txtcedula.Text.Trim()))
+            {
+                MessageBox.Show("La cédula ya existe");
+                txtcedula.Focus();
+                return;
+            }
+           if (txtTelefono.Text.Length != 8)
+            {
+                MessageBox.Show("El teléfono debe tener 8 digitos");
+                txtTelefono.Focus();
+                return;
+            }
+           if (txtcedula.Text.Length != 14)
+           {
+                MessageBox.Show("La cédula debe tener 14 digitos");
+                txtcedula.Focus();
+                return;
+           }
+            cliente nuevocliente = new cliente();
+            nuevocliente.Nombre = txtNombre.Text;
+            nuevocliente.Telefono = txtTelefono.Text;
+            nuevocliente.Codigo = txtcodigo.Text;
+            nuevocliente.Cedula = txtcedula.Text;
+            nuevocliente.Estado = CBestado.Text;
+
+            listacliente.Add(nuevocliente);
+            MostrarClientes();
+
             string json = JsonConvert.SerializeObject(
                 listacliente,
                 Newtonsoft.Json.Formatting.Indented
                 );
-
             File.WriteAllText("clientes.json", json);
+
             MessageBox.Show("Cliente guardado correctamente");
 
-              
+            txtNombre.Clear();
+            txtTelefono.Clear();
+            txtcodigo.Clear();
+            txtcedula.Clear();
+            CBestado.SelectedIndex = -1;
+            txtNombre.Focus();      
         }
+        private void MostrarClientes()
+        {
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = listacliente;
 
+            AjustarColumnas();
+        }
+       
         private void button2_Click(object sender, EventArgs e)
         {
             if (DGVtabla1.CurrentRow != null)
@@ -321,17 +367,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
-            if (File.Exists("cliente.json"))
+            if (File.Exists("clientes.json"))
             {
                 //leer archivo json
-                string json = File.ReadAllText("cliente.json");
+                string json = File.ReadAllText("clientes.json");
 
                 //Convertir Json a lista 
                 listacliente = JsonConvert.DeserializeObject<List<cliente>>(json);
 
                 // Mostrar en datagridview
-                DGVtabla1.DataSource = null;
-                DGVtabla1.DataSource = listacliente;
+                MostrarClientes();
 
                 MessageBox.Show("Datos cargados correctamente");
             }
@@ -349,13 +394,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 case "Nombre":
                     resultado = listacliente
-                        .Where(c => c.Nombre.Contains(txtNombre.Text))
-                        .ToList();
-                    break;
-
-                case "Numero de cédula":
-                    resultado = listacliente
-                        .Where(c => c.Cedula.Contains(txtcedula.Text))
+                        .Where(c => c.Nombre.ToLower()
+                        .Contains(txtNombre.Text.ToLower()))
                         .ToList();
                     break;
 
@@ -365,19 +405,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         .ToList();
                     break;
 
+                case "Numero de cédula":
+                    resultado = listacliente
+                        .Where(c => c.Cedula.Contains(txtcedula.Text))
+                        .ToList();
+                    break;
+
                 default:
-                    MessageBox.Show("Seleccione un criterio de busqueda");
+                    MessageBox.Show("Seleccione una categoría de búsqueda");
                     return;
             }
+
             DGVtabla1.DataSource = null;
             DGVtabla1.DataSource = resultado;
+
+            DGVtabla1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            AjustarColumnas();
 
             if (resultado.Count == 0)
             {
                 MessageBox.Show("No se encontraron resultados");
             }
 
-            
         }
 
         private void btnagregar_Click(object sender, EventArgs e)
@@ -393,6 +442,66 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void DGVtabla1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             
+        }
+
+        private void btnAgregar_Click_2(object sender, EventArgs e)
+        {
+            txtNombre.Clear();
+            txtTelefono.Clear();
+            txtcodigo.Clear();
+            txtcedula.Clear();
+            CBestado.SelectedIndex = -1;
+            CBbusqueda.SelectedIndex = -1;
+
+            txtNombre.Visible = true;
+            txtcedula.Visible = true;
+            txtcodigo.Visible = true;
+            LblNombre.Visible = true;
+            LblNumero.Visible = true;
+            Lblcodigo.Visible = true;
+
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = listacliente;
+            txtNombre.Focus();
+
+            cliente nuevocliente = new cliente();
+            DGVtabla1.DataSource = null;
+            DGVtabla1.DataSource = listacliente;
+
+            DGVtabla1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            AjustarColumnas();
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtcedula_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+        private void AjustarColumnas()
+        {
+            DGVtabla1.Columns[0].Width = 200;
+            DGVtabla1.Columns[1].Width = 150;
+            DGVtabla1.Columns[2].Width = 150;
+            DGVtabla1.Columns[3].Width = 150;
+            DGVtabla1.Columns[4].Width = 150;
         }
     }
 
