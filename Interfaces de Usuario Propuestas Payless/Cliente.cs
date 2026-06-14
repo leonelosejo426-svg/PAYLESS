@@ -389,6 +389,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             
         }
+
+        private void DGVtabla1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+        }
     }
 
 }

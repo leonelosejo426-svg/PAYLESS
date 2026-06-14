@@ -115,6 +115,7 @@
             this.DGVtabla1.RowHeadersWidth = 62;
             this.DGVtabla1.Size = new System.Drawing.Size(833, 270);
             this.DGVtabla1.TabIndex = 26;
+            this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGVtabla1_CellContentClick);
             // 
             // btnEliminar
             // 
@@ -582,7 +583,7 @@
             // 
             // codigo
             // 
-            this.codigo.DataPropertyName = "Código";
+            this.codigo.DataPropertyName = "Codigo";
             this.codigo.HeaderText = "Código";
             this.codigo.MinimumWidth = 8;
             this.codigo.Name = "codigo";
@@ -590,7 +591,7 @@
             // 
             // numero_cedula
             // 
-            this.numero_cedula.DataPropertyName = "Cédula";
+            this.numero_cedula.DataPropertyName = "Cedula";
             this.numero_cedula.HeaderText = "Numero de Cédula";
             this.numero_cedula.Name = "numero_cedula";
             this.numero_cedula.Width = 150;
