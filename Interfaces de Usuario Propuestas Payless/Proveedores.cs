@@ -239,7 +239,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-           
+            /*
         {
             if (dgvProveedores.CurrentRow != null)
             {
@@ -259,7 +259,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     dgvProveedores.DataSource = listaProveedores;
                 }
             }
-        }
+        }*/
     }
 
         private void btnGuardar_Click(object sender, EventArgs e)

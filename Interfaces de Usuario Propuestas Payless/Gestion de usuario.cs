@@ -26,5 +26,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
