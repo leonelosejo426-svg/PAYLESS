@@ -79,7 +79,7 @@
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(773, 62);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 19);
+            this.label5.Size = new System.Drawing.Size(106, 22);
             this.label5.TabIndex = 73;
             this.label5.Text = "Acerca de...";
             // 
@@ -102,7 +102,7 @@
             this.label12.ForeColor = System.Drawing.Color.White;
             this.label12.Location = new System.Drawing.Point(25, 37);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(341, 36);
+            this.label12.Size = new System.Drawing.Size(425, 45);
             this.label12.TabIndex = 5;
             this.label12.Text = "Categoria De Productos";
             // 
@@ -127,7 +127,7 @@
             this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(749, 134);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 19);
+            this.label1.Size = new System.Drawing.Size(93, 22);
             this.label1.TabIndex = 136;
             this.label1.Text = "Categoria:";
             // 
@@ -136,7 +136,7 @@
             this.textBox1.Location = new System.Drawing.Point(829, 131);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(140, 26);
+            this.textBox1.Size = new System.Drawing.Size(140, 30);
             this.textBox1.TabIndex = 137;
             // 
             // dataGridView1
@@ -147,7 +147,7 @@
             this.Categorias,
             this.Descripción,
             this.Estado});
-            this.dataGridView1.Location = new System.Drawing.Point(112, 235);
+            this.dataGridView1.Location = new System.Drawing.Point(103, 233);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
@@ -189,7 +189,7 @@
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(217, 513);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(124, 19);
+            this.label2.Size = new System.Drawing.Size(164, 22);
             this.label2.TabIndex = 139;
             this.label2.Text = "Categorias Totales:";
             // 
@@ -245,7 +245,7 @@
             this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(217, 134);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(63, 19);
+            this.label3.Size = new System.Drawing.Size(80, 22);
             this.label3.TabIndex = 143;
             this.label3.Text = "Nombre:";
             // 
@@ -254,7 +254,7 @@
             this.textBox2.Location = new System.Drawing.Point(307, 131);
             this.textBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(198, 26);
+            this.textBox2.Size = new System.Drawing.Size(198, 30);
             this.textBox2.TabIndex = 144;
             // 
             // label4
@@ -263,7 +263,7 @@
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(217, 184);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 19);
+            this.label4.Size = new System.Drawing.Size(113, 22);
             this.label4.TabIndex = 145;
             this.label4.Text = "Descripcion:";
             // 
@@ -272,7 +272,7 @@
             this.textBox3.Location = new System.Drawing.Point(307, 181);
             this.textBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(198, 26);
+            this.textBox3.Size = new System.Drawing.Size(198, 30);
             this.textBox3.TabIndex = 146;
             // 
             // label6
@@ -281,7 +281,7 @@
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(528, 134);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(54, 19);
+            this.label6.Size = new System.Drawing.Size(70, 22);
             this.label6.TabIndex = 147;
             this.label6.Text = "Estado:";
             // 
@@ -293,7 +293,7 @@
             "Inactivo"});
             this.comboBox1.Location = new System.Drawing.Point(588, 130);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 27);
+            this.comboBox1.Size = new System.Drawing.Size(121, 30);
             this.comboBox1.TabIndex = 148;
             // 
             // button5
@@ -317,13 +317,13 @@
             this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(356, 513);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(27, 19);
+            this.label7.Size = new System.Drawing.Size(32, 22);
             this.label7.TabIndex = 150;
             this.label7.Text = "N°";
             // 
             // Categoria
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.ClientSize = new System.Drawing.Size(1015, 564);
