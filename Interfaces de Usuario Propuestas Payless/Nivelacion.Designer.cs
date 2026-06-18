@@ -136,6 +136,7 @@
             this.groupBox1.Controls.Add(this.textBox5);
             this.groupBox1.Controls.Add(this.textBox4);
             this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.comboBox3);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.label16);
@@ -269,7 +270,6 @@
             this.groupBox3.Controls.Add(this.button2);
             this.groupBox3.Controls.Add(this.button1);
             this.groupBox3.Controls.Add(this.comboBox4);
-            this.groupBox3.Controls.Add(this.comboBox3);
             this.groupBox3.Controls.Add(this.comboBox2);
             this.groupBox3.Controls.Add(this.comboBox1);
             this.groupBox3.Controls.Add(this.label20);
@@ -335,7 +335,7 @@
             // comboBox3
             // 
             this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(6, 202);
+            this.comboBox3.Location = new System.Drawing.Point(-67, 154);
             this.comboBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.comboBox3.Name = "comboBox3";
             this.comboBox3.Size = new System.Drawing.Size(380, 30);
