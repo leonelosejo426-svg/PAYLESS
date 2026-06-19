@@ -96,5 +96,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void label28_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
