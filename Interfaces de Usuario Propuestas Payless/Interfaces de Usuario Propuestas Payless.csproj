@@ -185,6 +185,12 @@
     <Compile Include="Recuperacion de Cuenta.Designer.cs">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Reporte Compra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reporte Compra.Designer.cs">
+      <DependentUpon>Reporte Compra.cs</DependentUpon>
+    </Compile>
     <Compile Include="Reporte Productos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -278,6 +284,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Recuperacion de Cuenta.resx">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporte Compra.resx">
+      <DependentUpon>Reporte Compra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reporte Productos.resx">
       <DependentUpon>Reporte Productos.cs</DependentUpon>
