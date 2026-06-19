@@ -10,16 +10,11 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Reporte_Compra : Form
+    public partial class ReportesCompras : Form
     {
-        public Reporte_Compra()
+        public ReportesCompras()
         {
             InitializeComponent();
-        }
-
-        private void label31_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void button5_Click(object sender, EventArgs e)
