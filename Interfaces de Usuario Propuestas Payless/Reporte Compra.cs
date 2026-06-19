@@ -24,8 +24,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button5_Click(object sender, EventArgs e)
         {
-           // REGRESAR ventana = new REGRESAR();
-           // ventana.Show();
+            Compras_nuevo ventana = new Compras_nuevo();
+            ventana.Show();
             this.Hide();
         }
     }

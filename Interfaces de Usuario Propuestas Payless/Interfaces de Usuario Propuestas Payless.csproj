@@ -116,11 +116,11 @@
       <DependentUpon>Cliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ClaseUsuario.cs" />
-    <Compile Include="Compras.cs">
+    <Compile Include="Compras nuevo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compras.Designer.cs">
-      <DependentUpon>Compras.cs</DependentUpon>
+    <Compile Include="Compras nuevo.Designer.cs">
+      <DependentUpon>Compras nuevo.cs</DependentUpon>
     </Compile>
     <Compile Include="Credito.cs">
       <SubType>Form</SubType>
@@ -227,12 +227,6 @@
     <Compile Include="Reporte Productos.Designer.cs">
       <DependentUpon>Reporte Productos.cs</DependentUpon>
     </Compile>
-    <Compile Include="ReporteCompra.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ReporteCompra.Designer.cs">
-      <DependentUpon>ReporteCompra.cs</DependentUpon>
-    </Compile>
     <Compile Include="Reportes Venta.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -278,8 +272,8 @@
     <EmbeddedResource Include="Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compras.resx">
-      <DependentUpon>Compras.cs</DependentUpon>
+    <EmbeddedResource Include="Compras nuevo.resx">
+      <DependentUpon>Compras nuevo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Credito.resx">
       <DependentUpon>Credito.cs</DependentUpon>
@@ -335,9 +329,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Reporte Productos.resx">
       <DependentUpon>Reporte Productos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReporteCompra.resx">
-      <DependentUpon>ReporteCompra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes Venta.resx">
       <DependentUpon>Reportes Venta.cs</DependentUpon>
