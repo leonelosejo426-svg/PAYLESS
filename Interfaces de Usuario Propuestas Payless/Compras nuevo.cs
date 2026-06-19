@@ -103,5 +103,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Reporte_Compra ventana = new Reporte_Compra();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
