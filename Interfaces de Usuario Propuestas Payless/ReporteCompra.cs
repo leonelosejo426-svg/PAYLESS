@@ -43,5 +43,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ReporteCompra_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
