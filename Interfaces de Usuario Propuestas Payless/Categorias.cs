@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Login: Form
+    public partial class Categorias : Form
     {
-        public Login()
+        public Categorias()
         {
             InitializeComponent();
         }

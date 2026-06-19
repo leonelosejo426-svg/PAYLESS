@@ -10,11 +10,21 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Login: Form
+    public partial class Nivelacion : Form
     {
-        public Login()
+        public Nivelacion()
         {
             InitializeComponent();
+        }
+
+        private void Nivelacion_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

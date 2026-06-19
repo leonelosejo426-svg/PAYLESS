@@ -80,6 +80,12 @@
     <Compile Include="Categoria.Designer.cs">
       <DependentUpon>Categoria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Categorias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Categorias.Designer.cs">
+      <DependentUpon>Categorias.cs</DependentUpon>
+    </Compile>
     <Compile Include="CierredeCaja.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,6 +128,12 @@
     <Compile Include="Credito.Designer.cs">
       <DependentUpon>Credito.cs</DependentUpon>
     </Compile>
+    <Compile Include="Devoluciones cs.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Devoluciones cs.Designer.cs">
+      <DependentUpon>Devoluciones cs.cs</DependentUpon>
+    </Compile>
     <Compile Include="Devoluciones.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +153,12 @@
     <Compile Include="inventario.Designer.cs">
       <DependentUpon>inventario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Inventarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Inventarios.Designer.cs">
+      <DependentUpon>Inventarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Login.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -159,11 +177,23 @@
     <Compile Include="Menú Principal.Designer.cs">
       <DependentUpon>Menú Principal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Menú.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Menú.Designer.cs">
+      <DependentUpon>Menú.cs</DependentUpon>
+    </Compile>
     <Compile Include="Nivelacion inventario.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Nivelacion inventario.Designer.cs">
       <DependentUpon>Nivelacion inventario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Nivelacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Nivelacion.Designer.cs">
+      <DependentUpon>Nivelacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Productos.cs">
       <SubType>Form</SubType>
@@ -233,6 +263,9 @@
     <EmbeddedResource Include="Categoria.resx">
       <DependentUpon>Categoria.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Categorias.resx">
+      <DependentUpon>Categorias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CierredeCaja.resx">
       <DependentUpon>CierredeCaja.cs</DependentUpon>
     </EmbeddedResource>
@@ -245,6 +278,9 @@
     <EmbeddedResource Include="Credito.resx">
       <DependentUpon>Credito.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Devoluciones cs.resx">
+      <DependentUpon>Devoluciones cs.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Devoluciones.resx">
       <DependentUpon>Devoluciones.cs</DependentUpon>
     </EmbeddedResource>
@@ -253,6 +289,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="inventario.resx">
       <DependentUpon>inventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Inventarios.resx">
+      <DependentUpon>Inventarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
@@ -263,8 +302,14 @@
     <EmbeddedResource Include="Menú Principal.resx">
       <DependentUpon>Menú Principal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Menú.resx">
+      <DependentUpon>Menú.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Nivelacion inventario.resx">
       <DependentUpon>Nivelacion inventario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Nivelacion.resx">
+      <DependentUpon>Nivelacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
