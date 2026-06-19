@@ -426,6 +426,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("No se encontraron resultados");
             }
 
+            //Restaurar formulario
+            txtNombre.Clear();
+            txtcedula.Clear();
+            txtcodigo.Clear();
+
+            txtNombre.Visible = true;
+            txtcedula.Visible = true;
+            txtcodigo.Visible = true;
+
+            LblNombre.Visible = true;
+            LblNumero.Visible = true;
+            Lblcodigo.Visible = true;
+
+            CBbusqueda.SelectedIndex = -1;
+            txtNombre.Focus();
+
         }
 
         private void btnagregar_Click(object sender, EventArgs e)
@@ -445,30 +461,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click_2(object sender, EventArgs e)
         {
-            txtNombre.Clear();
-            txtTelefono.Clear();
-            txtcodigo.Clear();
-            txtcedula.Clear();
-            CBestado.SelectedIndex = -1;
-            CBbusqueda.SelectedIndex = -1;
-
-            txtNombre.Visible = true;
-            txtcedula.Visible = true;
-            txtcodigo.Visible = true;
-            LblNombre.Visible = true;
-            LblNumero.Visible = true;
-            Lblcodigo.Visible = true;
-
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = listacliente;
-            txtNombre.Focus();
-
-            cliente nuevocliente = new cliente();
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = listacliente;
-
-            DGVtabla1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            AjustarColumnas();
+           
         }
 
         private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
