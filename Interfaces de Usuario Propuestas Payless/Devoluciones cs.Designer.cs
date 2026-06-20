@@ -113,7 +113,7 @@
             this.label1.Location = new System.Drawing.Point(34, 30);
             this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(241, 45);
+            this.label1.Size = new System.Drawing.Size(194, 36);
             this.label1.TabIndex = 0;
             this.label1.Text = "Devoluciones";
             // 
@@ -126,7 +126,7 @@
             this.label2.Location = new System.Drawing.Point(1075, 56);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(114, 23);
+            this.label2.Size = new System.Drawing.Size(92, 19);
             this.label2.TabIndex = 2;
             this.label2.Text = "Acerca De...";
             // 
@@ -180,7 +180,7 @@
             this.textBox1.Location = new System.Drawing.Point(224, 176);
             this.textBox1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(196, 30);
+            this.textBox1.Size = new System.Drawing.Size(196, 26);
             this.textBox1.TabIndex = 5;
             // 
             // label3
@@ -191,7 +191,7 @@
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label3.Size = new System.Drawing.Size(81, 22);
+            this.label3.Size = new System.Drawing.Size(64, 19);
             this.label3.TabIndex = 4;
             this.label3.Text = "Cantidad";
             // 
@@ -200,7 +200,7 @@
             this.textBox2.Location = new System.Drawing.Point(121, 124);
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(196, 30);
+            this.textBox2.Size = new System.Drawing.Size(196, 26);
             this.textBox2.TabIndex = 3;
             // 
             // textBox6
@@ -208,7 +208,7 @@
             this.textBox6.Location = new System.Drawing.Point(121, 67);
             this.textBox6.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(173, 30);
+            this.textBox6.Size = new System.Drawing.Size(173, 26);
             this.textBox6.TabIndex = 2;
             // 
             // label5
@@ -218,7 +218,7 @@
             this.label5.Location = new System.Drawing.Point(7, 67);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 22);
+            this.label5.Size = new System.Drawing.Size(69, 19);
             this.label5.TabIndex = 1;
             this.label5.Text = "Producto ";
             // 
@@ -229,7 +229,7 @@
             this.label8.Location = new System.Drawing.Point(7, 176);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(202, 22);
+            this.label8.Size = new System.Drawing.Size(155, 19);
             this.label8.TabIndex = 0;
             this.label8.Text = "Cantidad para de volver";
             // 
@@ -240,7 +240,7 @@
             this.label4.Location = new System.Drawing.Point(16, 153);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(101, 20);
+            this.label4.Size = new System.Drawing.Size(86, 17);
             this.label4.TabIndex = 137;
             this.label4.Text = "No.  Factura";
             // 
@@ -249,7 +249,7 @@
             this.textBox3.Location = new System.Drawing.Point(125, 149);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(136, 30);
+            this.textBox3.Size = new System.Drawing.Size(136, 26);
             this.textBox3.TabIndex = 138;
             // 
             // label6
@@ -259,7 +259,7 @@
             this.label6.Location = new System.Drawing.Point(289, 155);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(61, 20);
+            this.label6.Size = new System.Drawing.Size(51, 17);
             this.label6.TabIndex = 139;
             this.label6.Text = "Cliente";
             // 
@@ -270,7 +270,7 @@
             this.label7.Location = new System.Drawing.Point(553, 165);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(103, 20);
+            this.label7.Size = new System.Drawing.Size(88, 17);
             this.label7.TabIndex = 140;
             this.label7.Text = "Fecha Venta";
             // 
@@ -279,7 +279,7 @@
             this.textBox4.Location = new System.Drawing.Point(382, 155);
             this.textBox4.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(136, 30);
+            this.textBox4.Size = new System.Drawing.Size(136, 26);
             this.textBox4.TabIndex = 141;
             // 
             // dateTimePicker1
@@ -287,7 +287,7 @@
             this.dateTimePicker1.Location = new System.Drawing.Point(677, 155);
             this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(274, 30);
+            this.dateTimePicker1.Size = new System.Drawing.Size(274, 26);
             this.dateTimePicker1.TabIndex = 142;
             // 
             // button2
@@ -389,7 +389,7 @@
             this.radioButton3.Location = new System.Drawing.Point(287, 47);
             this.radioButton3.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(223, 24);
+            this.radioButton3.Size = new System.Drawing.Size(190, 21);
             this.radioButton3.TabIndex = 11;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "  💱   Cambio de Producto";
@@ -403,7 +403,7 @@
             this.radioButton1.Location = new System.Drawing.Point(22, 47);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(145, 24);
+            this.radioButton1.Size = new System.Drawing.Size(125, 21);
             this.radioButton1.TabIndex = 9;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "💵   Reembolso";
@@ -490,10 +490,11 @@
             this.button3.TabIndex = 147;
             this.button3.Text = "Regresar a ventas ";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Devoluciones_cs
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1374, 846);
             this.Controls.Add(this.button3);

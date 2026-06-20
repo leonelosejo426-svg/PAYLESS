@@ -45,7 +45,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.Firebrick;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.label1.Location = new System.Drawing.Point(173, 116);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
@@ -115,7 +115,6 @@
             this.label18.Size = new System.Drawing.Size(155, 17);
             this.label18.TabIndex = 67;
             this.label18.Text = "¿Olvido su Contraseña?";
-            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // btnSesion
             // 
@@ -126,11 +125,10 @@
             this.btnSesion.Location = new System.Drawing.Point(179, 364);
             this.btnSesion.Margin = new System.Windows.Forms.Padding(2);
             this.btnSesion.Name = "btnSesion";
-            this.btnSesion.Size = new System.Drawing.Size(144, 29);
+            this.btnSesion.Size = new System.Drawing.Size(152, 30);
             this.btnSesion.TabIndex = 68;
             this.btnSesion.Text = "Iniciar Sesion";
             this.btnSesion.UseVisualStyleBackColor = false;
-            this.btnSesion.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -145,7 +143,6 @@
             this.button2.TabIndex = 69;
             this.button2.Text = "Salir";
             this.button2.UseVisualStyleBackColor = false;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // pictureBox2
             // 
@@ -178,7 +175,6 @@
             this.Name = "Login";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
-            this.Load += new System.EventHandler(this.Login_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
