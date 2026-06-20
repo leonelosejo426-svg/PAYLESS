@@ -17,11 +17,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private string _nombre;
 
-        private string _username;
+        
 
         private string _password;
 
-        private bool _estado;
+        private bool _estado_usuario;
+        private DateTime _fecha_creacion;
+        private string _correo;
+        private string _observacion;
 
         private int _idrol;
         
@@ -90,6 +93,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         internal ClaseVenta ClaseVenta1
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal NivelacionInventario NivelacionInventario
         {
             get => default;
             set

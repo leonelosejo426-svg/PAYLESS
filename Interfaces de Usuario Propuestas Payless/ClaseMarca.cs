@@ -12,6 +12,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idmarca;
         private string _nombre_marca;
         private string _descripcion;
+        private bool _estado;
 
         internal ClaseProducto ClaseProducto
         {

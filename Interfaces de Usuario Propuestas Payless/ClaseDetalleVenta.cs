@@ -16,6 +16,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idCredito;
 
         private int _cantidad;
+        private decimal precio_unitario;
+        private string talla_vendida;
 
         private decimal _subtotal;
 
