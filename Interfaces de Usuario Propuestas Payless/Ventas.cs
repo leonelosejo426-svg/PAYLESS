@@ -188,7 +188,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones(); 
+            Devoluciones_cs ventana = new Devoluciones_cs(); 
             ventana.Show();
             this.Hide();
         }
