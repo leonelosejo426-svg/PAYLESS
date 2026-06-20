@@ -285,6 +285,7 @@
             this.label26.Size = new System.Drawing.Size(73, 19);
             this.label26.TabIndex = 116;
             this.label26.Text = "☰   Menú";
+            this.label26.Click += new System.EventHandler(this.label26_Click);
             // 
             // pictureBox1
             // 
