@@ -59,6 +59,7 @@
             this.label2.AutoSize = true;
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.label2.Location = new System.Drawing.Point(238, 26);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(257, 36);
@@ -128,34 +129,40 @@
             // 
             // btnAperturarCaja
             // 
+            this.btnAperturarCaja.BackColor = System.Drawing.Color.Black;
             this.btnAperturarCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAperturarCaja.ForeColor = System.Drawing.Color.White;
             this.btnAperturarCaja.Location = new System.Drawing.Point(169, 395);
             this.btnAperturarCaja.Name = "btnAperturarCaja";
             this.btnAperturarCaja.Size = new System.Drawing.Size(175, 34);
             this.btnAperturarCaja.TabIndex = 9;
             this.btnAperturarCaja.Text = "Aperturar Caja";
-            this.btnAperturarCaja.UseVisualStyleBackColor = true;
+            this.btnAperturarCaja.UseVisualStyleBackColor = false;
             // 
             // btnRegresar
             // 
+            this.btnRegresar.BackColor = System.Drawing.Color.Black;
             this.btnRegresar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegresar.ForeColor = System.Drawing.Color.White;
             this.btnRegresar.Location = new System.Drawing.Point(656, 439);
             this.btnRegresar.Name = "btnRegresar";
             this.btnRegresar.Size = new System.Drawing.Size(132, 34);
             this.btnRegresar.TabIndex = 10;
             this.btnRegresar.Text = "Regresar";
-            this.btnRegresar.UseVisualStyleBackColor = true;
+            this.btnRegresar.UseVisualStyleBackColor = false;
             this.btnRegresar.Click += new System.EventHandler(this.btnRegresar_Click);
             // 
             // button1
             // 
+            this.button1.BackColor = System.Drawing.Color.Black;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
             this.button1.Location = new System.Drawing.Point(431, 395);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(132, 34);
             this.button1.TabIndex = 11;
             this.button1.Text = "Limpiar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // label6
             // 
