@@ -2,20 +2,14 @@
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProducto">
     <Position X="15" Y="8" Width="1.75" />
-    <AssociationLine Name="ClaseDetalleCompra" Type="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleCompra" ManuallyRouted="true">
-      <Path>
-        <Point X="16.75" Y="8.766" />
-        <Point X="17.219" Y="8.766" />
-        <Point X="17.219" Y="6.623" />
-      </Path>
-    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AEgAEAAABAAQCAAAEAAABAQAAAAAAAAgAAAAAAIRAQA=</HashCode>
+      <HashCode>AEBAEAAABAAYCAAAECAAAAAAAAAAAAAgAAAAAAIBAQA=</HashCode>
       <FileName>ClaseProducto.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ClaseDetalleVenta" />
       <Property Name="ClaseDetalleCompra" />
+      <Property Name="ClaseInventario" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCategoria">
@@ -25,12 +19,21 @@
         <Position X="-1.038" Y="0.308" />
       </MemberNameLabel>
     </AssociationLine>
+    <AssociationLine Name="NivelacionInventario" Type="Interfaces_de_Usuario_Propuestas_Payless.NivelacionInventario" ManuallyRouted="true">
+      <Path>
+        <Point X="18.25" Y="12.93" />
+        <Point X="18.25" Y="15.302" />
+        <Point X="10.5" Y="15.302" />
+        <Point X="10.5" Y="13.026" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAACAAAAAAgAAAIAAAAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAAAAAAAAAEAIAACAAAAAAgAAAIAAAAAA=</HashCode>
       <FileName>ClaseCategoria.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ClaseProducto" />
+      <Property Name="NivelacionInventario" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseMarca">
@@ -41,7 +44,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAABIAAAAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAAAAEAAAAAAAAAAAAAAAEAAABIAAAAAA=</HashCode>
       <FileName>ClaseMarca.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -49,9 +52,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleVenta">
-    <Position X="11.75" Y="7.5" Width="1.5" />
+    <Position X="11.75" Y="7.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAACAAAggBAAAAAAIAAAAAAAA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAACAAAggBAAAAAQIAACAAAAA=</HashCode>
       <FileName>ClaseDetalleVenta.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -68,32 +71,34 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAABRAAABAAAAAAAAAAAAAQAAAABAAACAAAAgAAIAAA=</HashCode>
+      <HashCode>AAABRAAABAAAAACAAAAAAAQAAAgBAACCAACAgAAIAAA=</HashCode>
       <FileName>ClaseVenta.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ClaseDevolucionVenta" />
       <Property Name="ClaseDetalleVenta" />
+      <Property Name="ClaseFormaPago" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseUsuario">
-    <Position X="6.5" Y="4.5" Width="1.5" />
+    <Position X="4.5" Y="4.25" Width="1.5" />
     <Compartments>
       <Compartment Name="Properties" Collapsed="true" />
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAQADAAAAAAAAAYAAAgAAAQAAQAAAAAAAAIEAAICAAA=</HashCode>
+      <HashCode>AAQACAAAAAAAAAYAAAwAACYAIQAAAAAAAAAEAAICAAE=</HashCode>
       <FileName>ClaseUsuario.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ClaseLogin" />
       <Property Name="ClaseRecuperacion" />
       <Property Name="ClaseVenta1" />
+      <Property Name="NivelacionInventario" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseRecuperacion">
-    <Position X="9.25" Y="6.75" Width="1.5" />
+    <Position X="9" Y="7.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAIAAAQAIAAAAAAAAAAAAIAAAAA=</HashCode>
       <FileName>ClaseRecuperacion.cs</FileName>
@@ -101,6 +106,13 @@
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProveedor">
     <Position X="19.5" Y="1.75" Width="1.5" />
+    <NestedTypes>
+      <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseProveedor.Proveedor" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ClaseProveedor.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAQQAAAAQAAEAAAAQAAIAgAAAAAAAAAIEIAAAA=</HashCode>
       <FileName>ClaseProveedor.cs</FileName>
@@ -111,7 +123,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseLogin">
-    <Position X="9.25" Y="4.25" Width="1.5" />
+    <Position X="7.5" Y="4" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAgAAAAEAAAAAAEgAAA=</HashCode>
       <FileName>ClaseLogin.cs</FileName>
@@ -134,7 +146,7 @@
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseDetalleCompra">
     <Position X="17" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAggAAAAAAAAAAAAAAFA=</HashCode>
+      <HashCode>AEAAAAAAAAAAAAgAAAAAAAAAAghAAAAAAAAAAAAAAFA=</HashCode>
       <FileName>ClaseDetalleCompra.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -149,7 +161,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCliente">
-    <Position X="11.75" Y="1.75" Width="1.5" />
+    <Position X="11" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABDAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAgEIAAAA=</HashCode>
       <FileName>ClaseCliente.cs</FileName>
@@ -162,7 +174,7 @@
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseCaja">
     <Position X="6.5" Y="8" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACgAAAAAAAAAAAAAAAAQAAAAAAABCgAEAAAAAABA=</HashCode>
+      <HashCode>AAAACgAAAAAAAAAAAAAAAARAAAAAAABCgAEAAAAAABA=</HashCode>
       <FileName>ClaseCaja.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -171,9 +183,9 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseRol">
-    <Position X="6.5" Y="2.25" Width="1.5" />
+    <Position X="4.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAABAAAACAAAAAAAACAAA=</HashCode>
+      <HashCode>AAAABAAAAAAAAAAEAAAAAAAAABAAAACAAAAAAAACAAA=</HashCode>
       <FileName>ClaseRol.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -183,12 +195,42 @@
   <Class Name="Interfaces_de_Usuario_Propuestas_Payless.Clase_credito">
     <Position X="14.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AIAABAAABAAAAAAAAAAAACEAAAAAAEAAAAAAgAAAAAA=</HashCode>
+      <HashCode>AIAABAAABAAAAACAAAAAACEAAAAAAEAAAAAAgAAAAAA=</HashCode>
       <FileName>ClaseCredito.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Property Name="ClaseDetalleVenta" />
+      <Property Name="ClaseFormaPago" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseInventario">
+    <Position X="14.25" Y="12.75" Width="1.5" />
+    <AssociationLine Name="NivelacionInventario" Type="Interfaces_de_Usuario_Propuestas_Payless.NivelacionInventario">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.58" Y="0.776" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABEAACAAAIAAAAgAAAAABAAAAAAEAA=</HashCode>
+      <FileName>ClaseInventario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="NivelacionInventario" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.NivelacionInventario">
+    <Position X="9.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEBEAAAAAAAAAAAABAAACAAAgAAAAABgCAAAEAAEAA=</HashCode>
+      <FileName>NivelacionInventario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Interfaces_de_Usuario_Propuestas_Payless.ClaseFormaPago">
+    <Position X="8.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EIAAAAgAAAEAAICAABAAAAAAAAAAABIAAAABAAAAAAA=</HashCode>
+      <FileName>ClaseFormaPago.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

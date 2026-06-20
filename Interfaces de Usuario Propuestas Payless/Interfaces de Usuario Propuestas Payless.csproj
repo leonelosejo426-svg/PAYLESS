@@ -90,6 +90,8 @@
     <Compile Include="ClaseCompra.cs" />
     <Compile Include="ClaseDetalleCompra.cs" />
     <Compile Include="ClaseDevolucionVenta.cs" />
+    <Compile Include="ClaseFormaPago.cs" />
+    <Compile Include="ClaseInventario.cs" />
     <Compile Include="ClaseLogin.cs" />
     <Compile Include="ClaseCaja.cs" />
     <Compile Include="ClaseCliente.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Nivelacion inventario.Designer.cs">
       <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </Compile>
+    <Compile Include="NivelacionInventario.cs" />
     <Compile Include="Productos.cs">
       <SubType>Form</SubType>
     </Compile>

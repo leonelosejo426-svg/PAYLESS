@@ -14,6 +14,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idProducto;
 
         private int _cantidad;
+        private decimal precio_compra;
+        private decimal precio_venta;
+
 
         private decimal _subtotal;
     }

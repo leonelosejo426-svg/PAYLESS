@@ -11,11 +11,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         public class Proveedor
         {
-            public string RUC { get; set; }
-            public string Nombre { get; set; }
-            public string Telefono { get; set; }
-            public string Direccion { get; set; }
-            public string Estado { get; set; }
+            public string _ruc { get; set; }
+            public string _nombre { get; set; }
+            public string _telefono { get; set; }
+            public string _direccion { get; set; }
+            public string _estado_proveedor { get; set; }
+            private DateTime _fechaRegistro { get; set; }
+            private string _correo { get; set; }
+
         }
 
 

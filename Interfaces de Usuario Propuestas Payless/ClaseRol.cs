@@ -12,6 +12,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private int _idrol;
         private int _nombre_rol;
         private string _descripcion;
+        private bool _estado;
 
         public ClaseUsuario ClaseUsuario
         {

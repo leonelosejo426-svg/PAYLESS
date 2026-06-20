@@ -13,6 +13,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private DateTime _fecha;
 
+        private decimal _subtotal;
+
+        private decimal _descuento;
+        private decimal _iva;
         private decimal _total;
 
         private bool _estado;
@@ -30,6 +34,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         internal ClaseDetalleVenta ClaseDetalleVenta
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        internal ClaseFormaPago ClaseFormaPago
         {
             get => default;
             set
