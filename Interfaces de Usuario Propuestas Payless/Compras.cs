@@ -12,6 +12,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Compras_nuevo : Form
     {
+        private object ventana;
+
         public Compras_nuevo()
         {
             InitializeComponent();
@@ -24,7 +26,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label27_Click(object sender, EventArgs e)
         {
-            Menu_principal ventana = new Menu_principal();
+            Menú_Principal ventana = new Menu_principal();
             ventana.Show();
             this.Hide();
         }
@@ -46,7 +48,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void label23_Click(object sender, EventArgs e)
         {
             Cliente ventana = new Cliente();
-            Ventana Show();
+            ventana.Show();
             this.Hide();
         }
 
@@ -66,16 +68,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label25_Click(object sender, EventArgs e)
         {
-            Compras ventana = new Compras();
-            ventana.Show();
+          Compras ventana = new Compras();
+            ventana.show();
             this.Hide();
         }
 
         private void label26_Click(object sender, EventArgs e)
         {
-            Ventas ventas = new Ventas();
-            ventana.Show();
-            this.Hide();
+          Ventas ventana = new Ventas();
+          ventana.Show(); 
+          this.Hide();
+
         }
 
         private void label29_Click(object sender, EventArgs e)
@@ -115,5 +118,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+    }
+
+    internal class Compras
+    {
+        internal void show()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Show()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    internal class Menu_principal : Menú_Principal
+    {
     }
 }
