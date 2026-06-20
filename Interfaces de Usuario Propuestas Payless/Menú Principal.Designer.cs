@@ -41,7 +41,6 @@
             this.lblUsuarios = new System.Windows.Forms.Label();
             this.lblCliente = new System.Windows.Forms.Label();
             this.lblProveedores = new System.Windows.Forms.Label();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.lblSesion = new System.Windows.Forms.Label();
@@ -50,16 +49,18 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.Black;
+            this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.pictureBox1);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.lblMantenimiento);
             this.groupBox1.Controls.Add(this.lblInventario);
@@ -71,12 +72,11 @@
             this.groupBox1.Controls.Add(this.lblUsuarios);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.lblProveedores);
-            this.groupBox1.Controls.Add(this.pictureBox4);
             this.groupBox1.Location = new System.Drawing.Point(1, 60);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(251, 850);
+            this.groupBox1.Size = new System.Drawing.Size(251, 725);
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -84,11 +84,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Black;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(40, 796);
+            this.label4.ForeColor = System.Drawing.Color.Black;
+            this.label4.Location = new System.Drawing.Point(20, 680);
             this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(100, 23);
@@ -98,11 +98,11 @@
             // lblMantenimiento
             // 
             this.lblMantenimiento.AutoSize = true;
-            this.lblMantenimiento.BackColor = System.Drawing.Color.Black;
+            this.lblMantenimiento.BackColor = System.Drawing.Color.Transparent;
             this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMantenimiento.ForeColor = System.Drawing.Color.White;
-            this.lblMantenimiento.Location = new System.Drawing.Point(40, 730);
+            this.lblMantenimiento.ForeColor = System.Drawing.Color.Black;
+            this.lblMantenimiento.Location = new System.Drawing.Point(8, 616);
             this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblMantenimiento.Name = "lblMantenimiento";
             this.lblMantenimiento.Size = new System.Drawing.Size(174, 23);
@@ -113,11 +113,11 @@
             // lblInventario
             // 
             this.lblInventario.AutoSize = true;
-            this.lblInventario.BackColor = System.Drawing.Color.Black;
+            this.lblInventario.BackColor = System.Drawing.Color.Transparent;
             this.lblInventario.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblInventario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblInventario.ForeColor = System.Drawing.Color.White;
-            this.lblInventario.Location = new System.Drawing.Point(40, 670);
+            this.lblInventario.ForeColor = System.Drawing.Color.Black;
+            this.lblInventario.Location = new System.Drawing.Point(9, 565);
             this.lblInventario.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblInventario.Name = "lblInventario";
             this.lblInventario.Size = new System.Drawing.Size(134, 23);
@@ -130,8 +130,8 @@
             this.lblCaja.AutoSize = true;
             this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCaja.ForeColor = System.Drawing.Color.White;
-            this.lblCaja.Location = new System.Drawing.Point(40, 187);
+            this.lblCaja.ForeColor = System.Drawing.Color.Black;
+            this.lblCaja.Location = new System.Drawing.Point(8, 176);
             this.lblCaja.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCaja.Name = "lblCaja";
             this.lblCaja.Size = new System.Drawing.Size(88, 23);
@@ -144,8 +144,8 @@
             this.lblCredito.AutoSize = true;
             this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCredito.ForeColor = System.Drawing.Color.White;
-            this.lblCredito.Location = new System.Drawing.Point(40, 606);
+            this.lblCredito.ForeColor = System.Drawing.Color.Black;
+            this.lblCredito.Location = new System.Drawing.Point(9, 518);
             this.lblCredito.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCredito.Name = "lblCredito";
             this.lblCredito.Size = new System.Drawing.Size(111, 23);
@@ -158,8 +158,8 @@
             this.lblVenta.AutoSize = true;
             this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVenta.ForeColor = System.Drawing.Color.White;
-            this.lblVenta.Location = new System.Drawing.Point(58, 545);
+            this.lblVenta.ForeColor = System.Drawing.Color.Black;
+            this.lblVenta.Location = new System.Drawing.Point(9, 464);
             this.lblVenta.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblVenta.Name = "lblVenta";
             this.lblVenta.Size = new System.Drawing.Size(104, 23);
@@ -172,8 +172,8 @@
             this.lblCompras.AutoSize = true;
             this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCompras.ForeColor = System.Drawing.Color.White;
-            this.lblCompras.Location = new System.Drawing.Point(40, 480);
+            this.lblCompras.ForeColor = System.Drawing.Color.Black;
+            this.lblCompras.Location = new System.Drawing.Point(9, 412);
             this.lblCompras.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCompras.Name = "lblCompras";
             this.lblCompras.Size = new System.Drawing.Size(122, 23);
@@ -186,8 +186,8 @@
             this.lblProductos.AutoSize = true;
             this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProductos.ForeColor = System.Drawing.Color.White;
-            this.lblProductos.Location = new System.Drawing.Point(40, 361);
+            this.lblProductos.ForeColor = System.Drawing.Color.Black;
+            this.lblProductos.Location = new System.Drawing.Point(9, 307);
             this.lblProductos.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblProductos.Name = "lblProductos";
             this.lblProductos.Size = new System.Drawing.Size(131, 23);
@@ -200,8 +200,8 @@
             this.lblUsuarios.AutoSize = true;
             this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuarios.ForeColor = System.Drawing.Color.White;
-            this.lblUsuarios.Location = new System.Drawing.Point(40, 244);
+            this.lblUsuarios.ForeColor = System.Drawing.Color.Black;
+            this.lblUsuarios.Location = new System.Drawing.Point(8, 215);
             this.lblUsuarios.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblUsuarios.Name = "lblUsuarios";
             this.lblUsuarios.Size = new System.Drawing.Size(120, 23);
@@ -214,8 +214,8 @@
             this.lblCliente.AutoSize = true;
             this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCliente.ForeColor = System.Drawing.Color.White;
-            this.lblCliente.Location = new System.Drawing.Point(41, 303);
+            this.lblCliente.ForeColor = System.Drawing.Color.Black;
+            this.lblCliente.Location = new System.Drawing.Point(8, 262);
             this.lblCliente.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(117, 23);
@@ -228,8 +228,8 @@
             this.lblProveedores.AutoSize = true;
             this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProveedores.ForeColor = System.Drawing.Color.White;
-            this.lblProveedores.Location = new System.Drawing.Point(40, 420);
+            this.lblProveedores.ForeColor = System.Drawing.Color.Black;
+            this.lblProveedores.Location = new System.Drawing.Point(8, 361);
             this.lblProveedores.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.lblProveedores.Name = "lblProveedores";
             this.lblProveedores.Size = new System.Drawing.Size(153, 23);
@@ -237,26 +237,14 @@
             this.lblProveedores.Text = "🚚   Proveedores";
             this.lblProveedores.Click += new System.EventHandler(this.lblProveedores_Click);
             // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(45, 22);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(157, 118);
-            this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox4.TabIndex = 72;
-            this.pictureBox4.TabStop = false;
-            // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Black;
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.Controls.Add(this.pictureBox5);
             this.panel2.Controls.Add(this.lblSesion);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(1, -14);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1272, 90);
             this.panel2.TabIndex = 61;
@@ -277,7 +265,7 @@
             // 
             this.lblSesion.AutoSize = true;
             this.lblSesion.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSesion.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.lblSesion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.lblSesion.Location = new System.Drawing.Point(955, 52);
             this.lblSesion.Name = "lblSesion";
             this.lblSesion.Size = new System.Drawing.Size(114, 23);
@@ -289,7 +277,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.label1.Location = new System.Drawing.Point(37, 39);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
@@ -310,11 +298,11 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(1029, 846);
+            this.button1.Location = new System.Drawing.Point(960, 729);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(173, 34);
@@ -325,11 +313,11 @@
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.Color.Black;
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(276, 846);
+            this.button2.Location = new System.Drawing.Point(292, 729);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(108, 34);
@@ -342,20 +330,32 @@
             // 
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(544, 190);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox3.Location = new System.Drawing.Point(507, 322);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(395, 271);
+            this.pictureBox3.Size = new System.Drawing.Size(439, 183);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox3.TabIndex = 71;
+            this.pictureBox3.TabIndex = 89;
             this.pictureBox3.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(24, 48);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(176, 108);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 132;
+            this.pictureBox1.TabStop = false;
             // 
             // Menú_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1264, 900);
+            this.ClientSize = new System.Drawing.Size(1264, 775);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -370,11 +370,11 @@
             this.Load += new System.EventHandler(this.Menú_Principal_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -389,8 +389,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox5;
         private System.Windows.Forms.Label lblCaja;
         private System.Windows.Forms.Label lblCredito;
@@ -403,5 +401,7 @@
         private System.Windows.Forms.Label lblInventario;
         private System.Windows.Forms.Label lblMantenimiento;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
