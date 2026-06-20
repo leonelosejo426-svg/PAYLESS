@@ -115,6 +115,7 @@
             this.label18.Size = new System.Drawing.Size(155, 17);
             this.label18.TabIndex = 67;
             this.label18.Text = "¿Olvido su Contraseña?";
+            this.label18.Click += new System.EventHandler(this.label18_Click);
             // 
             // btnSesion
             // 
@@ -129,6 +130,7 @@
             this.btnSesion.TabIndex = 68;
             this.btnSesion.Text = "Iniciar Sesion";
             this.btnSesion.UseVisualStyleBackColor = false;
+            this.btnSesion.Click += new System.EventHandler(this.btnSesion_Click);
             // 
             // button2
             // 
@@ -143,6 +145,7 @@
             this.button2.TabIndex = 69;
             this.button2.Text = "Salir";
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // pictureBox2
             // 
