@@ -110,11 +110,11 @@
       <DependentUpon>Cliente.cs</DependentUpon>
     </Compile>
     <Compile Include="ClaseUsuario.cs" />
-    <Compile Include="Compras nuevo.cs">
+    <Compile Include="Compras.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compras nuevo.Designer.cs">
-      <DependentUpon>Compras nuevo.cs</DependentUpon>
+    <Compile Include="Compras.Designer.cs">
+      <DependentUpon>Compras.cs</DependentUpon>
     </Compile>
     <Compile Include="Credito.cs">
       <SubType>Form</SubType>
@@ -245,8 +245,8 @@
     <EmbeddedResource Include="Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compras nuevo.resx">
-      <DependentUpon>Compras nuevo.cs</DependentUpon>
+    <EmbeddedResource Include="Compras.resx">
+      <DependentUpon>Compras.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Credito.resx">
       <DependentUpon>Credito.cs</DependentUpon>
