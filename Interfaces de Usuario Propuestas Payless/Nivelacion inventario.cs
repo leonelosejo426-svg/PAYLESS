@@ -143,7 +143,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label25_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones();
+            Devoluciones_cs ventana = new Devoluciones_cs();
             ventana.Show();
             this.Hide();
         }
