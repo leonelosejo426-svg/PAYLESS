@@ -19,48 +19,66 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnSesion_Click(object sender, EventArgs e)
         {
-            try
+            string usuario = txtUsuario.Text;
+            string contraseña = txtContraseña.Text;
+
+            switch (usuario)
             {
-                // Lista de usuarios del sistema
-                var usuarios = new List<(string Usuario, string Password, string Rol)>
-                {
-                    ("Leonel", "leonel123", "ADMIN"),
-                    ("Kelly", "kelly123", "KELLY"),
-                    ("Paola", "paola123", "PAOLA"),
-                    ("Felipe", "felipe123", "FELIPE"),
-                    ("Yubelkis", "yubelkis123", "YUBELKIS")
-                };
+                case "Leonel":
+                    if (contraseña == "leonel123")
+                    {
+                        ClaseSesion.UsuarioActual = "Leonel";
+                        ClaseSesion.RolActual = "ADMIN";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
 
-                string usuarioIngresado = txtUsuario.Text.Trim();
-                string contraseñaIngresada = txtPassword.Text.Trim();
+                case "Kelly":
+                    if (contraseña == "keling123")
+                    {
+                        ClaseSesion.UsuarioActual = "Keling";
+                        ClaseSesion.RolActual = "KELING";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
 
-                var usuarioValido = usuarios.FirstOrDefault(u =>
-                    u.Usuario.Equals(usuarioIngresado, StringComparison.OrdinalIgnoreCase)
-                    && u.Password == contraseñaIngresada);
+                case "Paola":
+                    if (contraseña == "paola123")
+                    {
+                        ClaseSesion.UsuarioActual = "Paola";
+                        ClaseSesion.RolActual = "PAOLA";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
 
-                if (!string.IsNullOrEmpty(usuarioValido.Usuario))
-                {
-                    ClaseSesion.UsuarioActual = usuarioValido.Usuario;
-                    ClaseSesion.RolActual = usuarioValido.Rol;
+                case "Felipe":
+                    if (contraseña == "felipe123")
+                    {
+                        ClaseSesion.UsuarioActual = "Felipe";
+                        ClaseSesion.RolActual = "FELIPE";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
 
-                    MessageBox.Show("Bienvenido " + usuarioValido.Usuario);
+                case "Yubelkis":
+                    if (contraseña == "yubelkis123")
+                    {
+                        ClaseSesion.UsuarioActual = "Yubelkis";
+                        ClaseSesion.RolActual = "YUBELKIS";
+                    }
+                    else { MessageBox.Show("Contraseña incorrecta"); return; }
+                    break;
 
-                    Menú_Principal menu = new Menú_Principal();
-                    menu.Show();
-
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Usuario o contraseña incorrectos");
-                }
+                default:
+                    MessageBox.Show("Usuario no existe");
+                    return;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+
+            MessageBox.Show("Bienvenido " + ClaseSesion.UsuarioActual + "!");
+            this.Hide();
+            new Menú_Principal().Show();
         }   
-        }
+       
 
         private void button2_Click(object sender, EventArgs e)
         {
