@@ -119,7 +119,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label17_Click_1(object sender, EventArgs e)
         {
-            Compras ventana = new Compras();
+            Compras_nuevo ventana = new Compras_nuevo();
             ventana.Show();
             this.Hide();
         }
@@ -133,7 +133,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label22_Click(object sender, EventArgs e)
         {
-            Devoluciones ventana = new Devoluciones();
+            Devoluciones_cs ventana = new Devoluciones_cs();
             ventana.Show();
             this.Hide();
         }
