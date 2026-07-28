@@ -27,7 +27,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private string _observacion;
 
         private int _idrol;
-        
+        private string _username;
+
 
         // Usuario con múltiples validaciones en una sola línea
         public string Usuario
