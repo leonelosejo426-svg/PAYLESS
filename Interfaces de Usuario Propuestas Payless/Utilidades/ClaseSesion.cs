@@ -9,8 +9,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseSesion
     {
 
-        public static string UsuarioActual;
-        public static string RolActual;
+        public static int IdUsuario { get; set; }
+        
+        public static string UsuarioActual { get; set; }
+
+        public static string RolActual { get; set; }
+
+       /* public static string UsuarioActual;
+        public static string RolActual;*/
 
         public ClaseUsuario ClaseUsuario
         {

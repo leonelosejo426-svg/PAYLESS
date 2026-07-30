@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -78,251 +79,253 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AperturaCaja.cs">
+    <Compile Include="Conexion\ConexionBD.cs" />
+    <Compile Include="Datos\UsuarioDAO.cs" />
+    <Compile Include="Formularios\AperturaCaja.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AperturaCaja.Designer.cs">
+    <Compile Include="Formularios\AperturaCaja.Designer.cs">
       <DependentUpon>AperturaCaja.cs</DependentUpon>
     </Compile>
-    <Compile Include="ArqueodeCaja.cs">
+    <Compile Include="Formularios\ArqueodeCaja.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ArqueodeCaja.Designer.cs">
+    <Compile Include="Formularios\ArqueodeCaja.Designer.cs">
       <DependentUpon>ArqueodeCaja.cs</DependentUpon>
     </Compile>
-    <Compile Include="Caja.cs">
+    <Compile Include="Formularios\Caja.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Caja.Designer.cs">
+    <Compile Include="Formularios\Caja.Designer.cs">
       <DependentUpon>Caja.cs</DependentUpon>
     </Compile>
-    <Compile Include="Categoria.cs">
+    <Compile Include="Formularios\Categoria.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Categoria.Designer.cs">
+    <Compile Include="Formularios\Categoria.Designer.cs">
       <DependentUpon>Categoria.cs</DependentUpon>
     </Compile>
-    <Compile Include="CierredeCaja.cs">
+    <Compile Include="Formularios\CierredeCaja.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CierredeCaja.Designer.cs">
+    <Compile Include="Formularios\CierredeCaja.Designer.cs">
       <DependentUpon>CierredeCaja.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClaseCategoria.cs" />
-    <Compile Include="ClaseCompra.cs" />
-    <Compile Include="ClaseDetalleCompra.cs" />
-    <Compile Include="ClaseDevolucionVenta.cs" />
-    <Compile Include="ClaseFormaPago.cs" />
-    <Compile Include="ClaseInventario.cs" />
-    <Compile Include="ClaseLogin.cs" />
-    <Compile Include="ClaseCaja.cs" />
-    <Compile Include="ClaseCliente.cs" />
-    <Compile Include="ClaseCredito.cs" />
-    <Compile Include="ClaseDetalleVenta.cs" />
-    <Compile Include="ClaseEgresoCaja.cs" />
-    <Compile Include="ClaseMarca.cs" />
-    <Compile Include="ClaseProducto.cs" />
-    <Compile Include="ClaseProveedor.cs" />
-    <Compile Include="ClaseRecuperacion.cs" />
-    <Compile Include="ClaseRol.cs" />
-    <Compile Include="ClaseSesion.cs" />
-    <Compile Include="ClaseVenta.cs" />
-    <Compile Include="Cliente.cs">
+    <Compile Include="Entidades\ClaseCategoria.cs" />
+    <Compile Include="Entidades\ClaseCompra.cs" />
+    <Compile Include="Entidades\ClaseDetalleCompra.cs" />
+    <Compile Include="Entidades\ClaseDevolucionVenta.cs" />
+    <Compile Include="Entidades\ClaseFormaPago.cs" />
+    <Compile Include="Entidades\ClaseInventario.cs" />
+    <Compile Include="Entidades\ClaseLogin.cs" />
+    <Compile Include="Entidades\ClaseCaja.cs" />
+    <Compile Include="Entidades\ClaseCliente.cs" />
+    <Compile Include="Entidades\ClaseCredito.cs" />
+    <Compile Include="Entidades\ClaseDetalleVenta.cs" />
+    <Compile Include="Entidades\ClaseEgresoCaja.cs" />
+    <Compile Include="Entidades\ClaseMarca.cs" />
+    <Compile Include="Entidades\ClaseProducto.cs" />
+    <Compile Include="Entidades\ClaseProveedor.cs" />
+    <Compile Include="Entidades\ClaseRecuperacion.cs" />
+    <Compile Include="Entidades\ClaseRol.cs" />
+    <Compile Include="Utilidades\ClaseSesion.cs" />
+    <Compile Include="Entidades\ClaseVenta.cs" />
+    <Compile Include="Formularios\Cliente.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Cliente.Designer.cs">
+    <Compile Include="Formularios\Cliente.Designer.cs">
       <DependentUpon>Cliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClaseUsuario.cs" />
-    <Compile Include="Compras.cs">
+    <Compile Include="Entidades\ClaseUsuario.cs" />
+    <Compile Include="Formularios\Compras.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Compras.Designer.cs">
+    <Compile Include="Formularios\Compras.Designer.cs">
       <DependentUpon>Compras.cs</DependentUpon>
     </Compile>
-    <Compile Include="Credito.cs">
+    <Compile Include="Formularios\Credito.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Credito.Designer.cs">
+    <Compile Include="Formularios\Credito.Designer.cs">
       <DependentUpon>Credito.cs</DependentUpon>
     </Compile>
-    <Compile Include="Devoluciones cs.cs">
+    <Compile Include="Formularios\Devoluciones cs.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Devoluciones cs.Designer.cs">
+    <Compile Include="Formularios\Devoluciones cs.Designer.cs">
       <DependentUpon>Devoluciones cs.cs</DependentUpon>
     </Compile>
     <Compile Include="Diagrama.cs" />
-    <Compile Include="Gestion de usuario.cs">
+    <Compile Include="Formularios\Gestion de usuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Gestion de usuario.Designer.cs">
+    <Compile Include="Formularios\Gestion de usuario.Designer.cs">
       <DependentUpon>Gestion de usuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="inventario.cs">
+    <Compile Include="Formularios\inventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="inventario.Designer.cs">
+    <Compile Include="Formularios\inventario.Designer.cs">
       <DependentUpon>inventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Login.cs">
+    <Compile Include="Formularios\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Login.Designer.cs">
+    <Compile Include="Formularios\Login.Designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mantenimiento.cs">
+    <Compile Include="Formularios\Mantenimiento.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Mantenimiento.Designer.cs">
+    <Compile Include="Formularios\Mantenimiento.Designer.cs">
       <DependentUpon>Mantenimiento.cs</DependentUpon>
     </Compile>
-    <Compile Include="Menú Principal.cs">
+    <Compile Include="Formularios\Menú Principal.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Menú Principal.Designer.cs">
+    <Compile Include="Formularios\Menú Principal.Designer.cs">
       <DependentUpon>Menú Principal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Nivelacion inventario.cs">
+    <Compile Include="Formularios\Nivelacion inventario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Nivelacion inventario.Designer.cs">
+    <Compile Include="Formularios\Nivelacion inventario.Designer.cs">
       <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="NivelacionInventario.cs" />
-    <Compile Include="Productos.cs">
+    <Compile Include="Entidades\NivelacionInventario.cs" />
+    <Compile Include="Formularios\Productos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Productos.Designer.cs">
+    <Compile Include="Formularios\Productos.Designer.cs">
       <DependentUpon>Productos.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Proveedores.cs">
+    <Compile Include="Formularios\Proveedores.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Proveedores.Designer.cs">
+    <Compile Include="Formularios\Proveedores.Designer.cs">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </Compile>
-    <Compile Include="Recuperacion de Cuenta.cs">
+    <Compile Include="Formularios\Recuperacion de Cuenta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Recuperacion de Cuenta.Designer.cs">
+    <Compile Include="Formularios\Recuperacion de Cuenta.Designer.cs">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reporte Compra.cs">
+    <Compile Include="Formularios\Reporte Compra.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reporte Compra.Designer.cs">
+    <Compile Include="Formularios\Reporte Compra.Designer.cs">
       <DependentUpon>Reporte Compra.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reporte Productos.cs">
+    <Compile Include="Formularios\Reporte Productos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reporte Productos.Designer.cs">
+    <Compile Include="Formularios\Reporte Productos.Designer.cs">
       <DependentUpon>Reporte Productos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reportes Venta.cs">
+    <Compile Include="Formularios\Reportes Venta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reportes Venta.Designer.cs">
+    <Compile Include="Formularios\Reportes Venta.Designer.cs">
       <DependentUpon>Reportes Venta.cs</DependentUpon>
     </Compile>
-    <Compile Include="Reportes.cs">
+    <Compile Include="Formularios\Reportes.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reportes.Designer.cs">
+    <Compile Include="Formularios\Reportes.Designer.cs">
       <DependentUpon>Reportes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Usuario.cs">
+    <Compile Include="Formularios\Usuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Usuario.Designer.cs">
+    <Compile Include="Formularios\Usuario.Designer.cs">
       <DependentUpon>Usuario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ventas.cs">
+    <Compile Include="Formularios\Ventas.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Ventas.Designer.cs">
+    <Compile Include="Formularios\Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AperturaCaja.resx">
+    <EmbeddedResource Include="Formularios\AperturaCaja.resx">
       <DependentUpon>AperturaCaja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ArqueodeCaja.resx">
+    <EmbeddedResource Include="Formularios\ArqueodeCaja.resx">
       <DependentUpon>ArqueodeCaja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Caja.resx">
+    <EmbeddedResource Include="Formularios\Caja.resx">
       <DependentUpon>Caja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Categoria.resx">
+    <EmbeddedResource Include="Formularios\Categoria.resx">
       <DependentUpon>Categoria.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CierredeCaja.resx">
+    <EmbeddedResource Include="Formularios\CierredeCaja.resx">
       <DependentUpon>CierredeCaja.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Cliente.resx">
+    <EmbeddedResource Include="Formularios\Cliente.resx">
       <DependentUpon>Cliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Compras.resx">
+    <EmbeddedResource Include="Formularios\Compras.resx">
       <DependentUpon>Compras.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Credito.resx">
+    <EmbeddedResource Include="Formularios\Credito.resx">
       <DependentUpon>Credito.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Devoluciones cs.resx">
+    <EmbeddedResource Include="Formularios\Devoluciones cs.resx">
       <DependentUpon>Devoluciones cs.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Gestion de usuario.resx">
+    <EmbeddedResource Include="Formularios\Gestion de usuario.resx">
       <DependentUpon>Gestion de usuario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="inventario.resx">
+    <EmbeddedResource Include="Formularios\inventario.resx">
       <DependentUpon>inventario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Login.resx">
+    <EmbeddedResource Include="Formularios\Login.resx">
       <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Mantenimiento.resx">
+    <EmbeddedResource Include="Formularios\Mantenimiento.resx">
       <DependentUpon>Mantenimiento.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Menú Principal.resx">
+    <EmbeddedResource Include="Formularios\Menú Principal.resx">
       <DependentUpon>Menú Principal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Nivelacion inventario.resx">
+    <EmbeddedResource Include="Formularios\Nivelacion inventario.resx">
       <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Productos.resx">
+    <EmbeddedResource Include="Formularios\Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Proveedores.resx">
+    <EmbeddedResource Include="Formularios\Proveedores.resx">
       <DependentUpon>Proveedores.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Recuperacion de Cuenta.resx">
+    <EmbeddedResource Include="Formularios\Recuperacion de Cuenta.resx">
       <DependentUpon>Recuperacion de Cuenta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reporte Compra.resx">
+    <EmbeddedResource Include="Formularios\Reporte Compra.resx">
       <DependentUpon>Reporte Compra.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reporte Productos.resx">
+    <EmbeddedResource Include="Formularios\Reporte Productos.resx">
       <DependentUpon>Reporte Productos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reportes Venta.resx">
+    <EmbeddedResource Include="Formularios\Reportes Venta.resx">
       <DependentUpon>Reportes Venta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reportes.resx">
+    <EmbeddedResource Include="Formularios\Reportes.resx">
       <DependentUpon>Reportes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Usuario.resx">
+    <EmbeddedResource Include="Formularios\Usuario.resx">
       <DependentUpon>Usuario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Ventas.resx">
+    <EmbeddedResource Include="Formularios\Ventas.resx">
       <DependentUpon>Ventas.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="Utilidades\ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -348,6 +351,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\logo payless.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Negocio\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

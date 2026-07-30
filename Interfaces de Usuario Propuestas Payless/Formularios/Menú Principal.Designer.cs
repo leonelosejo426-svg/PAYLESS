@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menú_Principal));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.lblMantenimiento = new System.Windows.Forms.Label();
             this.lblInventario = new System.Windows.Forms.Label();
@@ -43,18 +44,19 @@
             this.lblProveedores = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.lblSesion = new System.Windows.Forms.Label();
+            this.lblAcercaD = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lblUsuario = new System.Windows.Forms.Label();
+            this.lblRol = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -72,14 +74,26 @@
             this.groupBox1.Controls.Add(this.lblUsuarios);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.lblProveedores);
-            this.groupBox1.Location = new System.Drawing.Point(1, 60);
+            this.groupBox1.Location = new System.Drawing.Point(1, 75);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(251, 725);
+            this.groupBox1.Size = new System.Drawing.Size(282, 906);
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(27, 60);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(198, 134);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 132;
+            this.pictureBox1.TabStop = false;
             // 
             // label4
             // 
@@ -88,10 +102,10 @@
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(20, 680);
-            this.label4.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.label4.Location = new System.Drawing.Point(22, 850);
+            this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(100, 23);
+            this.label4.Size = new System.Drawing.Size(121, 26);
             this.label4.TabIndex = 131;
             this.label4.Text = "🆘   Ayuda";
             // 
@@ -102,10 +116,10 @@
             this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMantenimiento.ForeColor = System.Drawing.Color.Black;
-            this.lblMantenimiento.Location = new System.Drawing.Point(8, 616);
-            this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblMantenimiento.Location = new System.Drawing.Point(9, 770);
+            this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblMantenimiento.Name = "lblMantenimiento";
-            this.lblMantenimiento.Size = new System.Drawing.Size(174, 23);
+            this.lblMantenimiento.Size = new System.Drawing.Size(213, 26);
             this.lblMantenimiento.TabIndex = 130;
             this.lblMantenimiento.Text = "🛠️   Mantenimiento";
             this.lblMantenimiento.Click += new System.EventHandler(this.label3_Click_1);
@@ -117,10 +131,10 @@
             this.lblInventario.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblInventario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInventario.ForeColor = System.Drawing.Color.Black;
-            this.lblInventario.Location = new System.Drawing.Point(9, 565);
-            this.lblInventario.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblInventario.Location = new System.Drawing.Point(10, 706);
+            this.lblInventario.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblInventario.Name = "lblInventario";
-            this.lblInventario.Size = new System.Drawing.Size(134, 23);
+            this.lblInventario.Size = new System.Drawing.Size(163, 26);
             this.lblInventario.TabIndex = 129;
             this.lblInventario.Text = "🏢   Inventario";
             this.lblInventario.Click += new System.EventHandler(this.label6_Click);
@@ -131,10 +145,10 @@
             this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCaja.ForeColor = System.Drawing.Color.Black;
-            this.lblCaja.Location = new System.Drawing.Point(8, 176);
-            this.lblCaja.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCaja.Location = new System.Drawing.Point(9, 220);
+            this.lblCaja.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCaja.Name = "lblCaja";
-            this.lblCaja.Size = new System.Drawing.Size(88, 23);
+            this.lblCaja.Size = new System.Drawing.Size(105, 26);
             this.lblCaja.TabIndex = 128;
             this.lblCaja.Text = "💰   Caja";
             this.lblCaja.Click += new System.EventHandler(this.lblCaja_Click_1);
@@ -145,10 +159,10 @@
             this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCredito.ForeColor = System.Drawing.Color.Black;
-            this.lblCredito.Location = new System.Drawing.Point(9, 518);
-            this.lblCredito.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCredito.Location = new System.Drawing.Point(10, 648);
+            this.lblCredito.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCredito.Name = "lblCredito";
-            this.lblCredito.Size = new System.Drawing.Size(111, 23);
+            this.lblCredito.Size = new System.Drawing.Size(135, 26);
             this.lblCredito.TabIndex = 127;
             this.lblCredito.Text = "🧾   Credito";
             this.lblCredito.Click += new System.EventHandler(this.lblCredito_Click);
@@ -159,10 +173,10 @@
             this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVenta.ForeColor = System.Drawing.Color.Black;
-            this.lblVenta.Location = new System.Drawing.Point(9, 464);
-            this.lblVenta.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblVenta.Location = new System.Drawing.Point(10, 580);
+            this.lblVenta.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblVenta.Name = "lblVenta";
-            this.lblVenta.Size = new System.Drawing.Size(104, 23);
+            this.lblVenta.Size = new System.Drawing.Size(124, 26);
             this.lblVenta.TabIndex = 125;
             this.lblVenta.Text = "🛒   Ventas";
             this.lblVenta.Click += new System.EventHandler(this.lblVenta_Click_1);
@@ -173,10 +187,10 @@
             this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCompras.ForeColor = System.Drawing.Color.Black;
-            this.lblCompras.Location = new System.Drawing.Point(9, 412);
-            this.lblCompras.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCompras.Location = new System.Drawing.Point(10, 515);
+            this.lblCompras.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCompras.Name = "lblCompras";
-            this.lblCompras.Size = new System.Drawing.Size(122, 23);
+            this.lblCompras.Size = new System.Drawing.Size(149, 26);
             this.lblCompras.TabIndex = 124;
             this.lblCompras.Text = "💳   Compras";
             this.lblCompras.Click += new System.EventHandler(this.label21_Click);
@@ -187,10 +201,10 @@
             this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProductos.ForeColor = System.Drawing.Color.Black;
-            this.lblProductos.Location = new System.Drawing.Point(9, 307);
-            this.lblProductos.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblProductos.Location = new System.Drawing.Point(10, 384);
+            this.lblProductos.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblProductos.Name = "lblProductos";
-            this.lblProductos.Size = new System.Drawing.Size(131, 23);
+            this.lblProductos.Size = new System.Drawing.Size(160, 26);
             this.lblProductos.TabIndex = 120;
             this.lblProductos.Text = "🛍️   Productos";
             this.lblProductos.Click += new System.EventHandler(this.lblProductos_Click);
@@ -201,10 +215,10 @@
             this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUsuarios.ForeColor = System.Drawing.Color.Black;
-            this.lblUsuarios.Location = new System.Drawing.Point(8, 215);
-            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblUsuarios.Location = new System.Drawing.Point(9, 269);
+            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblUsuarios.Name = "lblUsuarios";
-            this.lblUsuarios.Size = new System.Drawing.Size(120, 23);
+            this.lblUsuarios.Size = new System.Drawing.Size(146, 26);
             this.lblUsuarios.TabIndex = 123;
             this.lblUsuarios.Text = "👥   Usuarios";
             this.lblUsuarios.Click += new System.EventHandler(this.lblUsuarios_Click);
@@ -215,10 +229,10 @@
             this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCliente.ForeColor = System.Drawing.Color.Black;
-            this.lblCliente.Location = new System.Drawing.Point(8, 262);
-            this.lblCliente.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCliente.Location = new System.Drawing.Point(9, 328);
+            this.lblCliente.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(117, 23);
+            this.lblCliente.Size = new System.Drawing.Size(140, 26);
             this.lblCliente.TabIndex = 122;
             this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
             this.lblCliente.Click += new System.EventHandler(this.lblCliente_Click);
@@ -229,10 +243,10 @@
             this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProveedores.ForeColor = System.Drawing.Color.Black;
-            this.lblProveedores.Location = new System.Drawing.Point(8, 361);
-            this.lblProveedores.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblProveedores.Location = new System.Drawing.Point(9, 451);
+            this.lblProveedores.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.lblProveedores.Name = "lblProveedores";
-            this.lblProveedores.Size = new System.Drawing.Size(153, 23);
+            this.lblProveedores.Size = new System.Drawing.Size(183, 26);
             this.lblProveedores.TabIndex = 121;
             this.lblProveedores.Text = "🚚   Proveedores";
             this.lblProveedores.Click += new System.EventHandler(this.lblProveedores_Click);
@@ -241,36 +255,36 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.Controls.Add(this.pictureBox5);
-            this.panel2.Controls.Add(this.lblSesion);
+            this.panel2.Controls.Add(this.lblAcercaD);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(1, -14);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4);
+            this.panel2.Location = new System.Drawing.Point(1, -18);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1272, 90);
+            this.panel2.Size = new System.Drawing.Size(1431, 112);
             this.panel2.TabIndex = 61;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // pictureBox5
             // 
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(1140, 25);
+            this.pictureBox5.Location = new System.Drawing.Point(1282, 31);
             this.pictureBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(89, 50);
+            this.pictureBox5.Size = new System.Drawing.Size(100, 62);
             this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox5.TabIndex = 72;
             this.pictureBox5.TabStop = false;
             // 
-            // lblSesion
+            // lblAcercaD
             // 
-            this.lblSesion.AutoSize = true;
-            this.lblSesion.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSesion.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblSesion.Location = new System.Drawing.Point(955, 52);
-            this.lblSesion.Name = "lblSesion";
-            this.lblSesion.Size = new System.Drawing.Size(114, 23);
-            this.lblSesion.TabIndex = 11;
-            this.lblSesion.Text = "Acerca De...";
+            this.lblAcercaD.AutoSize = true;
+            this.lblAcercaD.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAcercaD.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.lblAcercaD.Location = new System.Drawing.Point(1087, 64);
+            this.lblAcercaD.Name = "lblAcercaD";
+            this.lblAcercaD.Size = new System.Drawing.Size(137, 26);
+            this.lblAcercaD.TabIndex = 11;
+            this.lblAcercaD.Text = "Acerca De...";
             // 
             // label1
             // 
@@ -278,10 +292,10 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(37, 39);
+            this.label1.Location = new System.Drawing.Point(42, 49);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(244, 38);
+            this.label1.Size = new System.Drawing.Size(286, 45);
             this.label1.TabIndex = 0;
             this.label1.Text = "Menú Principal";
             // 
@@ -290,9 +304,9 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(436, 421);
+            this.label2.Location = new System.Drawing.Point(490, 526);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(486, 23);
+            this.label2.Size = new System.Drawing.Size(590, 26);
             this.label2.TabIndex = 63;
             this.label2.Text = "\"Sistema de Gestión Activo. Elige una opción del menú.\"";
             // 
@@ -302,10 +316,10 @@
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(960, 729);
+            this.button1.Location = new System.Drawing.Point(1080, 911);
             this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(173, 34);
+            this.button1.Size = new System.Drawing.Size(195, 42);
             this.button1.TabIndex = 69;
             this.button1.Text = "Cerrar Sesion";
             this.button1.UseVisualStyleBackColor = false;
@@ -317,10 +331,10 @@
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(292, 729);
+            this.button2.Location = new System.Drawing.Point(328, 911);
             this.button2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(108, 34);
+            this.button2.Size = new System.Drawing.Size(122, 42);
             this.button2.TabIndex = 70;
             this.button2.Text = "Salir";
             this.button2.UseVisualStyleBackColor = false;
@@ -330,32 +344,44 @@
             // 
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(507, 322);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4);
+            this.pictureBox3.Location = new System.Drawing.Point(570, 402);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(439, 183);
+            this.pictureBox3.Size = new System.Drawing.Size(493, 228);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 89;
             this.pictureBox3.TabStop = false;
             // 
-            // pictureBox1
+            // lblUsuario
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(24, 48);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(176, 108);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 132;
-            this.pictureBox1.TabStop = false;
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.ForeColor = System.Drawing.Color.Black;
+            this.lblUsuario.Location = new System.Drawing.Point(368, 119);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(93, 26);
+            this.lblUsuario.TabIndex = 91;
+            this.lblUsuario.Text = "Usuario";
+            // 
+            // lblRol
+            // 
+            this.lblRol.AutoSize = true;
+            this.lblRol.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblRol.ForeColor = System.Drawing.Color.Black;
+            this.lblRol.Location = new System.Drawing.Point(368, 187);
+            this.lblRol.Name = "lblRol";
+            this.lblRol.Size = new System.Drawing.Size(48, 26);
+            this.lblRol.TabIndex = 92;
+            this.lblRol.Text = "Rol";
             // 
             // Menú_Principal
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1264, 775);
+            this.ClientSize = new System.Drawing.Size(1422, 969);
+            this.Controls.Add(this.lblRol);
+            this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -370,11 +396,11 @@
             this.Load += new System.EventHandler(this.Menú_Principal_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -384,7 +410,7 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label lblSesion;
+        private System.Windows.Forms.Label lblAcercaD;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
@@ -403,5 +429,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.Label lblRol;
     }
 }

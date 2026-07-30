@@ -24,7 +24,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void label15_Click(object sender, EventArgs e)
         {
 
-            if (ClaseSesion.RolActual != "ADMIN")
+            if (ClaseSesion.RolActual != "Administrador")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
@@ -60,7 +60,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
 
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
+            if (ClaseSesion.RolActual != "Administrador" &&
+                ClaseSesion.RolActual != "Gerente")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
@@ -74,7 +75,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void label17_Click(object sender, EventArgs e)
         {
 
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
+            if (ClaseSesion.RolActual != "Administrador" &&
+                ClaseSesion.RolActual != "Gerente")    
             {
                 MessageBox.Show("No tienes acceso");
                 return;
@@ -89,7 +91,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
 
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
+            if (ClaseSesion.RolActual != "Administrador" &&
+     ClaseSesion.RolActual != "Gerente")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
@@ -107,9 +110,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Menú_Principal_Load(object sender, EventArgs e)
         {
-            lblSesion.Text =  ClaseSesion.UsuarioActual;
+            lblUsuario.Text = "Usuario: " +  ClaseSesion.UsuarioActual;
+            lblRol.Text = "Rol: " + ClaseSesion.RolActual;
 
-         
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;
@@ -124,45 +127,37 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             
             switch (ClaseSesion.RolActual)
             {
-                case "ADMIN":
+                case "Administrador":
+
                     lblCaja.Enabled = true;
-                    lblProveedores.Enabled = true;
-                    lblProductos.Enabled = true;
+                    lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
-                    lblCompras.Enabled = true;
                     lblUsuarios.Enabled = true;
-                    lblCliente.Enabled = true;
-                    lblCredito.Enabled = true;
-                    lblInventario.Enabled = true;
                     lblMantenimiento.Enabled = true;
+
                     break;
 
-                case "KELLY":
+                case "Gerente":
+
                     lblCaja.Enabled = true;
-                    lblProveedores.Enabled = true;
-                    break;
-
-                case "PAOLA":
-                   
-                    lblInventario.Enabled = true;
-                    break;
-
-                case "FELIPE":
                     lblCompras.Enabled = true;
-                    lblUsuarios.Enabled = true;
+                    lblVenta.Enabled = true;
+
                     break;
 
-                case "YUBELKIS":
-                    lblCliente.Enabled = true;
-                    lblCredito.Enabled = true;
-                    lblMantenimiento.Enabled= true;
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
                     break;
             }
         }
 
         private void lblCaja_Click(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
+            if (ClaseSesion.RolActual != "Administrador" &&
+            ClaseSesion.RolActual != "Gerente" && ClaseSesion.RolActual != "Cajero")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
@@ -174,7 +169,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void lblVenta_Click(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
+            if(ClaseSesion.RolActual != "Administrador" &&
+             ClaseSesion.RolActual != "Gerente" && ClaseSesion.RolActual != "Cajero")
             {
                 MessageBox.Show("No tienes acceso");
                 return;
@@ -191,6 +187,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label21_Click(object sender, EventArgs e)
         {
+            if (ClaseSesion.RolActual != "Administrador" &&
+                ClaseSesion.RolActual != "Gerente")
+            {
+                MessageBox.Show("No tienes acceso.");
+                return;
+            }
+
             Compras_nuevo ventana = new Compras_nuevo();
             ventana.Show();
             this.Hide();
@@ -224,6 +227,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void lblUsuarios_Click(object sender, EventArgs e)
         {
+            if (ClaseSesion.RolActual != "Administrador")
+            {
+                MessageBox.Show("No tienes acceso.");
+                return;
+            }
+
             Usuario ventana = new Usuario();
             ventana.Show();
             this.Hide();
@@ -275,6 +284,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label3_Click_1(object sender, EventArgs e)
         {
+            if (ClaseSesion.RolActual != "Administrador")
+            {
+                MessageBox.Show("No tienes acceso.");
+                return;
+            }
+
             Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
             this.Hide();
