@@ -99,6 +99,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
+
         private void btnValidar_Click(object sender, EventArgs e)
         {
             RecuperacionDAO dao = new RecuperacionDAO();
