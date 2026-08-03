@@ -14,6 +14,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     public partial class Caja : Form
     {
 
+
         public Caja()
         {
             InitializeComponent();
@@ -22,14 +23,50 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Caja_Load(object sender, EventArgs e)
         {
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false; // Asegúrate que en el diseño se llame así
+
+
+            lblCliente.Enabled = false;
+            lblCredito.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
+
 
             
-
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
-            {
-                MessageBox.Show("No tienes acceso");
-                this.Close();
-            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -163,6 +200,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
             this.Hide();
+        }
+
+        private void groupBox3_Enter_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

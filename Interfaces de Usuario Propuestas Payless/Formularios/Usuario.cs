@@ -47,14 +47,48 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Usuario_Load(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "FELIPE")
+            
+
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+
+
+            lblCliente.Enabled = false;
+            lblCredito.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
             {
-                MessageBox.Show("No tienes acceso");
+                case "Administrador":
 
-                new Menú_Principal().Show(); 
-                this.Hide();
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
 
-                return;
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
             }
 
 

@@ -1,5 +1,6 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
 using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +49,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Bienvenido " + ClaseSesion.RolActual + " " + ClaseSesion.UsuarioActual);
 
                 Menú_Principal ventana = new Menú_Principal();
-                    ventana.Show();
+                ventana.Show();
                 this.Hide();
             }
 
@@ -150,6 +151,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("Error al conectar a PostgreSQL.");
             }
+        }
+
+        private void Login_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
