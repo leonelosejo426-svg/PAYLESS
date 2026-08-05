@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    class ClaseCliente
+    class Cliente
     {
 
         private int _idCliente;

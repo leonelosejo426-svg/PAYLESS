@@ -131,7 +131,9 @@
     <Compile Include="Entidades\ClaseInventario.cs" />
     <Compile Include="Entidades\ClaseLogin.cs" />
     <Compile Include="Entidades\ClaseCaja.cs" />
-    <Compile Include="Entidades\ClaseCliente.cs" />
+    <Compile Include="Entidades\ClaseCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Entidades\ClaseCredito.cs" />
     <Compile Include="Entidades\ClaseDetalleVenta.cs" />
     <Compile Include="Entidades\ClaseEgresoCaja.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Entidades\ClaseProveedor.cs" />
     <Compile Include="Entidades\ClaseRecuperacion.cs" />
     <Compile Include="Entidades\ClaseRol.cs" />
+    <Compile Include="Formularios\ClienteDAO.cs" />
     <Compile Include="Formularios\SubClienteAgregar.cs">
       <SubType>Form</SubType>
     </Compile>
