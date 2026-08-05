@@ -28,17 +28,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             public DateTime FechaRegistro { get; set; }
         }
 
-        }
-
-
-
-
-
-
-
-
-
-
         private int _idProveedor;
         private string _nombre;
         private string _telefono;
