@@ -9,17 +9,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseDetalleVenta
     {
 
-        private int _idDetalleVenta;
 
-        private int _idVenta;
-        private int _idProducto;
-        private int _idCredito;
+        public int IdVenta { get; set; }
 
-        private int _cantidad;
-        private decimal precio_unitario;
-        private string talla_vendida;
+        public int IdProductoTalla { get; set; }
 
-        private decimal _subtotal;
+        public int Cantidad { get; set; }
+
+        public decimal PrecioUnitario { get; set; }
+
+        public decimal Subtotal { get; set; }
 
     }
 }

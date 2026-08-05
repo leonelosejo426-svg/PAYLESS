@@ -9,16 +9,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseCaja
     {
 
-        private int _idCaja;
+        public int IdCaja { get; set; }
 
-        private DateTime _fechaApertura;
-        private DateTime _fechaCierre;
+        public DateTime FechaApertura { get; set; }
 
-        private decimal _saldoInicial;
-        private decimal _saldoFinal;
-        private decimal _tipoCambio;
+        public DateTime? FechaCierre { get; set; }
 
-        private int _idUsuario;
+        public decimal SaldoInicial { get; set; }
+
+        public decimal MontoEsperado { get; set; }
+
+        public decimal MontoArqueo { get; set; }
+
+        public decimal Diferencia { get; set; }
+
+        public decimal SaldoFinal { get; set; }
+
+        public decimal TipoCambioDolar { get; set; }
+
+        public string EstadoCaja { get; set; }
+
+        public int IdUsuario { get; set; }
 
         internal ClaseEgresoCaja ClaseEgresoCaja
         {

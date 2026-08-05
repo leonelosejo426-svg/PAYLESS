@@ -13,21 +13,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
 
-        private int _idUsuario;
+        public int IdUsuario { get; set; }
 
-        private string _nombre;
+        public string NombreUsuario { get; set; }
 
-        
+        public string NombreCompleto { get; set; }
 
-        private string _password;
+        public string Correo { get; set; }
 
-        private bool _estado_usuario;
-        private DateTime _fecha_creacion;
-        private string _correo;
-        private string _observacion;
+        public string Password { get; set; }
 
-        private int _idrol;
-        private string _username;
+        public bool Estado { get; set; }
+
+        public string CodigoRecuperacion { get; set; }
+
+        public DateTime? VenceCodigo { get; set; }
+
+        public string Telefono { get; set; }
+
+        public string Cedula { get; set; }
+
+        public int IdRol { get; set; }
 
 
         // Usuario con múltiples validaciones en una sola línea
