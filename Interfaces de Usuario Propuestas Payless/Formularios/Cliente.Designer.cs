@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliente));
             this.CBbusqueda = new System.Windows.Forms.ComboBox();
             this.DGVtabla1 = new System.Windows.Forms.DataGridView();
@@ -39,15 +39,8 @@
             this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnEliminar = new System.Windows.Forms.Button();
-            this.btnGuardar = new System.Windows.Forms.Button();
-            this.CBestado = new System.Windows.Forms.ComboBox();
-            this.txtcodigo = new System.Windows.Forms.TextBox();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
-            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.txtNombreCliente = new System.Windows.Forms.TextBox();
             this.LblNombre = new System.Windows.Forms.Label();
-            this.Lbltelefono = new System.Windows.Forms.Label();
-            this.Lblcodigo = new System.Windows.Forms.Label();
-            this.LblEstado = new System.Windows.Forms.Label();
             this.LblBusqueda = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -68,11 +61,9 @@
             this.label18 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnImprimir = new System.Windows.Forms.Button();
-            this.LblNumero = new System.Windows.Forms.Label();
-            this.txtcedula = new System.Windows.Forms.TextBox();
-            this.btnCargar = new System.Windows.Forms.Button();
             this.btnbuscar = new System.Windows.Forms.Button();
+            this.btnAgregar = new System.Windows.Forms.Button();
+            this.btnEditar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -87,7 +78,7 @@
             "Nombre",
             "Numero de cédula",
             "Código"});
-            this.CBbusqueda.Location = new System.Drawing.Point(333, 192);
+            this.CBbusqueda.Location = new System.Drawing.Point(481, 104);
             this.CBbusqueda.Name = "CBbusqueda";
             this.CBbusqueda.Size = new System.Drawing.Size(174, 21);
             this.CBbusqueda.TabIndex = 27;
@@ -95,14 +86,14 @@
             // 
             // DGVtabla1
             // 
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DGVtabla1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGVtabla1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.nombre,
@@ -111,7 +102,7 @@
             this.numero_cedula,
             this.estado});
             this.DGVtabla1.EnableHeadersVisualStyles = false;
-            this.DGVtabla1.Location = new System.Drawing.Point(168, 299);
+            this.DGVtabla1.Location = new System.Drawing.Point(172, 153);
             this.DGVtabla1.Name = "DGVtabla1";
             this.DGVtabla1.RowHeadersWidth = 62;
             this.DGVtabla1.Size = new System.Drawing.Size(833, 270);
@@ -121,8 +112,8 @@
             // nombre
             // 
             this.nombre.DataPropertyName = "Nombre";
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.nombre.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nombre.DefaultCellStyle = dataGridViewCellStyle2;
             this.nombre.HeaderText = "Nombre del cliente";
             this.nombre.MinimumWidth = 8;
             this.nombre.Name = "nombre";
@@ -148,6 +139,7 @@
             // 
             this.numero_cedula.DataPropertyName = "Cedula";
             this.numero_cedula.HeaderText = "Numero de Cédula";
+            this.numero_cedula.MinimumWidth = 6;
             this.numero_cedula.Name = "numero_cedula";
             this.numero_cedula.Width = 150;
             // 
@@ -164,62 +156,22 @@
             this.btnEliminar.BackColor = System.Drawing.Color.Black;
             this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(674, 244);
+            this.btnEliminar.Location = new System.Drawing.Point(923, 91);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 43);
+            this.btnEliminar.Size = new System.Drawing.Size(78, 43);
             this.btnEliminar.TabIndex = 25;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.button2_Click);
             // 
-            // btnGuardar
+            // txtNombreCliente
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.Black;
-            this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(841, 244);
-            this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 43);
-            this.btnGuardar.TabIndex = 24;
-            this.btnGuardar.Text = "Guardar";
-            this.btnGuardar.UseVisualStyleBackColor = false;
-            this.btnGuardar.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // CBestado
-            // 
-            this.CBestado.FormattingEnabled = true;
-            this.CBestado.Items.AddRange(new object[] {
-            "Activo",
-            "Inactivo"});
-            this.CBestado.Location = new System.Drawing.Point(171, 192);
-            this.CBestado.Name = "CBestado";
-            this.CBestado.Size = new System.Drawing.Size(131, 21);
-            this.CBestado.TabIndex = 23;
-            this.CBestado.SelectedIndexChanged += new System.EventHandler(this.CBestado_SelectedIndexChanged);
-            // 
-            // txtcodigo
-            // 
-            this.txtcodigo.Location = new System.Drawing.Point(829, 128);
-            this.txtcodigo.Name = "txtcodigo";
-            this.txtcodigo.Size = new System.Drawing.Size(152, 20);
-            this.txtcodigo.TabIndex = 22;
-            // 
-            // txtTelefono
-            // 
-            this.txtTelefono.Location = new System.Drawing.Point(675, 128);
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(143, 20);
-            this.txtTelefono.TabIndex = 21;
-            this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
-            // 
-            // txtNombre
-            // 
-            this.txtNombre.BackColor = System.Drawing.Color.White;
-            this.txtNombre.Location = new System.Drawing.Point(171, 128);
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(286, 20);
-            this.txtNombre.TabIndex = 20;
-            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
+            this.txtNombreCliente.BackColor = System.Drawing.Color.White;
+            this.txtNombreCliente.Location = new System.Drawing.Point(168, 104);
+            this.txtNombreCliente.Name = "txtNombreCliente";
+            this.txtNombreCliente.Size = new System.Drawing.Size(286, 20);
+            this.txtNombreCliente.TabIndex = 20;
+            this.txtNombreCliente.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // LblNombre
             // 
@@ -227,48 +179,11 @@
             this.LblNombre.BackColor = System.Drawing.Color.White;
             this.LblNombre.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNombre.ForeColor = System.Drawing.Color.Black;
-            this.LblNombre.Location = new System.Drawing.Point(174, 105);
+            this.LblNombre.Location = new System.Drawing.Point(168, 82);
             this.LblNombre.Name = "LblNombre";
             this.LblNombre.Size = new System.Drawing.Size(115, 19);
             this.LblNombre.TabIndex = 19;
             this.LblNombre.Text = "Nombre Cliente";
-            // 
-            // Lbltelefono
-            // 
-            this.Lbltelefono.AutoSize = true;
-            this.Lbltelefono.BackColor = System.Drawing.Color.White;
-            this.Lbltelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbltelefono.ForeColor = System.Drawing.Color.Black;
-            this.Lbltelefono.Location = new System.Drawing.Point(681, 104);
-            this.Lbltelefono.Name = "Lbltelefono";
-            this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
-            this.Lbltelefono.TabIndex = 18;
-            this.Lbltelefono.Text = "Télefono";
-            this.Lbltelefono.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // Lblcodigo
-            // 
-            this.Lblcodigo.AutoSize = true;
-            this.Lblcodigo.BackColor = System.Drawing.Color.White;
-            this.Lblcodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lblcodigo.ForeColor = System.Drawing.Color.Black;
-            this.Lblcodigo.Location = new System.Drawing.Point(825, 106);
-            this.Lblcodigo.Name = "Lblcodigo";
-            this.Lblcodigo.Size = new System.Drawing.Size(56, 19);
-            this.Lblcodigo.TabIndex = 17;
-            this.Lblcodigo.Text = "Código";
-            // 
-            // LblEstado
-            // 
-            this.LblEstado.AutoSize = true;
-            this.LblEstado.BackColor = System.Drawing.Color.White;
-            this.LblEstado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblEstado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.LblEstado.Location = new System.Drawing.Point(170, 171);
-            this.LblEstado.Name = "LblEstado";
-            this.LblEstado.Size = new System.Drawing.Size(55, 19);
-            this.LblEstado.TabIndex = 16;
-            this.LblEstado.Text = "Estado";
             // 
             // LblBusqueda
             // 
@@ -276,7 +191,7 @@
             this.LblBusqueda.BackColor = System.Drawing.Color.White;
             this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
-            this.LblBusqueda.Location = new System.Drawing.Point(335, 168);
+            this.LblBusqueda.Location = new System.Drawing.Point(478, 82);
             this.LblBusqueda.Name = "LblBusqueda";
             this.LblBusqueda.Size = new System.Drawing.Size(82, 19);
             this.LblBusqueda.TabIndex = 15;
@@ -552,65 +467,43 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Clientes";
             // 
-            // btnImprimir
-            // 
-            this.btnImprimir.BackColor = System.Drawing.Color.Black;
-            this.btnImprimir.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImprimir.ForeColor = System.Drawing.Color.White;
-            this.btnImprimir.Location = new System.Drawing.Point(922, 244);
-            this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(75, 43);
-            this.btnImprimir.TabIndex = 85;
-            this.btnImprimir.Text = "Imprimir";
-            this.btnImprimir.UseVisualStyleBackColor = false;
-            this.btnImprimir.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // LblNumero
-            // 
-            this.LblNumero.AutoSize = true;
-            this.LblNumero.BackColor = System.Drawing.Color.White;
-            this.LblNumero.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblNumero.ForeColor = System.Drawing.Color.Black;
-            this.LblNumero.Location = new System.Drawing.Point(490, 103);
-            this.LblNumero.Name = "LblNumero";
-            this.LblNumero.Size = new System.Drawing.Size(134, 19);
-            this.LblNumero.TabIndex = 86;
-            this.LblNumero.Text = "Numero de Cédula";
-            // 
-            // txtcedula
-            // 
-            this.txtcedula.BackColor = System.Drawing.Color.White;
-            this.txtcedula.Location = new System.Drawing.Point(471, 129);
-            this.txtcedula.Name = "txtcedula";
-            this.txtcedula.Size = new System.Drawing.Size(190, 20);
-            this.txtcedula.TabIndex = 87;
-            this.txtcedula.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtcedula_KeyPress);
-            // 
-            // btnCargar
-            // 
-            this.btnCargar.BackColor = System.Drawing.Color.Black;
-            this.btnCargar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCargar.ForeColor = System.Drawing.Color.White;
-            this.btnCargar.Location = new System.Drawing.Point(760, 244);
-            this.btnCargar.Name = "btnCargar";
-            this.btnCargar.Size = new System.Drawing.Size(75, 43);
-            this.btnCargar.TabIndex = 88;
-            this.btnCargar.Text = "Cargar";
-            this.btnCargar.UseVisualStyleBackColor = false;
-            this.btnCargar.Click += new System.EventHandler(this.btnCargar_Click);
-            // 
             // btnbuscar
             // 
             this.btnbuscar.BackColor = System.Drawing.Color.Black;
             this.btnbuscar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnbuscar.ForeColor = System.Drawing.Color.White;
-            this.btnbuscar.Location = new System.Drawing.Point(527, 170);
+            this.btnbuscar.Location = new System.Drawing.Point(667, 92);
             this.btnbuscar.Name = "btnbuscar";
-            this.btnbuscar.Size = new System.Drawing.Size(75, 43);
+            this.btnbuscar.Size = new System.Drawing.Size(90, 40);
             this.btnbuscar.TabIndex = 89;
             this.btnbuscar.Text = "Buscar";
             this.btnbuscar.UseVisualStyleBackColor = false;
             this.btnbuscar.Click += new System.EventHandler(this.btnbuscar_Click);
+            // 
+            // btnAgregar
+            // 
+            this.btnAgregar.Font = new System.Drawing.Font("Times New Roman", 8.25F);
+            this.btnAgregar.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.btnAgregar.Location = new System.Drawing.Point(762, 94);
+            this.btnAgregar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnAgregar.Name = "btnAgregar";
+            this.btnAgregar.Size = new System.Drawing.Size(74, 36);
+            this.btnAgregar.TabIndex = 90;
+            this.btnAgregar.Text = "Agregar";
+            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click_3);
+            // 
+            // btnEditar
+            // 
+            this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.Location = new System.Drawing.Point(840, 93);
+            this.btnEditar.Margin = new System.Windows.Forms.Padding(2);
+            this.btnEditar.Name = "btnEditar";
+            this.btnEditar.Size = new System.Drawing.Size(74, 36);
+            this.btnEditar.TabIndex = 91;
+            this.btnEditar.Text = " Editar";
+            this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // Cliente
             // 
@@ -618,25 +511,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1009, 712);
+            this.Controls.Add(this.btnEditar);
+            this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnbuscar);
-            this.Controls.Add(this.btnCargar);
-            this.Controls.Add(this.txtcedula);
-            this.Controls.Add(this.LblNumero);
-            this.Controls.Add(this.btnImprimir);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CBbusqueda);
             this.Controls.Add(this.DGVtabla1);
             this.Controls.Add(this.btnEliminar);
-            this.Controls.Add(this.btnGuardar);
-            this.Controls.Add(this.CBestado);
-            this.Controls.Add(this.txtcodigo);
-            this.Controls.Add(this.txtTelefono);
-            this.Controls.Add(this.txtNombre);
+            this.Controls.Add(this.txtNombreCliente);
             this.Controls.Add(this.LblNombre);
-            this.Controls.Add(this.Lbltelefono);
-            this.Controls.Add(this.Lblcodigo);
-            this.Controls.Add(this.LblEstado);
             this.Controls.Add(this.LblBusqueda);
             this.Name = "Cliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -659,15 +543,8 @@
         private System.Windows.Forms.ComboBox CBbusqueda;
         private System.Windows.Forms.DataGridView DGVtabla1;
         private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.ComboBox CBestado;
-        private System.Windows.Forms.TextBox txtcodigo;
-        private System.Windows.Forms.TextBox txtTelefono;
-        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.TextBox txtNombreCliente;
         private System.Windows.Forms.Label LblNombre;
-        private System.Windows.Forms.Label Lbltelefono;
-        private System.Windows.Forms.Label Lblcodigo;
-        private System.Windows.Forms.Label LblEstado;
         private System.Windows.Forms.Label LblBusqueda;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel2;
@@ -683,20 +560,18 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Button btnImprimir;
-        private System.Windows.Forms.Label LblNumero;
-        private System.Windows.Forms.TextBox txtcedula;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnCargar;
         private System.Windows.Forms.Button btnbuscar;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn telefono;
         private System.Windows.Forms.DataGridViewTextBoxColumn codigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn numero_cedula;
         private System.Windows.Forms.DataGridViewTextBoxColumn estado;
+        private System.Windows.Forms.Button btnAgregar;
+        private System.Windows.Forms.Button btnEditar;
     }
 }
