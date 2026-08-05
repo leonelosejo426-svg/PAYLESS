@@ -9,15 +9,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseLogin
     {
 
-        private int _idLogin;
+        public int IdLogin { get; set; }
 
-        private DateTime _fechaIngreso;
+        public DateTime FechaIngreso { get; set; }
 
-        private TimeSpan _horaIngreso;
+        public TimeSpan HoraIngreso { get; set; }
 
-        private string _estadoLogin;
+        public string EstadoLogin { get; set; }
 
-        private int _idUsuario;
+        public int IdUsuario { get; set; }
 
     }
 }

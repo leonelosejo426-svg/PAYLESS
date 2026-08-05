@@ -94,6 +94,7 @@
     <Compile Include="Datos\CorreoDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
     <Compile Include="Datos\UsuarioDAO.cs" />
+    <Compile Include="Entidades\ClaseProductoTalla.cs" />
     <Compile Include="Formularios\AperturaCaja.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -127,19 +128,16 @@
     <Compile Include="Entidades\ClaseCategoria.cs" />
     <Compile Include="Entidades\ClaseCompra.cs" />
     <Compile Include="Entidades\ClaseDetalleCompra.cs" />
-    <Compile Include="Entidades\ClaseDevolucionVenta.cs" />
     <Compile Include="Entidades\ClaseFormaPago.cs" />
     <Compile Include="Entidades\ClaseInventario.cs" />
     <Compile Include="Entidades\ClaseLogin.cs" />
     <Compile Include="Entidades\ClaseCaja.cs" />
     <Compile Include="Entidades\ClaseCliente.cs" />
-    <Compile Include="Entidades\ClaseCredito.cs" />
     <Compile Include="Entidades\ClaseDetalleVenta.cs" />
     <Compile Include="Entidades\ClaseEgresoCaja.cs" />
     <Compile Include="Entidades\ClaseMarca.cs" />
     <Compile Include="Entidades\ClaseProducto.cs" />
     <Compile Include="Entidades\ClaseProveedor.cs" />
-    <Compile Include="Entidades\ClaseRecuperacion.cs" />
     <Compile Include="Entidades\ClaseRol.cs" />
     <Compile Include="Formularios\SubClienteAgregar.cs">
       <SubType>Form</SubType>
@@ -211,7 +209,6 @@
     <Compile Include="Formularios\Nivelacion inventario.Designer.cs">
       <DependentUpon>Nivelacion inventario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Entidades\NivelacionInventario.cs" />
     <Compile Include="Formularios\Productos.cs">
       <SubType>Form</SubType>
     </Compile>

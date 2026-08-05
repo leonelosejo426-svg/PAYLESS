@@ -8,13 +8,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     internal class ClaseCompra
     {
-        private int _idCompra;
+        public int IdCompra { get; set; }
 
-        private DateTime _fecha;
+        public DateTime Fecha { get; set; }
 
-        private decimal _total;
+        public decimal Total { get; set; }
 
-        private int _idProveedor;
+        public bool Estado { get; set; }
+
+        public int IdProveedor { get; set; }
 
         internal ClaseDetalleCompra ClaseDetalleCompra
         {

@@ -9,25 +9,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseProducto
     {
 
-       
-     private int _idProducto;
-     private string _nombre;
-     
-    
-     
-     
-     
-     private string _codigo;
-     
-     private DateTime _fechaCreacion;
-     private DateTime _fechaActualizacion;
-     
-     private bool _estado_producto;
-     
-     private int _idCategoria;
-     private int _idMarca;
-     private int _idProveedor;
-     private int Id_inventario;
+        public int IdProducto { get; set; }
+
+        public string Nombre { get; set; }
+
+        public string Codigo { get; set; }
+
+        public decimal PrecioVenta { get; set; }
+
+        public bool EstadoProducto { get; set; }
+
+        public int IdCategoria { get; set; }
+
+        public int IdMarca { get; set; }
 
         internal ClaseDetalleVenta ClaseDetalleVenta
         {

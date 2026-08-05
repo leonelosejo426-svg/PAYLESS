@@ -9,10 +9,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseCategoria
     {
 
-        private int _idcategoria;
-        private string _nombre_categoria;
-        private string _decripcion;
-        private bool _estado;
+        public int IdCategoria { get; set; }
+
+        public string NombreCategoria { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public bool Estado { get; set; }
 
         internal ClaseProducto ClaseProducto
         {
