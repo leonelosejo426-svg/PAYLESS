@@ -9,15 +9,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     class ClaseCliente
     {
 
-        private int _idCliente;
+        public int IdCliente { get; set; }
 
-        private string _nombre;
+        public string Codigo { get; set; }
 
-        private string _telefono;
+        public string Nombre { get; set; }
 
-        private string _direccion;
+        public string Cedula { get; set; }
 
-        private bool _estado;
+        public string Telefono { get; set; }
+
+        public string Direccion { get; set; }
+
+        public bool Estado { get; set; }
 
         internal ClaseVenta ClaseVenta
         {
@@ -27,12 +31,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
-        internal Clase_credito Clase_credito
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        
     }
 }

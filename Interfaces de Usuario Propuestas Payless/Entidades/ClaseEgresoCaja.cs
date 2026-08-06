@@ -9,14 +9,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseEgresoCaja
     {
 
-        private int _idEgreso;
+        public int IdEgreso { get; set; }
 
-        private string _descripcion;
+        public string Descripcion { get; set; }
 
-        private decimal _monto;
+        public decimal Monto { get; set; }
 
-        private DateTime _fecha;
+        public DateTime Fecha { get; set; }
 
-        private int _idCaja;
+        public int IdCaja { get; set; }
     }
 }

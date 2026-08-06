@@ -8,17 +8,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     internal class ClaseFormaPago
     {
-        private int _id_pago;
-        private string _tipo_tarjeta;
-        private string _numero_tarjeta;
-        private decimal _monto_tarjeta;
-        private int _id_venta;
-        private int _id_credito;
-        private decimal _cambio;
-        private decimal _monto_cordobas;
-        private decimal _monto_dolares;
-        private string _tipo_pago;
-       
+        public int IdPago { get; set; }
+
+        public string TipoPago { get; set; }
+
+        public decimal MontoCordobas { get; set; }
+
+        public decimal MontoDolares { get; set; }
+
+        public decimal TipoCambio { get; set; }
+
+        public decimal Cambio { get; set; }
+
+        public string TipoTarjeta { get; set; }
+
+        public decimal MontoTarjeta { get; set; }
+
+        public int IdVenta { get; set; }
+
 
 
 
