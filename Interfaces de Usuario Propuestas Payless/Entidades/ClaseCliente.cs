@@ -31,12 +31,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
-        internal Clase_credito Clase_credito
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        
     }
 }
