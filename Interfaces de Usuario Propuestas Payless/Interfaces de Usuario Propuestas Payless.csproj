@@ -146,6 +146,12 @@
     <Compile Include="Formularios\EditarCliente.Designer.cs">
       <DependentUpon>EditarCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Formularios\EditarProducto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\EditarProducto.Designer.cs">
+      <DependentUpon>EditarProducto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilidades\ClaseSesion.cs" />
     <Compile Include="Entidades\ClaseVenta.cs" />
     <Compile Include="Formularios\Cliente.cs">
@@ -296,6 +302,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\EditarCliente.resx">
       <DependentUpon>EditarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\EditarProducto.resx">
+      <DependentUpon>EditarProducto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Gestion de usuario.resx">
       <DependentUpon>Gestion de usuario.cs</DependentUpon>
