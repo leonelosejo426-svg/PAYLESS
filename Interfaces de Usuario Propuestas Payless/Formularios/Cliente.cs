@@ -15,31 +15,34 @@ using System.Windows.Forms;
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
 
-
+    
 
     public partial class Cliente : Form
     {
-        ClaseUsuario usuarioActual;
-
-        //lista cliente
-        List<cliente> listacliente = new List<cliente>();
+        ClienteDAO clienteDAO = new ClienteDAO(); // 👈 CONEXIÓN AQUÍ
 
 
         public Cliente()
         {
             InitializeComponent();
-
-
+            CargarClientes();
         }
-        //Clase cliente
-        public class cliente
+
+        private void CargarClientes()
         {
-            public string Nombre { get; set; }
-            public string Telefono { get; set; }
-            public string Codigo { get; set; }
-            public string Cedula { get; set; }
-            public string Estado { get; set; }
+            try
+            {
+                DGVtabla1.DataSource = clienteDAO.MostrarClientes();
+                AjustarColumnas();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar clientes: " + ex.Message);
+
+
+            }
         }
+        
 
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -69,17 +72,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Cliente_Load(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "YUBELKIS")
-            {
-                MessageBox.Show("No tienes acceso");
-
-                new Menú_Principal().Show();
-                this.Hide();
-
-                return;
-            }
-
+            DGVtabla1.DataSource = clienteDAO.MostrarClientes();
         }
+            
+
+        
 
         private void label15_Click(object sender, EventArgs e)
         {
@@ -160,87 +157,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
-
-        private void MostrarClientes()
-        {
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = listacliente;
-
-            AjustarColumnas();
-        }
-
         private void button2_Click(object sender, EventArgs e)
         {
-            if (DGVtabla1.CurrentRow != null)
-            {
-                int indice = DGVtabla1.CurrentRow.Index;
-
-                DialogResult respuesta = MessageBox.Show(
-                    "¿ Desea eliminar a este cliente ?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (respuesta == DialogResult.Yes)
-                {
-                    listacliente.RemoveAt(indice);
-
-                    MostrarClientes();
-
-                    MessageBox.Show("Cliente eliminado correctamente");
-                }
+               
             }
-            else
-            {
-                MessageBox.Show("Seleccione un cliente");
-            }
-
-        }
 
 
         private void button4_Click(object sender, EventArgs e)
         {
-            StringBuilder html = new StringBuilder();
 
-            html.Append("<html>");
-            html.Append("<head>");
-            html.Append("<title>Reporte</title>");
-            html.Append("</head>");
-            html.Append("<body>");
-
-            html.Append("<h1>REPORTE DE CLIENTES</h1>");
-            html.Append("<table border='1' cellpadding='5'>");
-
-            html.Append("<tr>");
-            html.Append("<th>Nombre</th>");
-            html.Append("<th>Telefono</th>");
-            html.Append("<th>Código</th>");
-            html.Append("<th>Cédula</th>");
-            html.Append("<th>Estado</th>");
-            html.Append("</tr>");
-
-            foreach (cliente p in listacliente)
-            {
-                html.Append("<tr>");
-                html.Append("<td>" + p.Nombre + "</td>");
-                html.Append("<td>" + p.Telefono + "</td>");
-                html.Append("<td>" + p.Codigo + "</td>");
-                html.Append("<td>" + p.Cedula + "</td>");
-                html.Append("<td>" + p.Estado + "</td>");
-                html.Append("</tr>");
-            }
-
-            html.Append("</table>");
-            html.Append("</body>");
-            html.Append("</html>");
-
-            File.WriteAllText("Reporte.html", html.ToString());
-            Process.Start("Reporte.html");
-
-            MessageBox.Show("Reporte generado");
         }
-
+          
         private void label10_Click(object sender, EventArgs e)
         {
             Ventas ventana = new Ventas();
@@ -257,21 +184,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void CBbusqueda_SelectedIndexChanged(object sender, EventArgs e)
         {
-            txtNombreCliente.Visible = false;
-
-
-            txtNombreCliente.Clear();
-
-
-            switch (CBbusqueda.Text)
-            {
-                case "Nombre":
-                    txtNombreCliente.Visible = true;
-                    LblNombre.Visible = true;
-                    txtNombreCliente.Focus();
-                    break;
-            }
-
+            DGVtabla1.DataSource =
+        clienteDAO.BuscarClientes("nombre", CmbBusqueda.Text);
         }
 
         private void CBestado_SelectedIndexChanged(object sender, EventArgs e)
@@ -281,66 +195,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
-            if (File.Exists("clientes.json"))
-            {
-                //leer archivo json
-                string json = File.ReadAllText("clientes.json");
-
-                //Convertir Json a lista 
-                listacliente = JsonConvert.DeserializeObject<List<cliente>>(json);
-
-                // Mostrar en datagridview
-                MostrarClientes();
-
-                MessageBox.Show("Datos cargados correctamente");
-            }
-            else
-            {
-                MessageBox.Show("No existe el archivo");
-            }
-        }
-
-        private void btnbuscar_Click(object sender, EventArgs e)
-        {
-            List<cliente> resultado = new List<cliente>();
-
-            switch (CBbusqueda.Text)
-            {
-                case "Nombre":
-                    resultado = listacliente
-                        .Where(c => c.Nombre.ToLower()
-                        .Contains(txtNombreCliente.Text.ToLower()))
-                        .ToList();
-                    break;
-
-
-                default:
-                    MessageBox.Show("Seleccione una categoría de búsqueda");
-                    return;
-            }
-
-            DGVtabla1.DataSource = null;
-            DGVtabla1.DataSource = resultado;
-
-            DGVtabla1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            AjustarColumnas();
-
-            if (resultado.Count == 0)
-            {
-                MessageBox.Show("No se encontraron resultados");
-            }
-
-
-        }
-
-        private void btnagregar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnagregar_Click_1(object sender, EventArgs e)
-        {
-
+           
         }
 
         private void DGVtabla1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -395,8 +250,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnEditar_Click(object sender, EventArgs e)
         {
             SubClienteEditar ventana = new SubClienteEditar();
-            ventana.Show();
+            ventana.Show(); 
             this.Hide();
+         }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            int id = Convert.ToInt32(DGVtabla1.CurrentRow.Cells["id_cliente"].Value);
+
+            bool eliminado = clienteDAO.EliminarCliente(id);
+
+            if (eliminado)
+                MessageBox.Show("Cliente eliminado");
+
+            DGVtabla1.DataSource = clienteDAO.MostrarClientes();
         }
     }
 }
