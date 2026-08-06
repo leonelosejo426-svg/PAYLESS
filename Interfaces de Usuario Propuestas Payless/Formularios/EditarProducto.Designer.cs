@@ -71,10 +71,11 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(3, 107);
+            this.panel1.Location = new System.Drawing.Point(5, 114);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(671, 357);
             this.panel1.TabIndex = 97;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // button2
             // 
@@ -205,7 +206,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(138, 71);
+            this.comboBox1.Location = new System.Drawing.Point(140, 78);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(378, 21);
             this.comboBox1.TabIndex = 96;
@@ -214,7 +215,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(-1, 70);
+            this.label2.Location = new System.Drawing.Point(1, 77);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(137, 19);
             this.label2.TabIndex = 95;
@@ -271,13 +272,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(800, 489);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel2);
             this.Name = "EditarProducto";
             this.Text = "EditarProducto";
+            this.Load += new System.EventHandler(this.EditarProducto_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);

@@ -16,5 +16,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             InitializeComponent();
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void EditarProducto_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
