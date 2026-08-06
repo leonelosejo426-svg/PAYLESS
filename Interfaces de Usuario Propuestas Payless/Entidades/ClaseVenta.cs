@@ -29,13 +29,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         public int IdCaja { get; set; }
 
-        internal ClaseDevolucionVenta ClaseDevolucionVenta
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        
 
         internal ClaseDetalleVenta ClaseDetalleVenta
         {

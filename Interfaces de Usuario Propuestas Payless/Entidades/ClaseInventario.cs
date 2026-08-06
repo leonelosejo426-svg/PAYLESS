@@ -19,12 +19,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         public int IdProductoTalla { get; set; }
 
-        internal NivelacionInventario NivelacionInventario
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        
     }
 }
