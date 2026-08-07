@@ -9,10 +9,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseMarca
     {
 
-        private int _idmarca;
-        private string _nombre_marca;
-        private string _descripcion;
-        private bool _estado;
+        public int IdMarca { get; set; }
+
+        public string NombreMarca { get; set; }
+
+        public string Descripcion { get; set; }
+
+        public bool Estado { get; set; }
 
         internal ClaseProducto ClaseProducto
         {

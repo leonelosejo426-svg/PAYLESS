@@ -9,19 +9,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     internal class ClaseInventario
     {
 
-        private int _id_inventario;
-        private int _id_producto;
-        private int _stockactual;
-        private int _stockminimo;
-        private string _unidadmedida;
-        private DateTime _fecha_actualizacion;
+        public int IdInventario { get; set; }
 
-        internal NivelacionInventario NivelacionInventario
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        public int StockActual { get; set; }
+
+        public int StockMinimo { get; set; }
+
+        public DateTime FechaActualizacion { get; set; }
+
+        public int IdProductoTalla { get; set; }
+
+        
     }
 }
