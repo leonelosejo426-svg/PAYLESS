@@ -15,13 +15,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         public string Codigo { get; set; }
 
-        public decimal PrecioVenta { get; set; }
+      //  public decimal PrecioVenta { get; set; }
 
         public bool EstadoProducto { get; set; }
 
         public int IdCategoria { get; set; }
 
         public int IdMarca { get; set; }
+
+        public int IdProveedor { get; set; }
 
         internal ClaseDetalleVenta ClaseDetalleVenta
         {
