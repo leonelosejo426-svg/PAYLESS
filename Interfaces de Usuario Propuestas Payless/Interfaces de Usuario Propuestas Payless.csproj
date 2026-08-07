@@ -324,6 +324,12 @@
     <Compile Include="Formularios\SubClienteAgregar.Designer.cs">
       <DependentUpon>SubClienteAgregar.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubProductoAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SubProductoAgregar.Designer.cs">
+      <DependentUpon>SubProductoAgregar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilidades\ClaseSesion.cs" />
     <Compile Include="Entidades\ClaseVenta.cs" />
     <Compile Include="Formularios\Cliente.cs">
@@ -522,6 +528,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Ventas.resx">
       <DependentUpon>Ventas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubProductoAgregar.resx">
+      <DependentUpon>SubProductoAgregar.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Utilidades\ClassDiagram1.cd" />
     <None Include="packages.config" />
