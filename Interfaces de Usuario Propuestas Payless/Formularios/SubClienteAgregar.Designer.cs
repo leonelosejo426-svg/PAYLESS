@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SubClienteAgregar));
             this.panel2 = new System.Windows.Forms.Panel();
             this.label18 = new System.Windows.Forms.Label();
@@ -47,6 +48,7 @@
             this.txtcedula = new System.Windows.Forms.TextBox();
             this.LblNumero = new System.Windows.Forms.Label();
             this.richtxtDirreccion = new System.Windows.Forms.RichTextBox();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -58,10 +60,9 @@
             this.panel2.Controls.Add(this.pictureBox4);
             this.panel2.Controls.Add(this.label1);
             this.panel2.ForeColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(13, 14);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Location = new System.Drawing.Point(10, 11);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(756, 86);
+            this.panel2.Size = new System.Drawing.Size(567, 70);
             this.panel2.TabIndex = 63;
             // 
             // label18
@@ -69,19 +70,20 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label18.Location = new System.Drawing.Point(609, 36);
+            this.label18.Location = new System.Drawing.Point(457, 29);
+            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(114, 23);
+            this.label18.Size = new System.Drawing.Size(92, 19);
             this.label18.TabIndex = 11;
             this.label18.Text = "Acerca De...";
             // 
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(3, 2);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.pictureBox4.Location = new System.Drawing.Point(2, 2);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(89, 74);
+            this.pictureBox4.Size = new System.Drawing.Size(67, 60);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 85;
             this.pictureBox4.TabStop = false;
@@ -92,10 +94,9 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(135, 18);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(101, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(308, 45);
+            this.label1.Size = new System.Drawing.Size(244, 36);
             this.label1.TabIndex = 0;
             this.label1.Text = "Agregar Clientes";
             // 
@@ -104,10 +105,9 @@
             this.btnCancelar.BackColor = System.Drawing.Color.Black;
             this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(529, 629);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancelar.Location = new System.Drawing.Point(397, 511);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(100, 53);
+            this.btnCancelar.Size = new System.Drawing.Size(75, 43);
             this.btnCancelar.TabIndex = 100;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -117,10 +117,9 @@
             this.btnGuardar.BackColor = System.Drawing.Color.Black;
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(283, 629);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuardar.Location = new System.Drawing.Point(212, 511);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(100, 53);
+            this.btnGuardar.Size = new System.Drawing.Size(75, 43);
             this.btnGuardar.TabIndex = 99;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
@@ -133,38 +132,34 @@
             this.CBestado.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.CBestado.Location = new System.Drawing.Point(208, 363);
-            this.CBestado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CBestado.Location = new System.Drawing.Point(156, 295);
             this.CBestado.Name = "CBestado";
-            this.CBestado.Size = new System.Drawing.Size(173, 30);
+            this.CBestado.Size = new System.Drawing.Size(131, 27);
             this.CBestado.TabIndex = 98;
             // 
             // txtcodigo
             // 
             this.txtcodigo.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtcodigo.Location = new System.Drawing.Point(208, 167);
-            this.txtcodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtcodigo.Location = new System.Drawing.Point(156, 136);
             this.txtcodigo.Name = "txtcodigo";
-            this.txtcodigo.Size = new System.Drawing.Size(201, 30);
+            this.txtcodigo.Size = new System.Drawing.Size(152, 26);
             this.txtcodigo.TabIndex = 97;
             // 
             // txtTelefono
             // 
             this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtTelefono.Location = new System.Drawing.Point(208, 310);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTelefono.Location = new System.Drawing.Point(156, 252);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(312, 30);
+            this.txtTelefono.Size = new System.Drawing.Size(235, 26);
             this.txtTelefono.TabIndex = 96;
             // 
             // q
             // 
             this.q.BackColor = System.Drawing.Color.White;
             this.q.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.q.Location = new System.Drawing.Point(208, 208);
-            this.q.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.q.Location = new System.Drawing.Point(156, 169);
             this.q.Name = "q";
-            this.q.Size = new System.Drawing.Size(312, 30);
+            this.q.Size = new System.Drawing.Size(235, 26);
             this.q.TabIndex = 95;
             // 
             // LblNombre
@@ -173,10 +168,9 @@
             this.LblNombre.BackColor = System.Drawing.Color.White;
             this.LblNombre.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNombre.ForeColor = System.Drawing.Color.Black;
-            this.LblNombre.Location = new System.Drawing.Point(16, 209);
-            this.LblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblNombre.Location = new System.Drawing.Point(12, 170);
             this.LblNombre.Name = "LblNombre";
-            this.LblNombre.Size = new System.Drawing.Size(143, 23);
+            this.LblNombre.Size = new System.Drawing.Size(115, 19);
             this.LblNombre.TabIndex = 94;
             this.LblNombre.Text = "Nombre Cliente";
             // 
@@ -186,10 +180,9 @@
             this.Lbltelefono.BackColor = System.Drawing.Color.White;
             this.Lbltelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbltelefono.ForeColor = System.Drawing.Color.Black;
-            this.Lbltelefono.Location = new System.Drawing.Point(16, 309);
-            this.Lbltelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Lbltelefono.Location = new System.Drawing.Point(12, 251);
             this.Lbltelefono.Name = "Lbltelefono";
-            this.Lbltelefono.Size = new System.Drawing.Size(84, 23);
+            this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
             this.Lbltelefono.TabIndex = 93;
             this.Lbltelefono.Text = "Télefono";
             // 
@@ -199,10 +192,9 @@
             this.Lblcodigo.BackColor = System.Drawing.Color.White;
             this.Lblcodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lblcodigo.ForeColor = System.Drawing.Color.Black;
-            this.Lblcodigo.Location = new System.Drawing.Point(16, 166);
-            this.Lblcodigo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.Lblcodigo.Location = new System.Drawing.Point(12, 135);
             this.Lblcodigo.Name = "Lblcodigo";
-            this.Lblcodigo.Size = new System.Drawing.Size(69, 23);
+            this.Lblcodigo.Size = new System.Drawing.Size(56, 19);
             this.Lblcodigo.TabIndex = 92;
             this.Lblcodigo.Text = "Código";
             // 
@@ -212,10 +204,9 @@
             this.LblEstado.BackColor = System.Drawing.Color.White;
             this.LblEstado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblEstado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.LblEstado.Location = new System.Drawing.Point(17, 362);
-            this.LblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblEstado.Location = new System.Drawing.Point(13, 294);
             this.LblEstado.Name = "LblEstado";
-            this.LblEstado.Size = new System.Drawing.Size(68, 23);
+            this.LblEstado.Size = new System.Drawing.Size(55, 19);
             this.LblEstado.TabIndex = 91;
             this.LblEstado.Text = "Estado";
             // 
@@ -225,10 +216,9 @@
             this.LblBusqueda.BackColor = System.Drawing.Color.White;
             this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
-            this.LblBusqueda.Location = new System.Drawing.Point(17, 411);
-            this.LblBusqueda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblBusqueda.Location = new System.Drawing.Point(13, 334);
             this.LblBusqueda.Name = "LblBusqueda";
-            this.LblBusqueda.Size = new System.Drawing.Size(98, 23);
+            this.LblBusqueda.Size = new System.Drawing.Size(79, 19);
             this.LblBusqueda.TabIndex = 90;
             this.LblBusqueda.Text = "Dirrección";
             // 
@@ -236,10 +226,9 @@
             // 
             this.txtcedula.BackColor = System.Drawing.Color.White;
             this.txtcedula.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtcedula.Location = new System.Drawing.Point(208, 261);
-            this.txtcedula.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtcedula.Location = new System.Drawing.Point(156, 212);
             this.txtcedula.Name = "txtcedula";
-            this.txtcedula.Size = new System.Drawing.Size(312, 30);
+            this.txtcedula.Size = new System.Drawing.Size(235, 26);
             this.txtcedula.TabIndex = 108;
             // 
             // LblNumero
@@ -248,27 +237,32 @@
             this.LblNumero.BackColor = System.Drawing.Color.White;
             this.LblNumero.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNumero.ForeColor = System.Drawing.Color.Black;
-            this.LblNumero.Location = new System.Drawing.Point(17, 260);
-            this.LblNumero.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LblNumero.Location = new System.Drawing.Point(13, 211);
             this.LblNumero.Name = "LblNumero";
-            this.LblNumero.Size = new System.Drawing.Size(166, 23);
+            this.LblNumero.Size = new System.Drawing.Size(134, 19);
             this.LblNumero.TabIndex = 107;
             this.LblNumero.Text = "Número de Cédula";
             // 
             // richtxtDirreccion
             // 
             this.richtxtDirreccion.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.richtxtDirreccion.Location = new System.Drawing.Point(208, 413);
+            this.richtxtDirreccion.Location = new System.Drawing.Point(156, 336);
+            this.richtxtDirreccion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.richtxtDirreccion.Name = "richtxtDirreccion";
-            this.richtxtDirreccion.Size = new System.Drawing.Size(475, 186);
+            this.richtxtDirreccion.Size = new System.Drawing.Size(357, 152);
             this.richtxtDirreccion.TabIndex = 110;
             this.richtxtDirreccion.Text = "";
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // SubClienteAgregar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(782, 703);
+            this.ClientSize = new System.Drawing.Size(586, 571);
             this.Controls.Add(this.richtxtDirreccion);
             this.Controls.Add(this.txtcedula);
             this.Controls.Add(this.LblNumero);
@@ -284,7 +278,7 @@
             this.Controls.Add(this.LblEstado);
             this.Controls.Add(this.LblBusqueda);
             this.Controls.Add(this.panel2);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "SubClienteAgregar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SubClienteAgregar";
@@ -316,5 +310,6 @@
         private System.Windows.Forms.TextBox txtcedula;
         private System.Windows.Forms.Label LblNumero;
         private System.Windows.Forms.RichTextBox richtxtDirreccion;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
     }
 }
