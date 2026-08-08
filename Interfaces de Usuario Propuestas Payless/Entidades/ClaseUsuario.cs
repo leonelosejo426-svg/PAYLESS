@@ -37,7 +37,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
         // Usuario con múltiples validaciones en una sola línea
-        public string Usuario
+        /*public string Usuario
         {
             get => _username;
             set => _username =
@@ -65,7 +65,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                  !value.Contains(" "))        // sin espacios
                 ? value
                 : throw new Exception("Contraseña inválida: debe tener mayúscula, minúscula, número, símbolo y 6-40 caracteres");
-        }
+        }*/
 
         internal ClaseVenta ClaseVenta
         {
@@ -91,13 +91,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
-        internal ClaseRecuperacion ClaseRecuperacion
-        {
-            get => default;
-            set
-            {
-            }
-        }
+        
 
         internal ClaseVenta ClaseVenta1
         {
@@ -107,22 +101,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
-        internal NivelacionInventario NivelacionInventario
-        {
-            get => default;
-            set
-            {
-            }
-        }
+       
 
         // Constructor
-        public ClaseUsuario(string usuario, string contraseña)
-        {
-            this.Usuario = usuario;
-            this.Contraseña = contraseña;
-           
-
-        }
+        
 
 
 
