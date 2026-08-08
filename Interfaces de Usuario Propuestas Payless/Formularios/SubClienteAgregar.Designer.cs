@@ -47,6 +47,7 @@
             this.txtcedula = new System.Windows.Forms.TextBox();
             this.LblNumero = new System.Windows.Forms.Label();
             this.richtxtDirreccion = new System.Windows.Forms.RichTextBox();
+            this.btnVolver = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -59,7 +60,7 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.ForeColor = System.Drawing.Color.White;
             this.panel2.Location = new System.Drawing.Point(13, 14);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(756, 86);
             this.panel2.TabIndex = 63;
@@ -105,7 +106,7 @@
             this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
             this.btnCancelar.Location = new System.Drawing.Point(529, 629);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 53);
             this.btnCancelar.TabIndex = 100;
@@ -118,7 +119,7 @@
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
             this.btnGuardar.Location = new System.Drawing.Point(283, 629);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(100, 53);
             this.btnGuardar.TabIndex = 99;
@@ -134,7 +135,7 @@
             "Activo",
             "Inactivo"});
             this.CBestado.Location = new System.Drawing.Point(208, 363);
-            this.CBestado.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CBestado.Margin = new System.Windows.Forms.Padding(4);
             this.CBestado.Name = "CBestado";
             this.CBestado.Size = new System.Drawing.Size(173, 30);
             this.CBestado.TabIndex = 98;
@@ -143,7 +144,7 @@
             // 
             this.txtcodigo.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtcodigo.Location = new System.Drawing.Point(208, 167);
-            this.txtcodigo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtcodigo.Margin = new System.Windows.Forms.Padding(4);
             this.txtcodigo.Name = "txtcodigo";
             this.txtcodigo.Size = new System.Drawing.Size(201, 30);
             this.txtcodigo.TabIndex = 97;
@@ -152,7 +153,7 @@
             // 
             this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtTelefono.Location = new System.Drawing.Point(208, 310);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(312, 30);
             this.txtTelefono.TabIndex = 96;
@@ -162,7 +163,7 @@
             this.q.BackColor = System.Drawing.Color.White;
             this.q.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.q.Location = new System.Drawing.Point(208, 208);
-            this.q.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.q.Margin = new System.Windows.Forms.Padding(4);
             this.q.Name = "q";
             this.q.Size = new System.Drawing.Size(312, 30);
             this.q.TabIndex = 95;
@@ -237,7 +238,7 @@
             this.txtcedula.BackColor = System.Drawing.Color.White;
             this.txtcedula.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtcedula.Location = new System.Drawing.Point(208, 261);
-            this.txtcedula.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtcedula.Margin = new System.Windows.Forms.Padding(4);
             this.txtcedula.Name = "txtcedula";
             this.txtcedula.Size = new System.Drawing.Size(312, 30);
             this.txtcedula.TabIndex = 108;
@@ -264,11 +265,26 @@
             this.richtxtDirreccion.TabIndex = 110;
             this.richtxtDirreccion.Text = "";
             // 
+            // btnVolver
+            // 
+            this.btnVolver.BackColor = System.Drawing.Color.Black;
+            this.btnVolver.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVolver.ForeColor = System.Drawing.Color.White;
+            this.btnVolver.Location = new System.Drawing.Point(651, 123);
+            this.btnVolver.Margin = new System.Windows.Forms.Padding(4);
+            this.btnVolver.Name = "btnVolver";
+            this.btnVolver.Size = new System.Drawing.Size(100, 38);
+            this.btnVolver.TabIndex = 111;
+            this.btnVolver.Text = "Volver";
+            this.btnVolver.UseVisualStyleBackColor = false;
+            this.btnVolver.Click += new System.EventHandler(this.btnVolver_Click);
+            // 
             // SubClienteAgregar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 703);
+            this.Controls.Add(this.btnVolver);
             this.Controls.Add(this.richtxtDirreccion);
             this.Controls.Add(this.txtcedula);
             this.Controls.Add(this.LblNumero);
@@ -316,5 +332,6 @@
         private System.Windows.Forms.TextBox txtcedula;
         private System.Windows.Forms.Label LblNumero;
         private System.Windows.Forms.RichTextBox richtxtDirreccion;
+        private System.Windows.Forms.Button btnVolver;
     }
 }

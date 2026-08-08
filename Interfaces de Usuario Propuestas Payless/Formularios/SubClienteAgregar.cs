@@ -96,5 +96,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 MessageBox.Show("No fue posible agregar el cliente.");
             }
         }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
