@@ -12,9 +12,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class EditarProducto : Form
     {
+
         public EditarProducto()
         {
             InitializeComponent();
+        }
+
+        private void EditarProducto_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

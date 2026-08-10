@@ -268,6 +268,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClienteDAO.cs" />
     <Compile Include="Conexion\ConexionBD.cs" />
     <Compile Include="Datos\ClienteDAO.cs" />
     <Compile Include="Datos\CorreoDAO.cs" />
@@ -336,6 +337,7 @@
     <Compile Include="Formularios\SubClienteAgregar.Designer.cs">
       <DependentUpon>SubClienteAgregar.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProductoDAO.cs" />
     <Compile Include="SubProductoAgregar.cs">
       <SubType>Form</SubType>
     </Compile>
