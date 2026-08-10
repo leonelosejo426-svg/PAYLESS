@@ -334,11 +334,41 @@
     <Compile Include="Entidades\ClaseProducto.cs" />
     <Compile Include="Entidades\ClaseProveedor.cs" />
     <Compile Include="Entidades\ClaseRol.cs" />
+    <Compile Include="Formularios\Marca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\Marca.Designer.cs">
+      <DependentUpon>Marca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaAgregar.Designer.cs">
+      <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaEditar.Designer.cs">
+      <DependentUpon>SubCategoriaEditar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\SubClienteAgregar.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Formularios\SubClienteAgregar.Designer.cs">
       <DependentUpon>SubClienteAgregar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaAgregar.Designer.cs">
+      <DependentUpon>SubMarcaAgregar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaEditar.Designer.cs">
+      <DependentUpon>SubMarcaEditar.cs</DependentUpon>
     </Compile>
     <Compile Include="ProductoDAO.cs" />
     <Compile Include="SubProductoAgregar.cs">
@@ -520,6 +550,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubCategoriaAgregar.resx">
+      <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubClienteAgregar.resx">
       <DependentUpon>SubClienteAgregar.cs</DependentUpon>
