@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseMarca
+    public class ClaseMarca
     {
 
         public int IdMarca { get; set; }
