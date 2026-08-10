@@ -542,6 +542,9 @@
     <EmbeddedResource Include="Formularios\Mantenimiento.resx">
       <DependentUpon>Mantenimiento.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Marca.resx">
+      <DependentUpon>Marca.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Menú Principal.resx">
       <DependentUpon>Menú Principal.cs</DependentUpon>
     </EmbeddedResource>
@@ -554,8 +557,17 @@
     <EmbeddedResource Include="Formularios\SubCategoriaAgregar.resx">
       <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubCategoriaEditar.resx">
+      <DependentUpon>SubCategoriaEditar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubClienteAgregar.resx">
       <DependentUpon>SubClienteAgregar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubMarcaAgregar.resx">
+      <DependentUpon>SubMarcaAgregar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubMarcaEditar.resx">
+      <DependentUpon>SubMarcaEditar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
