@@ -9,12 +9,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
+using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Productos : Form
     {
-        ProductoDAO dao = new ProductoDAO();
+        ProductoDAO productoDAO = new ProductoDAO();
 
         ClaseUsuario usuarioActual;
 
@@ -28,9 +30,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void MostrarProductos()
         {
+            ProductoDAO productsDAO = new ProductoDAO();
+
             try
             {
-                dgvProductos.DataSource = dao.MostrarProductos();
+                dgvProductos.DataSource = productsDAO.MostrarProductos();
             }
             catch (Exception ex)
             {
@@ -176,6 +180,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
+            ProductoDAO productsDAO = new ProductoDAO();
+
             if (dgvProductos.CurrentRow == null)
             {
                 MessageBox.Show(
@@ -199,7 +205,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (respuesta != DialogResult.Yes)
                 return;
 
-            bool eliminado = dao.EliminarProducto(idProducto);
+            bool eliminado = productsDAO.EliminarProducto(idProducto);
 
             if (eliminado)
             {
