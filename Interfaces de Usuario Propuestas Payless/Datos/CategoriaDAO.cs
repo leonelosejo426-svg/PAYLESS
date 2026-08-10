@@ -13,7 +13,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
     {
         ConexionBD conexionBD = new ConexionBD();
 
-        // MOSTRAR TODAS LAS CATEGORÍAS
+        // =========================================================
+        // MOSTRAR CATEGORÍAS
+        // =========================================================
+
         public DataTable MostrarCategorias()
         {
             DataTable tabla = new DataTable();
@@ -22,13 +25,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"SELECT
-                                id_categoria,
-                                nombre_categoria,
-                                descripcion,
-                                estado
-                               FROM categoria
-                               ORDER BY nombre_categoria";
+                string sql = @"
+                    SELECT
+                        id_categoria,
+                        nombre_categoria,
+                        descripcion,
+                        estado
+                    FROM categoria
+                    ORDER BY nombre_categoria";
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(
@@ -36,6 +40,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         conexionBD.ObtenerConexion());
 
                 da.Fill(tabla);
+            }
+            catch
+            {
+                return tabla;
             }
             finally
             {
@@ -45,49 +53,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
-        // MOSTRAR SOLO CATEGORÍAS ACTIVAS
-        // Este será utilizado para los ComboBox de Producto
-        public DataTable CargarCategoriasActivas()
-        {
-            DataTable tabla = new DataTable();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"SELECT
-                                id_categoria,
-                                nombre_categoria
-                               FROM categoria
-                               WHERE estado = TRUE
-                               ORDER BY nombre_categoria";
-
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                da.Fill(tabla);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
+        // =========================================================
         // AGREGAR CATEGORÍA
+        // =========================================================
+
         public bool AgregarCategoria(ClaseCategoria categoria)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"INSERT INTO categoria
-                               (nombre_categoria, descripcion, estado)
-                               VALUES
-                               (@nombre, @descripcion, @estado)";
+                string sql = @"
+                    INSERT INTO categoria
+                    (
+                        nombre_categoria,
+                        descripcion,
+                        estado
+                    )
+                    VALUES
+                    (
+                        @nombre,
+                        @descripcion,
+                        @estado
+                    )";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -118,125 +106,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
         }
 
-        // EDITAR CATEGORÍA
-        public bool EditarCategoria(ClaseCategoria categoria)
-        {
-            try
-            {
-                conexionBD.AbrirConexion();
+        // =========================================================
+        // OBTENER CATEGORÍA POR ID
+        // =========================================================
 
-                string sql = @"UPDATE categoria
-                               SET nombre_categoria = @nombre,
-                                   descripcion = @descripcion,
-                                   estado = @estado
-                               WHERE id_categoria = @id";
-
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    categoria.NombreCategoria);
-
-                cmd.Parameters.AddWithValue(
-                    "@descripcion",
-                    categoria.Descripcion);
-
-                cmd.Parameters.AddWithValue(
-                    "@estado",
-                    categoria.Estado);
-
-                cmd.Parameters.AddWithValue(
-                    "@id",
-                    categoria.IdCategoria);
-
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
-
-        // ELIMINAR CATEGORÍA
-        public bool EliminarCategoria(int idCategoria)
-        {
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"UPDATE categoria
-                               SET estado = FALSE
-                               WHERE id_categoria = @id";
-
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@id",
-                    idCategoria);
-
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
-
-        // BUSCAR POR NOMBRE
-        public DataTable BuscarPorNombre(string nombre)
-        {
-            DataTable tabla = new DataTable();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"SELECT
-                                id_categoria,
-                                nombre_categoria,
-                                descripcion,
-                                estado
-                               FROM categoria
-                               WHERE nombre_categoria ILIKE @nombre
-                               ORDER BY nombre_categoria";
-
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    "%" + nombre + "%");
-
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(cmd);
-
-                da.Fill(tabla);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-        // OBTENER UNA CATEGORÍA
         public ClaseCategoria ObtenerCategoria(int idCategoria)
         {
             ClaseCategoria categoria = new ClaseCategoria();
@@ -245,13 +118,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"SELECT
-                                id_categoria,
-                                nombre_categoria,
-                                descripcion,
-                                estado
-                               FROM categoria
-                               WHERE id_categoria = @id";
+                string sql = @"
+                    SELECT
+                        id_categoria,
+                        nombre_categoria,
+                        descripcion,
+                        estado
+                    FROM categoria
+                    WHERE id_categoria = @id_categoria";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -259,7 +133,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         conexionBD.ObtenerConexion());
 
                 cmd.Parameters.AddWithValue(
-                    "@id",
+                    "@id_categoria",
                     idCategoria);
 
                 NpgsqlDataReader reader =
@@ -282,12 +156,286 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             reader["estado"]);
                 }
             }
+            catch
+            {
+                return categoria;
+            }
             finally
             {
                 conexionBD.CerrarConexion();
             }
 
             return categoria;
+        }
+
+        // =========================================================
+        // EDITAR CATEGORÍA
+        // =========================================================
+
+        public bool EditarCategoria(ClaseCategoria categoria)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+                    UPDATE categoria
+                    SET
+                        nombre_categoria = @nombre,
+                        descripcion = @descripcion,
+                        estado = @estado
+                    WHERE id_categoria = @id_categoria";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@nombre",
+                    categoria.NombreCategoria);
+
+                cmd.Parameters.AddWithValue(
+                    "@descripcion",
+                    categoria.Descripcion);
+
+                cmd.Parameters.AddWithValue(
+                    "@estado",
+                    categoria.Estado);
+
+                cmd.Parameters.AddWithValue(
+                    "@id_categoria",
+                    categoria.IdCategoria);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        // =========================================================
+        // ELIMINAR CATEGORÍA
+        // =========================================================
+
+        public bool EliminarCategoria(int idCategoria)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+                    UPDATE categoria
+                    SET estado = FALSE
+                    WHERE id_categoria = @id_categoria";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@id_categoria",
+                    idCategoria);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        // =========================================================
+        // BUSCAR POR NOMBRE
+        // =========================================================
+
+        public DataTable BuscarPorNombre(string nombre)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+                    SELECT
+                        id_categoria,
+                        nombre_categoria,
+                        descripcion,
+                        estado
+                    FROM categoria
+                    WHERE nombre_categoria ILIKE @nombre
+                    ORDER BY nombre_categoria";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@nombre",
+                    "%" + nombre + "%");
+
+                NpgsqlDataAdapter da =
+                    new NpgsqlDataAdapter(cmd);
+
+                da.Fill(tabla);
+            }
+            catch
+            {
+                return tabla;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
+
+        // =========================================================
+        // BUSCAR POR DESCRIPCIÓN
+        // =========================================================
+
+        public DataTable BuscarPorDescripcion(string descripcion)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+                    SELECT
+                        id_categoria,
+                        nombre_categoria,
+                        descripcion,
+                        estado
+                    FROM categoria
+                    WHERE descripcion ILIKE @descripcion
+                    ORDER BY nombre_categoria";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@descripcion",
+                    "%" + descripcion + "%");
+
+                NpgsqlDataAdapter da =
+                    new NpgsqlDataAdapter(cmd);
+
+                da.Fill(tabla);
+            }
+            catch
+            {
+                return tabla;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
+
+        // =========================================================
+        // BUSCAR POR ESTADO
+        // =========================================================
+
+        public DataTable BuscarPorEstado(bool estado)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+                    SELECT
+                        id_categoria,
+                        nombre_categoria,
+                        descripcion,
+                        estado
+                    FROM categoria
+                    WHERE estado = @estado
+                    ORDER BY nombre_categoria";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@estado",
+                    estado);
+
+                NpgsqlDataAdapter da =
+                    new NpgsqlDataAdapter(cmd);
+
+                da.Fill(tabla);
+            }
+            catch
+            {
+                return tabla;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
+
+        // =========================================================
+        // CARGAR CATEGORÍAS ACTIVAS PARA COMBOBOX
+        // =========================================================
+
+        public DataTable CargarCategorias()
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+                    SELECT
+                        id_categoria,
+                        nombre_categoria
+                    FROM categoria
+                    WHERE estado = TRUE
+                    ORDER BY nombre_categoria";
+
+                NpgsqlDataAdapter da =
+                    new NpgsqlDataAdapter(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                da.Fill(tabla);
+            }
+            catch
+            {
+                return tabla;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
         }
     }
 }
