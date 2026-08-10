@@ -214,9 +214,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 int idProducto;
 
 
-                // -------------------------------------------------
+         
                 // SI EL PRODUCTO YA EXISTE
-                // -------------------------------------------------
+                
 
                 if (resultado != null)
                 {
@@ -281,10 +281,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                             cmdInsertar.ExecuteScalar());
                 }
 
-
-                // -------------------------------------------------
                 // BUSCAR SI YA EXISTE LA TALLA
-                // -------------------------------------------------
 
                 string sqlBuscarTalla = @"
                     SELECT id_producto_talla
