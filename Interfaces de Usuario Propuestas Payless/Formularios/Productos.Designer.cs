@@ -65,6 +65,7 @@
             this.cmbBuscarPor = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
+            this.btnMarca = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
@@ -372,7 +373,7 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(585, 136);
+            this.btnEliminar.Location = new System.Drawing.Point(650, 136);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(94, 30);
@@ -457,7 +458,7 @@
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(698, 136);
+            this.btnEditar.Location = new System.Drawing.Point(778, 136);
             this.btnEditar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditar.Name = "btnEditar";
             this.btnEditar.Size = new System.Drawing.Size(94, 30);
@@ -491,7 +492,7 @@
             this.btnAgregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAgregar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregar.ForeColor = System.Drawing.Color.White;
-            this.btnAgregar.Location = new System.Drawing.Point(468, 137);
+            this.btnAgregar.Location = new System.Drawing.Point(522, 137);
             this.btnAgregar.Margin = new System.Windows.Forms.Padding(2);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(94, 28);
@@ -541,12 +542,30 @@
             this.btnBuscar.UseVisualStyleBackColor = false;
             this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
+            // btnMarca
+            // 
+            this.btnMarca.BackColor = System.Drawing.Color.Black;
+            this.btnMarca.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMarca.FlatAppearance.BorderSize = 0;
+            this.btnMarca.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMarca.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnMarca.ForeColor = System.Drawing.Color.White;
+            this.btnMarca.Location = new System.Drawing.Point(374, 136);
+            this.btnMarca.Margin = new System.Windows.Forms.Padding(2);
+            this.btnMarca.Name = "btnMarca";
+            this.btnMarca.Size = new System.Drawing.Size(94, 28);
+            this.btnMarca.TabIndex = 98;
+            this.btnMarca.Text = "Marca";
+            this.btnMarca.UseVisualStyleBackColor = false;
+            this.btnMarca.Click += new System.EventHandler(this.btnMarca_Click);
+            // 
             // Productos
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1024, 690);
+            this.Controls.Add(this.btnMarca);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.btnBuscar);
@@ -611,5 +630,6 @@
         private System.Windows.Forms.ComboBox cmbBuscarPor;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnBuscar;
+        private System.Windows.Forms.Button btnMarca;
     }
 }

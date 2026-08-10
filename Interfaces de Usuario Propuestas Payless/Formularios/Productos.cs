@@ -251,5 +251,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void btnMarca_Click(object sender, EventArgs e)
+        {
+            Marca ventana = new Marca();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
