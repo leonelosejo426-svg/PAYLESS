@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    internal class ClaseProducto
+    public class ClaseProducto
     {
 
         public int IdProducto { get; set; }
 
         public string Nombre { get; set; }
 
-        public string Codigo { get; set; }
-
-      //  public decimal PrecioVenta { get; set; }
+        public decimal PrecioVenta { get; set; }
 
         public bool EstadoProducto { get; set; }
 

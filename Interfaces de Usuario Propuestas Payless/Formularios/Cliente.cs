@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -249,7 +250,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            SubClienteEditar ventana = new SubClienteEditar();
+            EditarCliente ventana = new EditarCliente();
             ventana.Show(); 
             this.Hide();
          }

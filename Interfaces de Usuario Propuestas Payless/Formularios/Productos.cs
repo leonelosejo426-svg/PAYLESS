@@ -144,7 +144,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            FrmAgregarProducto formulario = new FrmAgregarProducto();
+            SubProductoAgregar formulario = new SubProductoAgregar();
 
             formulario.ShowDialog();
 
@@ -153,13 +153,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            string json = JsonConvert.SerializeObject(
+           /* string json = JsonConvert.SerializeObject(
         listaProductos,
         Formatting.Indented);
 
             File.WriteAllText("productos.json", json);
 
-            MessageBox.Show("Productos guardados correctamente.");
+          MessageBox.Show("Productos guardados correctamente."); */
         }
 
         private void btnBuscar_Click(object sender, EventArgs e)
@@ -169,26 +169,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (dgvProductos.CurrentRow == null)
-            {
-                MessageBox.Show(
-                    "Seleccione un producto.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                return;
-            }
-
-            int idProducto = Convert.ToInt32(
-                dgvProductos.CurrentRow.Cells["id_producto"].Value);
-
-            FrmEditarProducto formulario =
-                new FrmEditarProducto(idProducto);
-
-            formulario.ShowDialog();
-
-            MostrarProductos();
+            EditarProducto ventana = new EditarProducto();
+            ventana.Show();
+            this.Hide();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -254,9 +237,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnMarca_Click(object sender, EventArgs e)
         {
-            Marca ventana = new Marca();
-            ventana.Show();
-            this.Hide();
+          //  Marca ventana = new Marca();
+          //  ventana.Show();
+            //this.Hide();
         }
     }
 }
