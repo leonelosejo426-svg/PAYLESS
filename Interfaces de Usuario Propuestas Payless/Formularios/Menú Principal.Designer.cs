@@ -379,7 +379,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1422, 969);
+            this.ClientSize = new System.Drawing.Size(1422, 987);
             this.Controls.Add(this.lblRol);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.pictureBox3);
