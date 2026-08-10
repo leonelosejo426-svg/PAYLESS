@@ -90,8 +90,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion\ConexionBD.cs" />
+    <Compile Include="Datos\CategoriaDAO.cs" />
     <Compile Include="Datos\ClienteDAO.cs" />
     <Compile Include="Datos\CorreoDAO.cs" />
+    <Compile Include="Datos\MarcaDAO.cs" />
     <Compile Include="Datos\ProductoDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
     <Compile Include="Datos\UsuarioDAO.cs" />
@@ -140,6 +142,36 @@
     <Compile Include="Entidades\ClaseProducto.cs" />
     <Compile Include="Entidades\ClaseProveedor.cs" />
     <Compile Include="Entidades\ClaseRol.cs" />
+    <Compile Include="Formularios\Marca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\Marca.Designer.cs">
+      <DependentUpon>Marca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaAgregar.Designer.cs">
+      <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubCategoriaEditar.Designer.cs">
+      <DependentUpon>SubCategoriaEditar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaAgregar.Designer.cs">
+      <DependentUpon>SubMarcaAgregar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubMarcaEditar.Designer.cs">
+      <DependentUpon>SubMarcaEditar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilidades\ClaseSesion.cs" />
     <Compile Include="Entidades\ClaseVenta.cs" />
     <Compile Include="Formularios\Cliente.cs">
@@ -299,6 +331,9 @@
     <EmbeddedResource Include="Formularios\Mantenimiento.resx">
       <DependentUpon>Mantenimiento.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Marca.resx">
+      <DependentUpon>Marca.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Menú Principal.resx">
       <DependentUpon>Menú Principal.cs</DependentUpon>
     </EmbeddedResource>
@@ -307,6 +342,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubCategoriaAgregar.resx">
+      <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubCategoriaEditar.resx">
+      <DependentUpon>SubCategoriaEditar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubMarcaAgregar.resx">
+      <DependentUpon>SubMarcaAgregar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubMarcaEditar.resx">
+      <DependentUpon>SubMarcaEditar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

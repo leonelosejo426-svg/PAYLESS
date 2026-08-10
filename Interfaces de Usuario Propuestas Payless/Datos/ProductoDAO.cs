@@ -300,9 +300,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         "@codigo",
                         codigo);
 
-                    cmdInsertar.Parameters.AddWithValue(
-                        "@precio_venta",
-                        producto.PrecioVenta);
+                   // cmdInsertar.Parameters.AddWithValue(
+                       // "@precio_venta",
+                      //  producto.PrecioVenta);
 
                     cmdInsertar.Parameters.AddWithValue(
                         "@id_categoria",
@@ -596,9 +596,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     "@nombre",
                     producto.Nombre);
 
-                cmdProducto.Parameters.AddWithValue(
-                    "@precio_venta",
-                    producto.PrecioVenta);
+                //cmdProducto.Parameters.AddWithValue(
+                //    "@precio_venta",
+                //    producto.PrecioVenta);
 
                 cmdProducto.Parameters.AddWithValue(
                     "@id_categoria",

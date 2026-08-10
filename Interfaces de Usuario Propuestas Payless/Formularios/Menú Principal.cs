@@ -105,7 +105,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
                     lblUsuarios.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
                     lblMantenimiento.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
 
                     break;
 
