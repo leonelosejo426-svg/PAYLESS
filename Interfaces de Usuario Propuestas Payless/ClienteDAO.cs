@@ -17,8 +17,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public DataTable MostrarClientes()
         {
 
-
-
             DataTable tabla = new DataTable();
             try
             {
