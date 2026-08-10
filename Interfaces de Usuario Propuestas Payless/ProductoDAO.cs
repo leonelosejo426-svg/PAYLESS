@@ -11,9 +11,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public class ProductoDAO
     {
-        ConexionBD conexionBD = new ConexionBD();
+        private ConexionBD conexionBD = new ConexionBD();
 
-        //Mostrar todos los produtos
+        // =========================================================
+        // 1. MOSTRAR PRODUCTOS
+        // =========================================================
+
         public DataTable MostrarProductos()
         {
             DataTable tabla = new DataTable();
@@ -25,7 +28,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -63,37 +65,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        //Generar codigo automatico
-        public string GenerarCodigo()
-        {
-            try
-            {
-                conexionBD.AbrirConexion();
 
-                string sql = @"
-                    SELECT COALESCE(MAX(id_producto), 0) + 1
-                    FROM producto";
 
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
+        // =========================================================
+        // 2. CARGAR PRODUCTOS PARA COMBOBOX
+        // =========================================================
 
-                int numero =
-                    Convert.ToInt32(cmd.ExecuteScalar());
-
-                return "PR" + numero.ToString("D3");
-            }
-            catch
-            {
-                return "PR001";
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
-        //Cargar productos para combobox
         public DataTable CargarProductos()
         {
             DataTable tabla = new DataTable();
@@ -128,7 +105,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        //Cargar tallas de un producto
+
+
+        // =========================================================
+        // 3. CARGAR TALLAS DE UN PRODUCTO
+        // =========================================================
+
         public DataTable CargarTallasProducto(int idProducto)
         {
             DataTable tabla = new DataTable();
@@ -139,11 +121,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 string sql = @"
                     SELECT
-                        id_producto_talla,
-                        talla
-                    FROM producto_talla
-                    WHERE id_producto = @id_producto
-                    ORDER BY talla";
+                        pt.id_producto_talla,
+                        pt.talla
+                    FROM producto_talla pt
+                    INNER JOIN producto p
+                        ON pt.id_producto = p.id_producto
+                    WHERE pt.id_producto = @id_producto
+                    AND p.estado_producto = TRUE
+                    ORDER BY pt.talla";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -170,12 +155,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        //Agregar producto
+
+
+        // =========================================================
+        // 4. AGREGAR PRODUCTO
+        // =========================================================
+
         public bool AgregarProducto(
-           ClaseProducto producto,
-           string talla,
-           int cantidad,
-           int stockMinimo)
+            ClaseProducto producto,
+            string talla,
+            int cantidad,
+            int stockMinimo)
         {
             try
             {
@@ -184,7 +174,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 NpgsqlConnection conexion =
                     conexionBD.ObtenerConexion();
 
-               //Buscar si el producto ya existe
+                // -------------------------------------------------
+                // BUSCAR SI EL PRODUCTO YA EXISTE
+                // -------------------------------------------------
 
                 string sqlBuscarProducto = @"
                     SELECT id_producto
@@ -221,23 +213,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 int idProducto;
 
-                //Si ya existe el producto
+
+                // -------------------------------------------------
+                // SI EL PRODUCTO YA EXISTE
+                // -------------------------------------------------
 
                 if (resultado != null)
                 {
-                    idProducto = Convert.ToInt32(resultado);
+                    idProducto =
+                        Convert.ToInt32(resultado);
                 }
+
+                // -------------------------------------------------
+                // SI EL PRODUCTO NO EXISTE
+                // -------------------------------------------------
+
                 else
                 {
-                   //Crear nuevo producto
-
-                    string codigo = GenerarCodigo();
-
                     string sqlInsertarProducto = @"
                         INSERT INTO producto
                         (
                             nombre,
-                            codigo,
                             precio_venta,
                             estado_producto,
                             id_categoria,
@@ -247,7 +243,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         VALUES
                         (
                             @nombre,
-                            @codigo,
                             @precio_venta,
                             TRUE,
                             @id_categoria,
@@ -264,10 +259,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     cmdInsertar.Parameters.AddWithValue(
                         "@nombre",
                         producto.Nombre);
-
-                    cmdInsertar.Parameters.AddWithValue(
-                        "@codigo",
-                        codigo);
 
                     cmdInsertar.Parameters.AddWithValue(
                         "@precio_venta",
@@ -291,7 +282,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 }
 
 
-               //Buscar si ya existe la talla
+                // -------------------------------------------------
+                // BUSCAR SI YA EXISTE LA TALLA
+                // -------------------------------------------------
 
                 string sqlBuscarTalla = @"
                     SELECT id_producto_talla
@@ -316,7 +309,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     cmdBuscarTalla.ExecuteScalar();
 
 
-                //Si la talla ya existe sumar cantidad
+                // -------------------------------------------------
+                // SI LA TALLA YA EXISTE → SUMAR STOCK
+                // -------------------------------------------------
 
                 if (resultadoTalla != null)
                 {
@@ -326,9 +321,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     string sqlActualizarStock = @"
                         UPDATE inventario
                         SET
-                            stock_actual = stock_actual + @cantidad,
-                            stock_minimo = @stock_minimo,
-                            fecha_actualizacion = CURRENT_TIMESTAMP
+                            stock_actual =
+                                stock_actual + @cantidad,
+                            stock_minimo =
+                                @stock_minimo,
+                            fecha_actualizacion =
+                                CURRENT_TIMESTAMP
                         WHERE id_producto_talla =
                               @id_producto_talla";
 
@@ -351,10 +349,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     cmdStock.ExecuteNonQuery();
                 }
+
+                // -------------------------------------------------
+                // SI LA TALLA NO EXISTE → CREAR TALLA
+                // -------------------------------------------------
+
                 else
                 {
-                    //Crear nueva tabla
-
                     string sqlNuevaTalla = @"
                         INSERT INTO producto_talla
                         (
@@ -386,7 +387,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                             cmdNuevaTalla.ExecuteScalar());
 
 
-                    //Crear registro en inventario
+                    // -------------------------------------------------
+                    // CREAR INVENTARIO PARA LA NUEVA TALLA
+                    // -------------------------------------------------
 
                     string sqlInventario = @"
                         INSERT INTO inventario
@@ -401,8 +404,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                             @stock_actual,
                             @stock_minimo,
                             CURRENT_TIMESTAMP,
-                            @id_producto_talla
-                        )";
+                            @id_producto_talla)";
 
                     NpgsqlCommand cmdInventario =
                         new NpgsqlCommand(
@@ -435,7 +437,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 conexionBD.CerrarConexion();
             }
         }
-        //OBTENER PRODUCTO + TALLA PARA EDITAR
+
+
+        // =========================================================
+        // 5. OBTENER PRODUCTO + TALLA PARA EDITAR
+        // =========================================================
 
         public DataTable ObtenerProductoTalla(
             int idProducto,
@@ -450,7 +456,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -469,13 +474,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN producto_talla pt
-                        ON p.id_producto = pt.id_producto
+                        ON p.id_producto =
+                           pt.id_producto
 
                     INNER JOIN inventario i
                         ON pt.id_producto_talla =
                            i.id_producto_talla
 
-                    WHERE p.id_producto = @id_producto
+                    WHERE p.id_producto =
+                          @id_producto
+
                     AND pt.id_producto_talla =
                         @id_producto_talla";
 
@@ -508,7 +516,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        // EDITAR PRODUCTO
+
+
+        // =========================================================
+        // 6. EDITAR PRODUCTO
+        // =========================================================
 
         public bool EditarProducto(
             ClaseProducto producto,
@@ -524,17 +536,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 NpgsqlConnection conexion =
                     conexionBD.ObtenerConexion();
 
+
+                // -------------------------------------------------
                 // ACTUALIZAR PRODUCTO
+                // -------------------------------------------------
 
                 string sqlProducto = @"
                     UPDATE producto
                     SET
                         nombre = @nombre,
                         precio_venta = @precio_venta,
+                        estado_producto = @estado_producto,
                         id_categoria = @id_categoria,
                         id_marca = @id_marca,
                         id_proveedor = @id_proveedor
-                    WHERE id_producto = @id_producto";
+                    WHERE id_producto =
+                          @id_producto";
 
                 NpgsqlCommand cmdProducto =
                     new NpgsqlCommand(
@@ -548,6 +565,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 cmdProducto.Parameters.AddWithValue(
                     "@precio_venta",
                     producto.PrecioVenta);
+
+                cmdProducto.Parameters.AddWithValue(
+                    "@estado_producto",
+                    producto.EstadoProducto);
 
                 cmdProducto.Parameters.AddWithValue(
                     "@id_categoria",
@@ -567,11 +588,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 cmdProducto.ExecuteNonQuery();
 
+
+                // -------------------------------------------------
                 // ACTUALIZAR TALLA
+                // -------------------------------------------------
 
                 string sqlTalla = @"
                     UPDATE producto_talla
-                    SET talla = @talla
+                    SET
+                        talla = @talla
                     WHERE id_producto_talla =
                           @id_producto_talla";
 
@@ -590,7 +615,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 cmdTalla.ExecuteNonQuery();
 
-                // ACTUALIZAR INVENTARIO               
+
+                // -------------------------------------------------
+                // ACTUALIZAR INVENTARIO
+                // -------------------------------------------------
 
                 string sqlInventario = @"
                     UPDATE inventario
@@ -632,7 +660,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 conexionBD.CerrarConexion();
             }
         }
-        // 8. ELIMINAR PRODUCTO
+
+
+        // =========================================================
+        // 7. ELIMINAR PRODUCTO
+        // =========================================================
 
         public bool EliminarProducto(int idProducto)
         {
@@ -643,7 +675,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     UPDATE producto
                     SET estado_producto = FALSE
-                    WHERE id_producto = @id_producto";
+                    WHERE id_producto =
+                          @id_producto";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -665,9 +698,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 conexionBD.CerrarConexion();
             }
         }
-        //BUSCAR POR CÓDIGO
 
-        public DataTable BuscarPorCodigo(string codigo)
+
+        // =========================================================
+        // 8. BUSCAR POR CÓDIGO / ID
+        // =========================================================
+
+        public DataTable BuscarPorCodigo(int idProducto)
         {
             DataTable tabla = new DataTable();
 
@@ -678,7 +715,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -688,16 +724,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                        ON p.id_categoria =
+                           c.id_categoria
 
                     INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
+                        ON p.id_marca =
+                           m.id_marca
 
                     INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
+                        ON p.id_proveedor =
+                           pr.id_proveedor
 
-                    WHERE p.codigo ILIKE @codigo
-                    ORDER BY p.nombre";
+                    WHERE p.id_producto =
+                          @id_producto";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -705,8 +744,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         conexionBD.ObtenerConexion());
 
                 cmd.Parameters.AddWithValue(
-                    "@codigo",
-                    "%" + codigo + "%");
+                    "@id_producto",
+                    idProducto);
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(cmd);
@@ -724,7 +763,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        // 10. BUSCAR POR NOMBRE
+
+
+        // =========================================================
+        // 9. BUSCAR POR NOMBRE
         // =========================================================
 
         public DataTable BuscarPorNombre(string nombre)
@@ -738,7 +780,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -748,13 +789,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                        ON p.id_categoria =
+                           c.id_categoria
 
                     INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
+                        ON p.id_marca =
+                           m.id_marca
 
                     INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
+                        ON p.id_proveedor =
+                           pr.id_proveedor
 
                     WHERE p.nombre ILIKE @nombre
                     ORDER BY p.nombre";
@@ -784,7 +828,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        // 11. BUSCAR POR CATEGORÍA
+
+
+        // =========================================================
+        // 10. BUSCAR POR CATEGORÍA
         // =========================================================
 
         public DataTable BuscarPorCategoria(int idCategoria)
@@ -798,7 +845,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -808,15 +854,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                        ON p.id_categoria =
+                           c.id_categoria
 
                     INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
+                        ON p.id_marca =
+                           m.id_marca
 
                     INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
+                        ON p.id_proveedor =
+                           pr.id_proveedor
 
-                    WHERE p.id_categoria = @id_categoria
+                    WHERE p.id_categoria =
+                          @id_categoria
                     ORDER BY p.nombre";
 
                 NpgsqlCommand cmd =
@@ -844,7 +894,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        // 12. BUSCAR POR MARCA
+
+
+        // =========================================================
+        // 11. BUSCAR POR MARCA
         // =========================================================
 
         public DataTable BuscarPorMarca(int idMarca)
@@ -858,7 +911,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -868,15 +920,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                        ON p.id_categoria =
+                           c.id_categoria
 
                     INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
+                        ON p.id_marca =
+                           m.id_marca
 
                     INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
+                        ON p.id_proveedor =
+                           pr.id_proveedor
 
-                    WHERE p.id_marca = @id_marca
+                    WHERE p.id_marca =
+                          @id_marca
                     ORDER BY p.nombre";
 
                 NpgsqlCommand cmd =
@@ -904,7 +960,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        // 13. BUSCAR POR PROVEEDOR
+
+
+        // =========================================================
+        // 12. BUSCAR POR PROVEEDOR
         // =========================================================
 
         public DataTable BuscarPorProveedor(int idProveedor)
@@ -918,7 +977,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -928,15 +986,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                        ON p.id_categoria =
+                           c.id_categoria
 
                     INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
+                        ON p.id_marca =
+                           m.id_marca
 
                     INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
+                        ON p.id_proveedor =
+                           pr.id_proveedor
 
-                    WHERE p.id_proveedor = @id_proveedor
+                    WHERE p.id_proveedor =
+                          @id_proveedor
                     ORDER BY p.nombre";
 
                 NpgsqlCommand cmd =
@@ -964,7 +1026,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             return tabla;
         }
-        // 14. BUSCAR POR ESTADO
+
+
+        // =========================================================
+        // 13. BUSCAR POR ESTADO
         // =========================================================
 
         public DataTable BuscarPorEstado(bool estado)
@@ -978,7 +1043,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string sql = @"
                     SELECT
                         p.id_producto,
-                        p.codigo,
                         p.nombre,
                         p.precio_venta,
                         p.estado_producto,
@@ -988,15 +1052,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     FROM producto p
 
                     INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                        ON p.id_categoria =
+                           c.id_categoria
 
                     INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
+                        ON p.id_marca =
+                           m.id_marca
 
                     INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
+                        ON p.id_proveedor =
+                           pr.id_proveedor
 
-                    WHERE p.estado_producto = @estado
+                    WHERE p.estado_producto =
+                          @estado
                     ORDER BY p.nombre";
 
                 NpgsqlCommand cmd =

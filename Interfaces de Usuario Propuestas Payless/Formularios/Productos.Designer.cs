@@ -62,7 +62,7 @@
             this.btnEditar = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
-            this.cmbBuscarPor = new System.Windows.Forms.ComboBox();
+            this.cmdBuscarProducto = new System.Windows.Forms.ComboBox();
             this.label11 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnMarca = new System.Windows.Forms.Button();
@@ -501,16 +501,16 @@
             this.btnAgregar.UseVisualStyleBackColor = false;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
             // 
-            // cmbBuscarPor
+            // cmdBuscarProducto
             // 
-            this.cmbBuscarPor.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbBuscarPor.FormattingEnabled = true;
-            this.cmbBuscarPor.Location = new System.Drawing.Point(333, 96);
-            this.cmbBuscarPor.Margin = new System.Windows.Forms.Padding(2);
-            this.cmbBuscarPor.Name = "cmbBuscarPor";
-            this.cmbBuscarPor.Size = new System.Drawing.Size(117, 27);
-            this.cmbBuscarPor.TabIndex = 88;
-            this.cmbBuscarPor.SelectedIndexChanged += new System.EventHandler(this.cmbBuscarPor_SelectedIndexChanged);
+            this.cmdBuscarProducto.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmdBuscarProducto.FormattingEnabled = true;
+            this.cmdBuscarProducto.Location = new System.Drawing.Point(333, 96);
+            this.cmdBuscarProducto.Margin = new System.Windows.Forms.Padding(2);
+            this.cmdBuscarProducto.Name = "cmdBuscarProducto";
+            this.cmdBuscarProducto.Size = new System.Drawing.Size(117, 27);
+            this.cmdBuscarProducto.TabIndex = 88;
+            this.cmdBuscarProducto.SelectedIndexChanged += new System.EventHandler(this.cmbBuscarPor_SelectedIndexChanged);
             // 
             // label11
             // 
@@ -575,7 +575,7 @@
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.btnEditar);
-            this.Controls.Add(this.cmbBuscarPor);
+            this.Controls.Add(this.cmdBuscarProducto);
             this.Controls.Add(this.groupBox2);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Productos";
@@ -627,7 +627,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column7;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.ComboBox cmbBuscarPor;
+        private System.Windows.Forms.ComboBox cmdBuscarProducto;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnMarca;

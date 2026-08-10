@@ -19,7 +19,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void SubProductoAgregar_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }
