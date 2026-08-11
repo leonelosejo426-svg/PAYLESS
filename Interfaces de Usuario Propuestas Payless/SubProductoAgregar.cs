@@ -34,6 +34,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
         private void CargarCategorias()
         {
+            cmbCategoria.DataSource = DAO.CargarCategorias();
+            cmbCategoria.DisplayMember = "nombre_categoria";
+            cmbCategoria.ValueMember = "id_categoria";
+            cmbCategoria.SelectedIndex = -1;
         }
         private void CargarMarcas()
         {
@@ -79,7 +83,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 txtCantidad.Focus();
                 return false;
             }
-                
+
 
             if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
             {
@@ -96,7 +100,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Seleccione categoria", "Validacion",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-                
+
                 cmbCategoria.Focus();
                 return false;
             }
@@ -114,10 +118,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             //Validar proveedor
             if (cmbProveedor.SelectedIndex == -1 || cmbProveedor.SelectedValue == null)
             {
-                MessageBox.Show("Seleccione un Proveedot","validavio",
+                MessageBox.Show("Seleccione un Proveedot", "validavio",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Warning);
-               
+
                 cmbProveedor.Focus();
                 return false;
             }
@@ -126,7 +130,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (cmbTalla.SelectedIndex == -1 || string.IsNullOrWhiteSpace(cmbTalla.Text))
             {
                 MessageBox.Show("Seleccione una talla", "Validacion",
-                MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbProveedor.Focus();
                 return false;
             }
@@ -138,7 +142,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (!ValidarCampos())
                 return;
 
-            try 
+            try
             {
 
 
@@ -232,20 +236,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
-            
+
         }
-                 private void LimpiarCampos() 
-        
-                { txtNombredelProducto.Clear(); 
-                  txtCantidad.Clear(); 
-            
-                  cmbCategoria.SelectedIndex = -1; 
-                  cmbMarca.SelectedIndex = -1; 
-                  cmbProveedor.SelectedIndex = -1; 
-                  cmbTalla.SelectedIndex = -1; 
-                  txtNombredelProducto.Focus();
-              
-                 }
+        private void LimpiarCampos()
+
+        { txtNombredelProducto.Clear();
+            txtCantidad.Clear();
+
+            cmbCategoria.SelectedIndex = -1;
+            cmbMarca.SelectedIndex = -1;
+            cmbProveedor.SelectedIndex = -1;
+            cmbTalla.SelectedIndex = -1;
+            txtNombredelProducto.Focus();
+
+        }
         private void btnRegresar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -253,18 +257,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            cmbCategoria.DataSource = DAO.CargarCategorias();
-            cmbCategoria.DisplayMember = "nombre_categoria";
-            cmbCategoria.ValueMember = "id_categoria";
-            cmbCategoria.SelectedIndex = -1;
-            cmbCategoria.Focus();
         }
-
-        private void cmbMarca_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }
 
+   

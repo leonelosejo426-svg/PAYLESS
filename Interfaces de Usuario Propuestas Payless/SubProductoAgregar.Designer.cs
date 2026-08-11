@@ -258,7 +258,7 @@
             this.cmbMarca.Name = "cmbMarca";
             this.cmbMarca.Size = new System.Drawing.Size(132, 24);
             this.cmbMarca.TabIndex = 81;
-            this.cmbMarca.SelectedIndexChanged += new System.EventHandler(this.cmbMarca_SelectedIndexChanged);
+
             // 
             // SubProductoAgregar
             // 
