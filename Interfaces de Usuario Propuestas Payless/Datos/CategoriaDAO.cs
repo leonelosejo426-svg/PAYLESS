@@ -412,12 +412,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        id_categoria,
-                        nombre_categoria
-                    FROM categoria
-                    WHERE estado = TRUE
-                    ORDER BY nombre_categoria";
+            SELECT
+                id_categoria,
+                nombre_categoria
+            FROM categoria
+            ORDER BY nombre_categoria";
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(
