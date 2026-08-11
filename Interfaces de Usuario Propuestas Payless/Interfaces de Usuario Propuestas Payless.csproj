@@ -269,6 +269,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion\ConexionBD.cs" />
+    <Compile Include="Conexion\RespaldoBD.cs" />
     <Compile Include="Datos\CategoriaDAO.cs" />
     <Compile Include="Datos\ClienteDAO.cs" />
     <Compile Include="Datos\CorreoDAO.cs" />
