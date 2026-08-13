@@ -11,7 +11,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
     {
 
         private readonly string cadenaConexion =
-            "Host=localhost;Port=5432;Database=PAYLESS BD;Username=postgres;Password=LeonelF_241207";
+           "Host=localhost;Port=5432;Database=PAYLESS BD;Username=postgres;Password=LeonelF_241207";
 
         private NpgsqlConnection conexion;
 
@@ -44,6 +44,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
         {
             if (conexion.State == System.Data.ConnectionState.Open)
                 conexion.Close();
+        }
+
+        // Datos necesarios para los respaldos
+
+        public string ObtenerHost()
+        {
+            return "localhost";
+        }
+
+        public int ObtenerPuerto()
+        {
+            return 5432;
+        }
+
+        public string ObtenerBaseDatos()
+        {
+            return "PAYLESS BD";
+        }
+
+        public string ObtenerUsuario()
+        {
+            return "postgres";
+        }
+
+        public string ObtenerPassword()
+        {
+            return "LeonelF_241207";
         }
 
 
