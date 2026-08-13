@@ -140,17 +140,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnProbarConexion_Click(object sender, EventArgs e)
         {
-            ConexionBD conexion = new ConexionBD();
-
-            if(conexion.AbrirConexion())
-            {
-                MessageBox.Show("Conexión exitosa con PostgreSQL.");
-                conexion.CerrarConexion();
-            }
-            else
-            {
-                MessageBox.Show("Error al conectar a PostgreSQL.");
-            }
+           
         }
 
         private void Login_Load(object sender, EventArgs e)
