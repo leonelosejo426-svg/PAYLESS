@@ -162,12 +162,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         //Seleccionar un cliente
         private void CBclientes_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CBclientes.SelectedIndex != -1)
+            if (CBclientes.SelectedIndex != -1 && CBclientes.SelectedValue != null &&  int.TryParse(CBclientes.SelectedValue.ToString(), out idClienteSeleccionado))
             {
-
-
-                idClienteSeleccionado =
-                    Convert.ToInt32(CBclientes.SelectedValue.ToString());
 
                 ClaseCliente cliente =
                     clienteDAO.ObtenerCliente(idClienteSeleccionado);
@@ -179,14 +175,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 txtTelefono.Text = cliente.Telefono;
                 txtDireccion.Text = cliente.Direccion;
 
-                if (cliente.Estado)
-                {
-                    CBestado.SelectedItem = "Activo";
-                }
-                else
-                {
-                    CBestado.SelectedItem = "Inactivo";
-                }
+                CBestado.SelectedItem = cliente.Estado? "Activo" : "Inactivo";
+
             }
 
         }

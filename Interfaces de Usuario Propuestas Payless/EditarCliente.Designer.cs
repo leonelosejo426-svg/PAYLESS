@@ -106,6 +106,9 @@
             // CBestado
             // 
             this.CBestado.FormattingEnabled = true;
+            this.CBestado.Items.AddRange(new object[] {
+            "Activo",
+            "Inactivo"});
             this.CBestado.Location = new System.Drawing.Point(76, 243);
             this.CBestado.Name = "CBestado";
             this.CBestado.Size = new System.Drawing.Size(140, 21);
