@@ -97,7 +97,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             //Id del cliente seleccionado
             cliente.IdCliente = idClienteSeleccionado;
             //No se modifica el codigo
-            cliente.Codigo = txtCodigo.Text.Trim;
+            cliente.Codigo = txtCodigo.Text.Trim();
 
             //Campos que si se pueden editar 
             cliente.Nombre = txtNombre.Text.Trim();
