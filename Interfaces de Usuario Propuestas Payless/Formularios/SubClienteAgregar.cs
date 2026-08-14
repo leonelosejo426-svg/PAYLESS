@@ -20,7 +20,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            // Validaciones
+            // Validar nombre
             if (string.IsNullOrWhiteSpace(q.Text))
             {
                 MessageBox.Show("Ingrese el nombre del cliente.");
@@ -28,6 +28,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Validar cédula
             if (string.IsNullOrWhiteSpace(txtcedula.Text))
             {
                 MessageBox.Show("Ingrese el número de cédula.");
@@ -35,6 +36,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Validar teléfono
             if (string.IsNullOrWhiteSpace(txtTelefono.Text))
             {
                 MessageBox.Show("Ingrese el número de teléfono.");
@@ -42,6 +44,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Validar estado
             if (CBestado.SelectedIndex == -1)
             {
                 MessageBox.Show("Seleccione un estado.");
@@ -49,6 +52,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Validar dirección
             if (string.IsNullOrWhiteSpace(richtxtDirreccion.Text))
             {
                 MessageBox.Show("Ingrese la dirección.");
@@ -56,38 +60,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // Crear objeto
+            // Crear objeto cliente
             ClaseCliente cliente = new ClaseCliente();
 
             cliente.Nombre = q.Text.Trim();
             cliente.Cedula = txtcedula.Text.Trim();
             cliente.Telefono = txtTelefono.Text.Trim();
             cliente.Direccion = richtxtDirreccion.Text.Trim();
-
-            // Estado
             cliente.Estado = CBestado.Text == "Activo";
 
-            // Llamar al método
+            // Guardar cliente
             ClienteDAO dao = new ClienteDAO();
 
             if (dao.AgregarCliente(cliente))
             {
-                MessageBox.Show("Cliente agregado correctamente.");
+                MessageBox.Show(
+                    "Cliente agregado correctamente.",
+                    "Registro exitoso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-                // Limpiar controles (opcional)
+                // Limpiar campos
                 q.Clear();
                 txtcedula.Clear();
                 txtTelefono.Clear();
                 richtxtDirreccion.Clear();
                 CBestado.SelectedIndex = -1;
+
+                q.Focus();
             }
             else
             {
-                MessageBox.Show("No fue posible agregar el cliente.");
+                MessageBox.Show(
+                    "No fue posible agregar el cliente.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
-        private void btnSalir_Click(object sender, EventArgs e)
+        private void btnCancelar_Click(object sender, EventArgs e)
         {
             Cliente ventana = new Cliente();
             ventana.Show();
