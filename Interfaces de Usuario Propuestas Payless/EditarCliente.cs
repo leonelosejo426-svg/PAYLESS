@@ -167,7 +167,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
                 idClienteSeleccionado =
-                    Convert.ToInt32(CBclientes.SelectedValue);
+                    Convert.ToInt32(CBclientes.SelectedValue.ToString());
 
                 ClaseCliente cliente =
                     clienteDAO.ObtenerCliente(idClienteSeleccionado);
