@@ -24,23 +24,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"SELECT
-                        id_cliente,
-                        codigo,
-                        nombre,
-                        cedula,
-                        telefono,
-                        estado,
-                        direccion
-                       FROM cliente
-                       ORDER BY nombre";
+                string sql = @"
+            SELECT
+                id_cliente,
+                nombre,
+                telefono,
+                cedula,
+                direccion,
+                estado
+            FROM cliente
+            ORDER BY nombre";
 
                 NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(sql, conexionBD.ObtenerConexion());
+                    new NpgsqlDataAdapter(
+                        sql,
+                        conexionBD.ObtenerConexion());
 
                 da.Fill(tabla);
             }
-
+            catch
+            {
+                return tabla;
+            }
             finally
             {
                 conexionBD.CerrarConexion();
