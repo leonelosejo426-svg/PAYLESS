@@ -21,13 +21,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             // Validaciones
-            if (string.IsNullOrWhiteSpace(txtcodigo.Text))
-            {
-                MessageBox.Show("Ingrese el código del cliente.");
-                txtcodigo.Focus();
-                return;
-            }
-
             if (string.IsNullOrWhiteSpace(q.Text))
             {
                 MessageBox.Show("Ingrese el nombre del cliente.");
@@ -66,7 +59,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // Crear objeto
             ClaseCliente cliente = new ClaseCliente();
 
-            cliente.Codigo = txtcodigo.Text.Trim();
             cliente.Nombre = q.Text.Trim();
             cliente.Cedula = txtcedula.Text.Trim();
             cliente.Telefono = txtTelefono.Text.Trim();
@@ -83,18 +75,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 MessageBox.Show("Cliente agregado correctamente.");
 
                 // Limpiar controles (opcional)
-                txtcodigo.Clear();
                 q.Clear();
                 txtcedula.Clear();
                 txtTelefono.Clear();
                 richtxtDirreccion.Clear();
                 CBestado.SelectedIndex = -1;
-                txtcodigo.Focus();
             }
             else
             {
                 MessageBox.Show("No fue posible agregar el cliente.");
             }
+        }
+
+        private void btnSalir_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Hide();
         }
     }
 }
