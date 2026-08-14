@@ -186,9 +186,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void CBbusqueda_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DGVtabla1.DataSource =
-        clienteDAO.BuscarClientes("nombre", CmbBusqueda.Text);
-        }
+            switch (CmbBusqueda.Text)
+            {
+                case "Nombre":
+                    DGVtabla1.DataSource =
+                        clienteDAO.BuscarPorNombre(CmbBusqueda.Text);
+                    break;
+
+                case "Cédula":
+                    DGVtabla1.DataSource =
+                        clienteDAO.BuscarPorCedula(CmbBusqueda.Text);
+                    break;
+
+                case "Teléfono":
+                    DGVtabla1.DataSource =
+                        clienteDAO.BuscarPorTelefono(CmbBusqueda.Text);
+                    break;
+
+            } }
 
         private void CBestado_SelectedIndexChanged(object sender, EventArgs e)
         {
