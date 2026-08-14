@@ -60,14 +60,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"INSERT INTO cliente
-                      (codigo,nombre,cedula,telefono,direccion,estado)
-                      VALUES
-                      (@codigo,@nombre,@cedula,@telefono,@direccion,@estado)";
+              (nombre,cedula,telefono,direccion,estado)
+              VALUES
+              (@nombre,@cedula,@telefono,@direccion,@estado)";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(sql, conexionBD.ObtenerConexion());
 
-                cmd.Parameters.AddWithValue("@codigo", cliente.Codigo);
                 cmd.Parameters.AddWithValue("@nombre", cliente.Nombre);
                 cmd.Parameters.AddWithValue("@cedula", cliente.Cedula);
                 cmd.Parameters.AddWithValue("@telefono", cliente.Telefono);
