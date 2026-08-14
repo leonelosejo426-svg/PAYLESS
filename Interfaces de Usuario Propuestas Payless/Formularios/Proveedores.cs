@@ -16,14 +16,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Proveedores : Form
     {
-        ClaseUsuario usuarioActual;
-
-
-        List<Proveedor> listaProveedores = new List<Proveedor>();
-        int indiceEditar = -1;
-
-
-
+       
         public Proveedores()
         {
             InitializeComponent();
@@ -33,22 +26,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void Proveedores_Load(object sender, EventArgs e)
         {
 
-            dgvProveedores.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvProveedores.MultiSelect = false;
+            
 
 
-
-
-            if (ClaseSesion.RolActual != "ADMIN" && ClaseSesion.RolActual != "KELLY")
-            {
-                MessageBox.Show("No tienes acceso");
-
-                new Menú_Principal().Show(); // 🔥 lo regresa
-                this.Hide();
-
-                return;
-            }
 
         }
 
@@ -182,102 +162,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             this.Hide();
         }
 
-        public class Proveedor
-        {
-            public string RUC { get; set; }
-            public string Nombre { get; set; }
-            public string Telefono { get; set; }
-            public string Direccion { get; set; }
-            public string Estado { get; set; }
-        }
-
+      
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             
 
-            Proveedor p = new Proveedor();
-
-           
-            p.Nombre = txtNombre.Text;
-            p.Telefono = txtTelefono.Text;
-            p.Direccion = txtDireccion.Text;
-           
-
-            listaProveedores.Add(p);
-
-            dgvProveedores.DataSource = null;
-            dgvProveedores.DataSource = listaProveedores;
-
-            Limpiar();
-
-            if (indiceEditar >= 0)
-            {
-              
-                listaProveedores[indiceEditar].Nombre = txtNombre.Text;
-                listaProveedores[indiceEditar].Telefono = txtTelefono.Text;
-                listaProveedores[indiceEditar].Direccion = txtDireccion.Text;
-               
-
-                indiceEditar = -1;
-            }
-            else
-            {
-                listaProveedores.Add(p);
-            }
-
+         
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-        
-        {
-            if (dgvProveedores.CurrentRow != null)
-            {
-                indiceEditar = dgvProveedores.CurrentRow.Index;
 
-               
-                txtNombre.Text = listaProveedores[indiceEditar].Nombre;
-                txtTelefono.Text = listaProveedores[indiceEditar].Telefono;
-                txtDireccion.Text = listaProveedores[indiceEditar].Direccion;
-                
-
-                MessageBox.Show("Edita los datos y presiona Agregar para guardar cambios");
-            }
         }
-    }
+            
+    
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            /*
-        {
-            if (dgvProveedores.CurrentRow != null)
-            {
-                int indice = dgvProveedores.CurrentRow.Index;
-
-                DialogResult r = MessageBox.Show(
-                    "¿Eliminar proveedor?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo
-                );
-
-                if (r == DialogResult.Yes)
-                {
-                    listaProveedores.RemoveAt(indice);
-
-                    dgvProveedores.DataSource = null;
-                    dgvProveedores.DataSource = listaProveedores;
-                }
-            }
-        }*/
+          
     }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
-            string json = JsonConvert.SerializeObject(listaProveedores, Formatting.Indented);
-            File.WriteAllText("proveedores.json", json);
-
-            MessageBox.Show("Datos guardados");
+           
         }
 
         private void btnCargar_Click(object sender, EventArgs e)
@@ -285,19 +193,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
       
         }
 
-        void Limpiar()
-        {
-           
-            txtNombre.Clear();
-            txtTelefono.Clear();
-            txtDireccion.Clear();
-          
-        }
-
-
+    
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            Limpiar();
+
         }
 
         private void label30_Click(object sender, EventArgs e)
