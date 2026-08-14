@@ -197,11 +197,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             Proveedor p = new Proveedor();
 
-            p.RUC = txtRUC.Text;
+           
             p.Nombre = txtNombre.Text;
             p.Telefono = txtTelefono.Text;
             p.Direccion = txtDireccion.Text;
-            p.Estado = cmbEstado.Text;
+           
 
             listaProveedores.Add(p);
 
@@ -212,11 +212,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             if (indiceEditar >= 0)
             {
-                listaProveedores[indiceEditar].RUC = txtRUC.Text;
+              
                 listaProveedores[indiceEditar].Nombre = txtNombre.Text;
                 listaProveedores[indiceEditar].Telefono = txtTelefono.Text;
                 listaProveedores[indiceEditar].Direccion = txtDireccion.Text;
-                listaProveedores[indiceEditar].Estado = cmbEstado.Text;
+               
 
                 indiceEditar = -1;
             }
@@ -235,11 +235,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 indiceEditar = dgvProveedores.CurrentRow.Index;
 
-                txtRUC.Text = listaProveedores[indiceEditar].RUC;
+               
                 txtNombre.Text = listaProveedores[indiceEditar].Nombre;
                 txtTelefono.Text = listaProveedores[indiceEditar].Telefono;
                 txtDireccion.Text = listaProveedores[indiceEditar].Direccion;
-                cmbEstado.Text = listaProveedores[indiceEditar].Estado;
+                
 
                 MessageBox.Show("Edita los datos y presiona Agregar para guardar cambios");
             }
@@ -282,32 +282,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
-       
-        
-            if (File.Exists("proveedores.json"))
-            {
-                string json = File.ReadAllText("proveedores.json");
-
-                listaProveedores = JsonConvert.DeserializeObject<List<Proveedor>>(json);
-
-                dgvProveedores.DataSource = null;
-                dgvProveedores.DataSource = listaProveedores;
-
-                MessageBox.Show("Datos cargados");
-            }
-            else
-            {
-                MessageBox.Show("No existe el archivo");
-            }
+      
         }
 
         void Limpiar()
         {
-            txtRUC.Clear();
+           
             txtNombre.Clear();
             txtTelefono.Clear();
             txtDireccion.Clear();
-            cmbEstado.SelectedIndex = -1;
+          
         }
 
 
@@ -321,6 +305,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
             this.Hide();
+        }
+
+        private void dgvProveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
     
