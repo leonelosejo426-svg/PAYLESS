@@ -41,34 +41,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBclientes.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        //Seleccionar un cliente
+       
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Verificar que exista el cliente
-            if (CBclientes.SelectedValue != null)
-            {
-                idClienteSeleccionado = Convert.ToInt32(CBclientes.SelectedValue);
-
-                //obtener los datos desde la base de datos
-                ClaseCliente cliente = clienteDAO.ObtenerCliente(idClienteSeleccionado);
-
-                //Llenar todos los campos del formulario
-                txtCodigo.Text = cliente.Codigo;
-                txtNombre.Text = cliente.Nombre;
-                txtCedula.Text = cliente.Telefono;
-                txtDireccion.Text = cliente.Direccion;
-
-                if (cliente.Estado == true)
-                {
-                    CBestado.SelectedItem = "Activo";
-                }
-                else
-                {
-                    CBestado.SelectedItem = "Inactivo";
-                }
-            }
-
-               
+            
+                
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -158,6 +135,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && e.KeyChar != ' ')
             {
                 e.Handled = true;
+            }
+        }
+
+        //Seleccionar un cliente
+        private void CBclientes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Verificar que exista el cliente
+            if (CBclientes.SelectedValue != null)
+            {
+                idClienteSeleccionado = Convert.ToInt32(CBclientes.SelectedValue);
+
+                //obtener los datos desde la base de datos
+                ClaseCliente cliente = clienteDAO.ObtenerCliente(idClienteSeleccionado);
+
+                //Llenar todos los campos del formulario
+                txtCodigo.Text = cliente.Codigo;
+                txtNombre.Text = cliente.Nombre;
+                txtCedula.Text = cliente.Cedula;
+                txtTelefono.Text = cliente.Telefono;
+                txtDireccion.Text = cliente.Direccion;
+
+                if (cliente.Estado == true)
+                {
+                    CBestado.SelectedItem = "Activo";
+                }
+                else
+                {
+                    CBestado.SelectedItem = "Inactivo";
+                }
             }
         }
     }

@@ -217,7 +217,7 @@
             this.CBclientes.Name = "CBclientes";
             this.CBclientes.Size = new System.Drawing.Size(378, 21);
             this.CBclientes.TabIndex = 100;
-            this.CBclientes.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.CBclientes.SelectedIndexChanged += new System.EventHandler(this.CBclientes_SelectedIndexChanged);
             // 
             // label2
             // 
