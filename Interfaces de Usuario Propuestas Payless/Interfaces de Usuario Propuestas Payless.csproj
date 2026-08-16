@@ -275,6 +275,7 @@
     <Compile Include="Datos\CorreoDAO.cs" />
     <Compile Include="Datos\MarcaDAO.cs" />
     <Compile Include="Datos\ProductoDAO.cs" />
+    <Compile Include="Datos\ProveedorDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
     <Compile Include="Datos\UsuarioDAO.cs" />
     <Compile Include="EditarCliente.cs">
