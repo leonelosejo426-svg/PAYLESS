@@ -34,7 +34,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                        
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
@@ -272,7 +272,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                                 id_producto,
                                 codigo,
                                 nombre,
-                                precio_venta,
+                             
                                 estado_producto,
                                 id_categoria,
                                 id_marca,
@@ -283,8 +283,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                                 @id_producto,
                                 @codigo,
                                 @nombre,
-                                @precio_venta,
-                                TRUE,
+                               
                                 @id_categoria,
                                 @id_marca,
                                 @id_proveedor
@@ -308,9 +307,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             "@nombre",
                             producto.Nombre);
 
-                        cmdInsertar.Parameters.AddWithValue(
-                            "@precio_venta",
-                            producto.PrecioVenta);
+                        
 
                         cmdInsertar.Parameters.AddWithValue(
                             "@id_categoria",
@@ -633,7 +630,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                       
                         p.estado_producto,
                         p.id_categoria,
                         p.id_marca,
@@ -720,7 +717,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         UPDATE producto
                         SET
                             nombre = @nombre,
-                            precio_venta = @precio_venta,
+                           
                             id_categoria = @id_categoria,
                             id_marca = @id_marca,
                             id_proveedor = @id_proveedor
@@ -736,9 +733,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         "@nombre",
                         producto.Nombre);
 
-                    cmdProducto.Parameters.AddWithValue(
-                        "@precio_venta",
-                        producto.PrecioVenta);
+                   
 
                     cmdProducto.Parameters.AddWithValue(
                         "@id_categoria",
@@ -903,7 +898,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                       
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
@@ -968,7 +963,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                       
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
@@ -1032,7 +1027,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                      
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
@@ -1096,7 +1091,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                        
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
@@ -1160,7 +1155,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                       
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
@@ -1224,7 +1219,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         p.id_producto,
                         p.codigo,
                         p.nombre,
-                        p.precio_venta,
+                        
                         p.estado_producto,
                         c.nombre_categoria AS categoria,
                         m.nombre_marca AS marca,
