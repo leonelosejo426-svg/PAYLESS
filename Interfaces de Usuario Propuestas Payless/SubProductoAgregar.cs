@@ -163,11 +163,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // Todos los campos son válidos
             return true;
         }
-        
+
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-
             // Primero validar todos los campos
             if (!ValidarCampos())
                 return;
@@ -247,7 +246,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 // Stock mínimo
                 int stockMinimo = 5;
 
-                // Guardar en la base de datos
+                // Guardar
                 bool resultado = DAO.AgregarProducto(
                     producto,
                     talla,
@@ -263,7 +262,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    // Limpiar los campos
                     LimpiarCampos();
                 }
                 else
@@ -282,21 +280,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-
-                LimpiarCampos();
-                {
-                    txtNombredelProducto.Clear();
-                    txtCantidad.Clear();
-
-                    cmbCategoria.SelectedIndex = -1;
-                    cmbMarca.SelectedIndex = -1;
-                    cmbProveedor.SelectedIndex = -1;
-                    cmbTalla.SelectedIndex = -1;
-
-                    txtNombredelProducto.Focus();
-                }
             }
-           
         }
         private void LimpiarCampos()
 
