@@ -12,12 +12,45 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Usuario : Form
     {
-            
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+
 
         public Usuario()
         {
             InitializeComponent();
+            CargarUsuarios();
         }
+
+        private void CargarUsuarios()
+        {
+            try
+
+            {
+                DataTable tabla = usuarioDAO.MostrarUsuarios();
+
+                dataGridView1.DataSource = tabla;
+
+            }
+
+            catch (Exception ex)
+
+            {
+
+                MessageBox.Show(
+
+                    "Error al cargar los usuarios: " + ex.Message,
+
+                    "Error",
+
+                    MessageBoxButtons.OK,
+
+                    MessageBoxIcon.Error);
+
+            }
+
+        }
+    
+
 
         private void label18_Click(object sender, EventArgs e)
         {
@@ -180,6 +213,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Mantenimiento ventana = new Mantenimiento();
             ventana.Show();
             this.Hide();
+        }
+
+        private void groupBox2_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
