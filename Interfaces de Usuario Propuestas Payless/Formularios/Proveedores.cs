@@ -1,5 +1,6 @@
 ﻿
 using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
+using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using Newtonsoft.Json;
 using Npgsql;
 using System;
