@@ -168,11 +168,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
+            // Primero validar todos los campos
             if (!ValidarCampos())
                 return;
 
             try
             {
+                // Crear el producto
                 ClaseProducto producto = new ClaseProducto();
 
                 // Nombre
@@ -185,11 +187,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (!int.TryParse(cmbCategoria.SelectedValue?.ToString(), out int idCategoria))
                 {
                     MessageBox.Show(
-                        "La categoría seleccionada no es válida.",
-                        "Error",
+                        "Seleccione una categoría válida.",
+                        "Validación",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBoxIcon.Warning);
 
+                    cmbCategoria.Focus();
                     return;
                 }
 
@@ -199,11 +202,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (!int.TryParse(cmbMarca.SelectedValue?.ToString(), out int idMarca))
                 {
                     MessageBox.Show(
-                        "La marca seleccionada no es válida.",
-                        "Error",
+                        "Seleccione una marca válida.",
+                        "Validación",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBoxIcon.Warning);
 
+                    cmbMarca.Focus();
                     return;
                 }
 
@@ -213,11 +217,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (!int.TryParse(cmbProveedor.SelectedValue?.ToString(), out int idProveedor))
                 {
                     MessageBox.Show(
-                        "El proveedor seleccionado no es válido.",
-                        "Error",
+                        "Seleccione un proveedor válido.",
+                        "Validación",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBoxIcon.Warning);
 
+                    cmbProveedor.Focus();
                     return;
                 }
 
@@ -227,13 +232,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string talla = cmbTalla.Text.Trim();
 
                 // Cantidad
-                if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
+                if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad))
                 {
                     MessageBox.Show(
-                        "La cantidad ingresada no es válida.",
-                        "Error",
+                        "Ingrese una cantidad válida.",
+                        "Validación",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBoxIcon.Warning);
 
                     txtCantidad.Focus();
                     return;
@@ -242,13 +247,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 // Stock mínimo
                 int stockMinimo = 5;
 
-                // Guardar
+                // Guardar en la base de datos
                 bool resultado = DAO.AgregarProducto(
                     producto,
                     talla,
                     cantidad,
                     stockMinimo);
 
+                // Resultado
                 if (resultado)
                 {
                     MessageBox.Show(
@@ -257,18 +263,40 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
+                    // Limpiar los campos
                     LimpiarCampos();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "No se pudo guardar el producto.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al agregar el producto:\n\n" + ex.Message,
+                    "Ocurrió un error al guardar el producto:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
-            }
 
+                LimpiarCampos();
+                {
+                    txtNombredelProducto.Clear();
+                    txtCantidad.Clear();
+
+                    cmbCategoria.SelectedIndex = -1;
+                    cmbMarca.SelectedIndex = -1;
+                    cmbProveedor.SelectedIndex = -1;
+                    cmbTalla.SelectedIndex = -1;
+
+                    txtNombredelProducto.Focus();
+                }
+            }
+           
         }
         private void LimpiarCampos()
 
