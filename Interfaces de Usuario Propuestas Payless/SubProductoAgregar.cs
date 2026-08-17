@@ -267,10 +267,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 else
                 {
                     MessageBox.Show(
-                        "No se pudo guardar el producto.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                         "AgregarProducto() devolvió FALSE.",
+                          "Prueba",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);                                                      
                 }
             }
             catch (Exception ex)
@@ -280,6 +280,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
+
+                
             }
         }
         private void LimpiarCampos()
