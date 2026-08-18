@@ -279,13 +279,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
             {
                 if (!File.Exists(rutaArchivo))
                 {
-                    MessageBox.Show("El archivo de respaldo no existe:\n" + rutaArchivo);
+                    MessageBox.Show(
+                        "El archivo de respaldo no existe.",
+                        "Restauración",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
                     return false;
                 }
 
                 if (!File.Exists(rutaPsql))
                 {
-                    MessageBox.Show("No se encontró psql.exe en:\n" + rutaPsql);
+                    MessageBox.Show(
+                        "No se encontró psql.exe en:\n" + rutaPsql,
+                        "Error PostgreSQL",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
                     return false;
                 }
 
@@ -304,9 +314,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                     $"--port={puerto} " +
                     $"--username=\"{usuario}\" " +
                     $"--dbname=\"{baseDatos}\" " +
-                    $"--clean " +
-                    $"--if-exists " +
-                    $"--exit-on-error " +
+                    $"-v ON_ERROR_STOP=1 " +
                     $"--file=\"{rutaArchivo}\"";
 
                 proceso.UseShellExecute = false;
@@ -346,7 +354,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                     }
 
                     MessageBox.Show(
-                        "Restauración realizada correctamente.",
+                        "Respaldo restaurado correctamente.",
                         "Restauración",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
