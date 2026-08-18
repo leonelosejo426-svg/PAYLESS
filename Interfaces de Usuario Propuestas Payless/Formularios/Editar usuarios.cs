@@ -16,5 +16,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             InitializeComponent();
         }
+
+        private void Editar_usuarios_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
