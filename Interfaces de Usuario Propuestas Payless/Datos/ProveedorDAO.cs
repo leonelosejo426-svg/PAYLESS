@@ -15,6 +15,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         private ConexionBD conexionBD = new ConexionBD();
 
+
         // =========================================================
         // MOSTRAR TODOS LOS PROVEEDORES
         // =========================================================
@@ -25,7 +26,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             try
             {
-                conexionBD.AbrirConexion();
+                if (!conexionBD.AbrirConexion())
+                {
+                    throw new Exception(
+                        "No se pudo abrir la conexión con PostgreSQL.");
+                }
 
                 string sql = @"
                     SELECT
@@ -34,22 +39,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         telefono,
                         correo,
                         direccion,
-                        estado,
                         ruc,
+                        estado,
                         fecha_registro
                     FROM proveedor
                     ORDER BY nombre";
 
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(
                         sql,
-                        conexionBD.ObtenerConexion());
-
-                da.Fill(tabla);
+                        conexionBD.ObtenerConexion()))
+                {
+                    using (NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return tabla;
+                throw new Exception(
+                    "Error al mostrar proveedores:\n\n" +
+                    ex.Message,
+                    ex);
             }
             finally
             {
@@ -68,7 +81,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             try
             {
-                conexionBD.AbrirConexion();
+                if (!conexionBD.AbrirConexion())
+                    return false;
 
                 string sql = @"
                     INSERT INTO proveedor
@@ -92,40 +106,44 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         CURRENT_TIMESTAMP
                     )";
 
-                NpgsqlCommand cmd =
+                using (NpgsqlCommand cmd =
                     new NpgsqlCommand(
                         sql,
-                        conexionBD.ObtenerConexion());
+                        conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@nombre",
+                        proveedor.Nombre);
 
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    proveedor.Nombre);
+                    cmd.Parameters.AddWithValue(
+                        "@telefono",
+                        proveedor.Telefono);
 
-                cmd.Parameters.AddWithValue(
-                    "@telefono",
-                    proveedor.Telefono);
+                    cmd.Parameters.AddWithValue(
+                        "@correo",
+                        proveedor.Correo);
 
-                cmd.Parameters.AddWithValue(
-                    "@correo",
-                    proveedor.Correo);
+                    cmd.Parameters.AddWithValue(
+                        "@direccion",
+                        proveedor.Direccion);
 
-                cmd.Parameters.AddWithValue(
-                    "@direccion",
-                    proveedor.Direccion);
+                    cmd.Parameters.AddWithValue(
+                        "@estado",
+                        proveedor.EstadoProveedor);
 
-                cmd.Parameters.AddWithValue(
-                    "@estado",
-                    proveedor.EstadoProveedor);
+                    cmd.Parameters.AddWithValue(
+                        "@ruc",
+                        proveedor.Ruc);
 
-                cmd.Parameters.AddWithValue(
-                    "@ruc",
-                    proveedor.Ruc);
-
-                return cmd.ExecuteNonQuery() > 0;
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(
+                    "Error al agregar proveedor:\n\n" +
+                    ex.Message,
+                    ex);
             }
             finally
             {
@@ -142,7 +160,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             try
             {
-                conexionBD.AbrirConexion();
+                if (!conexionBD.AbrirConexion())
+                    return false;
 
                 string sql = @"
                     UPDATE proveedor
@@ -155,44 +174,48 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         ruc = @ruc
                     WHERE id_proveedor = @id_proveedor";
 
-                NpgsqlCommand cmd =
+                using (NpgsqlCommand cmd =
                     new NpgsqlCommand(
                         sql,
-                        conexionBD.ObtenerConexion());
+                        conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@nombre",
+                        proveedor.Nombre);
 
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    proveedor.Nombre);
+                    cmd.Parameters.AddWithValue(
+                        "@telefono",
+                        proveedor.Telefono);
 
-                cmd.Parameters.AddWithValue(
-                    "@telefono",
-                    proveedor.Telefono);
+                    cmd.Parameters.AddWithValue(
+                        "@correo",
+                        proveedor.Correo);
 
-                cmd.Parameters.AddWithValue(
-                    "@correo",
-                    proveedor.Correo);
+                    cmd.Parameters.AddWithValue(
+                        "@direccion",
+                        proveedor.Direccion);
 
-                cmd.Parameters.AddWithValue(
-                    "@direccion",
-                    proveedor.Direccion);
+                    cmd.Parameters.AddWithValue(
+                        "@estado",
+                        proveedor.EstadoProveedor);
 
-                cmd.Parameters.AddWithValue(
-                    "@estado",
-                    proveedor.EstadoProveedor);
+                    cmd.Parameters.AddWithValue(
+                        "@ruc",
+                        proveedor.Ruc);
 
-                cmd.Parameters.AddWithValue(
-                    "@ruc",
-                    proveedor.Ruc);
+                    cmd.Parameters.AddWithValue(
+                        "@id_proveedor",
+                        proveedor.IdProveedor);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_proveedor",
-                    proveedor.IdProveedor);
-
-                return cmd.ExecuteNonQuery() > 0;
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(
+                    "Error al editar proveedor:\n\n" +
+                    ex.Message,
+                    ex);
             }
             finally
             {
@@ -209,27 +232,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             try
             {
-                conexionBD.AbrirConexion();
+                if (!conexionBD.AbrirConexion())
+                    return false;
 
                 string sql = @"
                     UPDATE proveedor
                     SET estado = FALSE
                     WHERE id_proveedor = @id_proveedor";
 
-                NpgsqlCommand cmd =
+                using (NpgsqlCommand cmd =
                     new NpgsqlCommand(
                         sql,
-                        conexionBD.ObtenerConexion());
+                        conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@id_proveedor",
+                        idProveedor);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_proveedor",
-                    idProveedor);
-
-                return cmd.ExecuteNonQuery() > 0;
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return false;
+                throw new Exception(
+                    "Error al eliminar proveedor:\n\n" +
+                    ex.Message,
+                    ex);
             }
             finally
             {
@@ -250,16 +278,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             try
             {
-                conexionBD.AbrirConexion();
+                if (!conexionBD.AbrirConexion())
+                {
+                    throw new Exception(
+                        "No se pudo abrir la conexión con PostgreSQL.");
+                }
 
-                // Solo permitimos campos conocidos
                 if (campo != "nombre" &&
                     campo != "telefono" &&
                     campo != "correo" &&
                     campo != "direccion" &&
                     campo != "ruc")
                 {
-                    return tabla;
+                    throw new Exception(
+                        "El campo de búsqueda no es válido.");
                 }
 
                 string sql = $@"
@@ -269,30 +301,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         telefono,
                         correo,
                         direccion,
-                        estado,
                         ruc,
+                        estado,
                         fecha_registro
                     FROM proveedor
                     WHERE {campo} ILIKE @valor
                     ORDER BY nombre";
 
-                NpgsqlCommand cmd =
+                using (NpgsqlCommand cmd =
                     new NpgsqlCommand(
                         sql,
-                        conexionBD.ObtenerConexion());
+                        conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@valor",
+                        "%" + valor + "%");
 
-                cmd.Parameters.AddWithValue(
-                    "@valor",
-                    "%" + valor + "%");
-
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(cmd);
-
-                da.Fill(tabla);
+                    using (NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return tabla;
+                throw new Exception(
+                    "Error al buscar proveedores:\n\n" +
+                    ex.Message,
+                    ex);
             }
             finally
             {
@@ -307,15 +344,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // OBTENER PROVEEDOR PARA EDITAR
         // =========================================================
 
-        public ClaseProveedor ObtenerProveedor(
-            int idProveedor)
+        public ClaseProveedor ObtenerProveedor(int idProveedor)
         {
             ClaseProveedor proveedor =
                 new ClaseProveedor();
 
             try
             {
-                conexionBD.AbrirConexion();
+                if (!conexionBD.AbrirConexion())
+                    return proveedor;
 
                 string sql = @"
                     SELECT
@@ -324,57 +361,62 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         telefono,
                         correo,
                         direccion,
-                        estado,
                         ruc,
+                        estado,
                         fecha_registro
                     FROM proveedor
                     WHERE id_proveedor = @id_proveedor";
 
-                NpgsqlCommand cmd =
+                using (NpgsqlCommand cmd =
                     new NpgsqlCommand(
                         sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@id_proveedor",
-                    idProveedor);
-
-                NpgsqlDataReader reader =
-                    cmd.ExecuteReader();
-
-                if (reader.Read())
+                        conexionBD.ObtenerConexion()))
                 {
-                    proveedor.IdProveedor =
-                        Convert.ToInt32(
-                            reader["id_proveedor"]);
+                    cmd.Parameters.AddWithValue(
+                        "@id_proveedor",
+                        idProveedor);
 
-                    proveedor.Nombre =
-                        reader["nombre"].ToString();
+                    using (NpgsqlDataReader reader =
+                        cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            proveedor.IdProveedor =
+                                Convert.ToInt32(
+                                    reader["id_proveedor"]);
 
-                    proveedor.Telefono =
-                        reader["telefono"].ToString();
+                            proveedor.Nombre =
+                                reader["nombre"].ToString();
 
-                    proveedor.Correo =
-                        reader["correo"].ToString();
+                            proveedor.Telefono =
+                                reader["telefono"].ToString();
 
-                    proveedor.Direccion =
-                        reader["direccion"].ToString();
+                            proveedor.Correo =
+                                reader["correo"].ToString();
 
-                    proveedor.EstadoProveedor =
-                        Convert.ToBoolean(
-                            reader["estado"]);
+                            proveedor.Direccion =
+                                reader["direccion"].ToString();
 
-                    proveedor.Ruc =
-                        reader["ruc"].ToString();
+                            proveedor.Ruc =
+                                reader["ruc"].ToString();
 
-                    proveedor.FechaRegistro =
-                        Convert.ToDateTime(
-                            reader["fecha_registro"]);
+                            proveedor.EstadoProveedor =
+                                Convert.ToBoolean(
+                                    reader["estado"]);
+
+                            proveedor.FechaRegistro =
+                                Convert.ToDateTime(
+                                    reader["fecha_registro"]);
+                        }
+                    }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                return proveedor;
+                throw new Exception(
+                    "Error al obtener proveedor:\n\n" +
+                    ex.Message,
+                    ex);
             }
             finally
             {
@@ -384,4 +426,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return proveedor;
         }
     }
+    
 }
