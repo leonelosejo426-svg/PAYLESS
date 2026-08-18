@@ -245,10 +245,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             try
             {
                 tablaProveedores = proveedorDAO.MostrarProveedores();
-                MessageBox.Show(
-                "Cantidad de proveedores encontrados: " +
-                tablaProveedores.Rows.Count.ToString());
-
 
                 if (tablaProveedores == null)
                 {
@@ -261,22 +257,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
+                MessageBox.Show(
+                    "Columnas recibidas: " +
+                    tablaProveedores.Columns.Count +
+                    "\nFilas recibidas: " +
+                    tablaProveedores.Rows.Count,
+                    "Resultado de la consulta",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 if (tablaProveedores.Rows.Count == 0)
                 {
                     MessageBox.Show(
                         "La consulta no devolvió ningún proveedor.",
                         "Aviso",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                        MessageBoxIcon.Warning);
 
                     return;
                 }
 
-                // Mostrar los datos
                 dgvProveedores.DataSource = null;
                 dgvProveedores.DataSource = tablaProveedores;
-
-                // Actualizar el DataGridView
                 dgvProveedores.Refresh();
             }
             catch (Exception ex)
