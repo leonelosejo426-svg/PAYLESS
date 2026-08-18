@@ -180,15 +180,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             DataTable tabla = proveedorDAO.MostrarProveedores();
 
-            // Cargar proveedores en el ComboBox
-            cmbBuscar.DataSource = null;
-            cmbBuscar.DisplayMember = "nombre";
-            cmbBuscar.DataSource = tabla;
-            cmbBuscar.SelectedIndex = -1;
+            // Verificar si hay datos
+            if (tabla == null || tabla.Rows.Count == 0)
+            {
+                MessageBox.Show(
+                    "No se encontraron proveedores.",
+                    "Proveedores",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-            // Cargar proveedores en el DataGridView
+                return;
+            }
+
+            // Cargar DataGridView
             dgvProveedores.DataSource = null;
             dgvProveedores.DataSource = tabla;
+
+            // Cargar ComboBox
+            cmbBuscar.DataSource = null;
+            cmbBuscar.DisplayMember = "nombre";
+            cmbBuscar.ValueMember = "id_proveedor";
+            cmbBuscar.DataSource = tabla;
+            cmbBuscar.SelectedIndex = -1;
         }
 
         private void label30_Click(object sender, EventArgs e)
