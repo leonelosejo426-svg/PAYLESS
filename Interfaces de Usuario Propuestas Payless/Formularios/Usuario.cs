@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CargarUsuarios();
         }
 
+        private void Usuario_Load(object sender, EventArgs e)
+        {
+            CargarUsuarios();
+        }
+
         private void CargarUsuarios()
         {
             try
@@ -29,7 +35,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 DataTable tabla = usuarioDAO.MostrarUsuarios();
 
-                dataGridView1.DataSource = tabla;
+                dgvUsuarios.DataSource = tabla;
 
             }
 
@@ -49,6 +55,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             }
 
+            private void CargarUsuarios()
+            {
+            DataTable tabla = usuarioDAO.MostrarUsuarios();
+            dgvUsuarios.DataSource = tabla;
         }
     
 
@@ -194,8 +204,54 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
+            string campo = "";
+
+            switch (cmbBuscar.Text)
+
+            {
+
+                case "Usuario":
+
+                    campo = "nombre_usuario";
+
+                    break;
+
+                case "Nombre":
+
+                    campo = "nombre_completo";
+
+                    break;
+
+                case "Rol":
+
+                    campo = "nombre_rol";
+
+                    break;
+
+            }
+
+            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+
+            {
+
+                CargarUsuarios();
+
+                return;
+
+            }
+
+            DataTable tabla = usuarioDAO.BuscarUsuarios(
+
+                campo,
+
+                txtBuscar.Text.Trim()
+
+            );
+
+            DgvUsuarios.DataSource = tabla;
 
         }
+        
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
@@ -204,10 +260,92 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            Gestion_de_usuario ventana = new Gestion_de_usuario();
-            ventana.Show();
-            this.Hide();
-        }
+            if (DgvUsuarios.CurrentRow == null)
+
+            {
+
+                MessageBox.Show(
+
+                    "Seleccione un usuario.",
+
+                    "Aviso",
+
+                    MessageBoxButtons.OK,
+
+                    MessageBoxIcon.Warning
+
+                );
+
+                return;
+
+            }
+
+            int idUsuario = Convert.ToInt32(
+
+                DgvUsuarios.CurrentRow.Cells["ID"].Value
+
+            );
+
+            DialogResult respuesta = MessageBox.Show(
+
+                "¿Está seguro de eliminar este usuario?",
+
+                "Confirmar eliminación",
+
+                MessageBoxButtons.YesNo,
+
+                MessageBoxIcon.Question
+
+            );
+
+            if (respuesta == DialogResult.Yes)
+
+            {
+
+                bool eliminado = usuarioDAO.EliminarUsuario(idUsuario);
+
+                if (eliminado)
+
+                {
+
+                    MessageBox.Show(
+
+                        "Usuario eliminado correctamente.",
+
+                        "Éxito",
+
+                        MessageBoxButtons.OK,
+
+                        MessageBoxIcon.Information
+
+                    );
+
+                    CargarUsuarios();
+
+                }
+
+                else
+
+                {
+
+                    MessageBox.Show(
+
+                        "No se pudo eliminar el usuario.",
+
+                        "Error",
+
+                        MessageBoxButtons.OK,
+
+                        MessageBoxIcon.Error
+
+                    );
+
+                }
+
+            }
+
+        }   
+        
 
         private void label12_Click(object sender, EventArgs e)
         {
