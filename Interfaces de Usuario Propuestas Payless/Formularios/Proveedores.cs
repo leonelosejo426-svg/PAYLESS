@@ -245,14 +245,45 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             try
             {
                 tablaProveedores = proveedorDAO.MostrarProveedores();
+                MessageBox.Show(
+                "Cantidad de proveedores encontrados: " +
+                tablaProveedores.Rows.Count.ToString());
 
+
+                if (tablaProveedores == null)
+                {
+                    MessageBox.Show(
+                        "El DAO devolvió NULL.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                if (tablaProveedores.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "La consulta no devolvió ningún proveedor.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                // Mostrar los datos
                 dgvProveedores.DataSource = null;
                 dgvProveedores.DataSource = tablaProveedores;
+
+                // Actualizar el DataGridView
+                dgvProveedores.Refresh();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al cargar proveedores:\n\n" + ex.Message,
+                    "Error al cargar proveedores:\n\n" +
+                    ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
