@@ -210,5 +210,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxIcon.Error);
             }
         }
+
+        private void SubProovedoresAgregar_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
