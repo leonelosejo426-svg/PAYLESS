@@ -161,16 +161,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // =========================================================
         private void ConfigurarComboBuscar()
         {
-            cmbBuscarPor.Items.Clear();
+            cmdBuscarProducto.Items.Clear();
 
-            cmbBuscarPor.Items.Add("ID");
-            cmbBuscarPor.Items.Add("Nombre");
-            cmbBuscarPor.Items.Add("Categoría");
-            cmbBuscarPor.Items.Add("Marca");
-            cmbBuscarPor.Items.Add("Proveedor");
-            cmbBuscarPor.Items.Add("Estado");
+            cmdBuscarProducto.Items.Add("ID");
+            cmdBuscarProducto.Items.Add("Nombre");
+            cmdBuscarProducto.Items.Add("Categoría");
+            cmdBuscarProducto.Items.Add("Marca");
+            cmdBuscarProducto.Items.Add("Proveedor");
+            cmdBuscarProducto.Items.Add("Estado");
 
-            cmbBuscarPor.SelectedIndex = -1;
+            cmdBuscarProducto.SelectedIndex = -1;
         }
 
 
@@ -322,7 +322,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (cmbBuscarPor.SelectedIndex == -1)
+            if (cmdBuscarProducto.SelectedIndex == -1)
             {
                 MessageBox.Show(
                     "Seleccione una opción en 'Buscar por'.",
@@ -344,24 +344,70 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            string criterio =
-                cmbBuscarPor.SelectedItem.ToString();
+            string criterio = cmdBuscarProducto.SelectedItem.ToString();
 
-            string texto = Microsoft.VisualBasic.Interaction.InputBox(
-                "Ingrese el valor que desea buscar:",
-                "Buscar producto",
-                "");
+            string texto = "";
+
+            using (Form formularioBuscar = new Form())
+            {
+                formularioBuscar.Text = "Buscar producto";
+                formularioBuscar.StartPosition = FormStartPosition.CenterParent;
+                formularioBuscar.FormBorderStyle = FormBorderStyle.FixedDialog;
+                formularioBuscar.MaximizeBox = false;
+                formularioBuscar.MinimizeBox = false;
+                formularioBuscar.ClientSize = new Size(350, 130);
+
+                Label etiqueta = new Label();
+                etiqueta.Text = "Ingrese el valor que desea buscar:";
+                etiqueta.AutoSize = true;
+                etiqueta.Location = new Point(15, 15);
+
+                TextBox campoBuscar = new TextBox();
+                campoBuscar.Width = 310;
+                campoBuscar.Location = new Point(15, 40);
+
+                Button botonAceptar = new Button();
+                botonAceptar.Text = "Buscar";
+                botonAceptar.Width = 90;
+                botonAceptar.Location = new Point(145, 75);
+                botonAceptar.DialogResult = DialogResult.OK;
+
+                Button botonCancelar = new Button();
+                botonCancelar.Text = "Cancelar";
+                botonCancelar.Width = 90;
+                botonCancelar.Location = new Point(240, 75);
+                botonCancelar.DialogResult = DialogResult.Cancel;
+
+                formularioBuscar.Controls.Add(etiqueta);
+                formularioBuscar.Controls.Add(campoBuscar);
+                formularioBuscar.Controls.Add(botonAceptar);
+                formularioBuscar.Controls.Add(botonCancelar);
+
+                formularioBuscar.AcceptButton = botonAceptar;
+                formularioBuscar.CancelButton = botonCancelar;
+
+                if (formularioBuscar.ShowDialog(this) != DialogResult.OK)
+                    return;
+
+                texto = campoBuscar.Text.Trim();
+            }
 
             if (string.IsNullOrWhiteSpace(texto))
+            {
+                MessageBox.Show(
+                    "Ingrese un valor para buscar.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
                 return;
+            }
 
             try
             {
-                DataView vista =
-                    new DataView(tablaProductos);
+                DataView vista = new DataView(tablaProductos);
 
-                string textoSeguro =
-                    texto.Replace("'", "''");
+                string textoSeguro = texto.Replace("'", "''");
 
                 switch (criterio)
                 {
