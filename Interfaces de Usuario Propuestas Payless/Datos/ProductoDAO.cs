@@ -195,10 +195,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =========================================================
 
         public bool AgregarProducto(
-            ClaseProducto producto,
-            string talla,
-            int cantidad,
-            int stockMinimo)
+    ClaseProducto producto,
+    string talla,
+    int cantidad,
+    int stockMinimo)
         {
             try
             {
@@ -207,139 +207,256 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 NpgsqlConnection conexion =
                     conexionBD.ObtenerConexion();
 
+                // ==========================================
+                // 1. BUSCAR SI EL PRODUCTO YA EXISTE
+                // ==========================================
 
-                // -------------------------------------------------
-                // INSERTAR PRODUCTO
-                // -------------------------------------------------
+                string sqlBuscarProducto = @"
+            SELECT id_producto
+            FROM producto
+            WHERE nombre = @nombre
+            AND id_categoria = @id_categoria
+            AND id_marca = @id_marca
+            AND id_proveedor = @id_proveedor
+            AND estado_producto = TRUE";
 
-                string sqlProducto = @"
-                    INSERT INTO producto
-                    (
-                        nombre,
-                        precio_venta,
-                        estado_producto,
-                        id_categoria,
-                        id_marca,
-                        id_proveedor
-                    )
-                    VALUES
-                    (
-                        @nombre,
-                        NULL,
-                        TRUE,
-                        @id_categoria,
-                        @id_marca,
-                        @id_proveedor
-                    )
-                    RETURNING id_producto";
-
-                NpgsqlCommand cmdProducto =
+                NpgsqlCommand cmdBuscarProducto =
                     new NpgsqlCommand(
-                        sqlProducto,
+                        sqlBuscarProducto,
                         conexion);
 
-                cmdProducto.Parameters.AddWithValue(
+                cmdBuscarProducto.Parameters.AddWithValue(
                     "@nombre",
                     producto.Nombre);
 
-                cmdProducto.Parameters.AddWithValue(
+                cmdBuscarProducto.Parameters.AddWithValue(
                     "@id_categoria",
                     producto.IdCategoria);
 
-                cmdProducto.Parameters.AddWithValue(
+                cmdBuscarProducto.Parameters.AddWithValue(
                     "@id_marca",
                     producto.IdMarca);
 
-                cmdProducto.Parameters.AddWithValue(
+                cmdBuscarProducto.Parameters.AddWithValue(
                     "@id_proveedor",
                     producto.IdProveedor);
 
+                object resultado =
+                    cmdBuscarProducto.ExecuteScalar();
 
-                int idProducto =
-                    Convert.ToInt32(
-                        cmdProducto.ExecuteScalar());
+                int idProducto;
 
+                // ==========================================
+                // 2. SI EL PRODUCTO YA EXISTE
+                // ==========================================
 
-                // -------------------------------------------------
-                // INSERTAR TALLA
-                // -------------------------------------------------
+                if (resultado != null)
+                {
+                    idProducto = Convert.ToInt32(resultado);
+                }
+                else
+                {
+                    // ==========================================
+                    // 3. CREAR PRODUCTO NUEVO
+                    // ==========================================
 
-                string sqlTalla = @"
-                    INSERT INTO producto_talla
-                    (
-                        talla,
-                        id_producto
-                    )
-                    VALUES
-                    (
-                        @talla,
-                        @id_producto
-                    )
-                    RETURNING id_producto_talla";
+                    string sqlInsertarProducto = @"
+                INSERT INTO producto
+                (
+                    nombre,
+                    precio_venta,
+                    estado_producto,
+                    id_categoria,
+                    id_marca,
+                    id_proveedor
+                )
+                VALUES
+                (
+                    @nombre,
+                    NULL,
+                    TRUE,
+                    @id_categoria,
+                    @id_marca,
+                    @id_proveedor
+                )
+                RETURNING id_producto";
 
-                NpgsqlCommand cmdTalla =
+                    NpgsqlCommand cmdInsertar =
+                        new NpgsqlCommand(
+                            sqlInsertarProducto,
+                            conexion);
+
+                    cmdInsertar.Parameters.AddWithValue(
+                        "@nombre",
+                        producto.Nombre);
+
+                    cmdInsertar.Parameters.AddWithValue(
+                        "@id_categoria",
+                        producto.IdCategoria);
+
+                    cmdInsertar.Parameters.AddWithValue(
+                        "@id_marca",
+                        producto.IdMarca);
+
+                    cmdInsertar.Parameters.AddWithValue(
+                        "@id_proveedor",
+                        producto.IdProveedor);
+
+                    idProducto =
+                        Convert.ToInt32(
+                            cmdInsertar.ExecuteScalar());
+                }
+
+                // ==========================================
+                // 4. BUSCAR SI YA EXISTE LA TALLA
+                // ==========================================
+
+                string sqlBuscarTalla = @"
+            SELECT id_producto_talla
+            FROM producto_talla
+            WHERE id_producto = @id_producto
+            AND talla = @talla";
+
+                NpgsqlCommand cmdBuscarTalla =
                     new NpgsqlCommand(
-                        sqlTalla,
+                        sqlBuscarTalla,
                         conexion);
 
-                cmdTalla.Parameters.AddWithValue(
-                    "@talla",
-                    talla);
-
-                cmdTalla.Parameters.AddWithValue(
+                cmdBuscarTalla.Parameters.AddWithValue(
                     "@id_producto",
                     idProducto);
 
+                cmdBuscarTalla.Parameters.AddWithValue(
+                    "@talla",
+                    talla);
 
-                int idProductoTalla =
-                    Convert.ToInt32(
-                        cmdTalla.ExecuteScalar());
+                object resultadoTalla =
+                    cmdBuscarTalla.ExecuteScalar();
 
+                // ==========================================
+                // 5. SI LA TALLA YA EXISTE
+                // ==========================================
 
-                // -------------------------------------------------
-                // INSERTAR INVENTARIO
-                // -------------------------------------------------
+                if (resultadoTalla != null)
+                {
+                    int idProductoTalla =
+                        Convert.ToInt32(resultadoTalla);
 
-                string sqlInventario = @"
-                    INSERT INTO inventario
-                    (
-                        stock_actual,
-                        stock_minimo,
-                        fecha_actualizacion,
-                        id_producto_talla
-                    )
-                    VALUES
-                    (
-                        @stock_actual,
-                        @stock_minimo,
-                        CURRENT_TIMESTAMP,
-                        @id_producto_talla
-                    )";
+                    string sqlActualizarStock = @"
+                UPDATE inventario
+                SET
+                    stock_actual = stock_actual + @cantidad,
+                    stock_minimo = @stock_minimo,
+                    fecha_actualizacion = CURRENT_TIMESTAMP
+                WHERE id_producto_talla =
+                      @id_producto_talla";
 
-                NpgsqlCommand cmdInventario =
-                    new NpgsqlCommand(
-                        sqlInventario,
-                        conexion);
+                    NpgsqlCommand cmdStock =
+                        new NpgsqlCommand(
+                            sqlActualizarStock,
+                            conexion);
 
-                cmdInventario.Parameters.AddWithValue(
-                    "@stock_actual",
-                    cantidad);
+                    cmdStock.Parameters.AddWithValue(
+                        "@cantidad",
+                        cantidad);
 
-                cmdInventario.Parameters.AddWithValue(
-                    "@stock_minimo",
-                    stockMinimo);
+                    cmdStock.Parameters.AddWithValue(
+                        "@stock_minimo",
+                        stockMinimo);
 
-                cmdInventario.Parameters.AddWithValue(
-                    "@id_producto_talla",
-                    idProductoTalla);
+                    cmdStock.Parameters.AddWithValue(
+                        "@id_producto_talla",
+                        idProductoTalla);
 
-                cmdInventario.ExecuteNonQuery();
+                    cmdStock.ExecuteNonQuery();
+                }
+                else
+                {
+                    // ==========================================
+                    // 6. CREAR NUEVA TALLA
+                    // ==========================================
 
+                    string sqlNuevaTalla = @"
+                INSERT INTO producto_talla
+                (
+                    talla,
+                    id_producto
+                )
+                VALUES
+                (
+                    @talla,
+                    @id_producto
+                )
+                RETURNING id_producto_talla";
+
+                    NpgsqlCommand cmdNuevaTalla =
+                        new NpgsqlCommand(
+                            sqlNuevaTalla,
+                            conexion);
+
+                    cmdNuevaTalla.Parameters.AddWithValue(
+                        "@talla",
+                        talla);
+
+                    cmdNuevaTalla.Parameters.AddWithValue(
+                        "@id_producto",
+                        idProducto);
+
+                    int idProductoTalla =
+                        Convert.ToInt32(
+                            cmdNuevaTalla.ExecuteScalar());
+
+                    // ==========================================
+                    // 7. CREAR INVENTARIO
+                    // ==========================================
+
+                    string sqlInventario = @"
+                INSERT INTO inventario
+                (
+                    stock_actual,
+                    stock_minimo,
+                    fecha_actualizacion,
+                    id_producto_talla
+                )
+                VALUES
+                (
+                    @stock_actual,
+                    @stock_minimo,
+                    CURRENT_TIMESTAMP,
+                    @id_producto_talla
+                )";
+
+                    NpgsqlCommand cmdInventario =
+                        new NpgsqlCommand(
+                            sqlInventario,
+                            conexion);
+
+                    cmdInventario.Parameters.AddWithValue(
+                        "@stock_actual",
+                        cantidad);
+
+                    cmdInventario.Parameters.AddWithValue(
+                        "@stock_minimo",
+                        stockMinimo);
+
+                    cmdInventario.Parameters.AddWithValue(
+                        "@id_producto_talla",
+                        idProductoTalla);
+
+                    cmdInventario.ExecuteNonQuery();
+                }
 
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                // TEMPORALMENTE mostramos el error real
+                MessageBox.Show(
+                    "Error al guardar producto:\n\n" + ex.Message,
+                    "Error PostgreSQL",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
                 return false;
             }
             finally
@@ -347,7 +464,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.CerrarConexion();
             }
         }
-
 
         // =========================================================
         // CARGAR TALLAS DE UN PRODUCTO
