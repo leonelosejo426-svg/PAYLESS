@@ -54,9 +54,9 @@
             this.txtCorreo.BackColor = System.Drawing.Color.White;
             this.txtCorreo.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtCorreo.Location = new System.Drawing.Point(270, 247);
-            this.txtCorreo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtCorreo.Margin = new System.Windows.Forms.Padding(4);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(274, 30);
+            this.txtCorreo.Size = new System.Drawing.Size(274, 26);
             this.txtCorreo.TabIndex = 122;
             // 
             // LblNumero
@@ -68,7 +68,7 @@
             this.LblNumero.Location = new System.Drawing.Point(25, 248);
             this.LblNumero.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNumero.Name = "LblNumero";
-            this.LblNumero.Size = new System.Drawing.Size(70, 23);
+            this.LblNumero.Size = new System.Drawing.Size(56, 19);
             this.LblNumero.TabIndex = 121;
             this.LblNumero.Text = "Correo";
             // 
@@ -78,7 +78,7 @@
             this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
             this.btnCancelar.Location = new System.Drawing.Point(394, 582);
-            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnCancelar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(88, 50);
             this.btnCancelar.TabIndex = 120;
@@ -92,7 +92,7 @@
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
             this.btnGuardar.Location = new System.Drawing.Point(186, 582);
-            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(88, 50);
             this.btnGuardar.TabIndex = 119;
@@ -104,9 +104,9 @@
             // 
             this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtTelefono.Location = new System.Drawing.Point(270, 196);
-            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(274, 30);
+            this.txtTelefono.Size = new System.Drawing.Size(274, 26);
             this.txtTelefono.TabIndex = 117;
             // 
             // txtNombre
@@ -114,9 +114,9 @@
             this.txtNombre.BackColor = System.Drawing.Color.White;
             this.txtNombre.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtNombre.Location = new System.Drawing.Point(270, 149);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(274, 30);
+            this.txtNombre.Size = new System.Drawing.Size(274, 26);
             this.txtNombre.TabIndex = 116;
             // 
             // LblNombre
@@ -128,7 +128,7 @@
             this.LblNombre.Location = new System.Drawing.Point(25, 151);
             this.LblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNombre.Name = "LblNombre";
-            this.LblNombre.Size = new System.Drawing.Size(200, 23);
+            this.LblNombre.Size = new System.Drawing.Size(160, 19);
             this.LblNombre.TabIndex = 115;
             this.LblNombre.Text = "Nombre del Proovedor";
             // 
@@ -141,7 +141,7 @@
             this.Lbltelefono.Location = new System.Drawing.Point(25, 198);
             this.Lbltelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Lbltelefono.Name = "Lbltelefono";
-            this.Lbltelefono.Size = new System.Drawing.Size(84, 23);
+            this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
             this.Lbltelefono.TabIndex = 114;
             this.Lbltelefono.Text = "Télefono";
             // 
@@ -154,7 +154,7 @@
             this.LblEstado.Location = new System.Drawing.Point(25, 363);
             this.LblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblEstado.Name = "LblEstado";
-            this.LblEstado.Size = new System.Drawing.Size(116, 23);
+            this.LblEstado.Size = new System.Drawing.Size(94, 19);
             this.LblEstado.TabIndex = 113;
             this.LblEstado.Text = "Código RUC";
             // 
@@ -167,7 +167,7 @@
             this.LblBusqueda.Location = new System.Drawing.Point(25, 304);
             this.LblBusqueda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblBusqueda.Name = "LblBusqueda";
-            this.LblBusqueda.Size = new System.Drawing.Size(98, 23);
+            this.LblBusqueda.Size = new System.Drawing.Size(79, 19);
             this.LblBusqueda.TabIndex = 112;
             this.LblBusqueda.Text = "Dirrección";
             // 
@@ -179,7 +179,7 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.ForeColor = System.Drawing.Color.White;
             this.panel2.Location = new System.Drawing.Point(11, 12);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(662, 81);
             this.panel2.TabIndex = 111;
@@ -191,7 +191,7 @@
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.label18.Location = new System.Drawing.Point(533, 34);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(114, 23);
+            this.label18.Size = new System.Drawing.Size(92, 19);
             this.label18.TabIndex = 11;
             this.label18.Text = "Acerca De...";
             // 
@@ -215,7 +215,7 @@
             this.label1.Location = new System.Drawing.Point(118, 17);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(380, 45);
+            this.label1.Size = new System.Drawing.Size(300, 36);
             this.label1.TabIndex = 0;
             this.label1.Text = "Agregar Proveedores";
             // 
@@ -224,9 +224,9 @@
             this.txtDireccion.BackColor = System.Drawing.Color.White;
             this.txtDireccion.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtDireccion.Location = new System.Drawing.Point(270, 302);
-            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(274, 30);
+            this.txtDireccion.Size = new System.Drawing.Size(274, 26);
             this.txtDireccion.TabIndex = 123;
             // 
             // txtRUC
@@ -234,14 +234,14 @@
             this.txtRUC.BackColor = System.Drawing.Color.White;
             this.txtRUC.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.txtRUC.Location = new System.Drawing.Point(270, 361);
-            this.txtRUC.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtRUC.Margin = new System.Windows.Forms.Padding(4);
             this.txtRUC.Name = "txtRUC";
-            this.txtRUC.Size = new System.Drawing.Size(183, 30);
+            this.txtRUC.Size = new System.Drawing.Size(183, 26);
             this.txtRUC.TabIndex = 124;
             // 
             // SubProovedoresAgregar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(689, 683);
@@ -261,6 +261,7 @@
             this.Font = new System.Drawing.Font("Times New Roman", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "SubProovedoresAgregar";
             this.Text = "SubProovedoresAgregar";
+            this.Load += new System.EventHandler(this.SubProovedoresAgregar_Load);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
