@@ -20,21 +20,171 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         ClaseUsuario usuarioActual;
 
+        private DataTable tablaProductos;
+
         public Productos()
         {
             InitializeComponent();
+
+            ConfigurarDataGridView();
+            ConfigurarComboBuscar();
         }
 
 
+        // =========================================================
+        // CONFIGURACIÓN DEL DATAGRIDVIEW
+        // =========================================================
+        private void ConfigurarDataGridView()
+        {
+            // IMPORTANTE:
+            // Evita que el DataGridView cree automáticamente
+            // las columnas que vienen desde PostgreSQL.
+            dgvProductos.AutoGenerateColumns = false;
+
+            // No permitir editar ninguna celda directamente.
+            dgvProductos.ReadOnly = true;
+
+            // Seleccionar la fila completa.
+            dgvProductos.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            dgvProductos.MultiSelect = false;
+
+            // No permitir agregar filas desde el DataGridView.
+            dgvProductos.AllowUserToAddRows = false;
+
+            // Fuente Times New Roman tamaño 12.
+            dgvProductos.Font =
+                new Font("Times New Roman", 12);
+
+            dgvProductos.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Times New Roman", 12);
+
+            // Elimina las columnas que tengas creadas actualmente.
+            // Esto evita las columnas duplicadas.
+            dgvProductos.Columns.Clear();
 
 
+            // =====================================================
+            // ID
+            // =====================================================
+            DataGridViewTextBoxColumn columnaID =
+                new DataGridViewTextBoxColumn();
+
+            columnaID.Name = "colID";
+            columnaID.HeaderText = "ID";
+            columnaID.DataPropertyName = "id_producto";
+            columnaID.ReadOnly = true;
+            columnaID.Width = 80;
+
+            dgvProductos.Columns.Add(columnaID);
+
+
+            // =====================================================
+            // NOMBRE
+            // =====================================================
+            DataGridViewTextBoxColumn columnaNombre =
+                new DataGridViewTextBoxColumn();
+
+            columnaNombre.Name = "colNombre";
+            columnaNombre.HeaderText = "Nombre";
+            columnaNombre.DataPropertyName = "nombre";
+            columnaNombre.ReadOnly = true;
+            columnaNombre.Width = 180;
+
+            dgvProductos.Columns.Add(columnaNombre);
+
+
+            // =====================================================
+            // ESTADO
+            // =====================================================
+            DataGridViewCheckBoxColumn columnaEstado =
+                new DataGridViewCheckBoxColumn();
+
+            columnaEstado.Name = "colEstado";
+            columnaEstado.HeaderText = "Estado";
+            columnaEstado.DataPropertyName = "estado_producto";
+            columnaEstado.ReadOnly = true;
+            columnaEstado.Width = 100;
+
+            dgvProductos.Columns.Add(columnaEstado);
+
+
+            // =====================================================
+            // CATEGORÍA
+            // =====================================================
+            DataGridViewTextBoxColumn columnaCategoria =
+                new DataGridViewTextBoxColumn();
+
+            columnaCategoria.Name = "colCategoria";
+            columnaCategoria.HeaderText = "Categoría";
+            columnaCategoria.DataPropertyName = "categoria";
+            columnaCategoria.ReadOnly = true;
+            columnaCategoria.Width = 150;
+
+            dgvProductos.Columns.Add(columnaCategoria);
+
+
+            // =====================================================
+            // MARCA
+            // =====================================================
+            DataGridViewTextBoxColumn columnaMarca =
+                new DataGridViewTextBoxColumn();
+
+            columnaMarca.Name = "colMarca";
+            columnaMarca.HeaderText = "Marca";
+            columnaMarca.DataPropertyName = "marca";
+            columnaMarca.ReadOnly = true;
+            columnaMarca.Width = 150;
+
+            dgvProductos.Columns.Add(columnaMarca);
+
+
+            // =====================================================
+            // PROVEEDOR
+            // =====================================================
+            DataGridViewTextBoxColumn columnaProveedor =
+                new DataGridViewTextBoxColumn();
+
+            columnaProveedor.Name = "colProveedor";
+            columnaProveedor.HeaderText = "Proveedor";
+            columnaProveedor.DataPropertyName = "proveedor";
+            columnaProveedor.ReadOnly = true;
+            columnaProveedor.Width = 150;
+
+            dgvProductos.Columns.Add(columnaProveedor);
+        }
+
+
+        // =========================================================
+        // CONFIGURAR COMBOBOX
+        // =========================================================
+        private void ConfigurarComboBuscar()
+        {
+            cmbBuscarPor.Items.Clear();
+
+            cmbBuscarPor.Items.Add("ID");
+            cmbBuscarPor.Items.Add("Nombre");
+            cmbBuscarPor.Items.Add("Categoría");
+            cmbBuscarPor.Items.Add("Marca");
+            cmbBuscarPor.Items.Add("Proveedor");
+            cmbBuscarPor.Items.Add("Estado");
+
+            cmbBuscarPor.SelectedIndex = -1;
+        }
+
+
+        // =========================================================
+        // MOSTRAR PRODUCTOS
+        // =========================================================
         private void MostrarProductos()
         {
-            ProductoDAO productsDAO = new ProductoDAO();
-
             try
             {
-                dgvProductos.DataSource = productsDAO.MostrarProductos();
+                tablaProductos = productoDAO.MostrarProductos();
+
+                dgvProductos.DataSource = null;
+                dgvProductos.DataSource = tablaProductos;
             }
             catch (Exception ex)
             {
@@ -46,21 +196,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
+
         private void Productos_Load(object sender, EventArgs e)
         {
             if (ClaseSesion.RolActual != "ADMIN")
             {
-                MessageBox.Show("No tienes acceso");
+                MessageBox.Show(
+                    "No tienes acceso",
+                    "Acceso denegado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 this.Hide();
                 return;
             }
 
-            dgvProductos.AutoGenerateColumns = false;
-
             MostrarProductos();
         }
 
-        
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -168,7 +322,149 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            
+            if (cmbBuscarPor.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Seleccione una opción en 'Buscar por'.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            if (tablaProductos == null)
+            {
+                MessageBox.Show(
+                    "No hay productos cargados.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            string criterio =
+                cmbBuscarPor.SelectedItem.ToString();
+
+            string texto = Microsoft.VisualBasic.Interaction.InputBox(
+                "Ingrese el valor que desea buscar:",
+                "Buscar producto",
+                "");
+
+            if (string.IsNullOrWhiteSpace(texto))
+                return;
+
+            try
+            {
+                DataView vista =
+                    new DataView(tablaProductos);
+
+                string textoSeguro =
+                    texto.Replace("'", "''");
+
+                switch (criterio)
+                {
+                    case "ID":
+
+                        if (!int.TryParse(texto, out int id))
+                        {
+                            MessageBox.Show(
+                                "El ID debe ser un número.",
+                                "Aviso",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                            return;
+                        }
+
+                        vista.RowFilter =
+                            $"id_producto = {id}";
+
+                        break;
+
+
+                    case "Nombre":
+
+                        vista.RowFilter =
+                            $"CONVERT(nombre, 'System.String') LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    case "Categoría":
+
+                        vista.RowFilter =
+                            $"CONVERT(categoria, 'System.String') LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    case "Marca":
+
+                        vista.RowFilter =
+                            $"CONVERT(marca, 'System.String') LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    case "Proveedor":
+
+                        vista.RowFilter =
+                            $"CONVERT(proveedor, 'System.String') LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    case "Estado":
+
+                        if (texto.ToLower() == "activo" ||
+                            texto.ToLower() == "true" ||
+                            texto == "1")
+                        {
+                            vista.RowFilter =
+                                "estado_producto = TRUE";
+                        }
+                        else if (texto.ToLower() == "inactivo" ||
+                                 texto.ToLower() == "false" ||
+                                 texto == "0")
+                        {
+                            vista.RowFilter =
+                                "estado_producto = FALSE";
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Escriba Activo o Inactivo.",
+                                "Aviso",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+
+                            return;
+                        }
+
+                        break;
+                }
+
+                dgvProductos.DataSource = vista;
+
+                if (vista.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontraron productos.",
+                        "Resultado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al buscar: " + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -180,8 +476,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            ProductoDAO productsDAO = new ProductoDAO();
-
             if (dgvProductos.CurrentRow == null)
             {
                 MessageBox.Show(
@@ -194,18 +488,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
             int idProducto = Convert.ToInt32(
-                dgvProductos.CurrentRow.Cells["id_producto"].Value);
+                dgvProductos.CurrentRow.Cells["colID"].Value);
 
-            DialogResult respuesta = MessageBox.Show(
-                "¿Desea eliminar este producto?",
-                "Confirmar eliminación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            DialogResult respuesta =
+                MessageBox.Show(
+                    "¿Desea eliminar este producto?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
             if (respuesta != DialogResult.Yes)
                 return;
 
-            bool eliminado = productsDAO.EliminarProducto(idProducto);
+            bool eliminado =
+                productoDAO.EliminarProducto(idProducto);
 
             if (eliminado)
             {
