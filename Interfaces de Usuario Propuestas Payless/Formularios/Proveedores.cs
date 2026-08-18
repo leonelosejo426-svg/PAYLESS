@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -200,8 +199,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void CargarProveedores()
         {
-            DataTable table = proveedorDAO.MostrarProveedores();
-            dgvProveedores.DataSource = table;
+            DataTable tabla = proveedorDAO.MostrarProveedores();
+
+            dgvProveedores.AutoGenerateColumns = true;
+            dgvProveedores.DataSource = null;
+            dgvProveedores.DataSource = tabla;
         }
 
         private void label30_Click(object sender, EventArgs e)
@@ -284,66 +286,47 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             string valor = cmbBuscar.Text.Trim();
 
             if (string.IsNullOrEmpty(valor))
-
             {
-
                 CargarProveedores();
-
                 return;
-
             }
 
             string campo = "";
 
             switch (cmbBuscar.SelectedIndex)
-
             {
-
                 case 0:
-
                     campo = "nombre";
-
                     break;
 
                 case 1:
-
                     campo = "telefono";
-
                     break;
 
                 case 2:
-
                     campo = "correo";
-
                     break;
 
                 case 3:
-
                     campo = "direccion";
-
                     break;
 
                 case 4:
-
                     campo = "ruc";
-
                     break;
 
                 default:
-
                     MessageBox.Show("Seleccione un criterio de búsqueda.");
-
                     return;
-
             }
 
             DataTable tabla =
-
                 proveedorDAO.BuscarProveedores(campo, valor);
 
             dgvProveedores.DataSource = tabla;
 
         }
+
     }
 }
 
