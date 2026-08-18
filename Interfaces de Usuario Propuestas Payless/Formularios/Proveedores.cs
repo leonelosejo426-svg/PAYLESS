@@ -38,158 +38,68 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void ConfigurarDataGridView()
         {
-            // No crear columnas automáticamente
             dgvProveedores.AutoGenerateColumns = false;
-
-            // No permitir editar directamente
             dgvProveedores.ReadOnly = true;
-
-            // Seleccionar fila completa
-            dgvProveedores.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            // Una sola fila seleccionada
+            dgvProveedores.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvProveedores.MultiSelect = false;
-
-            // No permitir agregar filas manualmente
             dgvProveedores.AllowUserToAddRows = false;
 
-            // Fuente
-            dgvProveedores.Font =
-                new Font("Times New Roman", 12);
-
-            dgvProveedores.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Times New Roman", 12);
-
-            // Limpiar columnas existentes
             dgvProveedores.Columns.Clear();
 
-
-            // =====================================================
-            // ID
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaID =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaID = new DataGridViewTextBoxColumn();
             columnaID.Name = "colID";
             columnaID.HeaderText = "Código";
             columnaID.DataPropertyName = "id_proveedor";
-            columnaID.ReadOnly = true;
             columnaID.Width = 90;
-
             dgvProveedores.Columns.Add(columnaID);
 
-
-            // =====================================================
-            // NOMBRE
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaNombre =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaNombre = new DataGridViewTextBoxColumn();
             columnaNombre.Name = "colNombre";
             columnaNombre.HeaderText = "Nombre";
             columnaNombre.DataPropertyName = "nombre";
-            columnaNombre.ReadOnly = true;
             columnaNombre.Width = 200;
-
             dgvProveedores.Columns.Add(columnaNombre);
 
-
-            // =====================================================
-            // TELÉFONO
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaTelefono =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaTelefono = new DataGridViewTextBoxColumn();
             columnaTelefono.Name = "colTelefono";
             columnaTelefono.HeaderText = "Teléfono";
             columnaTelefono.DataPropertyName = "telefono";
-            columnaTelefono.ReadOnly = true;
             columnaTelefono.Width = 120;
-
             dgvProveedores.Columns.Add(columnaTelefono);
 
-
-            // =====================================================
-            // CORREO
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaCorreo =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaCorreo = new DataGridViewTextBoxColumn();
             columnaCorreo.Name = "colCorreo";
             columnaCorreo.HeaderText = "Correo";
             columnaCorreo.DataPropertyName = "correo";
-            columnaCorreo.ReadOnly = true;
             columnaCorreo.Width = 200;
-
             dgvProveedores.Columns.Add(columnaCorreo);
 
-
-            // =====================================================
-            // DIRECCIÓN
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaDireccion =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaDireccion = new DataGridViewTextBoxColumn();
             columnaDireccion.Name = "colDireccion";
             columnaDireccion.HeaderText = "Dirección";
             columnaDireccion.DataPropertyName = "direccion";
-            columnaDireccion.ReadOnly = true;
             columnaDireccion.Width = 220;
-
             dgvProveedores.Columns.Add(columnaDireccion);
 
-
-            // =====================================================
-            // RUC
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaRuc =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaRuc = new DataGridViewTextBoxColumn();
             columnaRuc.Name = "colRuc";
             columnaRuc.HeaderText = "RUC";
             columnaRuc.DataPropertyName = "ruc";
-            columnaRuc.ReadOnly = true;
             columnaRuc.Width = 140;
-
             dgvProveedores.Columns.Add(columnaRuc);
 
-
-            // =====================================================
-            // ESTADO
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaEstado =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaEstado = new DataGridViewTextBoxColumn();
             columnaEstado.Name = "colEstado";
             columnaEstado.HeaderText = "Estado";
             columnaEstado.DataPropertyName = "estado";
-            columnaEstado.ReadOnly = true;
             columnaEstado.Width = 100;
-
             dgvProveedores.Columns.Add(columnaEstado);
 
-
-            // =====================================================
-            // FECHA DE REGISTRO
-            // =====================================================
-
-            DataGridViewTextBoxColumn columnaFecha =
-                new DataGridViewTextBoxColumn();
-
+            DataGridViewTextBoxColumn columnaFecha = new DataGridViewTextBoxColumn();
             columnaFecha.Name = "colFecha";
             columnaFecha.HeaderText = "Fecha de registro";
             columnaFecha.DataPropertyName = "fecha_registro";
-            columnaFecha.ReadOnly = true;
             columnaFecha.Width = 150;
-
             dgvProveedores.Columns.Add(columnaFecha);
         }
 
@@ -336,30 +246,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 tablaProveedores = proveedorDAO.MostrarProveedores();
 
-                if (tablaProveedores == null)
-                {
-                    MessageBox.Show(
-                        "No se pudieron cargar los proveedores.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
                 dgvProveedores.DataSource = null;
                 dgvProveedores.DataSource = tablaProveedores;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al cargar los proveedores:\n\n" +
-                    ex.Message,
+                    "Error al cargar proveedores:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
+        
         private void label30_Click(object sender, EventArgs e)
         {
         }
@@ -458,7 +357,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
-
             if (cmbBuscar.SelectedIndex == -1)
             {
                 MessageBox.Show(
@@ -489,15 +387,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 case "RUC":
                     campo = "ruc";
                     break;
-
-                default:
-                    MessageBox.Show(
-                        "Seleccione un criterio válido.",
-                        "Búsqueda",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
             }
 
             string valor = "";
@@ -562,20 +451,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             try
             {
                 DataTable resultado =
-                    proveedorDAO.BuscarProveedores(
-                        campo,
-                        valor);
-
-                if (resultado == null)
-                {
-                    MessageBox.Show(
-                        "No se obtuvo ningún resultado.",
-                        "Búsqueda",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
+                    proveedorDAO.BuscarProveedores(campo, valor);
 
                 dgvProveedores.DataSource = null;
                 dgvProveedores.DataSource = resultado;
@@ -594,8 +470,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar:\n\n" +
-                    ex.Message,
+                    "Error al buscar:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
