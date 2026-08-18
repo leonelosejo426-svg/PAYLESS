@@ -79,7 +79,7 @@
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
             this.pictureBox4.Location = new System.Drawing.Point(2, 2);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(67, 60);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -226,7 +226,7 @@
             // 
             this.richtxtDirreccion.Font = new System.Drawing.Font("Times New Roman", 12F);
             this.richtxtDirreccion.Location = new System.Drawing.Point(166, 298);
-            this.richtxtDirreccion.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.richtxtDirreccion.Margin = new System.Windows.Forms.Padding(2);
             this.richtxtDirreccion.Name = "richtxtDirreccion";
             this.richtxtDirreccion.Size = new System.Drawing.Size(357, 152);
             this.richtxtDirreccion.TabIndex = 110;
@@ -257,7 +257,7 @@
             this.Controls.Add(this.LblEstado);
             this.Controls.Add(this.LblBusqueda);
             this.Controls.Add(this.panel2);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SubClienteAgregar";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "SubClienteAgregar";

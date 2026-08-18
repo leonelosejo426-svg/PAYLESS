@@ -20,47 +20,271 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         ClaseUsuario usuarioActual;
 
+        private DataTable tablaProductos;
+
         public Productos()
         {
             InitializeComponent();
+
+            ConfigurarDataGridView();
+            ConfigurarComboBuscar();
         }
 
 
 
+        private void ConfigurarDataGridView()
+        {
+            // No crear columnas automáticamente
+            dgvProductos.AutoGenerateColumns = false;
+
+            // No permitir editar directamente
+            dgvProductos.ReadOnly = true;
+
+            // Seleccionar fila completa
+            dgvProductos.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            // Solo una fila seleccionada
+            dgvProductos.MultiSelect = false;
+
+            // No permitir agregar filas manualmente
+            dgvProductos.AllowUserToAddRows = false;
+
+            // Fuente
+            dgvProductos.Font =
+                new Font("Times New Roman", 12);
+
+            dgvProductos.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Times New Roman", 12);
+
+            // Limpiar columnas existentes
+            dgvProductos.Columns.Clear();
+
+
+            // =====================================================
+            // CÓDIGO
+            // =====================================================
+
+            DataGridViewTextBoxColumn columnaID =
+                new DataGridViewTextBoxColumn();
+
+            columnaID.Name = "colID";
+            columnaID.HeaderText = "Código";
+            columnaID.DataPropertyName = "id_producto";
+            columnaID.ReadOnly = true;
+            columnaID.Width = 90;
+
+            dgvProductos.Columns.Add(columnaID);
+
+
+            // =====================================================
+            // NOMBRE DEL PRODUCTO
+            // =====================================================
+
+            DataGridViewTextBoxColumn columnaNombre =
+                new DataGridViewTextBoxColumn();
+
+            columnaNombre.Name = "colNombre";
+            columnaNombre.HeaderText = "Nombre del producto";
+            columnaNombre.DataPropertyName = "nombre";
+            columnaNombre.ReadOnly = true;
+            columnaNombre.Width = 220;
+
+            dgvProductos.Columns.Add(columnaNombre);
+
+
+            // =====================================================
+            // CATEGORÍA
+            // =====================================================
+
+            DataGridViewTextBoxColumn columnaCategoria =
+                new DataGridViewTextBoxColumn();
+
+            columnaCategoria.Name = "colCategoria";
+            columnaCategoria.HeaderText = "Categoría";
+            columnaCategoria.DataPropertyName = "categoria";
+            columnaCategoria.ReadOnly = true;
+            columnaCategoria.Width = 150;
+
+            dgvProductos.Columns.Add(columnaCategoria);
+
+
+            // =====================================================
+            // MARCA
+            // =====================================================
+
+            DataGridViewTextBoxColumn columnaMarca =
+                new DataGridViewTextBoxColumn();
+
+            columnaMarca.Name = "colMarca";
+            columnaMarca.HeaderText = "Marca";
+            columnaMarca.DataPropertyName = "marca";
+            columnaMarca.ReadOnly = true;
+            columnaMarca.Width = 150;
+
+            dgvProductos.Columns.Add(columnaMarca);
+
+
+            // =====================================================
+            // PROVEEDOR
+            // =====================================================
+
+            DataGridViewTextBoxColumn columnaProveedor =
+                new DataGridViewTextBoxColumn();
+
+            columnaProveedor.Name = "colProveedor";
+            columnaProveedor.HeaderText = "Proveedor";
+            columnaProveedor.DataPropertyName = "proveedor";
+            columnaProveedor.ReadOnly = true;
+            columnaProveedor.Width = 150;
+
+            dgvProductos.Columns.Add(columnaProveedor);
+
+
+            // =====================================================
+            // ESTADO
+            // =====================================================
+
+            // IMPORTANTE:
+            // NO usamos DataGridViewCheckBoxColumn.
+            // Se utiliza una columna de texto para mostrar
+            // "Activo" o "Inactivo".
+
+            DataGridViewTextBoxColumn columnaEstado =
+                new DataGridViewTextBoxColumn();
+
+            columnaEstado.Name = "colEstado";
+            columnaEstado.HeaderText = "Estado";
+            columnaEstado.DataPropertyName = "estado_texto";
+            columnaEstado.ReadOnly = true;
+            columnaEstado.Width = 100;
+
+            dgvProductos.Columns.Add(columnaEstado);
+        }
+
+
+
+        // =========================================================
+        // CONFIGURAR COMBOBOX DE BÚSQUEDA
+        // =========================================================
+
+        private void ConfigurarComboBuscar()
+        {
+            cmdBuscarProducto.Items.Clear();
+
+            cmdBuscarProducto.Items.Add("ID");
+            cmdBuscarProducto.Items.Add("Nombre");
+            cmdBuscarProducto.Items.Add("Categoría");
+            cmdBuscarProducto.Items.Add("Marca");
+            cmdBuscarProducto.Items.Add("Proveedor");
+            cmdBuscarProducto.Items.Add("Estado");
+
+            cmdBuscarProducto.SelectedIndex = -1;
+        }
+
+
+        // =========================================================
+        // MOSTRAR TODOS LOS PRODUCTOS
+        // =========================================================
 
         private void MostrarProductos()
         {
-            ProductoDAO productsDAO = new ProductoDAO();
-
             try
             {
-                dgvProductos.DataSource = productsDAO.MostrarProductos();
+                tablaProductos = productoDAO.MostrarProductos();
+
+                if (tablaProductos == null)
+                {
+                    MessageBox.Show(
+                        "No se pudieron cargar los productos.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+
+                // =================================================
+                // CREAR COLUMNA VISUAL PARA ESTADO
+                // =================================================
+
+                if (!tablaProductos.Columns.Contains("estado_texto"))
+                {
+                    tablaProductos.Columns.Add(
+                        "estado_texto",
+                        typeof(string));
+                }
+
+
+                // =================================================
+                // CONVERTIR TRUE / FALSE
+                // A ACTIVO / INACTIVO
+                // =================================================
+
+                foreach (DataRow fila in tablaProductos.Rows)
+                {
+                    bool estado = false;
+
+                    if (fila["estado_producto"] != DBNull.Value)
+                    {
+                        estado =
+                            Convert.ToBoolean(
+                                fila["estado_producto"]);
+                    }
+
+                    if (estado)
+                    {
+                        fila["estado_texto"] = "Activo";
+                    }
+                    else
+                    {
+                        fila["estado_texto"] = "Inactivo";
+                    }
+                }
+
+
+                // =================================================
+                // MOSTRAR EN DATAGRID
+                // =================================================
+
+                dgvProductos.DataSource = null;
+
+                dgvProductos.DataSource = tablaProductos;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al cargar los productos: " + ex.Message,
+                    "Error al cargar los productos:\n\n" +
+                    ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
 
+
         private void Productos_Load(object sender, EventArgs e)
         {
+            // Verificar acceso
             if (ClaseSesion.RolActual != "ADMIN")
             {
-                MessageBox.Show("No tienes acceso");
+                MessageBox.Show(
+                    "No tienes acceso",
+                    "Acceso denegado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 this.Hide();
+
                 return;
             }
 
-            dgvProductos.AutoGenerateColumns = false;
-
+            // Cargar automáticamente los productos
             MostrarProductos();
         }
 
-        
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -148,10 +372,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            SubProductoAgregar formulario = new SubProductoAgregar();
+            // Abrir subpantalla de agregar
+            using (SubProductoAgregar formulario =
+                   new SubProductoAgregar())
+            {
+                formulario.ShowDialog(this);
+            }
 
-            formulario.ShowDialog();
-
+            // Al cerrar la subpantalla,
+            // volver a cargar los datos.
             MostrarProductos();
         }
 
@@ -168,20 +397,322 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            
+            // Verificar que haya seleccionado un criterio
+            if (cmdBuscarProducto.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Seleccione una opción en 'Buscar por'.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+
+            // Verificar que haya datos
+            if (tablaProductos == null ||
+                tablaProductos.Rows.Count == 0)
+            {
+                MessageBox.Show(
+                    "No hay productos cargados.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+
+            string criterio =
+                cmdBuscarProducto.SelectedItem.ToString();
+
+            string texto = "";
+
+
+            // =====================================================
+            // VENTANA PARA ESCRIBIR EL VALOR A BUSCAR
+            // =====================================================
+
+            using (Form formularioBuscar = new Form())
+            {
+                formularioBuscar.Text = "Buscar producto";
+
+                formularioBuscar.StartPosition =
+                    FormStartPosition.CenterParent;
+
+                formularioBuscar.FormBorderStyle =
+                    FormBorderStyle.FixedDialog;
+
+                formularioBuscar.MaximizeBox = false;
+                formularioBuscar.MinimizeBox = false;
+
+                formularioBuscar.ClientSize =
+                    new Size(350, 130);
+
+
+                Label etiqueta = new Label();
+
+                etiqueta.Text =
+                    "Ingrese el valor que desea buscar:";
+
+                etiqueta.AutoSize = true;
+
+                etiqueta.Location =
+                    new Point(15, 15);
+
+
+                TextBox campoBuscar = new TextBox();
+
+                campoBuscar.Width = 310;
+
+                campoBuscar.Location =
+                    new Point(15, 40);
+
+
+                Button botonAceptar = new Button();
+
+                botonAceptar.Text = "Buscar";
+
+                botonAceptar.Width = 90;
+
+                botonAceptar.Location =
+                    new Point(145, 75);
+
+                botonAceptar.DialogResult =
+                    DialogResult.OK;
+
+
+                Button botonCancelar = new Button();
+
+                botonCancelar.Text = "Cancelar";
+
+                botonCancelar.Width = 90;
+
+                botonCancelar.Location =
+                    new Point(240, 75);
+
+                botonCancelar.DialogResult =
+                    DialogResult.Cancel;
+
+
+                formularioBuscar.Controls.Add(etiqueta);
+                formularioBuscar.Controls.Add(campoBuscar);
+                formularioBuscar.Controls.Add(botonAceptar);
+                formularioBuscar.Controls.Add(botonCancelar);
+
+
+                formularioBuscar.AcceptButton =
+                    botonAceptar;
+
+                formularioBuscar.CancelButton =
+                    botonCancelar;
+
+
+                if (formularioBuscar.ShowDialog(this)
+                    != DialogResult.OK)
+                {
+                    return;
+                }
+
+
+                texto =
+                    campoBuscar.Text.Trim();
+            }
+
+
+            // =====================================================
+            // VALIDAR TEXTO
+            // =====================================================
+
+            if (string.IsNullOrWhiteSpace(texto))
+            {
+                MessageBox.Show(
+                    "Ingrese un valor para buscar.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+
+            try
+            {
+                DataView vista =
+                    new DataView(tablaProductos);
+
+
+                string textoSeguro =
+                    texto.Replace("'", "''");
+
+
+                // =================================================
+                // BÚSQUEDA SEGÚN CRITERIO
+                // =================================================
+
+                switch (criterio)
+                {
+                    // =============================================
+                    // ID
+                    // =============================================
+
+                    case "ID":
+
+                        int id;
+
+                        if (!int.TryParse(
+                            texto,
+                            out id))
+                        {
+                            MessageBox.Show(
+                                "El ID debe ser un número.",
+                                "Aviso",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+
+                            return;
+                        }
+
+
+                        vista.RowFilter =
+                            $"id_producto = {id}";
+
+                        break;
+
+
+                    // =============================================
+                    // NOMBRE
+                    // =============================================
+
+                    case "Nombre":
+
+                        vista.RowFilter =
+                            $"CONVERT(nombre, 'System.String') " +
+                            $"LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    // =============================================
+                    // CATEGORÍA
+                    // =============================================
+
+                    case "Categoría":
+
+                        vista.RowFilter =
+                            $"CONVERT(categoria, 'System.String') " +
+                            $"LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    // =============================================
+                    // MARCA
+                    // =============================================
+
+                    case "Marca":
+
+                        vista.RowFilter =
+                            $"CONVERT(marca, 'System.String') " +
+                            $"LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    // =============================================
+                    // PROVEEDOR
+                    // =============================================
+
+                    case "Proveedor":
+
+                        vista.RowFilter =
+                            $"CONVERT(proveedor, 'System.String') " +
+                            $"LIKE '%{textoSeguro}%'";
+
+                        break;
+
+
+                    // =============================================
+                    // ESTADO
+                    // =============================================
+
+                    case "Estado":
+
+                        string estadoBuscado =
+                            texto.ToLower();
+
+                        if (estadoBuscado == "activo")
+                        {
+                            vista.RowFilter =
+                                "estado_producto = TRUE";
+                        }
+                        else if (estadoBuscado == "inactivo")
+                        {
+                            vista.RowFilter =
+                                "estado_producto = FALSE";
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Escriba Activo o Inactivo.",
+                                "Aviso",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+
+                            return;
+                        }
+
+                        break;
+                }
+
+
+                // =================================================
+                // MOSTRAR RESULTADOS
+                // =================================================
+
+                dgvProductos.DataSource = vista;
+
+
+                // =================================================
+                // SI NO HAY RESULTADOS
+                // =================================================
+
+                if (vista.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontraron productos.",
+                        "Resultado",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al buscar:\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            EditarProducto ventana = new EditarProducto();
-            ventana.Show();
-            this.Hide();
+            EditarProducto ventana =
+                new EditarProducto();
+
+            ventana.ShowDialog(this);
+
+            // Al regresar de la subpantalla,
+            // actualizar el DataGrid.
+            MostrarProductos();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            ProductoDAO productsDAO = new ProductoDAO();
-
+            // Verificar selección
             if (dgvProductos.CurrentRow == null)
             {
                 MessageBox.Show(
@@ -193,39 +724,88 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            int idProducto = Convert.ToInt32(
-                dgvProductos.CurrentRow.Cells["id_producto"].Value);
 
-            DialogResult respuesta = MessageBox.Show(
-                "¿Desea eliminar este producto?",
-                "Confirmar eliminación",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
+            // Obtener ID
+            if (dgvProductos.CurrentRow.Cells["colID"].Value
+                == null)
+            {
+                MessageBox.Show(
+                    "No se pudo obtener el producto seleccionado.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+
+            int idProducto =
+                Convert.ToInt32(
+                    dgvProductos.CurrentRow
+                    .Cells["colID"]
+                    .Value);
+
+
+            // =====================================================
+            // CONFIRMAR ELIMINACIÓN
+            // =====================================================
+
+            DialogResult respuesta =
+                MessageBox.Show(
+                    "¿Desea eliminar este producto?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
 
             if (respuesta != DialogResult.Yes)
+            {
                 return;
-
-            bool eliminado = productsDAO.EliminarProducto(idProducto);
-
-            if (eliminado)
-            {
-                MessageBox.Show(
-                    "Producto eliminado correctamente.",
-                    "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                MostrarProductos();
             }
-            else
+
+
+            // =====================================================
+            // ELIMINAR
+            // =====================================================
+
+            try
+            {
+                bool eliminado =
+                    productoDAO.EliminarProducto(
+                        idProducto);
+
+
+                if (eliminado)
+                {
+                    MessageBox.Show(
+                        "Producto eliminado correctamente.",
+                        "Información",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    // Actualizar DataGrid
+                    MostrarProductos();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "No se pudo eliminar el producto.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
             {
                 MessageBox.Show(
-                    "No se pudo eliminar el producto.",
+                    "Error al eliminar el producto:\n\n" +
+                    ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
+
 
         private void button3_Click_1(object sender, EventArgs e)
         {
@@ -243,9 +823,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnMarca_Click(object sender, EventArgs e)
         {
-          //  Marca ventana = new Marca();
-          //  ventana.Show();
-            //this.Hide();
+            Marca ventana = new Marca();
+            ventana.Show();
+            this.Hide();
         }
     }
 }

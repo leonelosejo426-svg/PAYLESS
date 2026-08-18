@@ -382,6 +382,11 @@
     </Compile>
     <Compile Include="Formularios\SubUsuarioAgregar.Designer.cs">
       <DependentUpon>SubUsuarioAgregar.cs</DependentUpon>
+    <Compile Include="Formularios\SubProovedoresAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubProovedoresAgregar.Designer.cs">
+      <DependentUpon>SubProovedoresAgregar.cs</DependentUpon>
     </Compile>
     <Compile Include="SubProductoAgregar.cs">
       <SubType>Form</SubType>
@@ -586,6 +591,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubUsuarioAgregar.resx">
       <DependentUpon>SubUsuarioAgregar.cs</DependentUpon>
+    <EmbeddedResource Include="Formularios\SubProovedoresAgregar.resx">
+      <DependentUpon>SubProovedoresAgregar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

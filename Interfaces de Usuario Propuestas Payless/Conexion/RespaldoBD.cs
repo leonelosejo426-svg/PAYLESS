@@ -46,8 +46,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
         // =====================================================
 
         public bool CrearRespaldo(
-            string nombrePersonalizado,
-            out string rutaArchivoFinal)
+    string nombrePersonalizado,
+    out string rutaArchivoFinal)
         {
             rutaArchivoFinal = string.Empty;
 
@@ -58,14 +58,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                     return false;
                 }
 
-                // Crear nuevamente la carpeta si fue eliminada
                 if (!Directory.Exists(rutaCarpetaRespaldos))
                 {
                     Directory.CreateDirectory(rutaCarpetaRespaldos);
                 }
 
-                // Nombre:
-                // Respaldo_Sistema_2026-08-12_16-30-25.sql
                 string nombreArchivo =
                     $"{nombrePersonalizado}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.sql";
 
@@ -74,22 +71,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                         rutaCarpetaRespaldos,
                         nombreArchivo);
 
-                // Abrir conexión
-                conexionBD.AbrirConexion();
-
-                NpgsqlConnection conexion =
-                    conexionBD.ObtenerConexion();
-
-                // Obtener datos de la conexión actual
                 string host = conexionBD.ObtenerHost();
                 int puerto = conexionBD.ObtenerPuerto();
                 string baseDatos = conexionBD.ObtenerBaseDatos();
                 string usuario = conexionBD.ObtenerUsuario();
                 string password = conexionBD.ObtenerPassword();
 
-                conexionBD.CerrarConexion();
-
-                // Configuración del proceso pg_dump
                 ProcessStartInfo proceso =
                     new ProcessStartInfo();
 
@@ -107,9 +94,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                 proceso.CreateNoWindow = true;
                 proceso.RedirectStandardError = true;
 
-                // La contraseña se toma mediante variable de entorno
-                conexionBD.ObtenerPassword();
-
+                // Contraseña real de ConexionBD
                 proceso.EnvironmentVariables["PGPASSWORD"] =
                     password;
 
@@ -200,7 +185,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
             // IMPORTANTE:
             // Aquí debes colocar la misma contraseña que
             // utilizas en tu ConexionBD.
-            return "123456";
+            return "LeonelF_241207";
         }
 
         // =====================================================
@@ -288,33 +273,83 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
         // =====================================================
         // RESTAURAR RESPALDO
         // =====================================================
-
-        public bool RestaurarRespaldo(
-            string rutaArchivo)
+            public bool RestaurarRespaldo(string rutaArchivo)
         {
             try
             {
                 if (!File.Exists(rutaArchivo))
                 {
+                    MessageBox.Show(
+                        "El archivo de respaldo no existe.",
+                        "Restauración",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
                     return false;
                 }
 
                 if (!File.Exists(rutaPsql))
                 {
+                    MessageBox.Show(
+                        "No se encontró psql.exe en:\n" + rutaPsql,
+                        "Error PostgreSQL",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
                     return false;
                 }
 
-                conexionBD.AbrirConexion();
+                // =====================================================
+                // OBTENER DATOS DE CONEXIÓN
+                // =====================================================
 
-                NpgsqlConnection conexion =
-                    conexionBD.ObtenerConexion();
                 string host = conexionBD.ObtenerHost();
                 int puerto = conexionBD.ObtenerPuerto();
                 string baseDatos = conexionBD.ObtenerBaseDatos();
                 string usuario = conexionBD.ObtenerUsuario();
                 string password = conexionBD.ObtenerPassword();
 
+                // =====================================================
+                // CERRAR CONEXIÓN ACTUAL
+                // =====================================================
+
                 conexionBD.CerrarConexion();
+
+                // =====================================================
+                // ELIMINAR EL ESQUEMA ACTUAL
+                // =====================================================
+
+                string cadenaConexion =
+                    $"Host={host};" +
+                    $"Port={puerto};" +
+                    $"Database={baseDatos};" +
+                    $"Username={usuario};" +
+                    $"Password={password};";
+
+                using (NpgsqlConnection conexionRestauracion =
+                    new NpgsqlConnection(cadenaConexion))
+                {
+                    conexionRestauracion.Open();
+
+                    string sqlLimpiar = @"
+                DROP SCHEMA public CASCADE;
+                CREATE SCHEMA public;
+            ";
+
+                    using (NpgsqlCommand comando =
+                        new NpgsqlCommand(
+                            sqlLimpiar,
+                            conexionRestauracion))
+                    {
+                        comando.ExecuteNonQuery();
+                    }
+
+                    conexionRestauracion.Close();
+                }
+
+                // =====================================================
+                // EJECUTAR PSQl
+                // =====================================================
 
                 ProcessStartInfo proceso =
                     new ProcessStartInfo();
@@ -322,18 +357,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                 proceso.FileName = rutaPsql;
 
                 proceso.Arguments =
-                    $"-h \"{host}\" " +
-                    $"-p {puerto} " +
-                    $"-U \"{usuario}\" " +
-                    $"-d \"{baseDatos}\" " +
-                    $"-f \"{rutaArchivo}\"";
+                    $"--host=\"{host}\" " +
+                    $"--port={puerto} " +
+                    $"--username=\"{usuario}\" " +
+                    $"--dbname=\"{baseDatos}\" " +
+                    $"-v ON_ERROR_STOP=1 " +
+                    $"--file=\"{rutaArchivo}\"";
 
                 proceso.UseShellExecute = false;
                 proceso.CreateNoWindow = true;
+
                 proceso.RedirectStandardError = true;
+                proceso.RedirectStandardOutput = true;
 
                 proceso.EnvironmentVariables["PGPASSWORD"] =
-                    ObtenerPasswordDesdeCadena();
+                    password;
 
                 using (Process procesoPsql =
                     new Process())
@@ -342,16 +380,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
 
                     procesoPsql.Start();
 
+                    string salida =
+                        procesoPsql.StandardOutput.ReadToEnd();
+
                     string error =
                         procesoPsql.StandardError.ReadToEnd();
 
                     procesoPsql.WaitForExit();
 
-                    return procesoPsql.ExitCode == 0;
+                    if (procesoPsql.ExitCode != 0)
+                    {
+                        MessageBox.Show(
+                            "ERROR AL RESTAURAR:\n\n" +
+                            error +
+                            "\n\nCódigo de salida: " +
+                            procesoPsql.ExitCode,
+                            "Error PostgreSQL",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+
+                        return false;
+                    }
                 }
+
+                MessageBox.Show(
+                    "El respaldo se restauró correctamente.",
+                    "Restauración",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return true;
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show(
+                    "ERROR EN LA RESTAURACIÓN:\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
                 return false;
             }
             finally

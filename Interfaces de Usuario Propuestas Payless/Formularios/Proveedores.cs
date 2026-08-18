@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -25,7 +24,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public Proveedores()
         {
             InitializeComponent();
+           
             CargarProveedores();
+           
 
         }
 
@@ -94,78 +95,55 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void label15_Click_1(object sender, EventArgs e)
         {
 
-            new Productos().Show();
-            this.Hide();
-
+            
         }
 
         private void label9_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menú_Principal();
-            ventana.Show();
-            this.Hide();
+            
         }
 
         private void label10_Click(object sender, EventArgs e)
         {
-            Productos ventana = new Productos();
-            ventana.Show();
-            this.Hide();
+            
         }
 
         private void label11_Click(object sender, EventArgs e)
         {
-            Proveedores ventana = new Proveedores();
-            ventana.Show();
-            this.Hide();
         }
 
         private void label12_Click(object sender, EventArgs e)
         {
-            Cliente ventana = new Cliente();
-            ventana.Show();
-            this.Hide();
         }
 
         private void label19_Click(object sender, EventArgs e)
         {
-            Usuario ventana = new Usuario();
-            ventana.Show();
-            this.Hide();
+            
         }
 
         private void label23_Click(object sender, EventArgs e)
         {
-            Compras_nuevo ventana = new Compras_nuevo();
-            ventana.Show();
-            this.Hide();
+          
         }
 
         private void label24_Click(object sender, EventArgs e)
         {
-            Ventas ventana = new Ventas();
-            ventana.Show();
-            this.Hide();
+           
         }
 
         private void label25_Click(object sender, EventArgs e)
         {
-            inventario ventana = new inventario();
-            ventana.Show(); this.Hide();
+            
         }
 
         private void label27_Click(object sender, EventArgs e)
         {
-            Credito ventana = new Credito();
-            ventana.Show();
-            this.Hide();
+            
         }
 
         private void label28_Click(object sender, EventArgs e)
         {
-            Caja ventana = new Caja();
-            ventana.Show();
-            this.Hide();
+           
         }
 
 
@@ -200,15 +178,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void CargarProveedores()
         {
-            DataTable table = proveedorDAO.MostrarProveedores();
-            dgvProveedores.DataSource = table;
+            DataTable tabla = proveedorDAO.MostrarProveedores();
+
+            // Cargar proveedores en el ComboBox
+            cmbBuscar.DataSource = null;
+            cmbBuscar.DataSource = tabla;
+            cmbBuscar.DisplayMember = "nombre";
+            cmbBuscar.ValueMember = "id_proveedor";
+            cmbBuscar.SelectedIndex = -1;
+
+            // Cargar proveedores en el DataGridView
+            dgvProveedores.DataSource = null;
+            dgvProveedores.DataSource = tabla;
         }
 
         private void label30_Click(object sender, EventArgs e)
         {
-            Mantenimiento ventana = new Mantenimiento();
-            ventana.Show();
-            this.Hide();
         }
 
         private void dgvProveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -225,54 +210,58 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
             if (dgvProveedores.CurrentRow == null)
-
             {
-
-                MessageBox.Show("Seleccione un proveedor para eliminar.");
+                MessageBox.Show(
+                    "Seleccione un proveedor para eliminar.",
+                    "Eliminar proveedor",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 return;
+            }
 
+            if (dgvProveedores.CurrentRow.Cells["id_proveedor"].Value == null)
+            {
+                MessageBox.Show(
+                    "No se pudo obtener el proveedor seleccionado.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
             }
 
             int idProveedor = Convert.ToInt32(
-
-                dgvProveedores.CurrentRow.Cells["id_proveedor"].Value
-
-            );
+                dgvProveedores.CurrentRow.Cells["id_proveedor"].Value);
 
             DialogResult resultado = MessageBox.Show(
-
                 "¿Está seguro de eliminar este proveedor?",
-
                 "Eliminar proveedor",
-
                 MessageBoxButtons.YesNo,
-
-                MessageBoxIcon.Question
-
-            );
+                MessageBoxIcon.Question);
 
             if (resultado == DialogResult.Yes)
-
             {
-
-                bool eliminado = proveedorDAO.EliminarProveedor(idProveedor);
+                bool eliminado =
+                    proveedorDAO.EliminarProveedor(idProveedor);
 
                 if (eliminado)
-
                 {
-
-                    MessageBox.Show("Proveedor eliminado correctamente.");
+                    MessageBox.Show(
+                        "Proveedor eliminado correctamente.",
+                        "Éxito",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
 
                     CargarProveedores();
-
                 }
-
                 else
-
                 {
-
-                    MessageBox.Show("No se pudo eliminar el proveedor.");
+                    MessageBox.Show(
+                        "No se pudo eliminar el proveedor.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
 
                 }
 
@@ -281,71 +270,72 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string valor = cmbBuscar.Text.Trim();
 
-            if (string.IsNullOrEmpty(valor))
-
+            // Verificar que haya seleccionado un proveedor
+            if (cmbBuscar.SelectedIndex == -1 ||
+                cmbBuscar.SelectedValue == null)
             {
+                MessageBox.Show(
+                    "Seleccione un proveedor.",
+                    "Búsqueda",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-                CargarProveedores();
-
+                cmbBuscar.Focus();
                 return;
-
             }
 
-            string campo = "";
-
-            switch (cmbBuscar.SelectedIndex)
-
+            try
             {
+                // Obtener el nombre del proveedor seleccionado
+                string nombreProveedor = cmbBuscar.Text.Trim();
 
-                case 0:
-
-                    campo = "nombre";
-
-                    break;
-
-                case 1:
-
-                    campo = "telefono";
-
-                    break;
-
-                case 2:
-
-                    campo = "correo";
-
-                    break;
-
-                case 3:
-
-                    campo = "direccion";
-
-                    break;
-
-                case 4:
-
-                    campo = "ruc";
-
-                    break;
-
-                default:
-
-                    MessageBox.Show("Seleccione un criterio de búsqueda.");
+                if (string.IsNullOrEmpty(nombreProveedor))
+                {
+                    MessageBox.Show(
+                        "Seleccione un proveedor válido.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
 
                     return;
+                }
+
+                // Buscar por nombre
+                DataTable tabla =
+                    proveedorDAO.BuscarProveedores(
+                        "nombre",
+                        nombreProveedor);
+
+                // Mostrar resultados
+                dgvProveedores.DataSource = null;
+                dgvProveedores.DataSource = tabla;
+
+                // Verificar si encontró resultados
+                if (tabla.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontraron proveedores.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Ocurrió un error al buscar el proveedor:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
 
             }
 
-            DataTable tabla =
-
-                proveedorDAO.BuscarProveedores(campo, valor);
-
-            dgvProveedores.DataSource = tabla;
 
         }
-    }
+    }    
 }
+
 
 
     
