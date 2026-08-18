@@ -40,10 +40,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (tabla == null)
                 {
                     MessageBox.Show(
-                        "No se pudieron cargar los usuarios.",
+                        "UsuarioDAO devolvió NULL.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+
+                    return;
+                }
+
+                if (tabla.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "El UsuarioDAO no devolvió ningún usuario.",
                         "Aviso",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                        MessageBoxIcon.Information);
 
                     return;
                 }
@@ -73,12 +84,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             dgvUsuarios.MultiSelect = false;
             dgvUsuarios.AllowUserToAddRows = false;
 
-            dgvUsuarios.Font =
-                new Font("Times New Roman", 12);
-
-            dgvUsuarios.ColumnHeadersDefaultCellStyle.Font =
-                new Font("Times New Roman", 12);
-
             dgvUsuarios.Columns.Clear();
 
 
@@ -89,7 +94,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaID.Name = "colID";
             columnaID.HeaderText = "ID";
             columnaID.DataPropertyName = "id";
-            columnaID.ReadOnly = true;
             columnaID.Width = 70;
 
             dgvUsuarios.Columns.Add(columnaID);
@@ -102,7 +106,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaNombre.Name = "colNombre";
             columnaNombre.HeaderText = "Nombre";
             columnaNombre.DataPropertyName = "nombre";
-            columnaNombre.ReadOnly = true;
             columnaNombre.Width = 200;
 
             dgvUsuarios.Columns.Add(columnaNombre);
@@ -115,7 +118,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaUsuario.Name = "colUsuario";
             columnaUsuario.HeaderText = "Usuario";
             columnaUsuario.DataPropertyName = "usuario";
-            columnaUsuario.ReadOnly = true;
             columnaUsuario.Width = 150;
 
             dgvUsuarios.Columns.Add(columnaUsuario);
@@ -128,7 +130,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaRol.Name = "colRol";
             columnaRol.HeaderText = "Rol";
             columnaRol.DataPropertyName = "rol";
-            columnaRol.ReadOnly = true;
             columnaRol.Width = 120;
 
             dgvUsuarios.Columns.Add(columnaRol);
@@ -141,7 +142,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaEstado.Name = "colEstado";
             columnaEstado.HeaderText = "Estado";
             columnaEstado.DataPropertyName = "estado";
-            columnaEstado.ReadOnly = true;
             columnaEstado.Width = 100;
 
             dgvUsuarios.Columns.Add(columnaEstado);
@@ -245,25 +245,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             string campo = "";
 
             switch (cmbBuscar.Text)
-
             {
-
                 case "Usuario":
-
-                    campo = "nombre_usuario";
-
+                    campo = "usuario";
                     break;
 
                 case "Nombre":
-
-                    campo = "nombre_completo";
-
+                    campo = "nombre";
                     break;
 
                 case "Rol":
+                    campo = "rol";
+                    break;
 
-                    campo = "nombre_rol";
-
+                case "Estado":
+                    campo = "estado";
                     break;
 
             }
