@@ -347,12 +347,6 @@
     <Compile Include="Formularios\Marca.Designer.cs">
       <DependentUpon>Marca.cs</DependentUpon>
     </Compile>
-    <Compile Include="Formularios\Pusuario.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Formularios\Pusuario.Designer.cs">
-      <DependentUpon>Pusuario.cs</DependentUpon>
-    </Compile>
     <Compile Include="Formularios\SubCategoriaAgregar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -382,6 +376,12 @@
     </Compile>
     <Compile Include="Formularios\SubMarcaEditar.Designer.cs">
       <DependentUpon>SubMarcaEditar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\SubUsuarioAgregar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubUsuarioAgregar.Designer.cs">
+      <DependentUpon>SubUsuarioAgregar.cs</DependentUpon>
     </Compile>
     <Compile Include="SubProductoAgregar.cs">
       <SubType>Form</SubType>
@@ -569,9 +569,6 @@
     <EmbeddedResource Include="Formularios\Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Formularios\Pusuario.resx">
-      <DependentUpon>Pusuario.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubCategoriaAgregar.resx">
       <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
     </EmbeddedResource>
@@ -586,6 +583,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubMarcaEditar.resx">
       <DependentUpon>SubMarcaEditar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubUsuarioAgregar.resx">
+      <DependentUpon>SubUsuarioAgregar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

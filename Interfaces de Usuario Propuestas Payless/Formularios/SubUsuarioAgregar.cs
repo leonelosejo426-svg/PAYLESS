@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
-    public partial class Pusuario : Form
+    public partial class SubUsuarioAgregar : Form
     {
-        public Pusuario()
+        public SubUsuarioAgregar()
         {
             InitializeComponent();
+        }
+
+        private void SubUsuarioAgregar_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
