@@ -23,6 +23,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             InitializeComponent();
 
             ConfigurarDataGridView();
+            ConfigurarComboBuscar();
             MostrarUsuarios();
         }
 
@@ -276,7 +277,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 default:
                     MessageBox.Show(
-                        "Seleccione un criterio válido.",
+                        "Seleccione Usuario, Nombre o Rol.",
                         "Búsqueda",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -284,101 +285,53 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
             }
 
-            // =========================================
-            // CREAR VENTANA PARA ESCRIBIR LA BÚSQUEDA
-            // =========================================
-
             string valor = "";
 
             using (Form formularioBuscar = new Form())
             {
                 formularioBuscar.Text = "Buscar usuario";
-
-                formularioBuscar.StartPosition =
-                    FormStartPosition.CenterParent;
-
-                formularioBuscar.FormBorderStyle =
-                    FormBorderStyle.FixedDialog;
-
+                formularioBuscar.StartPosition = FormStartPosition.CenterParent;
+                formularioBuscar.FormBorderStyle = FormBorderStyle.FixedDialog;
                 formularioBuscar.MaximizeBox = false;
                 formularioBuscar.MinimizeBox = false;
-
-                formularioBuscar.ClientSize =
-                    new Size(350, 130);
-
+                formularioBuscar.ClientSize = new Size(350, 130);
 
                 Label etiqueta = new Label();
-
-                etiqueta.Text =
-                    "Ingrese el valor que desea buscar:";
-
+                etiqueta.Text = "Ingrese el valor que desea buscar:";
                 etiqueta.AutoSize = true;
+                etiqueta.Location = new Point(15, 15);
 
-                etiqueta.Location =
-                    new Point(15, 15);
-
-
-                TextBox campoBuscar = new TextBox();
-
-                campoBuscar.Width = 310;
-
-                campoBuscar.Location =
-                    new Point(15, 40);
-
+                TextBox txtValor = new TextBox();
+                txtValor.Width = 310;
+                txtValor.Location = new Point(15, 40);
 
                 Button botonAceptar = new Button();
-
                 botonAceptar.Text = "Buscar";
-
                 botonAceptar.Width = 90;
-
-                botonAceptar.Location =
-                    new Point(145, 75);
-
-                botonAceptar.DialogResult =
-                    DialogResult.OK;
-
+                botonAceptar.Location = new Point(145, 75);
+                botonAceptar.DialogResult = DialogResult.OK;
 
                 Button botonCancelar = new Button();
-
                 botonCancelar.Text = "Cancelar";
-
                 botonCancelar.Width = 90;
-
-                botonCancelar.Location =
-                    new Point(240, 75);
-
-                botonCancelar.DialogResult =
-                    DialogResult.Cancel;
-
+                botonCancelar.Location = new Point(240, 75);
+                botonCancelar.DialogResult = DialogResult.Cancel;
 
                 formularioBuscar.Controls.Add(etiqueta);
-                formularioBuscar.Controls.Add(campoBuscar);
+                formularioBuscar.Controls.Add(txtValor);
                 formularioBuscar.Controls.Add(botonAceptar);
                 formularioBuscar.Controls.Add(botonCancelar);
 
+                formularioBuscar.AcceptButton = botonAceptar;
+                formularioBuscar.CancelButton = botonCancelar;
 
-                formularioBuscar.AcceptButton =
-                    botonAceptar;
-
-                formularioBuscar.CancelButton =
-                    botonCancelar;
-
-
-                if (formularioBuscar.ShowDialog(this)
-                    != DialogResult.OK)
+                if (formularioBuscar.ShowDialog(this) != DialogResult.OK)
                 {
                     return;
                 }
 
-
-                valor = campoBuscar.Text.Trim();
+                valor = txtValor.Text.Trim();
             }
-
-
-            // =========================================
-            // VALIDAR VALOR
-            // =========================================
 
             if (string.IsNullOrWhiteSpace(valor))
             {
@@ -391,18 +344,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-
-            // =========================================
-            // BUSCAR
-            // =========================================
-
             try
             {
-                DataTable tabla =
-                    usuarioDAO.BuscarUsuarios(
-                        campo,
-                        valor);
-
+                DataTable tabla = usuarioDAO.BuscarUsuarios(campo, valor);
 
                 if (tabla == null || tabla.Rows.Count == 0)
                 {
@@ -413,19 +357,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         MessageBoxIcon.Information);
 
                     MostrarUsuarios();
-
                     return;
                 }
 
-
+                // IMPORTANTE:
+                // No cambiar las columnas del DataGridView.
+                // Solamente cambiar los datos.
                 dgvUsuarios.DataSource = null;
                 dgvUsuarios.DataSource = tabla;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar:\n\n" +
-                    ex.Message,
+                    "Error al buscar:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -525,8 +469,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             }
 
-        }   
-        
+        }
+        private void ConfigurarComboBuscar()
+        {
+            cmbBuscar.Items.Clear();
+
+            cmbBuscar.Items.Add("Usuario");
+            cmbBuscar.Items.Add("Nombre");
+            cmbBuscar.Items.Add("Rol");
+            cmbBuscar.Items.Add("Activo");
+            cmbBuscar.Items.Add("Inactivo");
+
+            cmbBuscar.SelectedIndex = -1;
+        }
 
         private void label12_Click(object sender, EventArgs e)
         {
