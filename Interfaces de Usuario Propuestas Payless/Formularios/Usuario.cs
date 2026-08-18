@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Usuario : Form
@@ -40,21 +41,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (tabla == null)
                 {
                     MessageBox.Show(
-                        "UsuarioDAO devolvió NULL.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-                    return;
-                }
-
-                if (tabla.Rows.Count == 0)
-                {
-                    MessageBox.Show(
-                        "El UsuarioDAO no devolvió ningún usuario.",
+                        "No se pudieron cargar los usuarios.",
                         "Aviso",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                        MessageBoxIcon.Warning);
 
                     return;
                 }
@@ -87,55 +77,70 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             dgvUsuarios.Columns.Clear();
 
 
+            // ==========================
             // ID
+            // ==========================
+
             DataGridViewTextBoxColumn columnaID =
                 new DataGridViewTextBoxColumn();
 
             columnaID.Name = "colID";
             columnaID.HeaderText = "ID";
-            columnaID.DataPropertyName = "id";
+            columnaID.DataPropertyName = "id_usuario";
             columnaID.Width = 70;
 
             dgvUsuarios.Columns.Add(columnaID);
 
 
+            // ==========================
             // NOMBRE
+            // ==========================
+
             DataGridViewTextBoxColumn columnaNombre =
                 new DataGridViewTextBoxColumn();
 
             columnaNombre.Name = "colNombre";
             columnaNombre.HeaderText = "Nombre";
-            columnaNombre.DataPropertyName = "nombre";
+            columnaNombre.DataPropertyName = "nombre_completo";
             columnaNombre.Width = 200;
 
             dgvUsuarios.Columns.Add(columnaNombre);
 
 
+            // ==========================
             // USUARIO
+            // ==========================
+
             DataGridViewTextBoxColumn columnaUsuario =
                 new DataGridViewTextBoxColumn();
 
             columnaUsuario.Name = "colUsuario";
             columnaUsuario.HeaderText = "Usuario";
-            columnaUsuario.DataPropertyName = "usuario";
+            columnaUsuario.DataPropertyName = "nombre_usuario";
             columnaUsuario.Width = 150;
 
             dgvUsuarios.Columns.Add(columnaUsuario);
 
 
+            // ==========================
             // ROL
+            // ==========================
+
             DataGridViewTextBoxColumn columnaRol =
                 new DataGridViewTextBoxColumn();
 
             columnaRol.Name = "colRol";
             columnaRol.HeaderText = "Rol";
-            columnaRol.DataPropertyName = "rol";
+            columnaRol.DataPropertyName = "nombre_rol";
             columnaRol.Width = 120;
 
             dgvUsuarios.Columns.Add(columnaRol);
 
 
+            // ==========================
             // ESTADO
+            // ==========================
+
             DataGridViewTextBoxColumn columnaEstado =
                 new DataGridViewTextBoxColumn();
 
@@ -242,50 +247,192 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
+            if (cmbBuscar.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Seleccione qué desea buscar.",
+                    "Búsqueda",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             string campo = "";
 
             switch (cmbBuscar.Text)
             {
                 case "Usuario":
-                    campo = "usuario";
+                    campo = "nombre_usuario";
                     break;
 
                 case "Nombre":
-                    campo = "nombre";
+                    campo = "nombre_completo";
                     break;
 
                 case "Rol":
-                    campo = "rol";
+                    campo = "nombre_rol";
                     break;
 
-                case "Estado":
-                    campo = "estado";
-                    break;
+                default:
+                    MessageBox.Show(
+                        "Seleccione un criterio válido.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
 
+                    return;
             }
 
-            if (string.IsNullOrWhiteSpace(cmbBuscar.Text))
+            // =========================================
+            // CREAR VENTANA PARA ESCRIBIR LA BÚSQUEDA
+            // =========================================
 
+            string valor = "";
+
+            using (Form formularioBuscar = new Form())
             {
+                formularioBuscar.Text = "Buscar usuario";
 
-                MostrarUsuarios();
+                formularioBuscar.StartPosition =
+                    FormStartPosition.CenterParent;
+
+                formularioBuscar.FormBorderStyle =
+                    FormBorderStyle.FixedDialog;
+
+                formularioBuscar.MaximizeBox = false;
+                formularioBuscar.MinimizeBox = false;
+
+                formularioBuscar.ClientSize =
+                    new Size(350, 130);
+
+
+                Label etiqueta = new Label();
+
+                etiqueta.Text =
+                    "Ingrese el valor que desea buscar:";
+
+                etiqueta.AutoSize = true;
+
+                etiqueta.Location =
+                    new Point(15, 15);
+
+
+                TextBox campoBuscar = new TextBox();
+
+                campoBuscar.Width = 310;
+
+                campoBuscar.Location =
+                    new Point(15, 40);
+
+
+                Button botonAceptar = new Button();
+
+                botonAceptar.Text = "Buscar";
+
+                botonAceptar.Width = 90;
+
+                botonAceptar.Location =
+                    new Point(145, 75);
+
+                botonAceptar.DialogResult =
+                    DialogResult.OK;
+
+
+                Button botonCancelar = new Button();
+
+                botonCancelar.Text = "Cancelar";
+
+                botonCancelar.Width = 90;
+
+                botonCancelar.Location =
+                    new Point(240, 75);
+
+                botonCancelar.DialogResult =
+                    DialogResult.Cancel;
+
+
+                formularioBuscar.Controls.Add(etiqueta);
+                formularioBuscar.Controls.Add(campoBuscar);
+                formularioBuscar.Controls.Add(botonAceptar);
+                formularioBuscar.Controls.Add(botonCancelar);
+
+
+                formularioBuscar.AcceptButton =
+                    botonAceptar;
+
+                formularioBuscar.CancelButton =
+                    botonCancelar;
+
+
+                if (formularioBuscar.ShowDialog(this)
+                    != DialogResult.OK)
+                {
+                    return;
+                }
+
+
+                valor = campoBuscar.Text.Trim();
+            }
+
+
+            // =========================================
+            // VALIDAR VALOR
+            // =========================================
+
+            if (string.IsNullOrWhiteSpace(valor))
+            {
+                MessageBox.Show(
+                    "Ingrese un valor para buscar.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
                 return;
-
             }
 
-            DataTable tabla = usuarioDAO.BuscarUsuarios(
 
-                campo,
+            // =========================================
+            // BUSCAR
+            // =========================================
 
-                cmbBuscar.Text.Trim()
+            try
+            {
+                DataTable tabla =
+                    usuarioDAO.BuscarUsuarios(
+                        campo,
+                        valor);
 
-            );
 
-            dgvUsuarios.DataSource = tabla;
+                if (tabla == null || tabla.Rows.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontraron usuarios.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
 
+                    MostrarUsuarios();
+
+                    return;
+                }
+
+
+                dgvUsuarios.DataSource = null;
+                dgvUsuarios.DataSource = tabla;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al buscar:\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+            }
+            
         }
-        
 
         private void groupBox1_Enter(object sender, EventArgs e)
         {
