@@ -20,44 +20,135 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public Usuario()
         {
             InitializeComponent();
-            CargarUsuarios();
+
+            ConfigurarDataGridView();
+            MostrarUsuarios();
         }
 
         private void Usuario_Load(object sender, EventArgs e)
         {
-            CargarUsuarios();
+         
         }
 
-        private void CargarUsuarios()
+        private void MostrarUsuarios()
         {
-            try
 
+            try
             {
                 DataTable tabla = usuarioDAO.MostrarUsuarios();
 
+                if (tabla == null)
+                {
+                    MessageBox.Show(
+                        "No se pudieron cargar los usuarios.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                dgvUsuarios.DataSource = null;
                 dgvUsuarios.DataSource = tabla;
-
             }
-
             catch (Exception ex)
-
             {
-
                 MessageBox.Show(
-
-                    "Error al cargar los usuarios: " + ex.Message,
-
+                    "Error al cargar los usuarios:\n\n" +
+                    ex.Message,
                     "Error",
-
                     MessageBoxButtons.OK,
-
                     MessageBoxIcon.Error);
-
             }
         }
 
-           
-    
+        private void ConfigurarDataGridView()
+        {
+            dgvUsuarios.AutoGenerateColumns = false;
+            dgvUsuarios.ReadOnly = true;
+
+            dgvUsuarios.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            dgvUsuarios.MultiSelect = false;
+            dgvUsuarios.AllowUserToAddRows = false;
+
+            dgvUsuarios.Font =
+                new Font("Times New Roman", 12);
+
+            dgvUsuarios.ColumnHeadersDefaultCellStyle.Font =
+                new Font("Times New Roman", 12);
+
+            dgvUsuarios.Columns.Clear();
+
+
+            // ID
+            DataGridViewTextBoxColumn columnaID =
+                new DataGridViewTextBoxColumn();
+
+            columnaID.Name = "colID";
+            columnaID.HeaderText = "ID";
+            columnaID.DataPropertyName = "id";
+            columnaID.ReadOnly = true;
+            columnaID.Width = 70;
+
+            dgvUsuarios.Columns.Add(columnaID);
+
+
+            // NOMBRE
+            DataGridViewTextBoxColumn columnaNombre =
+                new DataGridViewTextBoxColumn();
+
+            columnaNombre.Name = "colNombre";
+            columnaNombre.HeaderText = "Nombre";
+            columnaNombre.DataPropertyName = "nombre";
+            columnaNombre.ReadOnly = true;
+            columnaNombre.Width = 200;
+
+            dgvUsuarios.Columns.Add(columnaNombre);
+
+
+            // USUARIO
+            DataGridViewTextBoxColumn columnaUsuario =
+                new DataGridViewTextBoxColumn();
+
+            columnaUsuario.Name = "colUsuario";
+            columnaUsuario.HeaderText = "Usuario";
+            columnaUsuario.DataPropertyName = "usuario";
+            columnaUsuario.ReadOnly = true;
+            columnaUsuario.Width = 150;
+
+            dgvUsuarios.Columns.Add(columnaUsuario);
+
+
+            // ROL
+            DataGridViewTextBoxColumn columnaRol =
+                new DataGridViewTextBoxColumn();
+
+            columnaRol.Name = "colRol";
+            columnaRol.HeaderText = "Rol";
+            columnaRol.DataPropertyName = "rol";
+            columnaRol.ReadOnly = true;
+            columnaRol.Width = 120;
+
+            dgvUsuarios.Columns.Add(columnaRol);
+
+
+            // ESTADO
+            DataGridViewTextBoxColumn columnaEstado =
+                new DataGridViewTextBoxColumn();
+
+            columnaEstado.Name = "colEstado";
+            columnaEstado.HeaderText = "Estado";
+            columnaEstado.DataPropertyName = "estado";
+            columnaEstado.ReadOnly = true;
+            columnaEstado.Width = 100;
+
+            dgvUsuarios.Columns.Add(columnaEstado);
+        }
+
+
+
 
 
         private void label18_Click(object sender, EventArgs e)
@@ -181,7 +272,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             {
 
-                CargarUsuarios();
+                MostrarUsuarios();
 
                 return;
 
@@ -229,7 +320,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             int idUsuario = Convert.ToInt32(
 
-                dgvUsuarios.CurrentRow.Cells["ID"].Value
+                dgvUsuarios.CurrentRow.Cells["colID"].Value
 
             );
 
@@ -267,7 +358,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     );
 
-                    CargarUsuarios();
+                    MostrarUsuarios();
 
                 }
 
