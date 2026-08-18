@@ -20,7 +20,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public EditarCliente()
         {
             InitializeComponent();
+
         }
+
+
         //Cargar formulario
         private void EditarCliente_Load(object sender, EventArgs e)
         {
@@ -32,13 +35,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBclientes.ValueMember = "id_cliente";
             CBclientes.SelectedIndex = -1;
 
+            CBclientes.DropDownStyle = ComboBoxStyle.DropDown;
+            CBclientes.SelectedIndex = -1;
+
             // Estado
+            CBestado.Items.Clear();
             CBestado.Items.Add("Activo");
             CBestado.Items.Add("Inactivo");
             CBestado.SelectedIndex = -1;
-
-            // No permitir escribir en el ComboBox
-            CBestado.DropDownStyle = ComboBoxStyle.DropDownList;
 
             // El código solo se muestra
             txtCodigo.ReadOnly = true;
@@ -64,6 +68,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBestado.SelectedIndex = -1;
 
             idClienteSeleccionado = 0;
+            this.Close();
         }
 
         //Actualizar cliente
@@ -181,5 +186,51 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string nombre = CBclientes.Text.Trim();
+
+            if(string.IsNullOrEmpty(nombre))
+            {
+                MessageBox.Show("Escriba o seleccione el nombre de un cliente");
+                return;
+            }
+
+            DataTable tabla = clienteDAO.BuscarPorNombre(nombre);
+
+            if (tabla.Rows.Count == 0) 
+            {
+                MessageBox.Show("No se encontro al cliente");
+                return;
+            }
+
+            if (tabla.Rows.Count == 1)
+            {
+                idClienteSeleccionado = Convert.ToInt32(tabla.Rows[0]["id_cliente"]);
+
+                ClaseCliente cliente = clienteDAO.ObtenerCliente(idClienteSeleccionado);
+                txtNombre.Text = cliente.Nombre;
+                txtCedula.Text = cliente.Cedula;
+                txtTelefono.Text = cliente.Telefono;
+                txtDireccion.Text = cliente.Direccion;
+
+                CBestado.SelectedItem = cliente.Estado ? "Activo" : "Inactivo";
+                CBclientes.Text = cliente.Nombre;
+            }
+            else
+            {
+                MessageBox.Show("Se encontraron varios clientes seleccione uno");
+            }
+        }
+
+        private void txtCodigo_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
     }
 }
