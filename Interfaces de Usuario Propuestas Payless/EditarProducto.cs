@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,13 +19,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             InitializeComponent();
         }
 
+
         private void EditarProducto_Load(object sender, EventArgs e)
         {
-
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+           
+
 
         }
     }
