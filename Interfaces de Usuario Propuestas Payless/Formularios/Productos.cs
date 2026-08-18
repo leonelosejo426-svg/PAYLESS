@@ -28,6 +28,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             ConfigurarDataGridView();
             ConfigurarComboBuscar();
+
+
+
+            MostrarProductos();
         }
 
 
@@ -283,6 +287,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // Cargar automáticamente los productos
             MostrarProductos();
         }
+
+
 
 
 
