@@ -182,9 +182,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             // Cargar proveedores en el ComboBox
             cmbBuscar.DataSource = null;
-            cmbBuscar.DataSource = tabla;
             cmbBuscar.DisplayMember = "nombre";
-            cmbBuscar.ValueMember = "id_proveedor";
+            cmbBuscar.DataSource = tabla;
             cmbBuscar.SelectedIndex = -1;
 
             // Cargar proveedores en el DataGridView
@@ -271,9 +270,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
-            // Verificar que haya seleccionado un proveedor
-            if (cmbBuscar.SelectedIndex == -1 ||
-                cmbBuscar.SelectedValue == null)
+            if (cmbBuscar.SelectedIndex == -1)
             {
                 MessageBox.Show(
                     "Seleccione un proveedor.",
@@ -281,13 +278,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                cmbBuscar.Focus();
                 return;
             }
 
             try
             {
-                // Obtener el nombre del proveedor seleccionado
                 string nombreProveedor = cmbBuscar.Text.Trim();
 
                 if (string.IsNullOrEmpty(nombreProveedor))
@@ -301,17 +296,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                // Buscar por nombre
-                DataTable tabla =
-                    proveedorDAO.BuscarProveedores(
-                        "nombre",
-                        nombreProveedor);
+                DataTable tabla = proveedorDAO.BuscarProveedores(
+                    "nombre",
+                    nombreProveedor);
 
-                // Mostrar resultados
                 dgvProveedores.DataSource = null;
                 dgvProveedores.DataSource = tabla;
 
-                // Verificar si encontró resultados
                 if (tabla.Rows.Count == 0)
                 {
                     MessageBox.Show(
@@ -324,7 +315,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Ocurrió un error al buscar el proveedor:\n" + ex.Message,
+                    "Error al buscar el proveedor:\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
