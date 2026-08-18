@@ -335,11 +335,23 @@
     <Compile Include="Entidades\ClaseProducto.cs" />
     <Compile Include="Entidades\ClaseProveedor.cs" />
     <Compile Include="Entidades\ClaseRol.cs" />
+    <Compile Include="Formularios\Editar usuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\Editar usuarios.Designer.cs">
+      <DependentUpon>Editar usuarios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\Marca.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Formularios\Marca.Designer.cs">
       <DependentUpon>Marca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\Pusuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\Pusuario.Designer.cs">
+      <DependentUpon>Pusuario.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\SubCategoriaAgregar.cs">
       <SubType>Form</SubType>
@@ -530,6 +542,9 @@
     <EmbeddedResource Include="Formularios\Devoluciones cs.resx">
       <DependentUpon>Devoluciones cs.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Editar usuarios.resx">
+      <DependentUpon>Editar usuarios.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Gestion de usuario.resx">
       <DependentUpon>Gestion de usuario.cs</DependentUpon>
     </EmbeddedResource>
@@ -553,6 +568,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\Productos.resx">
       <DependentUpon>Productos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\Pusuario.resx">
+      <DependentUpon>Pusuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubCategoriaAgregar.resx">
       <DependentUpon>SubCategoriaAgregar.cs</DependentUpon>
