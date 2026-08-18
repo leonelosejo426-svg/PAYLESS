@@ -242,34 +242,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void MostrarProveedores()
         {
-            try
+             try
             {
                 tablaProveedores = proveedorDAO.MostrarProveedores();
 
                 if (tablaProveedores == null)
                 {
                     MessageBox.Show(
-                        "El DAO devolvió NULL.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-                    return;
-                }
-
-                MessageBox.Show(
-                    "Columnas recibidas: " +
-                    tablaProveedores.Columns.Count +
-                    "\nFilas recibidas: " +
-                    tablaProveedores.Rows.Count,
-                    "Resultado de la consulta",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                if (tablaProveedores.Rows.Count == 0)
-                {
-                    MessageBox.Show(
-                        "La consulta no devolvió ningún proveedor.",
+                        "No se pudieron cargar los proveedores.",
                         "Aviso",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -284,9 +264,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al cargar proveedores:\n\n" +
                     ex.Message,
-                    "Error",
+                    "Error al cargar proveedores",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
