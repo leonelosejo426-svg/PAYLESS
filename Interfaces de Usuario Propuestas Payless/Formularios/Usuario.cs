@@ -54,12 +54,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Error);
 
             }
-
-            private void CargarUsuarios()
-            {
-            DataTable tabla = usuarioDAO.MostrarUsuarios();
-            dgvUsuarios.DataSource = tabla;
         }
+
+           
     
 
 
@@ -88,56 +85,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
-
-        private void Usuario_Load(object sender, EventArgs e)
-        {
-            
-
-            lblCaja.Enabled = false;
-            lblProveedores.Enabled = false;
-            lblProductos.Enabled = false;
-            lblVenta.Enabled = false;
-            lblCompras.Enabled = false;
-            lblUsuarios.Enabled = false;
-
-
-            lblCliente.Enabled = false;
-            lblCredito.Enabled = false;
-            lblInventario.Enabled = false;
-            lblMantenimiento.Enabled = false;
-
-
-            switch (ClaseSesion.RolActual)
-            {
-                case "Administrador":
-
-                    lblCaja.Enabled = true;
-                    lblCompras.Enabled = true;
-                    lblVenta.Enabled = true;
-                    lblUsuarios.Enabled = true;
-                    lblMantenimiento.Enabled = true;
-
-                    break;
-
-                case "Gerente":
-
-                    lblCaja.Enabled = true;
-                    lblCompras.Enabled = true;
-                    lblVenta.Enabled = true;
-
-                    break;
-
-                case "Cajero":
-
-                    lblCaja.Enabled = true;
-                    lblVenta.Enabled = true;
-
-                    break;
-            }
-
-
-        }
-
         private void label17_Click(object sender, EventArgs e)
         {
             Usuario ventana = new Usuario();
@@ -230,7 +177,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             }
 
-            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            if (string.IsNullOrWhiteSpace(cmbBuscar.Text))
 
             {
 
@@ -244,11 +191,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 campo,
 
-                txtBuscar.Text.Trim()
+                cmbBuscar.Text.Trim()
 
             );
 
-            DgvUsuarios.DataSource = tabla;
+            dgvUsuarios.DataSource = tabla;
 
         }
         
@@ -260,7 +207,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button4_Click_1(object sender, EventArgs e)
         {
-            if (DgvUsuarios.CurrentRow == null)
+            if (dgvUsuarios.CurrentRow == null)
 
             {
 
@@ -282,7 +229,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             int idUsuario = Convert.ToInt32(
 
-                DgvUsuarios.CurrentRow.Cells["ID"].Value
+                dgvUsuarios.CurrentRow.Cells["ID"].Value
 
             );
 
