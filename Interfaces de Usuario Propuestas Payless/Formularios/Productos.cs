@@ -187,10 +187,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
 
-        // =========================================================
-        // MOSTRAR TODOS LOS PRODUCTOS
-        // =========================================================
-
         private void MostrarProductos()
         {
             try
@@ -208,11 +204,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-
-                // =================================================
-                // CREAR COLUMNA VISUAL PARA ESTADO
-                // =================================================
-
                 if (!tablaProductos.Columns.Contains("estado_texto"))
                 {
                     tablaProductos.Columns.Add(
@@ -220,40 +211,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         typeof(string));
                 }
 
-
-                // =================================================
-                // CONVERTIR TRUE / FALSE
-                // A ACTIVO / INACTIVO
-                // =================================================
-
                 foreach (DataRow fila in tablaProductos.Rows)
                 {
                     bool estado = false;
 
                     if (fila["estado_producto"] != DBNull.Value)
                     {
-                        estado =
-                            Convert.ToBoolean(
-                                fila["estado_producto"]);
+                        estado = Convert.ToBoolean(
+                            fila["estado_producto"]);
                     }
 
-                    if (estado)
-                    {
-                        fila["estado_texto"] = "Activo";
-                    }
-                    else
-                    {
-                        fila["estado_texto"] = "Inactivo";
-                    }
+                    fila["estado_texto"] =
+                        estado ? "Activo" : "Inactivo";
                 }
 
-
-                // =================================================
-                // MOSTRAR EN DATAGRID
-                // =================================================
-
                 dgvProductos.DataSource = null;
-
                 dgvProductos.DataSource = tablaProductos;
             }
             catch (Exception ex)
@@ -270,7 +242,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Productos_Load(object sender, EventArgs e)
         {
-            // Verificar acceso
             if (ClaseSesion.RolActual != "ADMIN")
             {
                 MessageBox.Show(
@@ -280,11 +251,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Warning);
 
                 this.Hide();
-
                 return;
             }
 
-            // Cargar automáticamente los productos
             MostrarProductos();
         }
 
