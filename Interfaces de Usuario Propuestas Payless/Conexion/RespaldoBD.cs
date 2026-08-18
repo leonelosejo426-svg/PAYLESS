@@ -273,19 +273,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
         // =====================================================
         // RESTAURAR RESPALDO
         // =====================================================
-
-        public bool RestaurarRespaldo(
-            string rutaArchivo)
+            public bool RestaurarRespaldo(string rutaArchivo)
         {
             try
             {
                 if (!File.Exists(rutaArchivo))
                 {
+                    MessageBox.Show("El archivo de respaldo no existe:\n" + rutaArchivo);
                     return false;
                 }
 
                 if (!File.Exists(rutaPsql))
                 {
+                    MessageBox.Show("No se encontró psql.exe en:\n" + rutaPsql);
                     return false;
                 }
 
@@ -295,8 +295,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                 string usuario = conexionBD.ObtenerUsuario();
                 string password = conexionBD.ObtenerPassword();
 
-                ProcessStartInfo proceso =
-                    new ProcessStartInfo();
+                ProcessStartInfo proceso = new ProcessStartInfo();
 
                 proceso.FileName = rutaPsql;
 
@@ -312,15 +311,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
 
                 proceso.UseShellExecute = false;
                 proceso.CreateNoWindow = true;
+
                 proceso.RedirectStandardError = true;
                 proceso.RedirectStandardOutput = true;
 
-                // Utilizar la contraseña real de ConexionBD
-                proceso.EnvironmentVariables["PGPASSWORD"] =
-                    password;
+                proceso.EnvironmentVariables["PGPASSWORD"] = password;
 
-                using (Process procesoPsql =
-                    new Process())
+                using (Process procesoPsql = new Process())
                 {
                     procesoPsql.StartInfo = proceso;
 
@@ -334,11 +331,38 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
 
                     procesoPsql.WaitForExit();
 
-                    return procesoPsql.ExitCode == 0;
+                    if (procesoPsql.ExitCode != 0)
+                    {
+                        MessageBox.Show(
+                            "ERROR AL RESTAURAR:\n\n" +
+                            error +
+                            "\n\nCódigo de salida: " +
+                            procesoPsql.ExitCode,
+                            "Error PostgreSQL",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+
+                        return false;
+                    }
+
+                    MessageBox.Show(
+                        "Restauración realizada correctamente.",
+                        "Restauración",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                MessageBox.Show(
+                    "ERROR EN LA RESTAURACIÓN:\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
                 return false;
             }
             finally
