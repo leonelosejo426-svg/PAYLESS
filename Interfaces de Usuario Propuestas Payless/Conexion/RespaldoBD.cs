@@ -299,13 +299,60 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                     return false;
                 }
 
+                // =====================================================
+                // OBTENER DATOS DE CONEXIÓN
+                // =====================================================
+
                 string host = conexionBD.ObtenerHost();
                 int puerto = conexionBD.ObtenerPuerto();
                 string baseDatos = conexionBD.ObtenerBaseDatos();
                 string usuario = conexionBD.ObtenerUsuario();
                 string password = conexionBD.ObtenerPassword();
 
-                ProcessStartInfo proceso = new ProcessStartInfo();
+                // =====================================================
+                // CERRAR CONEXIÓN ACTUAL
+                // =====================================================
+
+                conexionBD.CerrarConexion();
+
+                // =====================================================
+                // ELIMINAR EL ESQUEMA ACTUAL
+                // =====================================================
+
+                string cadenaConexion =
+                    $"Host={host};" +
+                    $"Port={puerto};" +
+                    $"Database={baseDatos};" +
+                    $"Username={usuario};" +
+                    $"Password={password};";
+
+                using (NpgsqlConnection conexionRestauracion =
+                    new NpgsqlConnection(cadenaConexion))
+                {
+                    conexionRestauracion.Open();
+
+                    string sqlLimpiar = @"
+                DROP SCHEMA public CASCADE;
+                CREATE SCHEMA public;
+            ";
+
+                    using (NpgsqlCommand comando =
+                        new NpgsqlCommand(
+                            sqlLimpiar,
+                            conexionRestauracion))
+                    {
+                        comando.ExecuteNonQuery();
+                    }
+
+                    conexionRestauracion.Close();
+                }
+
+                // =====================================================
+                // EJECUTAR PSQl
+                // =====================================================
+
+                ProcessStartInfo proceso =
+                    new ProcessStartInfo();
 
                 proceso.FileName = rutaPsql;
 
@@ -323,9 +370,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                 proceso.RedirectStandardError = true;
                 proceso.RedirectStandardOutput = true;
 
-                proceso.EnvironmentVariables["PGPASSWORD"] = password;
+                proceso.EnvironmentVariables["PGPASSWORD"] =
+                    password;
 
-                using (Process procesoPsql = new Process())
+                using (Process procesoPsql =
+                    new Process())
                 {
                     procesoPsql.StartInfo = proceso;
 
@@ -352,15 +401,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
 
                         return false;
                     }
-
-                    MessageBox.Show(
-                        "Respaldo restaurado correctamente.",
-                        "Restauración",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    return true;
                 }
+
+                MessageBox.Show(
+                    "El respaldo se restauró correctamente.",
+                    "Restauración",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return true;
             }
             catch (Exception ex)
             {
