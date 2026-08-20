@@ -277,6 +277,12 @@
     <Compile Include="Datos\ProductoDAO.cs" />
     <Compile Include="Datos\ProveedorDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
+    <Compile Include="Datos\SubProveedorEditar.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Datos\SubProveedorEditar.Designer.cs">
+      <DependentUpon>SubProveedorEditar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Datos\UsuarioDAO.cs" />
     <Compile Include="EditarCliente.cs">
       <SubType>Form</SubType>
@@ -515,6 +521,9 @@
     <Compile Include="Formularios\Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Datos\SubProveedorEditar.resx">
+      <DependentUpon>SubProveedorEditar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="EditarCliente.resx">
       <DependentUpon>EditarCliente.cs</DependentUpon>
     </EmbeddedResource>
