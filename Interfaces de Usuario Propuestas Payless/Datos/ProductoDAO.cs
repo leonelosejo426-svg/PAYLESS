@@ -862,6 +862,151 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return tabla;
         }
+
+
+        // =========================================================
+        // OBTENER PRODUCTO PARA EDITAR
+        // =========================================================
+
+        public ClaseProducto ObtenerProducto(int idProducto)
+        {
+            ClaseProducto producto = new ClaseProducto();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT
+                id_producto,
+                nombre,
+                precio_venta,
+                estado_producto,
+                id_categoria,
+                id_marca,
+                id_proveedor
+            FROM producto
+            WHERE id_producto = @id_producto";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@id_producto",
+                    idProducto);
+
+                NpgsqlDataReader reader =
+                    cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    producto.IdProducto =
+                        Convert.ToInt32(reader["id_producto"]);
+
+                    producto.Nombre =
+                        reader["nombre"].ToString();
+
+                    // Se conserva de la BD,
+                    // aunque no se edite desde el formulario.
+                    if (reader["precio_venta"] != DBNull.Value)
+                    {
+                        producto.PrecioVenta =
+                            Convert.ToDecimal(reader["precio_venta"]);
+                    }
+
+                    producto.EstadoProducto =
+                        Convert.ToBoolean(reader["estado_producto"]);
+
+                    producto.IdCategoria =
+                        Convert.ToInt32(reader["id_categoria"]);
+
+                    producto.IdMarca =
+                        Convert.ToInt32(reader["id_marca"]);
+
+                    producto.IdProveedor =
+                        Convert.ToInt32(reader["id_proveedor"]);
+                }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return producto;
+        }
+
+        // =========================================================
+        // EDITAR PRODUCTO
+        // =========================================================
+
+        public bool EditarProducto(ClaseProducto producto)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            UPDATE producto
+            SET
+                nombre = @nombre,
+                estado_producto = @estado,
+                id_categoria = @id_categoria,
+                id_marca = @id_marca,
+                id_proveedor = @id_proveedor
+            WHERE id_producto = @id_producto";
+
+                NpgsqlCommand cmd =
+                    new NpgsqlCommand(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                cmd.Parameters.AddWithValue(
+                    "@nombre",
+                    producto.Nombre);
+
+                cmd.Parameters.AddWithValue(
+                    "@estado",
+                    producto.EstadoProducto);
+
+                cmd.Parameters.AddWithValue(
+                    "@id_categoria",
+                    producto.IdCategoria);
+
+                cmd.Parameters.AddWithValue(
+                    "@id_marca",
+                    producto.IdMarca);
+
+                cmd.Parameters.AddWithValue(
+                    "@id_proveedor",
+                    producto.IdProveedor);
+
+                cmd.Parameters.AddWithValue(
+                    "@id_producto",
+                    producto.IdProducto);
+
+                return cmd.ExecuteNonQuery() > 0;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al editar producto:\n\n" + ex.Message,
+                    "Error PostgreSQL",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return false;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
     }
 
 }
