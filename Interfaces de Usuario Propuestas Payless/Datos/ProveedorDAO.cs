@@ -344,8 +344,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     SELECT
                         id_proveedor,
                         nombre,
-                        telefono,
-                        correo,
+                    
                         direccion,
                         estado_proveedor,
                         ruc
