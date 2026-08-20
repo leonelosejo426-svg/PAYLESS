@@ -296,8 +296,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 DGVtabla1.Columns["id_proveedor"].Width = 80;
                 DGVtabla1.Columns["nombre"].Width = 200;
                 DGVtabla1.Columns["direccion"].Width = 250;
-                DGVtabla1.Columns["estado_proveedor"].Width = 100;
                 DGVtabla1.Columns["ruc"].Width = 150;
+                DGVtabla1.Columns["estado_proveedor"].Width = 100;
+               
             }
         }
 
