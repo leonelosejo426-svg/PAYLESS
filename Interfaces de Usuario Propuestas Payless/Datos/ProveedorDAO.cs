@@ -29,16 +29,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        id_proveedor,
-                        nombre,
-                        telefono,
-                        correo,
-                        direccion,
-                        estado_proveedor,
-                        ruc
-                    FROM proveedor
-                    ORDER BY nombre";
+                     SELECT
+                    id_proveedor,
+                     nombre,
+        direccion,
+        estado_proveedor,
+        ruc
+    FROM proveedor
+    ORDER BY nombre";
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(
