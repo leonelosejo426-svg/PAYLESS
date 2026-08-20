@@ -63,7 +63,7 @@
             this.txtRUC.Location = new System.Drawing.Point(452, 497);
             this.txtRUC.Margin = new System.Windows.Forms.Padding(4);
             this.txtRUC.Name = "txtRUC";
-            this.txtRUC.Size = new System.Drawing.Size(183, 35);
+            this.txtRUC.Size = new System.Drawing.Size(183, 26);
             this.txtRUC.TabIndex = 134;
             // 
             // txtDireccion
@@ -73,7 +73,7 @@
             this.txtDireccion.Location = new System.Drawing.Point(452, 438);
             this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDireccion.Name = "txtDireccion";
-            this.txtDireccion.Size = new System.Drawing.Size(274, 35);
+            this.txtDireccion.Size = new System.Drawing.Size(274, 26);
             this.txtDireccion.TabIndex = 133;
             // 
             // txtCorreo
@@ -83,7 +83,7 @@
             this.txtCorreo.Location = new System.Drawing.Point(452, 383);
             this.txtCorreo.Margin = new System.Windows.Forms.Padding(4);
             this.txtCorreo.Name = "txtCorreo";
-            this.txtCorreo.Size = new System.Drawing.Size(274, 35);
+            this.txtCorreo.Size = new System.Drawing.Size(274, 26);
             this.txtCorreo.TabIndex = 132;
             // 
             // LblNumero
@@ -95,7 +95,7 @@
             this.LblNumero.Location = new System.Drawing.Point(207, 384);
             this.LblNumero.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNumero.Name = "LblNumero";
-            this.LblNumero.Size = new System.Drawing.Size(86, 26);
+            this.LblNumero.Size = new System.Drawing.Size(56, 19);
             this.LblNumero.TabIndex = 131;
             this.LblNumero.Text = "Correo";
             // 
@@ -105,7 +105,7 @@
             this.txtTelefono.Location = new System.Drawing.Point(452, 332);
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(274, 35);
+            this.txtTelefono.Size = new System.Drawing.Size(274, 26);
             this.txtTelefono.TabIndex = 130;
             // 
             // txtNombre
@@ -115,7 +115,7 @@
             this.txtNombre.Location = new System.Drawing.Point(452, 285);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(274, 35);
+            this.txtNombre.Size = new System.Drawing.Size(274, 26);
             this.txtNombre.TabIndex = 129;
             // 
             // LblNombre
@@ -127,7 +127,7 @@
             this.LblNombre.Location = new System.Drawing.Point(207, 287);
             this.LblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNombre.Name = "LblNombre";
-            this.LblNombre.Size = new System.Drawing.Size(95, 26);
+            this.LblNombre.Size = new System.Drawing.Size(63, 19);
             this.LblNombre.TabIndex = 128;
             this.LblNombre.Text = "Nombre";
             // 
@@ -140,7 +140,7 @@
             this.Lbltelefono.Location = new System.Drawing.Point(207, 334);
             this.Lbltelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Lbltelefono.Name = "Lbltelefono";
-            this.Lbltelefono.Size = new System.Drawing.Size(100, 26);
+            this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
             this.Lbltelefono.TabIndex = 127;
             this.Lbltelefono.Text = "Télefono";
             // 
@@ -153,7 +153,7 @@
             this.LblEstado.Location = new System.Drawing.Point(207, 499);
             this.LblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblEstado.Name = "LblEstado";
-            this.LblEstado.Size = new System.Drawing.Size(142, 26);
+            this.LblEstado.Size = new System.Drawing.Size(94, 19);
             this.LblEstado.TabIndex = 126;
             this.LblEstado.Text = "Código RUC";
             // 
@@ -166,7 +166,7 @@
             this.LblBusqueda.Location = new System.Drawing.Point(207, 440);
             this.LblBusqueda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblBusqueda.Name = "LblBusqueda";
-            this.LblBusqueda.Size = new System.Drawing.Size(123, 26);
+            this.LblBusqueda.Size = new System.Drawing.Size(79, 19);
             this.LblBusqueda.TabIndex = 125;
             this.LblBusqueda.Text = "Dirrección";
             // 
@@ -177,10 +177,10 @@
             this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(612, 173);
+            this.btnBuscar.Location = new System.Drawing.Point(521, 178);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(6);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(166, 54);
+            this.btnBuscar.Size = new System.Drawing.Size(114, 33);
             this.btnBuscar.TabIndex = 206;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
@@ -189,30 +189,30 @@
             // 
             this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox5.Location = new System.Drawing.Point(148, 250);
+            this.textBox5.Location = new System.Drawing.Point(79, 241);
             this.textBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(900, 6);
+            this.textBox5.Size = new System.Drawing.Size(800, 6);
             this.textBox5.TabIndex = 205;
             // 
             // txtCodigo
             // 
             this.txtCodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(932, 184);
+            this.txtCodigo.Location = new System.Drawing.Point(767, 186);
             this.txtCodigo.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(146, 35);
+            this.txtCodigo.Size = new System.Drawing.Size(146, 26);
             this.txtCodigo.TabIndex = 204;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(826, 187);
+            this.label2.Location = new System.Drawing.Point(688, 193);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(93, 26);
+            this.label2.Size = new System.Drawing.Size(61, 19);
             this.label2.TabIndex = 203;
             this.label2.Text = "Codigo:";
             // 
@@ -223,10 +223,10 @@
             this.cmbCategoria.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.cmbCategoria.Location = new System.Drawing.Point(308, 184);
+            this.cmbCategoria.Location = new System.Drawing.Point(230, 184);
             this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(260, 35);
+            this.cmbCategoria.Size = new System.Drawing.Size(260, 27);
             this.cmbCategoria.TabIndex = 202;
             // 
             // label1
@@ -236,7 +236,7 @@
             this.label1.Location = new System.Drawing.Point(53, 193);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(252, 26);
+            this.label1.Size = new System.Drawing.Size(164, 19);
             this.label1.TabIndex = 201;
             this.label1.Text = "Seleccionar Proveedor:";
             // 
@@ -248,7 +248,7 @@
             this.textBox4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(1125, 6);
+            this.textBox4.Size = new System.Drawing.Size(900, 6);
             this.textBox4.TabIndex = 200;
             // 
             // pictureBox4
@@ -257,7 +257,7 @@
             this.pictureBox4.Location = new System.Drawing.Point(27, 22);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(130, 83);
+            this.pictureBox4.Size = new System.Drawing.Size(88, 59);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 198;
             this.pictureBox4.TabStop = false;
@@ -267,10 +267,10 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label5.Location = new System.Drawing.Point(959, 62);
+            this.label5.Location = new System.Drawing.Point(869, 34);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(133, 26);
+            this.label5.Size = new System.Drawing.Size(88, 19);
             this.label5.TabIndex = 199;
             this.label5.Text = "Acerca de...";
             // 
@@ -280,10 +280,10 @@
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label12.Location = new System.Drawing.Point(224, 39);
+            this.label12.Location = new System.Drawing.Point(142, 34);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(379, 55);
+            this.label12.Size = new System.Drawing.Size(252, 36);
             this.label12.TabIndex = 197;
             this.label12.Text = "Editar Proveedor";
             // 
@@ -294,10 +294,10 @@
             this.btnActualizar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnActualizar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActualizar.ForeColor = System.Drawing.Color.White;
-            this.btnActualizar.Location = new System.Drawing.Point(222, 687);
+            this.btnActualizar.Location = new System.Drawing.Point(211, 618);
             this.btnActualizar.Margin = new System.Windows.Forms.Padding(6);
             this.btnActualizar.Name = "btnActualizar";
-            this.btnActualizar.Size = new System.Drawing.Size(166, 54);
+            this.btnActualizar.Size = new System.Drawing.Size(113, 35);
             this.btnActualizar.TabIndex = 210;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = false;
@@ -309,10 +309,10 @@
             this.btnRegresar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRegresar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegresar.ForeColor = System.Drawing.Color.White;
-            this.btnRegresar.Location = new System.Drawing.Point(996, 687);
+            this.btnRegresar.Location = new System.Drawing.Point(716, 618);
             this.btnRegresar.Margin = new System.Windows.Forms.Padding(6);
             this.btnRegresar.Name = "btnRegresar";
-            this.btnRegresar.Size = new System.Drawing.Size(156, 54);
+            this.btnRegresar.Size = new System.Drawing.Size(117, 35);
             this.btnRegresar.TabIndex = 209;
             this.btnRegresar.Text = "Regresar";
             this.btnRegresar.UseVisualStyleBackColor = false;
@@ -327,7 +327,7 @@
             this.cmbEstado.Location = new System.Drawing.Point(452, 568);
             this.cmbEstado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(180, 35);
+            this.cmbEstado.Size = new System.Drawing.Size(180, 27);
             this.cmbEstado.TabIndex = 208;
             // 
             // label6
@@ -337,16 +337,16 @@
             this.label6.Location = new System.Drawing.Point(207, 568);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(90, 26);
+            this.label6.Size = new System.Drawing.Size(60, 19);
             this.label6.TabIndex = 207;
             this.label6.Text = "Estado:";
             // 
             // SubProveedorEditar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 27F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1210, 801);
+            this.ClientSize = new System.Drawing.Size(970, 709);
             this.Controls.Add(this.btnActualizar);
             this.Controls.Add(this.btnRegresar);
             this.Controls.Add(this.cmbEstado);
