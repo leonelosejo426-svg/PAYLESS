@@ -99,6 +99,7 @@
             this.CBTalla.Name = "CBTalla";
             this.CBTalla.Size = new System.Drawing.Size(121, 21);
             this.CBTalla.TabIndex = 104;
+            this.CBTalla.SelectedIndexChanged += new System.EventHandler(this.CBTalla_SelectedIndexChanged);
             // 
             // btnCancelar
             // 
@@ -123,6 +124,7 @@
             this.btnGuardar.TabIndex = 102;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // txtProveedor
             // 
@@ -209,6 +211,7 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(808, 70);
             this.panel2.TabIndex = 98;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // label18
             // 
