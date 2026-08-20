@@ -67,11 +67,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
-            this.Codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.NombredelProveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CodigoRUC = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_proveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ruc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado_proveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
@@ -120,7 +120,7 @@
             this.label18.BackColor = System.Drawing.Color.White;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.Black;
-            this.label18.Location = new System.Drawing.Point(746, 28);
+            this.label18.Location = new System.Drawing.Point(616, 34);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(92, 19);
             this.label18.TabIndex = 129;
@@ -153,7 +153,7 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(852, 11);
+            this.pictureBox2.Location = new System.Drawing.Point(713, 10);
             this.pictureBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(54, 46);
@@ -291,11 +291,11 @@
             this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DGVtabla1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGVtabla1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Codigo,
-            this.NombredelProveedor,
-            this.Direccion,
-            this.CodigoRUC,
-            this.Estado});
+            this.id_proveedor,
+            this.nombre,
+            this.direccion,
+            this.ruc,
+            this.estado_proveedor});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -306,12 +306,12 @@
             this.DGVtabla1.DefaultCellStyle = dataGridViewCellStyle2;
             this.DGVtabla1.EnableHeadersVisualStyles = false;
             this.DGVtabla1.GridColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.DGVtabla1.Location = new System.Drawing.Point(173, 210);
+            this.DGVtabla1.Location = new System.Drawing.Point(186, 196);
             this.DGVtabla1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.DGVtabla1.Name = "DGVtabla1";
             this.DGVtabla1.RowHeadersWidth = 62;
             this.DGVtabla1.RowTemplate.Height = 28;
-            this.DGVtabla1.Size = new System.Drawing.Size(765, 284);
+            this.DGVtabla1.Size = new System.Drawing.Size(663, 284);
             this.DGVtabla1.TabIndex = 87;
             this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProveedores_CellContentClick);
             // 
@@ -592,7 +592,7 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnEliminar.Location = new System.Drawing.Point(927, 604);
+            this.btnEliminar.Location = new System.Drawing.Point(795, 560);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(80, 27);
@@ -601,52 +601,50 @@
             this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
-            // Codigo
+            // id_proveedor
             // 
-            this.Codigo.DataPropertyName = "id_proveedor";
-            this.Codigo.HeaderText = "ID";
-            this.Codigo.MinimumWidth = 6;
-            this.Codigo.Name = "Codigo";
-            this.Codigo.Width = 50;
+            this.id_proveedor.DataPropertyName = "id_proveedor";
+            this.id_proveedor.HeaderText = "ID";
+            this.id_proveedor.MinimumWidth = 6;
+            this.id_proveedor.Name = "id_proveedor";
+            this.id_proveedor.Width = 50;
             // 
-            // NombredelProveedor
+            // nombre
             // 
-            this.NombredelProveedor.DataPropertyName = "nombre";
-            this.NombredelProveedor.HeaderText = "Proveedor";
-            this.NombredelProveedor.MinimumWidth = 8;
-            this.NombredelProveedor.Name = "NombredelProveedor";
-            this.NombredelProveedor.Width = 230;
+            this.nombre.DataPropertyName = "nombre";
+            this.nombre.HeaderText = "Nombre";
+            this.nombre.MinimumWidth = 8;
+            this.nombre.Name = "nombre";
+            this.nombre.Width = 230;
             // 
-            // Direccion
+            // direccion
             // 
-            this.Direccion.DataPropertyName = "direccion";
-            this.Direccion.HeaderText = "Dirección";
-            this.Direccion.MinimumWidth = 8;
-            this.Direccion.Name = "Direccion";
-            this.Direccion.Width = 200;
+            this.direccion.DataPropertyName = "direccion";
+            this.direccion.HeaderText = "Direccion";
+            this.direccion.Name = "direccion";
             // 
-            // CodigoRUC
+            // ruc
             // 
-            this.CodigoRUC.DataPropertyName = "ruc";
-            this.CodigoRUC.HeaderText = "RUC";
-            this.CodigoRUC.MinimumWidth = 8;
-            this.CodigoRUC.Name = "CodigoRUC";
-            this.CodigoRUC.Width = 150;
+            this.ruc.DataPropertyName = "ruc";
+            this.ruc.HeaderText = "RUC";
+            this.ruc.MinimumWidth = 8;
+            this.ruc.Name = "ruc";
+            this.ruc.Width = 150;
             // 
-            // Estado
+            // estado_proveedor
             // 
-            this.Estado.DataPropertyName = "estado_proveedor";
-            this.Estado.HeaderText = "Estado";
-            this.Estado.MinimumWidth = 8;
-            this.Estado.Name = "Estado";
-            this.Estado.Width = 70;
+            this.estado_proveedor.DataPropertyName = "estado_proveedor";
+            this.estado_proveedor.HeaderText = "Estado";
+            this.estado_proveedor.MinimumWidth = 8;
+            this.estado_proveedor.Name = "estado_proveedor";
+            this.estado_proveedor.Width = 70;
             // 
             // Proveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1052, 644);
+            this.ClientSize = new System.Drawing.Size(912, 620);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.label3);
@@ -711,10 +709,10 @@
         private System.Windows.Forms.ComboBox cmbBuscar;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnEliminar;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Codigo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn NombredelProveedor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Direccion;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoRUC;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_proveedor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn direccion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ruc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estado_proveedor;
     }
 }
