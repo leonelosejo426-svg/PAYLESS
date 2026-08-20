@@ -46,7 +46,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.dgvProveedores = new System.Windows.Forms.DataGridView();
+            this.DGVtabla1 = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
@@ -74,7 +74,7 @@
             this.CodigoRUC = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProveedores)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
@@ -292,9 +292,9 @@
             this.label15.TabIndex = 119;
             this.label15.Text = "🧑‍🤝‍🧑   Clientes";
             // 
-            // dgvProveedores
+            // DGVtabla1
             // 
-            this.dgvProveedores.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.DGVtabla1.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -302,9 +302,9 @@
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvProveedores.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvProveedores.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvProveedores.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.DGVtabla1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGVtabla1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Codigo,
             this.NombredelProveedor,
             this.Direccion,
@@ -317,17 +317,17 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvProveedores.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvProveedores.EnableHeadersVisualStyles = false;
-            this.dgvProveedores.GridColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.dgvProveedores.Location = new System.Drawing.Point(231, 259);
-            this.dgvProveedores.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.dgvProveedores.Name = "dgvProveedores";
-            this.dgvProveedores.RowHeadersWidth = 62;
-            this.dgvProveedores.RowTemplate.Height = 28;
-            this.dgvProveedores.Size = new System.Drawing.Size(1038, 350);
-            this.dgvProveedores.TabIndex = 87;
-            this.dgvProveedores.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProveedores_CellContentClick);
+            this.DGVtabla1.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DGVtabla1.EnableHeadersVisualStyles = false;
+            this.DGVtabla1.GridColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.DGVtabla1.Location = new System.Drawing.Point(231, 259);
+            this.DGVtabla1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DGVtabla1.Name = "DGVtabla1";
+            this.DGVtabla1.RowHeadersWidth = 62;
+            this.DGVtabla1.RowTemplate.Height = 28;
+            this.DGVtabla1.Size = new System.Drawing.Size(1038, 350);
+            this.DGVtabla1.TabIndex = 87;
+            this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProveedores_CellContentClick);
             // 
             // groupBox1
             // 
@@ -652,7 +652,7 @@
             // 
             // Estado
             // 
-            this.Estado.DataPropertyName = "estado";
+            this.Estado.DataPropertyName = "estado_proveedor";
             this.Estado.HeaderText = "Estado";
             this.Estado.MinimumWidth = 8;
             this.Estado.Name = "Estado";
@@ -678,7 +678,7 @@
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.cmbBuscar);
-            this.Controls.Add(this.dgvProveedores);
+            this.Controls.Add(this.DGVtabla1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel2);
             this.ForeColor = System.Drawing.SystemColors.ControlDark;
@@ -690,7 +690,7 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvProveedores)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
@@ -702,7 +702,7 @@
         #endregion
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.DataGridView dgvProveedores;
+        private System.Windows.Forms.DataGridView DGVtabla1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label20;

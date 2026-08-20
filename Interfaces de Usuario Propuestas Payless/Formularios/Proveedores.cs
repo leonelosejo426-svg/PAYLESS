@@ -31,7 +31,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ConfigurarDataGridView();
             ConfigurarComboBuscar();
 
-            MostrarProveedores();
+            CargarProveedores();
 
 
         }
@@ -39,18 +39,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void ConfigurarDataGridView()
         {
 
-            dgvProveedores.AutoGenerateColumns = false;
+            DGVtabla1.AutoGenerateColumns = false;
 
-            dgvProveedores.ReadOnly = true;
+            DGVtabla1.ReadOnly = true;
 
-            dgvProveedores.SelectionMode =
+            DGVtabla1.SelectionMode =
                 DataGridViewSelectionMode.FullRowSelect;
 
-            dgvProveedores.MultiSelect = false;
+            DGVtabla1.MultiSelect = false;
 
-            dgvProveedores.AllowUserToAddRows = false;
+            DGVtabla1.AllowUserToAddRows = false;
 
-            dgvProveedores.Columns.Clear();
+            DGVtabla1.Columns.Clear();
 
 
             // =================================================
@@ -65,7 +65,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaID.DataPropertyName = "id_proveedor";
             columnaID.Width = 80;
 
-            dgvProveedores.Columns.Add(columnaID);
+            DGVtabla1.Columns.Add(columnaID);
 
 
             // =================================================
@@ -80,7 +80,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaNombre.DataPropertyName = "nombre";
             columnaNombre.Width = 220;
 
-            dgvProveedores.Columns.Add(columnaNombre);
+            DGVtabla1.Columns.Add(columnaNombre);
 
 
             // =================================================
@@ -95,7 +95,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaDireccion.DataPropertyName = "direccion";
             columnaDireccion.Width = 250;
 
-            dgvProveedores.Columns.Add(columnaDireccion);
+            DGVtabla1.Columns.Add(columnaDireccion);
 
 
             // =================================================
@@ -110,7 +110,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaEstado.DataPropertyName = "estado";
             columnaEstado.Width = 100;
 
-            dgvProveedores.Columns.Add(columnaEstado);
+            DGVtabla1.Columns.Add(columnaEstado);
 
 
             // =================================================
@@ -125,46 +125,48 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaRuc.DataPropertyName = "ruc";
             columnaRuc.Width = 150;
 
-            dgvProveedores.Columns.Add(columnaRuc);
+            DGVtabla1.Columns.Add(columnaRuc);
         }
 
         private void ConfigurarComboBuscar()
         {
-            cmbBuscar.DataSource = null;
 
-            cmbBuscar.Items.Clear();
-
-            cmbBuscar.Items.Add("Nombre");
-            cmbBuscar.Items.Add("Teléfono");
-            cmbBuscar.Items.Add("Correo");
-            cmbBuscar.Items.Add("RUC");
-
-            cmbBuscar.SelectedIndex = -1;
         }
 
         private void Proveedores_Load(object sender, EventArgs e)
         {
+            cmbBuscar.Items.Clear();
 
+
+            cmbBuscar.Items.Add("Nombre");
+            cmbBuscar.Items.Add("Dirección");
+            cmbBuscar.Items.Add("RUC");
+
+
+            cmbBuscar.SelectedIndex = 0;
+
+
+            CargarProveedores();
         }
 
         private void label15_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label17_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label20_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void label20_Click_1(object sender, EventArgs e)
@@ -266,39 +268,40 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
-        private void MostrarProveedores()
+        private void CargarProveedores()
         {
             try
             {
-                tablaProveedores =
-                    proveedorDAO.MostrarProveedores();
+                DataTable tabla = proveedorDAO.MostrarProveedores();
 
-                if (tablaProveedores == null)
-                {
-                    MessageBox.Show(
-                        "No se pudieron cargar los proveedores.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
 
-                    return;
-                }
+                DGVtabla1.DataSource = tabla;
 
-                dgvProveedores.DataSource = null;
 
-                dgvProveedores.DataSource =
-                    tablaProveedores;
+                AjustarColumnas();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al mostrar proveedores:\n\n" +
-                    ex.Message,
+                    "Error al cargar proveedores:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
+        private void AjustarColumnas()
+        {
+            if (DGVtabla1.Columns.Count >= 5)
+            {
+                DGVtabla1.Columns["id_proveedor"].Width = 80;
+                DGVtabla1.Columns["nombre"].Width = 200;
+                DGVtabla1.Columns["direccion"].Width = 250;
+                DGVtabla1.Columns["estado_proveedor"].Width = 100;
+                DGVtabla1.Columns["ruc"].Width = 150;
+            }
+        }
+
+
 
         private void label30_Click(object sender, EventArgs e)
         {
@@ -311,12 +314,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-          
+
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (dgvProveedores.CurrentRow == null)
+            if (DGVtabla1.CurrentRow == null)
             {
                 MessageBox.Show(
                     "Seleccione un proveedor.",
@@ -324,18 +327,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                return;
-            }
-
-
-            if (dgvProveedores.CurrentRow
-                .Cells["colID"].Value == null)
-            {
-                MessageBox.Show(
-                    "No se pudo obtener el proveedor seleccionado.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
 
                 return;
             }
@@ -343,42 +334,38 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             int idProveedor =
                 Convert.ToInt32(
-                    dgvProveedores.CurrentRow
-                    .Cells["colID"].Value);
+                    DGVtabla1.CurrentRow.Cells["id_proveedor"].Value);
+
+
+            string nombre =
+                DGVtabla1.CurrentRow.Cells["nombre"].Value.ToString();
 
 
             DialogResult respuesta =
                 MessageBox.Show(
-                    "¿Está seguro de eliminar este proveedor?",
-                    "Confirmar",
+                    "¿Está seguro de eliminar al proveedor:\n\n" +
+                    nombre + "?",
+                    "Confirmar eliminación",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
 
-            if (respuesta != DialogResult.Yes)
-            {
-                return;
-            }
-
-
-            try
+            if (respuesta == DialogResult.Yes)
             {
                 bool eliminado =
-                    proveedorDAO.EliminarProveedor(
-                        idProveedor);
+                    proveedorDAO.EliminarProveedor(idProveedor);
 
 
                 if (eliminado)
                 {
                     MessageBox.Show(
                         "Proveedor eliminado correctamente.",
-                        "Información",
+                        "Éxito",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
 
-                    // Volver a consultar la información
-                    MostrarProveedores();
+                    CargarProveedores();
                 }
                 else
                 {
@@ -388,33 +375,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al eliminar proveedor:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
 
+            }
         }
-    
+
 
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
 
-            if (cmbBuscar.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione qué desea buscar.",
-                    "Búsqueda",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+            string valor = cmbBuscar.Text.Trim();
 
+
+            if (string.IsNullOrWhiteSpace(valor))
+            {
+                CargarProveedores();
                 return;
             }
 
@@ -425,222 +401,36 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             switch (cmbBuscar.Text)
             {
                 case "Nombre":
-
                     campo = "nombre";
-
                     break;
 
 
-                case "Teléfono":
-
-                    campo = "telefono";
-
-                    break;
-
-
-                case "Correo":
-
-                    campo = "correo";
-
+                case "Dirección":
+                    campo = "direccion";
                     break;
 
 
                 case "RUC":
-
                     campo = "ruc";
-
                     break;
-
-
-                default:
-
-                    MessageBox.Show(
-                        "Seleccione un criterio válido.",
-                        "Búsqueda",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
             }
 
 
-            // =================================================
-            // VENTANA PARA ESCRIBIR EL VALOR
-            // =================================================
-
-            string valor = "";
+            DataTable resultado =
+                proveedorDAO.BuscarProveedores(campo, valor);
 
 
-            using (Form formularioBuscar = new Form())
-            {
-                formularioBuscar.Text =
-                    "Buscar proveedor";
-
-                formularioBuscar.StartPosition =
-                    FormStartPosition.CenterParent;
-
-                formularioBuscar.FormBorderStyle =
-                    FormBorderStyle.FixedDialog;
-
-                formularioBuscar.MaximizeBox = false;
-
-                formularioBuscar.MinimizeBox = false;
-
-                formularioBuscar.ClientSize =
-                    new Size(350, 130);
+            DGVtabla1.DataSource = resultado;
 
 
-                Label etiqueta = new Label();
-
-                etiqueta.Text =
-                    "Ingrese el valor que desea buscar:";
-
-                etiqueta.AutoSize = true;
-
-                etiqueta.Location =
-                    new Point(15, 15);
-
-
-                TextBox txtValor =
-                    new TextBox();
-
-                txtValor.Width = 310;
-
-                txtValor.Location =
-                    new Point(15, 40);
-
-
-                Button botonAceptar =
-                    new Button();
-
-                botonAceptar.Text =
-                    "Buscar";
-
-                botonAceptar.Width = 90;
-
-                botonAceptar.Location =
-                    new Point(145, 75);
-
-                botonAceptar.DialogResult =
-                    DialogResult.OK;
-
-
-                Button botonCancelar =
-                    new Button();
-
-                botonCancelar.Text =
-                    "Cancelar";
-
-                botonCancelar.Width = 90;
-
-                botonCancelar.Location =
-                    new Point(240, 75);
-
-                botonCancelar.DialogResult =
-                    DialogResult.Cancel;
-
-
-                formularioBuscar.Controls.Add(etiqueta);
-
-                formularioBuscar.Controls.Add(txtValor);
-
-                formularioBuscar.Controls.Add(botonAceptar);
-
-                formularioBuscar.Controls.Add(botonCancelar);
-
-
-                formularioBuscar.AcceptButton =
-                    botonAceptar;
-
-                formularioBuscar.CancelButton =
-                    botonCancelar;
-
-
-                if (formularioBuscar.ShowDialog(this)
-                    != DialogResult.OK)
-                {
-                    return;
-                }
-
-
-                valor =
-                    txtValor.Text.Trim();
-            }
-
-
-            // =================================================
-            // VALIDAR
-            // =================================================
-
-            if (string.IsNullOrWhiteSpace(valor))
-            {
-                MessageBox.Show(
-                    "Ingrese un valor para buscar.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                return;
-            }
-
-
-            // =================================================
-            // BUSCAR UTILIZANDO EL DAO
-            // =================================================
-
-            try
-            {
-                DataTable resultado =
-                    proveedorDAO.BuscarProveedores(
-                        campo,
-                        valor);
-
-
-                if (resultado == null)
-                {
-                    MessageBox.Show(
-                        "No se obtuvo ningún resultado.",
-                        "Búsqueda",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    return;
-                }
-
-
-                if (resultado.Rows.Count == 0)
-                {
-                    MessageBox.Show(
-                        "No se encontraron proveedores.",
-                        "Búsqueda",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    MostrarProveedores();
-
-                    return;
-                }
-
-
-                dgvProveedores.DataSource = null;
-
-                dgvProveedores.DataSource =
-                    resultado;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al buscar proveedores:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-
-
+            AjustarColumnas();
         }
-    }    
+
+
+    }
 }
+ 
+
 
 
 
