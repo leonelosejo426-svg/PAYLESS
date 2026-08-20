@@ -28,105 +28,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             InitializeComponent();
 
-            ConfigurarDataGridView();
-            ConfigurarComboBuscar();
+            ///ConfigurarDataGridView();
+           // ConfigurarComboBuscar();
 
-            CargarProveedores();
+           // CargarProveedores();
 
 
         }
 
-        private void ConfigurarDataGridView()
-        {
-
-            DGVtabla1.AutoGenerateColumns = false;
-
-            DGVtabla1.ReadOnly = true;
-
-            DGVtabla1.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            DGVtabla1.MultiSelect = false;
-
-            DGVtabla1.AllowUserToAddRows = false;
-
-            DGVtabla1.Columns.Clear();
-
-
-            // =================================================
-            // CÓDIGO
-            // =================================================
-
-            DataGridViewTextBoxColumn columnaID =
-                new DataGridViewTextBoxColumn();
-
-            columnaID.Name = "colID";
-            columnaID.HeaderText = "Código";
-            columnaID.DataPropertyName = "id_proveedor";
-            columnaID.Width = 80;
-
-            DGVtabla1.Columns.Add(columnaID);
-
-
-            // =================================================
-            // NOMBRE DEL PROVEEDOR
-            // =================================================
-
-            DataGridViewTextBoxColumn columnaNombre =
-                new DataGridViewTextBoxColumn();
-
-            columnaNombre.Name = "colNombre";
-            columnaNombre.HeaderText = "Nombre del proveedor";
-            columnaNombre.DataPropertyName = "nombre";
-            columnaNombre.Width = 220;
-
-            DGVtabla1.Columns.Add(columnaNombre);
-
-
-            // =================================================
-            // DIRECCIÓN
-            // =================================================
-
-            DataGridViewTextBoxColumn columnaDireccion =
-                new DataGridViewTextBoxColumn();
-
-            columnaDireccion.Name = "colDireccion";
-            columnaDireccion.HeaderText = "Dirección";
-            columnaDireccion.DataPropertyName = "direccion";
-            columnaDireccion.Width = 250;
-
-            DGVtabla1.Columns.Add(columnaDireccion);
-
-
-            // =================================================
-            // ESTADO
-            // =================================================
-
-            DataGridViewTextBoxColumn columnaEstado =
-                new DataGridViewTextBoxColumn();
-
-            columnaEstado.Name = "colEstado";
-            columnaEstado.HeaderText = "Estado";
-            columnaEstado.DataPropertyName = "estado";
-            columnaEstado.Width = 100;
-
-            DGVtabla1.Columns.Add(columnaEstado);
-
-
-            // =================================================
-            // RUC
-            // =================================================
-
-            DataGridViewTextBoxColumn columnaRuc =
-                new DataGridViewTextBoxColumn();
-
-            columnaRuc.Name = "colRuc";
-            columnaRuc.HeaderText = "Código RUC";
-            columnaRuc.DataPropertyName = "ruc";
-            columnaRuc.Width = 150;
-
-            DGVtabla1.Columns.Add(columnaRuc);
-        }
+       
 
         private void ConfigurarComboBuscar()
         {
