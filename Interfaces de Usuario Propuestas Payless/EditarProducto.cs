@@ -16,18 +16,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         ProductoDAO productoDAO = new ProductoDAO();
 
         int idProductoSeleccionado = 0;
-        int idProductoTallaSeleccionado = 0;
+        int idMarcaSeleccionada = 0;
+        int idProveedorSeleccionado = 0;
+        int idCategoriaSeleccionada = 0;
+
+
 
         public EditarProducto()
         {
             InitializeComponent();
 
             txtCodigo.ReadOnly = true;
+            CBnombreP.DropDownStyle = ComboBoxStyle.DropDown;
+            CBTalla.DropDownStyle = ComboBoxStyle.DropDown;
         }
 
 
         private void EditarProducto_Load(object sender, EventArgs e)
         {
+            // Método existente de ProductoDAO.
             DataTable productos = productoDAO.CargarProductos();
 
             CBnombreP.DataSource = productos;
@@ -35,6 +42,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBnombreP.ValueMember = "id_producto";
             CBnombreP.SelectedIndex = -1;
             CBnombreP.Text = "";
+
+            // Método existente de ProductoDAO.
+            DataTable categorias = productoDAO.CargarCategorias();
+
+            CBcategoria.DataSource = categorias;
+            CBcategoria.DisplayMember = "nombre_categoria";
+            CBcategoria.ValueMember = "id_categoria";
+            CBcategoria.SelectedIndex = -1;
         }
 
         
@@ -56,7 +71,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (string.IsNullOrWhiteSpace(nombreProducto))
             {
                 MessageBox.Show(
-                    "Seleccione o escriba un producto.",
+                    "Seleccione o escriba el nombre del producto.",
                     "Buscar producto",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -64,14 +79,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // Se llama al método EXISTENTE del ProductoDAO
+            //Buscar en la base de datos
+
             DataTable resultado =
-                productoDAO.BuscarPorNombre(nombreProducto);
+               productoDAO.BuscarPorNombre(nombreProducto);
+
 
             if (resultado.Rows.Count == 0)
             {
                 MessageBox.Show(
-                    "No se encontró el producto.",
+                    "El producto no fue encontrado.",
                     "Buscar producto",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -81,16 +98,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             DataRow producto = resultado.Rows[0];
 
-            // Guardar el ID para utilizarlo posteriormente al guardar
-            idProductoSeleccionado =
-                Convert.ToInt32(producto["id_producto"]);
+            //Guardar ID del producto
 
-           
-            // LLENAR LOS CONTROLES DEL FORMULARIO
-           
+            idProductoSeleccionado =
+              Convert.ToInt32(producto["id_producto"]);
 
             txtCodigo.Text =
-                producto["codigo"].ToString();
+              producto["codigo"].ToString();
 
             CBnombreP.Text =
                 producto["nombre"].ToString();
@@ -99,22 +113,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 producto["marca"].ToString();
 
             txtProveedor.Text =
-                producto["proveedor"].ToString();
+               producto["proveedor"].ToString();
 
             CBcategoria.Text =
-                producto["categoria"].ToString();
+               producto["categoria"].ToString();
 
-            txtCantidad.Text =
-                producto["stock_actual"].ToString();
+            //Cargar tallas de los productos
 
-            // Talla registrada para ese producto
-            CBTalla.Text =
-                producto["talla"].ToString();
+            DataTable tallas = productoDAO.CargarTallasProducto(idProductoSeleccionado);
 
-            // ID de la relación producto-talla
-            idProductoTallaSeleccionado =
-                Convert.ToInt32(producto["id_producto_talla"]);
+            CBTalla.DataSource = null;
 
+            if(tallas.Rows.Count > 0)
+            {
+                CBTalla.DataSource = tallas;
+                CBTalla.DisplayMember = "talla";
+                CBTalla.ValueMember = "id_producto_talla";
+                CBTalla.SelectedIndex = 0;
+            }
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -129,6 +145,104 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            //Validar que se haya buscado un producto
+
+            if (idProductoSeleccionado <= 0)
+            {
+                MessageBox.Show(
+                    "Primero debe buscar un producto.",
+                    "Guardar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            //Validar nombre del producto 
+
+            if (string.IsNullOrWhiteSpace(CBnombreP.Text))
+            {
+                MessageBox.Show(
+                    "El nombre del producto no puede estar vacío.",
+                    "Guardar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            //Validar categoria
+
+            if (CBcategoria.SelectedValue == null)
+            {
+                MessageBox.Show(
+                    "Seleccione una categoría.",
+                    "Guardar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            //Obtener ID de categoria 
+
+            int idCategoria =
+            Convert.ToInt32(CBcategoria.SelectedValue);
+
+            //Buscar marca
+
+            DataTable marcas =
+        productoDAO.CargarMarcas();
+
+            DataRow marca = marcas.AsEnumerable()
+                .FirstOrDefault(
+                    x => x["nombre_marca"]
+                        .ToString()
+                        .Equals(
+                            txtMarca.Text.Trim(),
+                            StringComparison.OrdinalIgnoreCase));
+
+            if (marca == null)
+            {
+                MessageBox.Show(
+                    "La marca indicada no existe.",
+                    "Guardar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            int idMarca =
+                Convert.ToInt32(marca["id_marca"]);
+
+            //Buscar proveedor 
+
+            DataTable proveedores =
+        productoDAO.CargarProveedores();
+
+            DataRow proveedor = proveedores.AsEnumerable()
+                .FirstOrDefault(
+                    x => x["nombre"]
+                        .ToString()
+                        .Equals(
+                            txtProveedor.Text.Trim(),
+                            StringComparison.OrdinalIgnoreCase));
+
+            if (proveedor == null)
+            {
+                MessageBox.Show(
+                    "El proveedor indicado no existe.",
+                    "Guardar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            int idProveedor =
+                Convert.ToInt32(proveedor["id_proveedor"]);
+
 
         }
     }
