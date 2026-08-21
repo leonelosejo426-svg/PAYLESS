@@ -30,14 +30,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             InitializeComponent();
 
             ///ConfigurarDataGridView();
-           // ConfigurarComboBuscar();
+            // ConfigurarComboBuscar();
 
-           // CargarProveedores();
+            // CargarProveedores();
 
 
         }
 
-       
+
 
         private void ConfigurarComboBuscar()
         {
@@ -155,7 +155,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label9_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void label10_Click(object sender, EventArgs e)
@@ -379,49 +379,44 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 if (tabla == null || tabla.Rows.Count == 0)
                 {
-                    MessageBox.Show(
-                        "No hay proveedores para mostrar.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
+                    DGVtabla1.DataSource = tabla;
                     return;
                 }
 
                 string filtro = cmbBuscar.SelectedItem?.ToString();
 
-                DataTable tablaFiltrada = tabla.Clone();
+                DataTable resultado = tabla.Clone();
 
                 foreach (DataRow fila in tabla.Rows)
                 {
                     bool estado = Convert.ToBoolean(fila["estado"]);
 
-                    if (filtro == "Activos" && !estado)
-                        continue;
-
-                    if (filtro == "Inactivos" && estado)
-                        continue;
-
-                    tablaFiltrada.ImportRow(fila);
+                    if (filtro == "Activos" && estado == true)
+                    {
+                        resultado.ImportRow(fila);
+                    }
+                    else if (filtro == "Inactivos" && estado == false)
+                    {
+                        resultado.ImportRow(fila);
+                    }
+                    else if (filtro == "Todos")
+                    {
+                        resultado.ImportRow(fila);
+                    }
                 }
 
-                DGVtabla1.DataSource = tablaFiltrada;
+                DGVtabla1.DataSource = resultado;
 
-                // Mostrar Activo/Inactivo sin modificar el tipo de la columna original
-                if (DGVtabla1.Columns.Contains("estado"))
+                // Mostrar Activo/Inactivo
+                foreach (DataGridViewRow fila in DGVtabla1.Rows)
                 {
-                    DGVtabla1.Columns["estado"].HeaderText = "Estado";
-
-                    foreach (DataGridViewRow fila in DGVtabla1.Rows)
+                    if (fila.Cells["estado"].Value != null)
                     {
-                        if (fila.Cells["estado"].Value != null)
-                        {
-                            bool estado = Convert.ToBoolean(
-                                fila.Cells["estado"].Value);
+                        bool estado = Convert.ToBoolean(
+                            fila.Cells["estado"].Value);
 
-                            fila.Cells["estado"].Value =
-                                estado ? "Activo" : "Inactivo";
-                        }
+                        fila.Cells["estado"].Value =
+                            estado ? "Activo" : "Inactivo";
                     }
                 }
 
@@ -430,16 +425,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar proveedores:\n\n" + ex.Message,
+                    "Error al buscar:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
-
     }
 }
- 
+
 
 
 
