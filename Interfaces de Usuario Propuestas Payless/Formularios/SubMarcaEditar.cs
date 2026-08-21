@@ -22,22 +22,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubMarcaEditar_Load(object sender, EventArgs e)
         {
+            // Cargar TODAS las marcas
+            // activas e inactivas
             CargarMarcas();
 
-            cmbMarca.Items.Clear();
+            // Cargar estados
+            cmbEstado.Items.Clear();
 
-            cmbMarca.Items.Add("Activo");
-            cmbMarca.Items.Add("Inactivo");
+            cmbEstado.Items.Add("Activo");
+            cmbEstado.Items.Add("Inactivo");
 
-            cmbMarca.SelectedIndex = 0;
+            cmbEstado.SelectedIndex = -1;
 
+            // El código no se modifica
             txtCodigo.ReadOnly = true;
         }
 
         private void CargarMarcas()
         {
             cmbMarca.DataSource =
-                marcaDAO.CargarMarcas();
+              marcaDAO.CargarTodasLasMarcas();
 
             cmbMarca.DisplayMember =
                 "nombre_marca";
@@ -53,25 +57,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (cmbMarca.SelectedIndex == -1)
             {
                 MessageBox.Show(
-                    "Seleccione una marca.");
+                    "Seleccione una marca.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 return;
             }
 
-            int idMarca =
-                Convert.ToInt32(cmbMarca.SelectedValue);
+            if (!int.TryParse(
+                cmbMarca.SelectedValue?.ToString(),
+                out int idMarca))
+            {
+                MessageBox.Show(
+                    "La marca seleccionada no es válida.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
 
             CargarMarca(idMarca);
         }
         private void CargarMarca(int idMarca)
         {
             ClaseMarca marca =
-                marcaDAO.ObtenerMarca(idMarca);
+               marcaDAO.ObtenerMarca(idMarca);
 
             if (marca == null)
             {
                 MessageBox.Show(
-                    "No se encontró la marca.");
+                    "No se encontró la marca.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 return;
             }
@@ -85,10 +105,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             txtDescripcion.Text =
                 marca.Descripcion;
 
-            cmbMarca.SelectedItem =
-                marca.Estado
-                ? "Activo"
-                : "Inactivo";
+            // Estado
+            if (marca.Estado)
+            {
+                cmbEstado.SelectedItem = "Activo";
+            }
+            else
+            {
+                cmbEstado.SelectedItem = "Inactivo";
+            }
         }
 
         private void btnActualizar_Click(object sender, EventArgs e)
@@ -96,7 +121,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
             {
                 MessageBox.Show(
-                    "Primero busque una marca.");
+                    "Primero busque una marca.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 return;
             }
@@ -104,16 +132,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
                 MessageBox.Show(
-                    "Ingrese el nombre de la marca.");
+                    "Ingrese el nombre de la marca.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 txtNombre.Focus();
+
                 return;
             }
 
-            ClaseMarca marca = new ClaseMarca();
+            if (cmbEstado.SelectedIndex == -1)
+            {
+                MessageBox.Show(
+                    "Seleccione el estado de la marca.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                cmbEstado.Focus();
+
+                return;
+            }
+
+            ClaseMarca marca =
+                new ClaseMarca();
 
             marca.IdMarca =
-                Convert.ToInt32(txtCodigo.Text);
+                Convert.ToInt32(
+                    txtCodigo.Text);
 
             marca.NombreMarca =
                 txtNombre.Text.Trim();
@@ -122,8 +169,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 txtDescripcion.Text.Trim();
 
             marca.Estado =
-                cmbMarca.SelectedItem.ToString()
-                == "Activo";
+                cmbEstado.SelectedItem
+                .ToString() == "Activo";
 
             if (marcaDAO.EditarMarca(marca))
             {

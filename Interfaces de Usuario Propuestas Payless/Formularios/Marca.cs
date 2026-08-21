@@ -21,6 +21,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void button3_Click(object sender, EventArgs e)
         {
+            
+            
             Productos ventana = new Productos();
             ventana.Show();
             this.Hide();
@@ -30,8 +32,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             dgvMarcas.AutoGenerateColumns = false;
 
-            CargarMarcas();
-
             cmbBuscarPor.Items.Clear();
 
             cmbBuscarPor.Items.Add("Todas");
@@ -39,9 +39,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             cmbBuscarPor.Items.Add("Inactivas");
 
             cmbBuscarPor.SelectedIndex = 0;
+
+            CargarMarcas();
         }
         private void CargarMarcas()
         {
+            dgvMarcas.DataSource = null;
             dgvMarcas.DataSource = marcaDAO.MostrarMarcas();
         }
 
@@ -50,17 +53,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             switch (cmbBuscarPor.Text)
             {
                 case "Todas":
+
                     CargarMarcas();
+
                     break;
 
                 case "Activas":
+
                     dgvMarcas.DataSource =
                         marcaDAO.BuscarPorEstado(true);
+
                     break;
 
                 case "Inactivas":
+
                     dgvMarcas.DataSource =
                         marcaDAO.BuscarPorEstado(false);
+
                     break;
             }
         }
@@ -68,7 +77,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             SubMarcaAgregar formulario =
-                new SubMarcaAgregar();
+               new SubMarcaAgregar();
 
             formulario.ShowDialog();
 
@@ -77,48 +86,76 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
+            if (dgvMarcas.CurrentRow == null)
+            {
+                MessageBox.Show(
+                    "Seleccione una marca para editar.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
             SubMarcaEditar formulario =
-               new SubMarcaEditar();
+                new SubMarcaEditar();
 
             formulario.ShowDialog();
 
             CargarMarcas();
+
+
         }
+
+        
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (dgvMarcas.CurrentRow == null)
             {
-                MessageBox.Show("Seleccione una marca.");
+                MessageBox.Show(
+                    "Seleccione una marca.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
-            int idMarca = Convert.ToInt32(
-                dgvMarcas.CurrentRow.Cells["colId"].Value
-            );
+            int idMarca =
+                Convert.ToInt32(
+                    dgvMarcas.CurrentRow
+                    .Cells["colId"]
+                    .Value);
 
-            DialogResult respuesta = MessageBox.Show(
-                "¿Está seguro de desactivar esta marca?",
-                "Confirmar",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
+            DialogResult respuesta =
+                MessageBox.Show(
+                    "¿Está seguro de desactivar esta marca?",
+                    "Confirmar",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
             {
                 if (marcaDAO.EliminarMarca(idMarca))
                 {
                     MessageBox.Show(
-                        "Marca desactivada correctamente.");
+                        "Marca desactivada correctamente.",
+                        "Correcto",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
 
                     CargarMarcas();
                 }
                 else
                 {
                     MessageBox.Show(
-                        "No se pudo desactivar la marca.");
+                        "No se pudo desactivar la marca.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
                 }
-        
-            }    }
+            }
+        }
     }
 }
