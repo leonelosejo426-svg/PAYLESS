@@ -29,14 +29,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             InitializeComponent();
 
-            ///ConfigurarDataGridView();
+            //ConfigurarDataGridView();
             // ConfigurarComboBuscar();
 
-            // CargarProveedores();
+            //CargarProveedores();
 
+            // Conectar el botón Buscar con su evento
+            btnBuscar.Click += btnBuscar_Click;
 
-
+            // Cargar el evento del formulario
+            this.Load += Proveedores_Load;
         }
+
+        
 
 
 
@@ -411,57 +416,48 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("El botón Buscar funciona");
+           
             try
             {
-                string filtro = cmbBuscar.Text.Trim();
-
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
-                if (tabla == null || tabla.Rows.Count == 0)
+                if (tabla == null)
                 {
-                    DGVtabla1.DataSource = tabla;
+                    MessageBox.Show("No se encontraron proveedores.");
                     return;
                 }
 
-                // Si selecciona Todos, mostrar todos
-                if (filtro == "Todos" || string.IsNullOrEmpty(filtro))
+                string filtro = cmbBuscar.Text.Trim();
+
+                // Mostrar todos
+                if (filtro == "Todos" || string.IsNullOrWhiteSpace(filtro))
                 {
                     DGVtabla1.DataSource = tabla;
                 }
-                else
+
+                // Mostrar activos
+                else if (filtro == "Activos")
                 {
-                    DataTable resultado = tabla.Clone();
+                    DataView vista = tabla.DefaultView;
+                    vista.RowFilter = "estado = true";
 
-                    foreach (DataRow fila in tabla.Rows)
-                    {
-                        bool estado = Convert.ToBoolean(fila["estado"]);
-
-                        if (filtro == "Activos" && estado == true)
-                        {
-                            resultado.ImportRow(fila);
-                        }
-                        else if (filtro == "Inactivos" && estado == false)
-                        {
-                            resultado.ImportRow(fila);
-                        }
-                    }
-
-                    DGVtabla1.DataSource = resultado;
+                    DGVtabla1.DataSource = vista.ToTable();
                 }
 
-                // Convertir true/false a Activo/Inactivo
-                foreach (DataGridViewRow fila in DGVtabla1.Rows)
+                // Mostrar inactivos
+                else if (filtro == "Inactivos")
                 {
-                    if (fila.Cells["estado"].Value != null &&
-                        fila.Cells["estado"].Value != DBNull.Value)
-                    {
-                        bool estado = Convert.ToBoolean(
-                            fila.Cells["estado"].Value);
+                    DataView vista = tabla.DefaultView;
+                    vista.RowFilter = "estado = false";
 
-                        fila.Cells["estado"].Value =
-                            estado ? "Activo" : "Inactivo";
-                    }
+                    DGVtabla1.DataSource = vista.ToTable();
+                }
+
+                // Ocultar la columna original que tiene el check
+                if (DGVtabla1.Columns.Contains("estado"))
+                {
+                    DGVtabla1.Columns["estado"].Visible = false;
                 }
 
                 AjustarColumnas();
@@ -469,11 +465,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar:\n\n" + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
+                    "Error al buscar: " + ex.Message);
+                    }
         }
     }
 }
