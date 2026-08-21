@@ -68,6 +68,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBestado.SelectedIndex = -1;
 
             idClienteSeleccionado = 0;
+
+            //Abrir la pantalla principal de clientes
+
+            Cliente cliente = new Cliente();
+            cliente.Show();
             this.Close();
         }
 
