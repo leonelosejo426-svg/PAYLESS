@@ -50,15 +50,65 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             cmbBuscar.Items.Clear();
 
 
-            cmbBuscar.Items.Add("Nombre");
-            cmbBuscar.Items.Add("Dirección");
-            cmbBuscar.Items.Add("RUC");
+
+            cmbBuscar.Items.Add("Todos");
+            cmbBuscar.Items.Add("Activos");
+            cmbBuscar.Items.Add("Inactivos");
 
 
             cmbBuscar.SelectedIndex = 0;
 
 
             CargarProveedores();
+
+
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+
+
+            lblCliente.Enabled = false;
+            lblCredito.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
         }
 
         private void label15_Click(object sender, EventArgs e)
@@ -186,9 +236,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
-
                 DGVtabla1.DataSource = tabla;
 
+                if (DGVtabla1.Columns.Contains("estado"))
+                {
+                    DGVtabla1.Columns["estado"].HeaderText = "Estado";
+                }
 
                 AjustarColumnas();
             }
@@ -201,6 +254,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Error);
             }
         }
+
+
         private void AjustarColumnas()
         {
             if (DGVtabla1.Columns.Count >= 5)
@@ -312,7 +367,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                DGVtabla1.DataSource = null;
+                string filtro = cmbBuscar.SelectedItem?.ToString();
+
+                if (filtro == "Activos")
+                {
+                    DataView vista = tabla.DefaultView;
+                    vista.RowFilter = "estado = true";
+                    tabla = vista.ToTable();
+                }
+                else if (filtro == "Inactivos")
+                {
+                    DataView vista = tabla.DefaultView;
+                    vista.RowFilter = "estado = false";
+                    tabla = vista.ToTable();
+                }
+
+                // Convertir True/False a Activo/Inactivo
+                foreach (DataRow fila in tabla.Rows)
+                {
+                    if (fila["estado"] != DBNull.Value)
+                    {
+                        bool estado = Convert.ToBoolean(fila["estado"]);
+                        fila["estado"] = estado ? "Activo" : "Inactivo";
+                    }
+                }
+
                 DGVtabla1.DataSource = tabla;
 
                 AjustarColumnas();
@@ -320,7 +399,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al cargar proveedores:\n\n" + ex.Message,
+                    "Error al buscar proveedores:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
