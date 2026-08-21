@@ -268,15 +268,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                // Convertir la columna booleana a texto SIN crear otra columna
-                if (tabla.Columns.Contains("estado_proveedor"))
-                {
-                    tabla.Columns["estado_proveedor"].ColumnName = "estado";
-
-                    DataColumn columnaEstado = tabla.Columns["estado"];
-                    columnaEstado.DataType = typeof(string);
-                }
-
                 DGVtabla1.DataSource = tabla;
 
                 if (DGVtabla1.Columns.Contains("estado"))
@@ -402,29 +393,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             try
             {
-                DataTable tabla = proveedorDAO.MostrarProveedores();
-
                 string filtro = cmbBuscar.Text.Trim();
 
-                if (tabla == null || tabla.Rows.Count == 0)
-                {
-                    DGVtabla1.DataSource = tabla;
-                    return;
-                }
+                DataTable tabla;
 
                 if (filtro == "Todos")
                 {
-                    DGVtabla1.DataSource = tabla;
+                    tabla = proveedorDAO.MostrarProveedores();
                 }
                 else if (filtro == "Activos")
                 {
-                    tabla.DefaultView.RowFilter = "estado = true";
-                    DGVtabla1.DataSource = tabla.DefaultView;
+                    tabla = proveedorDAO.BuscarPorEstado(true);
                 }
                 else if (filtro == "Inactivos")
                 {
-                    tabla.DefaultView.RowFilter = "estado = false";
-                    DGVtabla1.DataSource = tabla.DefaultView;
+                    tabla = proveedorDAO.BuscarPorEstado(false);
+                }
+                else
+                {
+                    return;
+                }
+
+                DGVtabla1.DataSource = tabla;
+
+                if (DGVtabla1.Columns.Contains("estado"))
+                {
+                    DGVtabla1.Columns["estado"].HeaderText = "Estado";
                 }
 
                 AjustarColumnas();
@@ -432,7 +426,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar:\n\n" + ex.Message);
+                    "Error al buscar:\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
 
         }
