@@ -1,6 +1,7 @@
 ﻿
 using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
 using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using Newtonsoft.Json;
 using Npgsql;
 using System;
@@ -229,14 +230,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-
-
-
+            SubProovedoresAgregar ventana = new SubProovedoresAgregar();
+            ventana.Show(); this.Hide();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-
+            SubProveedorEditar ventana = new SubProveedorEditar();
+            ventana.Show(); this.Hide();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
