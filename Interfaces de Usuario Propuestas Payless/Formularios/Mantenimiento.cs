@@ -287,8 +287,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             try
             {
-                // Si no se seleccionó mediante el botón,
-                // intentar obtenerlo del DataGridView.
+           
                 if (string.IsNullOrWhiteSpace(
                     rutaArchivoSeleccionado))
                 {
