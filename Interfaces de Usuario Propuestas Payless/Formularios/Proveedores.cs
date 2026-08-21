@@ -166,7 +166,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label10_Click(object sender, EventArgs e)
         {
-
+            Productos ventana = new Productos();
+            ventana.Show(); 
+            this.Hide();
         }
 
         private void label11_Click(object sender, EventArgs e)
@@ -175,36 +177,51 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label12_Click(object sender, EventArgs e)
         {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label19_Click(object sender, EventArgs e)
         {
-
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label23_Click(object sender, EventArgs e)
         {
-
+            Compras ventana = new Compras();
+            ventana.show();
+            this.Hide();
         }
 
         private void label24_Click(object sender, EventArgs e)
         {
-
+            Ventas ventana = new Ventas();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label25_Click(object sender, EventArgs e)
         {
-
+            inventario ventana = new inventario();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label27_Click(object sender, EventArgs e)
         {
-
+            Credito ventana = new Credito();
+            ventana.Show();
+            this.Hide();
         }
 
         private void label28_Click(object sender, EventArgs e)
         {
-
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
         }
 
 
@@ -300,6 +317,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label30_Click(object sender, EventArgs e)
         {
+            Mantenimiento ventana = new Mantenimiento();
+            ventana.Show();
+            this.Hide();
         }
 
         private void dgvProveedores_CellContentClick(object sender, DataGridViewCellEventArgs e)

@@ -442,5 +442,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void lblProveedores_Click(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores
+                ventana.Show();
+            this.Hide();
+        }
     }
 }
