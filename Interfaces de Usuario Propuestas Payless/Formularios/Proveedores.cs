@@ -35,6 +35,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // CargarProveedores();
 
 
+
         }
 
 
@@ -109,6 +110,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblVenta.Enabled = true;
 
                     break;
+
+
             }
         }
 
@@ -155,6 +158,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label9_Click(object sender, EventArgs e)
         {
+            Menú_Principal ventana = new Menú_Principal();
+            ventana.Show();
+            this.Hide(); 
 
         }
 
