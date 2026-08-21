@@ -1076,6 +1076,54 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
         }
 
+        public DataTable ObtenerProductoTalla(int idProducto, int idProductoTalla)
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT
+                pt.id_producto_talla,
+                pt.talla,
+                i.stock_actual,
+                i.stock_minimo
+            FROM producto_talla pt
+            INNER JOIN inventario i
+                ON pt.id_producto_talla = i.id_producto_talla
+            WHERE pt.id_producto = @id_producto
+              AND pt.id_producto_talla = @id_producto_talla";
+
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@id_producto",
+                        idProducto);
+
+                    cmd.Parameters.AddWithValue(
+                        "@id_producto_talla",
+                        idProductoTalla);
+
+                    NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(cmd);
+
+                    da.Fill(tabla);
+                }
+            }
+            catch
+            {
+                return tabla;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
     }
 
 }

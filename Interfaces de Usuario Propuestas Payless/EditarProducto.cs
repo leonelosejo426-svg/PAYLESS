@@ -44,7 +44,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         //Cargar productos
         private void CargarProductos()
         {
-            DataTable productos = productoDAO.CargarProductos();
+            DataTable productos = productoDAO.MostrarProductos();
 
             CBnombreP.DataSource = productos;
             CBnombreP.DisplayMember = "nombre";
@@ -56,7 +56,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void CargarCategorias()
         {
             DataTable categorias = productoDAO.CargarCategorias();
-            CBcategoria.DataSource = "nombre_categoria";
+
+            CBcategoria.DataSource = categorias;
+            CBcategoria.DisplayMember = "nombre_categoria";
             CBcategoria.ValueMember = "id_categoria";
             CBcategoria.SelectedIndex = -1;
         }
