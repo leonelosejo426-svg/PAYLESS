@@ -30,28 +30,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             //Cargar productos
 
+            CargarProductos();
+            CargarCategorias();
+
+            //Limpiar tallas 
+            CBTalla.DataSource = null;
+            CBTalla.Items.Clear();
+
+            idProductoSeleccionado = 0;
+            idProductoTallaSeleccionado = 0;
+        }
+
+        //Cargar productos
+        private void CargarProductos()
+        {
             DataTable productos = productoDAO.CargarProductos();
 
             CBnombreP.DataSource = productos;
             CBnombreP.DisplayMember = "nombre";
             CBnombreP.ValueMember = "id_producto";
-
             CBnombreP.SelectedIndex = -1;
+        }
 
-            //Cargar categorias
+        //Cargar categorias
+        private void CargarCategorias()
+        {
             DataTable categorias = productoDAO.CargarCategorias();
-            CBcategoria.DataSource = categorias;
-            CBcategoria.DisplayMember = "nombre_categoria";
+            CBcategoria.DataSource = "nombre_categoria";
             CBcategoria.ValueMember = "id_categoria";
             CBcategoria.SelectedIndex = -1;
-
-            //Limpiar tallas
-            CBTalla.DataSource = null;
-            CBTalla.Items.Clear();
-            CBTalla.Text = "";
-
-            idProductoSeleccionado = 0;
-            idProductoTallaSeleccionado = 0;
         }
 
         
@@ -68,200 +75,289 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string nombre = CBnombreP.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(nombre))
+            if (CBnombreP.SelectedIndex == -1 ||
+                CBnombreP.SelectedValue == null)
             {
-                MessageBox.Show("Seleccione o escriba el nombre del producto", "Buscar producto",
+                MessageBox.Show(
+                    "Seleccione un producto.",
+                    "Buscar producto",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
+                return;
             }
 
-            //Buscar producto
-
-            DataTable resultado = productoDAO.BuscarPorNombre(nombre);
-
-            if (resultado.Rows.Count == 0)
+            if (!int.TryParse(
+                CBnombreP.SelectedValue.ToString(),
+                out int idProducto))
             {
-                MessageBox.Show("El producto no fue encontrado", "Buscar producto",
+                MessageBox.Show(
+                    "No se pudo identificar el producto.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                return;
+            }
+
+            // Guardar ID
+            idProductoSeleccionado = idProducto;
+
+            //obtener productos
+            ClaseProducto producto =
+                productoDAO.ObtenerProducto(
+                    idProductoSeleccionado);
+
+            if (producto == null ||
+                producto.IdProducto <= 0)
+            {
+                MessageBox.Show(
+                    "No se encontró el producto.",
+                    "Buscar producto",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
                 return;
             }
-            DataRow fila = resultado.Rows[0];
+            //Mostrar datos del producto
+            CBnombreP.SelectedValue =
+                producto.IdProducto;
 
-            //Guardar id del producto
-            idProductoSeleccionado = Convert.ToInt32(fila["id_producto"]);
+            // Categoría
+            CBcategoria.SelectedValue =
+                producto.IdCategoria;
 
-            //Cargar datos del producto
+            //Buscar marca
+            DataTable marcas =
+                productoDAO.CargarMarcas();
 
-            txtCodigo.Text = fila["codigo"].ToString();
-            CBnombreP.Text = fila["nombre"].ToString();
-            txtMarca.Text = fila["marca"].ToString();
-            txtProveedor.Text = fila["proveedor"].ToString();
+            DataRow filaMarca =
+                marcas.AsEnumerable()
+                .FirstOrDefault(
+                    x =>
+                    Convert.ToInt32(
+                        x["id_marca"]) ==
+                    producto.IdMarca);
 
-            //categoria
-            string categoria = fila["categoria"].ToString();
-            CBcategoria.Text = categoria;
-
-            //Cargar tallas
-            DataTable tallas = productoDAO.CargarTallasProducto(idProductoSeleccionado);
-            CBTalla.DataSource = null;
-            
-            if(tallas.Rows.Count > 0)
+            if (filaMarca != null)
             {
-                CBTalla.DataSource = tallas;
-
-                CBTalla.DisplayMember = "talla";
-                CBTalla.ValueMember = "id_producto_talla";
-                CBTalla.SelectedIndex = 0;
-            }
-            //Obtener datos 
-            idProductoTallaSeleccionado = Convert.ToInt32(CBTalla.SelectedValue);
-
-            DataTable datosTalla = productoDAO.ObtenerProductoTalla(idProductoSeleccionado,
-                idProductoTallaSeleccionado);
-
-            if(datosTalla.Rows.Count > 0)
-            {
-                DataRow filaTalla = datosTalla.Rows[0];
-
-                txtCantidad.Text = filaTalla["stock_actual"].ToString();
+                txtMarca.Text =
+                    filaMarca["nombre_marca"]
+                    .ToString();
             }
             else
             {
-                CBTalla.DataSource = null;
-                CBTalla.Items.Clear();
-                CBTalla.Text = "";
-                txtCantidad.Clear();
-                idProductoTallaSeleccionado = 0;
+                txtMarca.Clear();
             }
-        }
-        
-        
+            //Buscar proveedor 
+            DataTable proveedores =
+                productoDAO.CargarProveedores();
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
+            DataRow filaProveedor =
+                proveedores.AsEnumerable()
+                .FirstOrDefault(
+                    x =>
+                    Convert.ToInt32(
+                        x["id_proveedor"]) ==
+                    producto.IdProveedor);
 
-        }
-
-        private void CBTalla_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CBTalla.SelectedValue == null)
-                return;
-            if (CBTalla.SelectedValue is DataRowView)
-                return;
-            if(!int.TryParse(
-                CBTalla.SelectedValue.ToString(),
-                out idProductoTallaSeleccionado))
+            if (filaProveedor != null)
             {
-                return;
+                txtProveedor.Text =
+                    filaProveedor["nombre"]
+                    .ToString();
             }
-
-            //Obtener datos de la talla
-            DataTable datosTalla = productoDAO.ObtenerProductoTalla(
-                idProductoSeleccionado,
-                idProductoTallaSeleccionado);
-            if (datosTalla.Rows.Count == 0)
-                return;
-            DataRow fila = datosTalla.Rows[0];
-
-            //Cargar cantidad correspondiente a la talla
-            txtCantidad.Text = fila["stock_actual"].ToString();
+            else
+            {
+                txtProveedor.Clear();
+            }
+            //Cargar tallas
+            CargarTallas();
 
         }
+        //Cargar tallas del prodcuto
+        private void CargarTallas()
+        {
+            CBTalla.DataSource = null;
+            CBTalla.Items.Clear();
+            CBTalla.Text = "";
 
+            idProductoTallaSeleccionado = 0;
+
+            if (idProductoSeleccionado <= 0)
+                return;
+
+            DataTable tallas =
+                productoDAO.CargarTallasProducto(
+                    idProductoSeleccionado);
+
+            if (tallas.Rows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Este producto no tiene tallas registradas.",
+                    "Tallas",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+            CBTalla.DataSource = tallas;
+
+            CBTalla.DisplayMember = "talla";
+            CBTalla.ValueMember =
+                "id_producto_talla";
+
+            CBTalla.SelectedIndex = 0;
+        }
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            //Validar producto
             if (idProductoSeleccionado <= 0)
             {
-                MessageBox.Show("Primero debe de buscar un producto",
+                MessageBox.Show(
+                    "Primero debe buscar un producto.",
                     "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
             //Validar nombre
-            string nombre = CBnombreP.Text.Trim();
+            string nombre =
+               CBnombreP.Text.Trim();
+
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("El nombre del producto no puede estar vacio",
+                MessageBox.Show(
+                    "El nombre del producto no puede estar vacío.",
                     "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
+                CBnombreP.Focus();
                 return;
             }
-            //Validar cantidad
-            
-            if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad))
+            //Validar categoria
+            if (CBcategoria.SelectedIndex == -1 ||
+               CBcategoria.SelectedValue == null)
             {
-                MessageBox.Show("La cantidad debe ser un número entero",
+                MessageBox.Show(
+                    "Debe seleccionar una categoría.",
                     "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-                txtCantidad.Focus();
+
+                CBcategoria.Focus();
                 return;
             }
-            if(cantidad < 0)
+
+            if (!int.TryParse(
+                CBcategoria.SelectedValue.ToString(),
+                out int idCategoria))
             {
-                MessageBox.Show("La cantidad no puede ser negativa",
-                    "Cantidad invalida",
+                MessageBox.Show(
+                    "La categoría seleccionada no es válida.",
+                    "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-                txtCantidad.Focus();
+
                 return;
             }
             //Validar talla
-            if (CBTalla.SelectedIndex == -1 || CBTalla.SelectedValue == null)
+            if (CBTalla.SelectedIndex == -1 ||
+               CBTalla.SelectedValue == null)
             {
-                MessageBox.Show("Debe de seleccioar una talla",
+                MessageBox.Show(
+                    "Debe seleccionar una talla.",
                     "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 CBTalla.Focus();
                 return;
             }
-            //Obtener datos de las tallas
-            DataTable datosTalla = productoDAO.ObtenerProductoTalla(
-                idProductoSeleccionado,
-                idProductoTallaSeleccionado);
+            //Validar cantidad
+            if (!int.TryParse(
+              txtCantidad.Text.Trim(),
+              out int cantidad))
+            {
+                MessageBox.Show(
+                    "La cantidad debe ser un número entero.",
+                    "Guardar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtCantidad.Focus();
+                return;
+            }
+
+            if (cantidad < 0)
+            {
+                MessageBox.Show(
+                    "La cantidad no puede ser negativa.",
+                    "Cantidad inválida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtCantidad.Focus();
+                return;
+            }
+            //Obtener stock minimo actual
+            DataTable datosTalla =
+               productoDAO.ObtenerProductoTalla(
+                   idProductoSeleccionado,
+                   idProductoTallaSeleccionado);
+
             if (datosTalla.Rows.Count == 0)
             {
-                MessageBox.Show("No se encontraron los datos de la talla",
+                MessageBox.Show(
+                    "No se encontraron los datos de la talla.",
                     "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
-            DataRow filaTalla = datosTalla.Rows[0];
 
-            int stocMinimo = Convert.ToInt32(filaTalla["stock_minimo"]);
+            DataRow filaTalla =
+                datosTalla.Rows[0];
 
-            //obtener la talla seleccionada 
-            string talla = CBTalla.Text.Trim();
+            int stockMinimo =
+                Convert.ToInt32(
+                    filaTalla["stock_minimo"]);
 
             //Obtener marca
-            DataTable marcas = productoDAO.CargarMarcas();
-            DataRow filaMarca = marcas.AsEnumerable().FirstOrDefault(
-                x =>
-                x["nombre_marca"]
-                .ToString()
-                .Equals(txtMarca.Text.Trim(), StringComparison.OrdinalIgnoreCase));
+            DataTable marcas =
+               productoDAO.CargarMarcas();
 
-            if(filaMarca == null)
+            DataRow filaMarca =
+                marcas.AsEnumerable()
+                .FirstOrDefault(
+                    x =>
+                    x["nombre_marca"]
+                    .ToString()
+                    .Equals(
+                        txtMarca.Text.Trim(),
+                        StringComparison.OrdinalIgnoreCase));
+
+            if (filaMarca == null)
             {
-                MessageBox.Show("La marca indicada no existe",
+                MessageBox.Show(
+                    "La marca indicada no existe.",
                     "Guardar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
+
                 return;
             }
-            int idMarca = Convert.ToInt32(filaMarca["id_marca"]);
+
+            int idMarca =
+                Convert.ToInt32(
+                    filaMarca["id_marca"]);
 
             //Obtener proveedor
             DataTable proveedores =
-                productoDAO.CargarProveedores();
+               productoDAO.CargarProveedores();
 
             DataRow filaProveedor =
                 proveedores.AsEnumerable()
@@ -272,7 +368,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     .Equals(
                         txtProveedor.Text.Trim(),
                         StringComparison.OrdinalIgnoreCase));
-
 
             if (filaProveedor == null)
             {
@@ -285,84 +380,123 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-
             int idProveedor =
                 Convert.ToInt32(
                     filaProveedor["id_proveedor"]);
 
-            //Obtener categoria
-            int idCategoria =
-               Convert.ToInt32(
-                   CBcategoria.SelectedValue);
+            //Crear objeto producto
+            ClaseProducto producto =
+                new ClaseProducto();
+
+            producto.IdProducto =
+                idProductoSeleccionado;
+
+            producto.Nombre =
+                nombre;
+
+            producto.IdCategoria =
+                idCategoria;
+
+            producto.IdMarca =
+                idMarca;
+
+            producto.IdProveedor =
+                idProveedor;
 
             //Guardar
-            ClaseProducto producto = new ClaseProducto();
+            string talla =
+                CBTalla.Text.Trim();
 
-            producto.IdProducto = idProductoSeleccionado;
-            producto.Nombre = CBnombreP.Text.Trim();
-            producto.IdCategoria = idCategoria;
-            producto.IdMarca = idMarca;
-            producto.IdProveedor = idProveedor;
+            bool resultado =
+                productoDAO.EditarProducto(
+                    producto,
+                    idProductoTallaSeleccionado,
+                    talla,
+                    cantidad,
+                    stockMinimo);
 
-            bool resultado = productoDAO.EditarProducto(
-                producto,
-                idProductoTallaSeleccionado,
-                CBTalla.Text.Trim(),
-                cantidad,
-                stocMinimo);
+            if (resultado)
+            {
+                MessageBox.Show(
+                    "Producto actualizado correctamente.",
+                    "Correcto",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-            //Limpiar campos
+                LimpiarFormulario();
+
+
+            }
+        }
+
+        //Limpiar
+        private void LimpiarFormulario()
+        {
             idProductoSeleccionado = 0;
-
             idProductoTallaSeleccionado = 0;
 
-            txtCodigo.Clear();
-
-            CBnombreP.DataSource = null;
-            CBnombreP.Items.Clear();
-            CBnombreP.Text = "";
+            CBnombreP.SelectedIndex = -1;
+            CBcategoria.SelectedIndex = -1;
 
             txtMarca.Clear();
-
             txtProveedor.Clear();
-
-            CBcategoria.SelectedIndex = -1;
-            CBcategoria.Text = "";
+            txtCantidad.Clear();
 
             CBTalla.DataSource = null;
             CBTalla.Items.Clear();
             CBTalla.Text = "";
+        }
 
-            txtCantidad.Clear();
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
 
         }
 
+        //Cambio de talla
+        private void CBTalla_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CBTalla.SelectedIndex == -1)
+                return;
+
+            if (CBTalla.SelectedValue == null)
+                return;
+
+            if (CBTalla.SelectedValue is DataRowView)
+                return;
+
+            if (!int.TryParse(
+                CBTalla.SelectedValue.ToString(),
+                out int idProductoTalla))
+            {
+                return;
+            }
+            idProductoTallaSeleccionado = idProductoTalla;
+
+            //Obtener inventario de la talla
+            DataTable datosTalla =
+              productoDAO.ObtenerProductoTalla(
+                  idProductoSeleccionado,
+                  idProductoTallaSeleccionado);
+
+            if (datosTalla.Rows.Count == 0)
+            {
+                txtCantidad.Clear();
+                return;
+            }
+
+            DataRow fila =
+                datosTalla.Rows[0];
+
+            txtCantidad.Text =
+                fila["stock_actual"]
+                .ToString();
+        }
+
+        
+
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            // Limpiar campos
-
-            idProductoSeleccionado = 0;
-
-            idProductoTallaSeleccionado = 0;
-
-            txtCodigo.Clear();
-
-            CBnombreP.DataSource = null;
-            CBnombreP.Items.Clear();
-            CBnombreP.Text = "";
-
-            txtMarca.Clear();
-
-            txtProveedor.Clear();
-
-            CBcategoria.SelectedIndex = -1;
-            CBcategoria.Text = "";
-
-            CBTalla.DataSource = null;
-            CBTalla.Items.Clear();
-            CBTalla.Text = "";
-
-            txtCantidad.Clear();
+            LimpiarFormulario();
 
             this.Close();
 
