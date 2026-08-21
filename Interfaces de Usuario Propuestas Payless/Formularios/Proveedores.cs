@@ -45,6 +45,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Proveedores_Load(object sender, EventArgs e)
         {
+
+
             cmbBuscar.Items.Clear();
 
 
@@ -295,48 +297,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
-
-            string valor = cmbBuscar.Text.Trim();
-
-
-            if (string.IsNullOrWhiteSpace(valor))
+            try
             {
-                CargarProveedores();
-                return;
+                DataTable tabla = proveedorDAO.MostrarProveedores();
+
+                if (tabla == null)
+                {
+                    MessageBox.Show(
+                        "No se pudieron cargar los proveedores.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                DGVtabla1.DataSource = null;
+                DGVtabla1.DataSource = tabla;
+
+                AjustarColumnas();
             }
-
-
-            string campo = "";
-
-
-            switch (cmbBuscar.Text)
+            catch (Exception ex)
             {
-                case "Nombre":
-                    campo = "nombre";
-                    break;
-
-
-                case "Dirección":
-                    campo = "direccion";
-                    break;
-
-
-                case "RUC":
-                    campo = "ruc";
-                    break;
+                MessageBox.Show(
+                    "Error al cargar proveedores:\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
-
-
-            DataTable resultado =
-                proveedorDAO.BuscarProveedores(campo, valor);
-
-
-            DGVtabla1.DataSource = resultado;
-
-
-            AjustarColumnas();
         }
-
 
     }
 }
