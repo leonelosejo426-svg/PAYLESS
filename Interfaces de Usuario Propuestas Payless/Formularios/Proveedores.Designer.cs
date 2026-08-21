@@ -48,11 +48,6 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.DGVtabla1 = new System.Windows.Forms.DataGridView();
-            this.id_proveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ruc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estado_proveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblMantenimiento = new System.Windows.Forms.Label();
             this.lblAyuda = new System.Windows.Forms.Label();
@@ -64,7 +59,7 @@
             this.lblUsuarios = new System.Windows.Forms.Label();
             this.lblCliente = new System.Windows.Forms.Label();
             this.lblProveedores = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblMenuPrincipal = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lblProductos = new System.Windows.Forms.Label();
             this.btnAgregar = new System.Windows.Forms.Button();
@@ -73,6 +68,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.id_proveedor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.direccion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ruc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
@@ -310,7 +310,7 @@
             this.nombre,
             this.direccion,
             this.ruc,
-            this.estado_proveedor});
+            this.estado});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -338,46 +338,6 @@
             this.DGVtabla1.TabIndex = 87;
             this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProveedores_CellContentClick);
             // 
-            // id_proveedor
-            // 
-            this.id_proveedor.DataPropertyName = "id_proveedor";
-            this.id_proveedor.HeaderText = "ID";
-            this.id_proveedor.MinimumWidth = 6;
-            this.id_proveedor.Name = "id_proveedor";
-            this.id_proveedor.Width = 50;
-            // 
-            // nombre
-            // 
-            this.nombre.DataPropertyName = "nombre";
-            this.nombre.HeaderText = "Nombre";
-            this.nombre.MinimumWidth = 8;
-            this.nombre.Name = "nombre";
-            this.nombre.Width = 230;
-            // 
-            // direccion
-            // 
-            this.direccion.DataPropertyName = "direccion";
-            this.direccion.HeaderText = "Direccion";
-            this.direccion.MinimumWidth = 6;
-            this.direccion.Name = "direccion";
-            this.direccion.Width = 125;
-            // 
-            // ruc
-            // 
-            this.ruc.DataPropertyName = "ruc";
-            this.ruc.HeaderText = "RUC";
-            this.ruc.MinimumWidth = 8;
-            this.ruc.Name = "ruc";
-            this.ruc.Width = 150;
-            // 
-            // estado_proveedor
-            // 
-            this.estado_proveedor.DataPropertyName = "estado_proveedor";
-            this.estado_proveedor.HeaderText = "Estado";
-            this.estado_proveedor.MinimumWidth = 8;
-            this.estado_proveedor.Name = "estado_proveedor";
-            this.estado_proveedor.Width = 70;
-            // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
@@ -391,7 +351,7 @@
             this.groupBox1.Controls.Add(this.lblUsuarios);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.lblProveedores);
-            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.lblMenuPrincipal);
             this.groupBox1.Controls.Add(this.pictureBox3);
             this.groupBox1.Controls.Add(this.lblProductos);
             this.groupBox1.Location = new System.Drawing.Point(-13, -6);
@@ -551,20 +511,20 @@
             this.lblProveedores.Text = "🚚   Proveedores";
             this.lblProveedores.Click += new System.EventHandler(this.label11_Click);
             // 
-            // label9
+            // lblMenuPrincipal
             // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.White;
-            this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(23, 171);
-            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(88, 23);
-            this.label9.TabIndex = 116;
-            this.label9.Text = "☰   Menú";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
+            this.lblMenuPrincipal.AutoSize = true;
+            this.lblMenuPrincipal.BackColor = System.Drawing.Color.White;
+            this.lblMenuPrincipal.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMenuPrincipal.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMenuPrincipal.ForeColor = System.Drawing.Color.Black;
+            this.lblMenuPrincipal.Location = new System.Drawing.Point(23, 171);
+            this.lblMenuPrincipal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMenuPrincipal.Name = "lblMenuPrincipal";
+            this.lblMenuPrincipal.Size = new System.Drawing.Size(37, 23);
+            this.lblMenuPrincipal.TabIndex = 116;
+            this.lblMenuPrincipal.Text = "tab";
+            this.lblMenuPrincipal.Click += new System.EventHandler(this.label9_Click);
             // 
             // pictureBox3
             // 
@@ -677,6 +637,46 @@
             this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
+            // id_proveedor
+            // 
+            this.id_proveedor.DataPropertyName = "id_proveedor";
+            this.id_proveedor.HeaderText = "ID";
+            this.id_proveedor.MinimumWidth = 6;
+            this.id_proveedor.Name = "id_proveedor";
+            this.id_proveedor.Width = 50;
+            // 
+            // nombre
+            // 
+            this.nombre.DataPropertyName = "nombre";
+            this.nombre.HeaderText = "Nombre";
+            this.nombre.MinimumWidth = 8;
+            this.nombre.Name = "nombre";
+            this.nombre.Width = 230;
+            // 
+            // direccion
+            // 
+            this.direccion.DataPropertyName = "direccion";
+            this.direccion.HeaderText = "Direccion";
+            this.direccion.MinimumWidth = 6;
+            this.direccion.Name = "direccion";
+            this.direccion.Width = 125;
+            // 
+            // ruc
+            // 
+            this.ruc.DataPropertyName = "ruc";
+            this.ruc.HeaderText = "RUC";
+            this.ruc.MinimumWidth = 8;
+            this.ruc.Name = "ruc";
+            this.ruc.Width = 150;
+            // 
+            // estado
+            // 
+            this.estado.DataPropertyName = "estado";
+            this.estado.HeaderText = "Estado";
+            this.estado.MinimumWidth = 8;
+            this.estado.Name = "estado";
+            this.estado.Width = 70;
+            // 
             // Proveedores
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -727,7 +727,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lblMenuPrincipal;
         private System.Windows.Forms.Label lblProductos;
         private System.Windows.Forms.Label lblProveedores;
         private System.Windows.Forms.Label lblCliente;
@@ -751,6 +751,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn direccion;
         private System.Windows.Forms.DataGridViewTextBoxColumn ruc;
-        private System.Windows.Forms.DataGridViewTextBoxColumn estado_proveedor;
+        private System.Windows.Forms.DataGridViewTextBoxColumn estado;
     }
 }
