@@ -41,7 +41,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             this.Load += Proveedores_Load;
         }
 
-        
+
 
 
 
@@ -56,17 +56,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             cmbBuscar.Items.Clear();
 
-
-
             cmbBuscar.Items.Add("Todos");
             cmbBuscar.Items.Add("Activos");
             cmbBuscar.Items.Add("Inactivos");
 
-
             cmbBuscar.SelectedIndex = 0;
 
-
             CargarProveedores();
+
 
 
             lblCaja.Enabled = false;
@@ -165,14 +162,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             Menú_Principal ventana = new Menú_Principal();
             ventana.Show();
-            this.Hide(); 
+            this.Hide();
 
         }
 
         private void label10_Click(object sender, EventArgs e)
         {
             Productos ventana = new Productos();
-            ventana.Show(); 
+            ventana.Show();
             this.Hide();
         }
 
@@ -416,60 +413,57 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("El botón Buscar funciona");
-           
+
             try
             {
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
-                if (tabla == null)
+                if (tabla == null || tabla.Rows.Count == 0)
                 {
-                    MessageBox.Show("No se encontraron proveedores.");
+                    DGVtabla1.DataSource = tabla;
                     return;
                 }
 
                 string filtro = cmbBuscar.Text.Trim();
 
-                // Mostrar todos
-                if (filtro == "Todos" || string.IsNullOrWhiteSpace(filtro))
+                DataTable resultado = tabla.Clone();
+
+                foreach (DataRow fila in tabla.Rows)
                 {
-                    DGVtabla1.DataSource = tabla;
+                    bool estado = Convert.ToBoolean(fila["estado"]);
+
+                    if (filtro == "Todos")
+                    {
+                        resultado.ImportRow(fila);
+                    }
+                    else if (filtro == "Activos" && estado == true)
+                    {
+                        resultado.ImportRow(fila);
+                    }
+                    else if (filtro == "Inactivos" && estado == false)
+                    {
+                        resultado.ImportRow(fila);
+                    }
                 }
 
-                // Mostrar activos
-                else if (filtro == "Activos")
-                {
-                    DataView vista = tabla.DefaultView;
-                    vista.RowFilter = "estado = true";
-
-                    DGVtabla1.DataSource = vista.ToTable();
-                }
-
-                // Mostrar inactivos
-                else if (filtro == "Inactivos")
-                {
-                    DataView vista = tabla.DefaultView;
-                    vista.RowFilter = "estado = false";
-
-                    DGVtabla1.DataSource = vista.ToTable();
-                }
-
-                // Ocultar la columna original que tiene el check
-                if (DGVtabla1.Columns.Contains("estado"))
-                {
-                    DGVtabla1.Columns["estado"].Visible = false;
-                }
+                DGVtabla1.DataSource = resultado;
 
                 AjustarColumnas();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar: " + ex.Message);
-                    }
+                    "Error al buscar:\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
         }
     }
+
 }
+
 
 
 
