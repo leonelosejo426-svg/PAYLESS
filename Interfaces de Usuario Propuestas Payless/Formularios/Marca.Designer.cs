@@ -41,10 +41,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Categorias = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Descripción = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDescripcion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colEstado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMarcas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -81,7 +81,7 @@
             "Activo",
             "Inactivo"});
             this.cmbBuscarPor.Location = new System.Drawing.Point(148, 105);
-            this.cmbBuscarPor.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.cmbBuscarPor.Margin = new System.Windows.Forms.Padding(2);
             this.cmbBuscarPor.Name = "cmbBuscarPor";
             this.cmbBuscarPor.Size = new System.Drawing.Size(115, 21);
             this.cmbBuscarPor.TabIndex = 204;
@@ -146,10 +146,10 @@
             // 
             this.dgvMarcas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvMarcas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ID,
-            this.Categorias,
-            this.Descripción,
-            this.Estado});
+            this.colId,
+            this.colNombre,
+            this.colDescripcion,
+            this.colEstado});
             this.dgvMarcas.Location = new System.Drawing.Point(79, 168);
             this.dgvMarcas.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
             this.dgvMarcas.Name = "dgvMarcas";
@@ -209,31 +209,35 @@
             this.label12.TabIndex = 5;
             this.label12.Text = "Marca De Productos";
             // 
-            // ID
+            // colId
             // 
-            this.ID.HeaderText = "ID";
-            this.ID.MinimumWidth = 6;
-            this.ID.Name = "ID";
-            this.ID.Width = 50;
+            this.colId.DataPropertyName = "id_marca";
+            this.colId.HeaderText = "ID";
+            this.colId.MinimumWidth = 6;
+            this.colId.Name = "colId";
+            this.colId.Width = 50;
             // 
-            // Categorias
+            // colNombre
             // 
-            this.Categorias.HeaderText = "Categorias";
-            this.Categorias.MinimumWidth = 6;
-            this.Categorias.Name = "Categorias";
+            this.colNombre.DataPropertyName = "nombre_marca";
+            this.colNombre.HeaderText = "Categorias";
+            this.colNombre.MinimumWidth = 6;
+            this.colNombre.Name = "colNombre";
             // 
-            // Descripción
+            // colDescripcion
             // 
-            this.Descripción.HeaderText = "Descripción";
-            this.Descripción.MinimumWidth = 6;
-            this.Descripción.Name = "Descripción";
-            this.Descripción.Width = 250;
+            this.colDescripcion.DataPropertyName = "descripcion";
+            this.colDescripcion.HeaderText = "Descripción";
+            this.colDescripcion.MinimumWidth = 6;
+            this.colDescripcion.Name = "colDescripcion";
+            this.colDescripcion.Width = 250;
             // 
-            // Estado
+            // colEstado
             // 
-            this.Estado.HeaderText = "Estado";
-            this.Estado.MinimumWidth = 6;
-            this.Estado.Name = "Estado";
+            this.colEstado.DataPropertyName = "estado";
+            this.colEstado.HeaderText = "Estado";
+            this.colEstado.MinimumWidth = 6;
+            this.colEstado.Name = "colEstado";
             // 
             // Marca
             // 
@@ -252,7 +256,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.dgvMarcas);
             this.Controls.Add(this.btnAgregar);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Marca";
             this.Text = "Marca";
             this.Load += new System.EventHandler(this.Marca_Load);
@@ -277,9 +281,9 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Categorias;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Descripción;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Estado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colDescripcion;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colEstado;
     }
 }

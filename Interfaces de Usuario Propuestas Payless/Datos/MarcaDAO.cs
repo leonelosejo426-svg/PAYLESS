@@ -346,5 +346,44 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return tabla;
         }
+
+
+        // =========================================================
+        // CARGAR TODAS LAS MARCAS PARA EDITAR
+        // INCLUYE ACTIVAS E INACTIVAS
+        // =========================================================
+        public DataTable CargarTodasLasMarcas()
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT
+                id_marca,
+                nombre_marca
+            FROM marca
+            ORDER BY nombre_marca";
+
+                NpgsqlDataAdapter da =
+                    new NpgsqlDataAdapter(
+                        sql,
+                        conexionBD.ObtenerConexion());
+
+                da.Fill(tabla);
+            }
+            catch
+            {
+                return tabla;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
     }
 }
