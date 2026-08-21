@@ -671,7 +671,7 @@
             // 
             // estado
             // 
-            this.estado.DataPropertyName = "estado";
+            this.estado.DataPropertyName = "estado_proveedor";
             this.estado.HeaderText = "Estado";
             this.estado.MinimumWidth = 6;
             this.estado.Name = "estado";
