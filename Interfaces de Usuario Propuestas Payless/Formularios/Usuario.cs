@@ -1,4 +1,5 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -493,6 +494,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void groupBox2_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Pusuario ventana = new Pusuario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            Editar_usuarios ventana = new Editar_usuarios(); ventana.Show();
+            this.Hide();
         }
     }
 }
