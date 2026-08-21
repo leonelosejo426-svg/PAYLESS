@@ -1,31 +1,55 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
+using System;
+using System.Data;
 using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
     public partial class Pusuario : Form
     {
+        // =========================================================
+        // OBJETO DAO
+        // =========================================================
+
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+
+        // =========================================================
+        // CONSTRUCTOR
+        // =========================================================
 
         public Pusuario()
         {
             InitializeComponent();
-            // Eventos de los botones
+
+            // Cargar eventos
             btnGuardar.Click += btnGuardar_Click;
             btnCancelar.Click += btnCancelar_Click;
-
-            // Evento Load
-            this.Load += SubUsuarioAgregar_Load;
-            MostrarUsuarios()
+            this.Load += Pusuario_Load;
         }
+
+
+        // =========================================================
+        // EVENTO LOAD
+        // =========================================================
+
+        private void Pusuario_Load(object sender, EventArgs e)
+        {
+            CargarRoles();
+            CargarEstados();
+
+            // Contraseñas ocultas
+            txtContraseña.PasswordChar = '●';
+            txtConfirmar.PasswordChar = '●';
+        }
+
+
+        // =========================================================
+        // CARGAR ROLES
+        // =========================================================
 
         private void CargarRoles()
         {
@@ -42,12 +66,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "No se pudieron cargar los roles.\n\n" + ex.Message,
+                    "No se pudieron cargar los roles.\n\n" +
+                    ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
+
 
         // =========================================================
         // CARGAR ESTADOS
@@ -63,65 +89,175 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             cmbEstado.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+
+        // =========================================================
+        // BOTÓN GUARDAR
+        // =========================================================
+
+        private void btnGuardar_Click(object sender, EventArgs e)
         {
             try
             {
-                string nombreUsuario = txtNombreUsuario.Text.Trim();
-                string nombreCompleto = txtNombreCompleto.Text.Trim();
-                string password = txtPassword.Text;
-                string confirmarPassword = txtConfirmarPassword.Text;
+                // =================================================
+                // OBTENER DATOS DE LOS CONTROLES
+                // =================================================
+
+                string nombreUsuario =
+                    txtUsuario.Text.Trim();
+
+                string nombreCompleto =
+                    txtCompleto.Text.Trim();
+
+                string password =
+                    txtContraseña.Text;
+
+                string confirmarPassword =
+                    txtConfirmar.Text;
+
+                string telefono =
+                    txtTelefono.Text.Trim();
+
+                string cedula =
+                    txtCedula.Text.Trim();
+
+                string gmail =
+                    txtGmail.Text.Trim();
+
+
+                // =================================================
+                // VALIDAR NOMBRE DE USUARIO
+                // =================================================
 
                 if (string.IsNullOrWhiteSpace(nombreUsuario))
                 {
-                    MessageBox.Show("Ingrese el nombre de usuario.");
-                    txtNombreUsuario.Focus();
+                    MessageBox.Show(
+                        "Ingrese el nombre del usuario.",
+                        "Validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtUsuario.Focus();
                     return;
                 }
+
+
+                // =================================================
+                // VALIDAR NOMBRE COMPLETO
+                // =================================================
 
                 if (string.IsNullOrWhiteSpace(nombreCompleto))
                 {
-                    MessageBox.Show("Ingrese el nombre completo.");
-                    txtNombreCompleto.Focus();
+                    MessageBox.Show(
+                        "Ingrese el nombre completo.",
+                        "Validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtCompleto.Focus();
                     return;
                 }
+
+
+                // =================================================
+                // VALIDAR CONTRASEÑA
+                // =================================================
 
                 if (string.IsNullOrWhiteSpace(password))
                 {
-                    MessageBox.Show("Ingrese una contraseña.");
-                    txtPassword.Focus();
+                    MessageBox.Show(
+                        "Ingrese una contraseña.",
+                        "Validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtContraseña.Focus();
                     return;
                 }
+
+
+                // =================================================
+                // CONFIRMAR CONTRASEÑA
+                // =================================================
 
                 if (password != confirmarPassword)
                 {
-                    MessageBox.Show("Las contraseñas no coinciden.");
-                    txtConfirmarPassword.Focus();
+                    MessageBox.Show(
+                        "Las contraseñas no coinciden.",
+                        "Validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtConfirmar.Focus();
                     return;
                 }
 
+
+                // =================================================
+                // VALIDAR ROL
+                // =================================================
+
                 if (cmbRol.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Seleccione un rol.");
+                    MessageBox.Show(
+                        "Seleccione un rol.",
+                        "Validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
                     cmbRol.Focus();
                     return;
                 }
 
-                int idRol = Convert.ToInt32(cmbRol.SelectedValue);
 
-                bool estado = true;
+                // =================================================
+                // VALIDAR ESTADO
+                // =================================================
 
-                if (cmbEstado.SelectedItem != null)
+                if (cmbEstado.SelectedIndex == -1)
                 {
-                    estado = cmbEstado.SelectedItem.ToString() == "Activo";
+                    MessageBox.Show(
+                        "Seleccione un estado.",
+                        "Validación",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    cmbEstado.Focus();
+                    return;
                 }
 
-                bool resultado = usuarioDAO.AgregarUsuario(
-                    nombreUsuario,
-                    nombreCompleto,
-                    password,
-                    idRol,
-                    estado);
+
+                // =================================================
+                // OBTENER ID DEL ROL
+                // =================================================
+
+                int idRol =
+                    Convert.ToInt32(cmbRol.SelectedValue);
+
+
+                // =================================================
+                // OBTENER ESTADO
+                // =================================================
+
+                bool estado =
+                    cmbEstado.SelectedItem.ToString() == "Activo";
+
+
+                // =================================================
+                // GUARDAR MEDIANTE USUARIODAO
+                // =================================================
+
+                bool resultado =
+                    usuarioDAO.AgregarUsuario(
+                        nombreUsuario,
+                        nombreCompleto,
+                        password,
+                        idRol,
+                        estado);
+
+
+                // =================================================
+                // RESULTADO
+                // =================================================
 
                 if (resultado)
                 {
@@ -131,7 +267,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    this.DialogResult = DialogResult.OK;
+                    // Indicar a la ventana Usuario
+                    // que se agregó correctamente
+                    this.DialogResult =
+                        DialogResult.OK;
+
                     this.Close();
                 }
                 else
@@ -154,34 +294,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
         }
 
-        private void MostrarUsuarios()
-        {
-            try
-            {
-                dgvUsuarios.DataSource = usuarioDAO.MostrarUsuarios();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al cargar los usuarios: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
 
-        private void Pusuario_Load(object sender, EventArgs e)
-        CargarRoles();
-        CargarEstados();
+        // =========================================================
+        // BOTÓN CANCELAR
+        // =========================================================
 
-        // Configuración de contraseñas
-        txtPassword.PasswordChar = '●';
-            txtConfirmarPassword.PasswordChar = '●';
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Usuario ventana = new Usuario();
-            ventana.Show();
-            this.Hide();
+
+
+
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

@@ -32,10 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.cmbUsuario = new System.Windows.Forms.ComboBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -43,13 +43,15 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
-            this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.txtNombreUsuario = new System.Windows.Forms.TextBox();
+            this.txtNombreCompleto = new System.Windows.Forms.TextBox();
+            this.txtCorreo = new System.Windows.Forms.TextBox();
+            this.txtContraseña = new System.Windows.Forms.TextBox();
+            this.txtConfirmar = new System.Windows.Forms.TextBox();
+            this.cmbRol = new System.Windows.Forms.ComboBox();
+            this.cmbEstado = new System.Windows.Forms.ComboBox();
+            this.btnActualizar = new System.Windows.Forms.Button();
+            this.btnRegresar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,23 +98,26 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "Seleccionar Usuarios:";
             // 
-            // comboBox1
+            // cmbUsuario
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(174, 50);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(189, 21);
-            this.comboBox1.TabIndex = 3;
+            this.cmbUsuario.FormattingEnabled = true;
+            this.cmbUsuario.Location = new System.Drawing.Point(174, 50);
+            this.cmbUsuario.Name = "cmbUsuario";
+            this.cmbUsuario.Size = new System.Drawing.Size(189, 21);
+            this.cmbUsuario.TabIndex = 3;
             // 
-            // button1
+            // btnBuscar
             // 
-            this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(392, 48);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 31);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Buscar";
-            this.button1.UseVisualStyleBackColor = true;
+            this.btnBuscar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnBuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBuscar.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnBuscar.Location = new System.Drawing.Point(392, 48);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(75, 31);
+            this.btnBuscar.TabIndex = 4;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // label4
             // 
@@ -124,12 +129,12 @@
             this.label4.TabIndex = 3;
             this.label4.Text = "Codigo:";
             // 
-            // textBox1
+            // txtCodigo
             // 
-            this.textBox1.Location = new System.Drawing.Point(560, 51);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 5;
+            this.txtCodigo.Location = new System.Drawing.Point(560, 51);
+            this.txtCodigo.Name = "txtCodigo";
+            this.txtCodigo.Size = new System.Drawing.Size(100, 20);
+            this.txtCodigo.TabIndex = 5;
             // 
             // label5
             // 
@@ -201,69 +206,97 @@
             this.label11.TabIndex = 12;
             this.label11.Text = "Confirmacion contraseña:";
             // 
-            // textBox2
+            // txtNombreUsuario
             // 
-            this.textBox2.Location = new System.Drawing.Point(203, 130);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(200, 20);
-            this.textBox2.TabIndex = 13;
+            this.txtNombreUsuario.Location = new System.Drawing.Point(203, 130);
+            this.txtNombreUsuario.Name = "txtNombreUsuario";
+            this.txtNombreUsuario.Size = new System.Drawing.Size(200, 20);
+            this.txtNombreUsuario.TabIndex = 13;
             // 
-            // textBox3
+            // txtNombreCompleto
             // 
-            this.textBox3.Location = new System.Drawing.Point(203, 185);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(200, 20);
-            this.textBox3.TabIndex = 14;
+            this.txtNombreCompleto.Location = new System.Drawing.Point(203, 185);
+            this.txtNombreCompleto.Name = "txtNombreCompleto";
+            this.txtNombreCompleto.Size = new System.Drawing.Size(200, 20);
+            this.txtNombreCompleto.TabIndex = 14;
             // 
-            // textBox4
+            // txtCorreo
             // 
-            this.textBox4.Location = new System.Drawing.Point(203, 235);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(200, 20);
-            this.textBox4.TabIndex = 15;
+            this.txtCorreo.Location = new System.Drawing.Point(203, 235);
+            this.txtCorreo.Name = "txtCorreo";
+            this.txtCorreo.Size = new System.Drawing.Size(200, 20);
+            this.txtCorreo.TabIndex = 15;
             // 
-            // textBox5
+            // txtContraseña
             // 
-            this.textBox5.Location = new System.Drawing.Point(203, 393);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(200, 20);
-            this.textBox5.TabIndex = 16;
+            this.txtContraseña.Location = new System.Drawing.Point(203, 393);
+            this.txtContraseña.Name = "txtContraseña";
+            this.txtContraseña.Size = new System.Drawing.Size(200, 20);
+            this.txtContraseña.TabIndex = 16;
             // 
-            // textBox6
+            // txtConfirmar
             // 
-            this.textBox6.Location = new System.Drawing.Point(203, 446);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(200, 20);
-            this.textBox6.TabIndex = 17;
+            this.txtConfirmar.Location = new System.Drawing.Point(203, 446);
+            this.txtConfirmar.Name = "txtConfirmar";
+            this.txtConfirmar.Size = new System.Drawing.Size(200, 20);
+            this.txtConfirmar.TabIndex = 17;
             // 
-            // comboBox2
+            // cmbRol
             // 
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(203, 292);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 21);
-            this.comboBox2.TabIndex = 18;
+            this.cmbRol.FormattingEnabled = true;
+            this.cmbRol.Location = new System.Drawing.Point(203, 292);
+            this.cmbRol.Name = "cmbRol";
+            this.cmbRol.Size = new System.Drawing.Size(121, 21);
+            this.cmbRol.TabIndex = 18;
             // 
-            // comboBox3
+            // cmbEstado
             // 
-            this.comboBox3.FormattingEnabled = true;
-            this.comboBox3.Location = new System.Drawing.Point(203, 345);
-            this.comboBox3.Name = "comboBox3";
-            this.comboBox3.Size = new System.Drawing.Size(121, 21);
-            this.comboBox3.TabIndex = 19;
+            this.cmbEstado.FormattingEnabled = true;
+            this.cmbEstado.Location = new System.Drawing.Point(203, 345);
+            this.cmbEstado.Name = "cmbEstado";
+            this.cmbEstado.Size = new System.Drawing.Size(121, 21);
+            this.cmbEstado.TabIndex = 19;
+            // 
+            // btnActualizar
+            // 
+            this.btnActualizar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnActualizar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnActualizar.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnActualizar.Location = new System.Drawing.Point(497, 499);
+            this.btnActualizar.Name = "btnActualizar";
+            this.btnActualizar.Size = new System.Drawing.Size(88, 36);
+            this.btnActualizar.TabIndex = 20;
+            this.btnActualizar.Text = "Actualizar";
+            this.btnActualizar.UseVisualStyleBackColor = false;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
+            // 
+            // btnRegresar
+            // 
+            this.btnRegresar.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnRegresar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRegresar.ForeColor = System.Drawing.SystemColors.Control;
+            this.btnRegresar.Location = new System.Drawing.Point(630, 499);
+            this.btnRegresar.Name = "btnRegresar";
+            this.btnRegresar.Size = new System.Drawing.Size(83, 36);
+            this.btnRegresar.TabIndex = 21;
+            this.btnRegresar.Text = "Regresar";
+            this.btnRegresar.UseVisualStyleBackColor = false;
+            this.btnRegresar.Click += new System.EventHandler(this.btnRegresar_Click);
             // 
             // Editar_usuarios
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(958, 492);
-            this.Controls.Add(this.comboBox3);
-            this.Controls.Add(this.comboBox2);
-            this.Controls.Add(this.textBox6);
-            this.Controls.Add(this.textBox5);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
+            this.ClientSize = new System.Drawing.Size(958, 562);
+            this.Controls.Add(this.btnRegresar);
+            this.Controls.Add(this.btnActualizar);
+            this.Controls.Add(this.cmbEstado);
+            this.Controls.Add(this.cmbRol);
+            this.Controls.Add(this.txtConfirmar);
+            this.Controls.Add(this.txtContraseña);
+            this.Controls.Add(this.txtCorreo);
+            this.Controls.Add(this.txtNombreCompleto);
+            this.Controls.Add(this.txtNombreUsuario);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
@@ -271,10 +304,10 @@
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.cmbUsuario);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox1);
@@ -295,10 +328,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox cmbUsuario;
+        private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -306,12 +339,14 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
-        private System.Windows.Forms.ComboBox comboBox2;
-        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.TextBox txtNombreUsuario;
+        private System.Windows.Forms.TextBox txtNombreCompleto;
+        private System.Windows.Forms.TextBox txtCorreo;
+        private System.Windows.Forms.TextBox txtContraseña;
+        private System.Windows.Forms.TextBox txtConfirmar;
+        private System.Windows.Forms.ComboBox cmbRol;
+        private System.Windows.Forms.ComboBox cmbEstado;
+        private System.Windows.Forms.Button btnActualizar;
+        private System.Windows.Forms.Button btnRegresar;
     }
 }
