@@ -123,12 +123,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        id_marca,
-                        nombre_marca
-                    FROM marca
-                    WHERE estado = TRUE
-                    ORDER BY nombre_marca";
+            SELECT
+                id_marca,
+                nombre_marca,
+                estado
+            FROM marca
+            ORDER BY nombre_marca";
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(
@@ -163,12 +163,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        id_proveedor,
-                        nombre
-                    FROM proveedor
-                    WHERE estado_proveedor = TRUE
-                    ORDER BY nombre";
+            SELECT
+                id_proveedor,
+                nombre,
+                estado_proveedor
+            FROM proveedor
+            ORDER BY nombre";
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(
@@ -944,52 +944,121 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // EDITAR PRODUCTO
         // =========================================================
 
-        public bool EditarProducto(ClaseProducto producto)
+        public bool EditarProducto(
+    ClaseProducto producto,
+    int idProductoTalla,
+    string talla,
+    int cantidad,
+    int stockMinimo)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"
+                NpgsqlConnection conexion =
+                    conexionBD.ObtenerConexion();
+
+                // =====================================================
+                // 1. ACTUALIZAR PRODUCTO
+                // =====================================================
+
+                string sqlProducto = @"
             UPDATE producto
             SET
                 nombre = @nombre,
-                estado_producto = @estado,
                 id_categoria = @id_categoria,
                 id_marca = @id_marca,
                 id_proveedor = @id_proveedor
             WHERE id_producto = @id_producto";
 
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
+                using (NpgsqlCommand cmdProducto =
+                    new NpgsqlCommand(sqlProducto, conexion))
+                {
+                    cmdProducto.Parameters.AddWithValue(
+                        "@nombre",
+                        producto.Nombre);
 
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    producto.Nombre);
+                    cmdProducto.Parameters.AddWithValue(
+                        "@id_categoria",
+                        producto.IdCategoria);
 
-                cmd.Parameters.AddWithValue(
-                    "@estado",
-                    producto.EstadoProducto);
+                    cmdProducto.Parameters.AddWithValue(
+                        "@id_marca",
+                        producto.IdMarca);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_categoria",
-                    producto.IdCategoria);
+                    cmdProducto.Parameters.AddWithValue(
+                        "@id_proveedor",
+                        producto.IdProveedor);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_marca",
-                    producto.IdMarca);
+                    cmdProducto.Parameters.AddWithValue(
+                        "@id_producto",
+                        producto.IdProducto);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_proveedor",
-                    producto.IdProveedor);
+                    cmdProducto.ExecuteNonQuery();
+                }
 
-                cmd.Parameters.AddWithValue(
-                    "@id_producto",
-                    producto.IdProducto);
 
-                return cmd.ExecuteNonQuery() > 0;
+                // =====================================================
+                // 2. ACTUALIZAR TALLA
+                // =====================================================
+
+                string sqlTalla = @"
+            UPDATE producto_talla
+            SET
+                talla = @talla
+            WHERE id_producto_talla = @id_producto_talla
+            AND id_producto = @id_producto";
+
+                using (NpgsqlCommand cmdTalla =
+                    new NpgsqlCommand(sqlTalla, conexion))
+                {
+                    cmdTalla.Parameters.AddWithValue(
+                        "@talla",
+                        talla);
+
+                    cmdTalla.Parameters.AddWithValue(
+                        "@id_producto_talla",
+                        idProductoTalla);
+
+                    cmdTalla.Parameters.AddWithValue(
+                        "@id_producto",
+                        producto.IdProducto);
+
+                    cmdTalla.ExecuteNonQuery();
+                }
+
+
+                // =====================================================
+                // 3. ACTUALIZAR INVENTARIO
+                // =====================================================
+
+                string sqlInventario = @"
+            UPDATE inventario
+            SET
+                stock_actual = @stock_actual,
+                stock_minimo = @stock_minimo,
+                fecha_actualizacion = CURRENT_TIMESTAMP
+            WHERE id_producto_talla = @id_producto_talla";
+
+                using (NpgsqlCommand cmdInventario =
+                    new NpgsqlCommand(sqlInventario, conexion))
+                {
+                    cmdInventario.Parameters.AddWithValue(
+                        "@stock_actual",
+                        cantidad);
+
+                    cmdInventario.Parameters.AddWithValue(
+                        "@stock_minimo",
+                        stockMinimo);
+
+                    cmdInventario.Parameters.AddWithValue(
+                        "@id_producto_talla",
+                        idProductoTalla);
+
+                    cmdInventario.ExecuteNonQuery();
+                }
+
+                return true;
             }
             catch (Exception ex)
             {
