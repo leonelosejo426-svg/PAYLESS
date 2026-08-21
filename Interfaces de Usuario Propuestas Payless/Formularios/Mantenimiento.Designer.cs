@@ -30,8 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mantenimiento));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.lblMantenimiento = new System.Windows.Forms.Label();
@@ -54,14 +52,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnCrearRespaldo = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.btnEliminar = new System.Windows.Forms.Button();
+            this.btnDescargar = new System.Windows.Forms.Button();
+            this.btnRestaurar = new System.Windows.Forms.Button();
+            this.btnSeleccionar = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.btnSeleccionar = new System.Windows.Forms.Button();
-            this.btnRestaurar = new System.Windows.Forms.Button();
-            this.btnDescargar = new System.Windows.Forms.Button();
-            this.btnEliminar = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel8.SuspendLayout();
@@ -333,27 +331,11 @@
             // 
             // dgvRespaldos
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvRespaldos.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvRespaldos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvRespaldos.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvRespaldos.Location = new System.Drawing.Point(248, 366);
             this.dgvRespaldos.Name = "dgvRespaldos";
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvRespaldos.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvRespaldos.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvRespaldos.Size = new System.Drawing.Size(744, 296);
             this.dgvRespaldos.TabIndex = 88;
             // 
@@ -396,6 +378,66 @@
             this.groupBox2.TabIndex = 127;
             this.groupBox2.TabStop = false;
             // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(728, 52);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(106, 30);
+            this.button6.TabIndex = 135;
+            this.button6.Text = "🔄 Actualizar";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // btnEliminar
+            // 
+            this.btnEliminar.Location = new System.Drawing.Point(587, 51);
+            this.btnEliminar.Name = "btnEliminar";
+            this.btnEliminar.Size = new System.Drawing.Size(106, 30);
+            this.btnEliminar.TabIndex = 134;
+            this.btnEliminar.Text = "🗑️ Eliminar";
+            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // btnDescargar
+            // 
+            this.btnDescargar.Location = new System.Drawing.Point(444, 51);
+            this.btnDescargar.Name = "btnDescargar";
+            this.btnDescargar.Size = new System.Drawing.Size(106, 30);
+            this.btnDescargar.TabIndex = 133;
+            this.btnDescargar.Text = "💾 Descargar";
+            this.btnDescargar.UseVisualStyleBackColor = true;
+            this.btnDescargar.Click += new System.EventHandler(this.btnDescargar_Click);
+            // 
+            // btnRestaurar
+            // 
+            this.btnRestaurar.Location = new System.Drawing.Point(307, 51);
+            this.btnRestaurar.Name = "btnRestaurar";
+            this.btnRestaurar.Size = new System.Drawing.Size(106, 30);
+            this.btnRestaurar.TabIndex = 132;
+            this.btnRestaurar.Text = "🔙 Restaurar";
+            this.btnRestaurar.UseVisualStyleBackColor = true;
+            this.btnRestaurar.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // btnSeleccionar
+            // 
+            this.btnSeleccionar.Location = new System.Drawing.Point(158, 52);
+            this.btnSeleccionar.Name = "btnSeleccionar";
+            this.btnSeleccionar.Size = new System.Drawing.Size(122, 30);
+            this.btnSeleccionar.TabIndex = 131;
+            this.btnSeleccionar.Text = "📂 Seleccionar Archivo";
+            this.btnSeleccionar.UseVisualStyleBackColor = true;
+            this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(15, 22);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 19);
+            this.label4.TabIndex = 130;
+            this.label4.Text = "Acciones";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -418,71 +460,12 @@
             this.label3.TabIndex = 129;
             this.label3.Text = "Respaldo de Base de Datos";
             // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(15, 22);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 19);
-            this.label4.TabIndex = 130;
-            this.label4.Text = "Acciones";
-            // 
-            // btnSeleccionar
-            // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(158, 52);
-            this.btnSeleccionar.Name = "btnSeleccionar";
-            this.btnSeleccionar.Size = new System.Drawing.Size(122, 30);
-            this.btnSeleccionar.TabIndex = 131;
-            this.btnSeleccionar.Text = "📂 Seleccionar Archivo";
-            this.btnSeleccionar.UseVisualStyleBackColor = true;
-            this.btnSeleccionar.Click += new System.EventHandler(this.btnSeleccionar_Click);
-            // 
-            // btnRestaurar
-            // 
-            this.btnRestaurar.Location = new System.Drawing.Point(307, 51);
-            this.btnRestaurar.Name = "btnRestaurar";
-            this.btnRestaurar.Size = new System.Drawing.Size(106, 30);
-            this.btnRestaurar.TabIndex = 132;
-            this.btnRestaurar.Text = "🔙 Restaurar";
-            this.btnRestaurar.UseVisualStyleBackColor = true;
-            this.btnRestaurar.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // btnDescargar
-            // 
-            this.btnDescargar.Location = new System.Drawing.Point(444, 51);
-            this.btnDescargar.Name = "btnDescargar";
-            this.btnDescargar.Size = new System.Drawing.Size(106, 30);
-            this.btnDescargar.TabIndex = 133;
-            this.btnDescargar.Text = "💾 Descargar";
-            this.btnDescargar.UseVisualStyleBackColor = true;
-            this.btnDescargar.Click += new System.EventHandler(this.btnDescargar_Click);
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(587, 51);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(106, 30);
-            this.btnEliminar.TabIndex = 134;
-            this.btnEliminar.Text = "🗑️ Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
-            // 
-            // button6
-            // 
-            this.button6.Location = new System.Drawing.Point(728, 52);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(106, 30);
-            this.button6.TabIndex = 135;
-            this.button6.Text = "🔄 Actualizar";
-            this.button6.UseVisualStyleBackColor = true;
-            // 
             // Mantenimiento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1067, 789);
+            this.ClientSize = new System.Drawing.Size(1067, 749);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox2);
