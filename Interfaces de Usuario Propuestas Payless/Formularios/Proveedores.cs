@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static Interfaces_de_Usuario_Propuestas_Payless.ClaseProveedor;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
@@ -154,7 +155,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label9_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void label10_Click(object sender, EventArgs e)
@@ -236,8 +237,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
+                if (tabla == null || tabla.Columns.Count == 0)
+                {
+                    MessageBox.Show(
+                        "No se encontraron datos de proveedores.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
                 DGVtabla1.DataSource = tabla;
 
+                // Cambiar el encabezado de la columna estado
                 if (DGVtabla1.Columns.Contains("estado"))
                 {
                     DGVtabla1.Columns["estado"].HeaderText = "Estado";
@@ -258,14 +271,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void AjustarColumnas()
         {
-            if (DGVtabla1.Columns.Count >= 5)
-            {
+            if (DGVtabla1.Columns.Contains("id_proveedor"))
                 DGVtabla1.Columns["id_proveedor"].Width = 80;
+
+            if (DGVtabla1.Columns.Contains("nombre"))
                 DGVtabla1.Columns["nombre"].Width = 200;
+
+            if (DGVtabla1.Columns.Contains("direccion"))
                 DGVtabla1.Columns["direccion"].Width = 250;
+
+            if (DGVtabla1.Columns.Contains("ruc"))
                 DGVtabla1.Columns["ruc"].Width = 150;
-                DGVtabla1.Columns["estado_proveedor"].Width = 100;
-               
+
+            if (DGVtabla1.Columns.Contains("estado"))
+            {
+                DGVtabla1.Columns["estado"].Width = 100;
+                DGVtabla1.Columns["estado"].HeaderText = "Estado";
             }
         }
 
@@ -356,43 +377,53 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
-                if (tabla == null)
+                if (tabla == null || tabla.Rows.Count == 0)
                 {
                     MessageBox.Show(
-                        "No se pudieron cargar los proveedores.",
+                        "No hay proveedores para mostrar.",
                         "Aviso",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                        MessageBoxIcon.Information);
 
                     return;
                 }
 
                 string filtro = cmbBuscar.SelectedItem?.ToString();
 
-                if (filtro == "Activos")
-                {
-                    DataView vista = tabla.DefaultView;
-                    vista.RowFilter = "estado = true";
-                    tabla = vista.ToTable();
-                }
-                else if (filtro == "Inactivos")
-                {
-                    DataView vista = tabla.DefaultView;
-                    vista.RowFilter = "estado = false";
-                    tabla = vista.ToTable();
-                }
+                DataTable tablaFiltrada = tabla.Clone();
 
-                // Convertir True/False a Activo/Inactivo
                 foreach (DataRow fila in tabla.Rows)
                 {
-                    if (fila["estado"] != DBNull.Value)
-                    {
-                        bool estado = Convert.ToBoolean(fila["estado"]);
-                        fila["estado"] = estado ? "Activo" : "Inactivo";
-                    }
+                    bool estado = Convert.ToBoolean(fila["estado"]);
+
+                    if (filtro == "Activos" && !estado)
+                        continue;
+
+                    if (filtro == "Inactivos" && estado)
+                        continue;
+
+                    tablaFiltrada.ImportRow(fila);
                 }
 
-                DGVtabla1.DataSource = tabla;
+                DGVtabla1.DataSource = tablaFiltrada;
+
+                // Mostrar Activo/Inactivo sin modificar el tipo de la columna original
+                if (DGVtabla1.Columns.Contains("estado"))
+                {
+                    DGVtabla1.Columns["estado"].HeaderText = "Estado";
+
+                    foreach (DataGridViewRow fila in DGVtabla1.Rows)
+                    {
+                        if (fila.Cells["estado"].Value != null)
+                        {
+                            bool estado = Convert.ToBoolean(
+                                fila.Cells["estado"].Value);
+
+                            fila.Cells["estado"].Value =
+                                estado ? "Activo" : "Inactivo";
+                        }
+                    }
+                }
 
                 AjustarColumnas();
             }
