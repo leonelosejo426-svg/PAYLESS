@@ -273,10 +273,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 DGVtabla1.DataSource = tabla;
 
-                // Cambiar el encabezado de la columna estado
+                // Quitar el check de la columna estado
                 if (DGVtabla1.Columns.Contains("estado"))
                 {
                     DGVtabla1.Columns["estado"].HeaderText = "Estado";
+
+                    foreach (DataGridViewRow fila in DGVtabla1.Rows)
+                    {
+                        if (fila.Cells["estado"].Value != null &&
+                            fila.Cells["estado"].Value != DBNull.Value)
+                        {
+                            bool estado = Convert.ToBoolean(
+                                fila.Cells["estado"].Value);
+
+                            fila.Cells["estado"].Value =
+                                estado ? "Activo" : "Inactivo";
+                        }
+                    }
                 }
 
                 AjustarColumnas();
@@ -401,6 +414,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             try
             {
+                string filtro = cmbBuscar.Text.Trim();
+
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
                 if (tabla == null || tabla.Rows.Count == 0)
@@ -409,34 +424,37 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                string filtro = cmbBuscar.SelectedItem?.ToString();
-
-                DataTable resultado = tabla.Clone();
-
-                foreach (DataRow fila in tabla.Rows)
+                // Si selecciona Todos, mostrar todos
+                if (filtro == "Todos" || string.IsNullOrEmpty(filtro))
                 {
-                    bool estado = Convert.ToBoolean(fila["estado"]);
+                    DGVtabla1.DataSource = tabla;
+                }
+                else
+                {
+                    DataTable resultado = tabla.Clone();
 
-                    if (filtro == "Activos" && estado == true)
+                    foreach (DataRow fila in tabla.Rows)
                     {
-                        resultado.ImportRow(fila);
+                        bool estado = Convert.ToBoolean(fila["estado"]);
+
+                        if (filtro == "Activos" && estado == true)
+                        {
+                            resultado.ImportRow(fila);
+                        }
+                        else if (filtro == "Inactivos" && estado == false)
+                        {
+                            resultado.ImportRow(fila);
+                        }
                     }
-                    else if (filtro == "Inactivos" && estado == false)
-                    {
-                        resultado.ImportRow(fila);
-                    }
-                    else if (filtro == "Todos")
-                    {
-                        resultado.ImportRow(fila);
-                    }
+
+                    DGVtabla1.DataSource = resultado;
                 }
 
-                DGVtabla1.DataSource = resultado;
-
-                // Mostrar Activo/Inactivo
+                // Convertir true/false a Activo/Inactivo
                 foreach (DataGridViewRow fila in DGVtabla1.Rows)
                 {
-                    if (fila.Cells["estado"].Value != null)
+                    if (fila.Cells["estado"].Value != null &&
+                        fila.Cells["estado"].Value != DBNull.Value)
                     {
                         bool estado = Convert.ToBoolean(
                             fila.Cells["estado"].Value);
