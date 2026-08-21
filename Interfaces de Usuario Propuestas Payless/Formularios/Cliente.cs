@@ -17,7 +17,7 @@ using System.Windows.Forms;
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
 
-    
+
 
     public partial class Cliente : Form
     {
@@ -41,10 +41,58 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("Error al cargar clientes: " + ex.Message);
 
+                lblCaja.Enabled = false;
+                lblProveedores.Enabled = false;
+                lblProductos.Enabled = false;
+                lblVenta.Enabled = false;
+                lblCompras.Enabled = false;
+                lblUsuarios.Enabled = false;
 
+
+                lblCliente.Enabled = false;
+                lblCredito.Enabled = false;
+                lblInventario.Enabled = false;
+                lblMantenimiento.Enabled = false;
+
+
+                switch (ClaseSesion.RolActual)
+                {
+                    case "Administrador":
+
+                        lblCaja.Enabled = true;
+                        lblCompras.Enabled = true;
+                        lblVenta.Enabled = true;
+                        lblUsuarios.Enabled = true;
+                        lblMantenimiento.Enabled = true;
+                        lblCliente.Enabled = true;
+                        lblCredito.Enabled = true;
+                        lblInventario.Enabled = true;
+                        lblProveedores.Enabled = true;
+                        lblProductos.Enabled = true;
+
+
+                        break;
+
+                    case "Gerente":
+
+                        lblCaja.Enabled = true;
+                        lblCompras.Enabled = true;
+                        lblVenta.Enabled = true;
+
+                        break;
+
+                    case "Cajero":
+
+                        lblCaja.Enabled = true;
+                        lblVenta.Enabled = true;
+
+                        break;
+
+
+                }
             }
         }
-        
+
 
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -76,9 +124,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             DGVtabla1.DataSource = clienteDAO.MostrarClientes();
         }
-            
 
-        
+
+
 
         private void label15_Click(object sender, EventArgs e)
         {
@@ -161,15 +209,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button2_Click(object sender, EventArgs e)
         {
-               
-            }
+
+
+        }
 
 
         private void button4_Click(object sender, EventArgs e)
         {
 
         }
-          
+
         private void label10_Click(object sender, EventArgs e)
         {
             Ventas ventana = new Ventas();
@@ -186,24 +235,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void CBbusqueda_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (CmbBusqueda.Text)
-            {
-                case "Nombre":
-                    DGVtabla1.DataSource =
-                        clienteDAO.BuscarPorNombre(CmbBusqueda.Text);
-                    break;
 
-                case "Cédula":
-                    DGVtabla1.DataSource =
-                        clienteDAO.BuscarPorCedula(CmbBusqueda.Text);
-                    break;
-
-                case "Teléfono":
-                    DGVtabla1.DataSource =
-                        clienteDAO.BuscarPorTelefono(CmbBusqueda.Text);
-                    break;
-
-            } }
+        }
 
         private void CBestado_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -212,7 +245,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
-           
+
         }
 
         private void DGVtabla1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -267,9 +300,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnEditar_Click(object sender, EventArgs e)
         {
             EditarCliente ventana = new EditarCliente();
-            ventana.Show(); 
+            ventana.Show();
             this.Hide();
-         }
+        }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -281,6 +314,126 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Cliente eliminado");
 
             DGVtabla1.DataSource = clienteDAO.MostrarClientes();
+        }
+
+        private void btnbuscar_Click(object sender, EventArgs e)
+        {
+            if (CmbBusqueda.SelectedIndex == -1)
+
+            {
+
+                MessageBox.Show("Selecciona una opción para buscar.");
+
+                return;
+
+            }
+
+            Form ventanaBuscar = new Form();
+
+            ventanaBuscar.Text = "Buscar cliente";
+
+            ventanaBuscar.Size = new Size(350, 160);
+
+            ventanaBuscar.StartPosition = FormStartPosition.CenterScreen;
+
+            ventanaBuscar.FormBorderStyle = FormBorderStyle.FixedDialog;
+
+            ventanaBuscar.MaximizeBox = false;
+
+            ventanaBuscar.MinimizeBox = false;
+
+            Label lbl = new Label();
+
+            lbl.Text = "Escribe el dato que deseas buscar:";
+
+            lbl.Location = new Point(20, 20);
+
+            lbl.AutoSize = true;
+
+            TextBox txt = new TextBox();
+
+            txt.Location = new Point(20, 50);
+
+            txt.Width = 290;
+
+            Button btnAceptar = new Button();
+
+            btnAceptar.Text = "Buscar";
+
+            btnAceptar.Location = new Point(115, 85);
+
+            btnAceptar.Width = 100;
+
+            btnAceptar.DialogResult = DialogResult.OK;
+
+            ventanaBuscar.Controls.Add(lbl);
+
+            ventanaBuscar.Controls.Add(txt);
+
+            ventanaBuscar.Controls.Add(btnAceptar);
+
+            ventanaBuscar.AcceptButton = btnAceptar;
+
+            if (ventanaBuscar.ShowDialog() == DialogResult.OK)
+
+            {
+
+                string dato = txt.Text.Trim();
+
+                if (string.IsNullOrWhiteSpace(dato))
+
+                {
+
+                    MessageBox.Show("Escribe un dato para buscar.");
+
+                    return;
+
+                }
+
+                switch (CmbBusqueda.Text)
+
+                {
+
+                    case "Nombre":
+
+                        DGVtabla1.DataSource =
+
+                            clienteDAO.BuscarPorNombre(dato);
+
+                        break;
+
+                    case "Cédula":
+
+                        DGVtabla1.DataSource =
+
+                            clienteDAO.BuscarPorCedula(dato);
+
+                        break;
+
+                    case "Teléfono":
+
+                        DGVtabla1.DataSource =
+
+                            clienteDAO.BuscarPorTelefono(dato);
+
+                        break;
+
+                }
+
+                AjustarColumnas();
+
+                if (DGVtabla1.Rows.Count == 0)
+
+                {
+
+                    MessageBox.Show("No se encontraron clientes.");
+
+                }
+
+            }
+
+            ventanaBuscar.Dispose();
+
         }
     }
 }

@@ -29,32 +29,26 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliente));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CmbBusqueda = new System.Windows.Forms.ComboBox();
             this.DGVtabla1 = new System.Windows.Forms.DataGridView();
-            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.txtNombreCliente = new System.Windows.Forms.TextBox();
-            this.LblNombre = new System.Windows.Forms.Label();
             this.LblBusqueda = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lblMantenimiento = new System.Windows.Forms.Label();
+            this.lblInventario = new System.Windows.Forms.Label();
+            this.lblProveedores = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
+            this.lblCaja = new System.Windows.Forms.Label();
+            this.lblCredito = new System.Windows.Forms.Label();
+            this.lblDevoluciones = new System.Windows.Forms.Label();
+            this.lblVenta = new System.Windows.Forms.Label();
+            this.lblCompras = new System.Windows.Forms.Label();
+            this.lblUsuarios = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.lblProductos = new System.Windows.Forms.Label();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label18 = new System.Windows.Forms.Label();
@@ -64,6 +58,11 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numero_cedula = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.estado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -78,8 +77,8 @@
             "Nombre",
             "Numero de cédula",
             "Código"});
-            this.CmbBusqueda.Location = new System.Drawing.Point(641, 128);
-            this.CmbBusqueda.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CmbBusqueda.Location = new System.Drawing.Point(229, 121);
+            this.CmbBusqueda.Margin = new System.Windows.Forms.Padding(4);
             this.CmbBusqueda.Name = "CmbBusqueda";
             this.CmbBusqueda.Size = new System.Drawing.Size(231, 24);
             this.CmbBusqueda.TabIndex = 27;
@@ -89,8 +88,8 @@
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
@@ -102,79 +101,22 @@
             this.codigo,
             this.numero_cedula,
             this.estado});
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DGVtabla1.DefaultCellStyle = dataGridViewCellStyle3;
             this.DGVtabla1.EnableHeadersVisualStyles = false;
             this.DGVtabla1.Location = new System.Drawing.Point(229, 188);
-            this.DGVtabla1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.DGVtabla1.Margin = new System.Windows.Forms.Padding(4);
             this.DGVtabla1.Name = "DGVtabla1";
             this.DGVtabla1.RowHeadersWidth = 62;
-            this.DGVtabla1.Size = new System.Drawing.Size(1111, 332);
+            this.DGVtabla1.Size = new System.Drawing.Size(853, 332);
             this.DGVtabla1.TabIndex = 26;
             this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGVtabla1_CellContentClick);
-            // 
-            // nombre
-            // 
-            this.nombre.DataPropertyName = "Nombre";
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.nombre.DefaultCellStyle = dataGridViewCellStyle2;
-            this.nombre.HeaderText = "Nombre del cliente";
-            this.nombre.MinimumWidth = 8;
-            this.nombre.Name = "nombre";
-            this.nombre.Width = 200;
-            // 
-            // telefono
-            // 
-            this.telefono.DataPropertyName = "Telefono";
-            this.telefono.HeaderText = "Télefono";
-            this.telefono.MinimumWidth = 8;
-            this.telefono.Name = "telefono";
-            this.telefono.Width = 150;
-            // 
-            // codigo
-            // 
-            this.codigo.DataPropertyName = "Codigo";
-            this.codigo.HeaderText = "Código";
-            this.codigo.MinimumWidth = 8;
-            this.codigo.Name = "codigo";
-            this.codigo.Width = 150;
-            // 
-            // numero_cedula
-            // 
-            this.numero_cedula.DataPropertyName = "Cedula";
-            this.numero_cedula.HeaderText = "Numero de Cédula";
-            this.numero_cedula.MinimumWidth = 6;
-            this.numero_cedula.Name = "numero_cedula";
-            this.numero_cedula.Width = 150;
-            // 
-            // estado
-            // 
-            this.estado.DataPropertyName = "Estado";
-            this.estado.HeaderText = "Estado";
-            this.estado.MinimumWidth = 8;
-            this.estado.Name = "estado";
-            this.estado.Width = 130;
-            // 
-            // txtNombreCliente
-            // 
-            this.txtNombreCliente.BackColor = System.Drawing.Color.White;
-            this.txtNombreCliente.Location = new System.Drawing.Point(224, 128);
-            this.txtNombreCliente.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtNombreCliente.Name = "txtNombreCliente";
-            this.txtNombreCliente.Size = new System.Drawing.Size(380, 22);
-            this.txtNombreCliente.TabIndex = 20;
-            this.txtNombreCliente.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
-            // 
-            // LblNombre
-            // 
-            this.LblNombre.AutoSize = true;
-            this.LblNombre.BackColor = System.Drawing.Color.White;
-            this.LblNombre.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LblNombre.ForeColor = System.Drawing.Color.Black;
-            this.LblNombre.Location = new System.Drawing.Point(224, 101);
-            this.LblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LblNombre.Name = "LblNombre";
-            this.LblNombre.Size = new System.Drawing.Size(143, 23);
-            this.LblNombre.TabIndex = 19;
-            this.LblNombre.Text = "Nombre Cliente";
             // 
             // LblBusqueda
             // 
@@ -182,7 +124,7 @@
             this.LblBusqueda.BackColor = System.Drawing.Color.White;
             this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
-            this.LblBusqueda.Location = new System.Drawing.Point(637, 101);
+            this.LblBusqueda.Location = new System.Drawing.Point(225, 94);
             this.LblBusqueda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblBusqueda.Name = "LblBusqueda";
             this.LblBusqueda.Size = new System.Drawing.Size(101, 23);
@@ -193,18 +135,18 @@
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
             this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.label12);
-            this.groupBox1.Controls.Add(this.label10);
-            this.groupBox1.Controls.Add(this.label9);
+            this.groupBox1.Controls.Add(this.lblMantenimiento);
+            this.groupBox1.Controls.Add(this.lblInventario);
+            this.groupBox1.Controls.Add(this.lblProveedores);
             this.groupBox1.Controls.Add(this.label26);
-            this.groupBox1.Controls.Add(this.label20);
-            this.groupBox1.Controls.Add(this.label21);
-            this.groupBox1.Controls.Add(this.label22);
-            this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label17);
-            this.groupBox1.Controls.Add(this.label16);
-            this.groupBox1.Controls.Add(this.label15);
-            this.groupBox1.Controls.Add(this.label13);
+            this.groupBox1.Controls.Add(this.lblCaja);
+            this.groupBox1.Controls.Add(this.lblCredito);
+            this.groupBox1.Controls.Add(this.lblDevoluciones);
+            this.groupBox1.Controls.Add(this.lblVenta);
+            this.groupBox1.Controls.Add(this.lblCompras);
+            this.groupBox1.Controls.Add(this.lblUsuarios);
+            this.groupBox1.Controls.Add(this.lblCliente);
+            this.groupBox1.Controls.Add(this.lblProductos);
             this.groupBox1.Controls.Add(this.pictureBox3);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(-5, -12);
@@ -229,49 +171,49 @@
             this.label11.TabIndex = 127;
             this.label11.Text = "🆘   Ayuda";
             // 
-            // label12
+            // lblMantenimiento
             // 
-            this.label12.AutoSize = true;
-            this.label12.BackColor = System.Drawing.Color.White;
-            this.label12.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label12.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(19, 767);
-            this.label12.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(174, 23);
-            this.label12.TabIndex = 126;
-            this.label12.Text = "🛠️   Mantenimiento";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
+            this.lblMantenimiento.AutoSize = true;
+            this.lblMantenimiento.BackColor = System.Drawing.Color.White;
+            this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMantenimiento.ForeColor = System.Drawing.Color.Black;
+            this.lblMantenimiento.Location = new System.Drawing.Point(19, 767);
+            this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblMantenimiento.Name = "lblMantenimiento";
+            this.lblMantenimiento.Size = new System.Drawing.Size(174, 23);
+            this.lblMantenimiento.TabIndex = 126;
+            this.lblMantenimiento.Text = "🛠️   Mantenimiento";
+            this.lblMantenimiento.Click += new System.EventHandler(this.label12_Click);
             // 
-            // label10
+            // lblInventario
             // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.White;
-            this.label10.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.ForeColor = System.Drawing.Color.Black;
-            this.label10.Location = new System.Drawing.Point(40, 714);
-            this.label10.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(134, 23);
-            this.label10.TabIndex = 118;
-            this.label10.Text = "🏢   Inventario";
-            this.label10.Click += new System.EventHandler(this.label10_Click);
+            this.lblInventario.AutoSize = true;
+            this.lblInventario.BackColor = System.Drawing.Color.White;
+            this.lblInventario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblInventario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInventario.ForeColor = System.Drawing.Color.Black;
+            this.lblInventario.Location = new System.Drawing.Point(40, 714);
+            this.lblInventario.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblInventario.Name = "lblInventario";
+            this.lblInventario.Size = new System.Drawing.Size(134, 23);
+            this.lblInventario.TabIndex = 118;
+            this.lblInventario.Text = "🏢   Inventario";
+            this.lblInventario.Click += new System.EventHandler(this.label10_Click);
             // 
-            // label9
+            // lblProveedores
             // 
-            this.label9.AutoSize = true;
-            this.label9.BackColor = System.Drawing.Color.White;
-            this.label9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(35, 432);
-            this.label9.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(153, 23);
-            this.label9.TabIndex = 117;
-            this.label9.Text = "🚚   Proveedores";
+            this.lblProveedores.AutoSize = true;
+            this.lblProveedores.BackColor = System.Drawing.Color.White;
+            this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProveedores.ForeColor = System.Drawing.Color.Black;
+            this.lblProveedores.Location = new System.Drawing.Point(35, 432);
+            this.lblProveedores.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblProveedores.Name = "lblProveedores";
+            this.lblProveedores.Size = new System.Drawing.Size(153, 23);
+            this.lblProveedores.TabIndex = 117;
+            this.lblProveedores.Text = "🚚   Proveedores";
             // 
             // label26
             // 
@@ -287,117 +229,117 @@
             this.label26.TabIndex = 116;
             this.label26.Text = "☰   Menú";
             // 
-            // label20
+            // lblCaja
             // 
-            this.label20.AutoSize = true;
-            this.label20.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label20.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label20.ForeColor = System.Drawing.Color.Black;
-            this.label20.Location = new System.Drawing.Point(49, 226);
-            this.label20.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(88, 23);
-            this.label20.TabIndex = 115;
-            this.label20.Text = "💰   Caja";
-            this.label20.Click += new System.EventHandler(this.label20_Click_1);
+            this.lblCaja.AutoSize = true;
+            this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblCaja.ForeColor = System.Drawing.Color.Black;
+            this.lblCaja.Location = new System.Drawing.Point(49, 226);
+            this.lblCaja.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCaja.Name = "lblCaja";
+            this.lblCaja.Size = new System.Drawing.Size(88, 23);
+            this.lblCaja.TabIndex = 115;
+            this.lblCaja.Text = "💰   Caja";
+            this.lblCaja.Click += new System.EventHandler(this.label20_Click_1);
             // 
-            // label21
+            // lblCredito
             // 
-            this.label21.AutoSize = true;
-            this.label21.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label21.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label21.ForeColor = System.Drawing.Color.Black;
-            this.label21.Location = new System.Drawing.Point(35, 608);
-            this.label21.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(111, 23);
-            this.label21.TabIndex = 114;
-            this.label21.Text = "🧾   Credito";
-            this.label21.Click += new System.EventHandler(this.label21_Click);
+            this.lblCredito.AutoSize = true;
+            this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblCredito.ForeColor = System.Drawing.Color.Black;
+            this.lblCredito.Location = new System.Drawing.Point(35, 608);
+            this.lblCredito.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCredito.Name = "lblCredito";
+            this.lblCredito.Size = new System.Drawing.Size(111, 23);
+            this.lblCredito.TabIndex = 114;
+            this.lblCredito.Text = "🧾   Credito";
+            this.lblCredito.Click += new System.EventHandler(this.label21_Click);
             // 
-            // label22
+            // lblDevoluciones
             // 
-            this.label22.AutoSize = true;
-            this.label22.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label22.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label22.ForeColor = System.Drawing.Color.Black;
-            this.label22.Location = new System.Drawing.Point(35, 658);
-            this.label22.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(158, 23);
-            this.label22.TabIndex = 113;
-            this.label22.Text = "🔄   Devoluciones";
-            this.label22.Click += new System.EventHandler(this.label22_Click);
+            this.lblDevoluciones.AutoSize = true;
+            this.lblDevoluciones.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblDevoluciones.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblDevoluciones.ForeColor = System.Drawing.Color.Black;
+            this.lblDevoluciones.Location = new System.Drawing.Point(35, 658);
+            this.lblDevoluciones.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblDevoluciones.Name = "lblDevoluciones";
+            this.lblDevoluciones.Size = new System.Drawing.Size(158, 23);
+            this.lblDevoluciones.TabIndex = 113;
+            this.lblDevoluciones.Text = "🔄   Devoluciones";
+            this.lblDevoluciones.Click += new System.EventHandler(this.label22_Click);
             // 
-            // label7
+            // lblVenta
             // 
-            this.label7.AutoSize = true;
-            this.label7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label7.ForeColor = System.Drawing.Color.Black;
-            this.label7.Location = new System.Drawing.Point(35, 546);
-            this.label7.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(104, 23);
-            this.label7.TabIndex = 91;
-            this.label7.Text = "🛒   Ventas";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
+            this.lblVenta.AutoSize = true;
+            this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblVenta.ForeColor = System.Drawing.Color.Black;
+            this.lblVenta.Location = new System.Drawing.Point(35, 546);
+            this.lblVenta.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblVenta.Name = "lblVenta";
+            this.lblVenta.Size = new System.Drawing.Size(104, 23);
+            this.lblVenta.TabIndex = 91;
+            this.lblVenta.Text = "🛒   Ventas";
+            this.lblVenta.Click += new System.EventHandler(this.label7_Click);
             // 
-            // label17
+            // lblCompras
             // 
-            this.label17.AutoSize = true;
-            this.label17.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label17.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label17.ForeColor = System.Drawing.Color.Black;
-            this.label17.Location = new System.Drawing.Point(35, 487);
-            this.label17.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(122, 23);
-            this.label17.TabIndex = 90;
-            this.label17.Text = "💳   Compras";
-            this.label17.Click += new System.EventHandler(this.label17_Click_1);
+            this.lblCompras.AutoSize = true;
+            this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblCompras.ForeColor = System.Drawing.Color.Black;
+            this.lblCompras.Location = new System.Drawing.Point(35, 487);
+            this.lblCompras.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCompras.Name = "lblCompras";
+            this.lblCompras.Size = new System.Drawing.Size(122, 23);
+            this.lblCompras.TabIndex = 90;
+            this.lblCompras.Text = "💳   Compras";
+            this.lblCompras.Click += new System.EventHandler(this.label17_Click_1);
             // 
-            // label16
+            // lblUsuarios
             // 
-            this.label16.AutoSize = true;
-            this.label16.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label16.ForeColor = System.Drawing.Color.Black;
-            this.label16.Location = new System.Drawing.Point(35, 272);
-            this.label16.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(120, 23);
-            this.label16.TabIndex = 89;
-            this.label16.Text = "👥   Usuarios";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
+            this.lblUsuarios.AutoSize = true;
+            this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblUsuarios.ForeColor = System.Drawing.Color.Black;
+            this.lblUsuarios.Location = new System.Drawing.Point(35, 272);
+            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblUsuarios.Name = "lblUsuarios";
+            this.lblUsuarios.Size = new System.Drawing.Size(120, 23);
+            this.lblUsuarios.TabIndex = 89;
+            this.lblUsuarios.Text = "👥   Usuarios";
+            this.lblUsuarios.Click += new System.EventHandler(this.label16_Click);
             // 
-            // label15
+            // lblCliente
             // 
-            this.label15.AutoSize = true;
-            this.label15.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label15.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label15.ForeColor = System.Drawing.Color.Black;
-            this.label15.Location = new System.Drawing.Point(35, 324);
-            this.label15.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(117, 23);
-            this.label15.TabIndex = 88;
-            this.label15.Text = "🧑‍🤝‍🧑   Clientes";
-            this.label15.Click += new System.EventHandler(this.label15_Click_1);
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblCliente.ForeColor = System.Drawing.Color.Black;
+            this.lblCliente.Location = new System.Drawing.Point(35, 324);
+            this.lblCliente.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(117, 23);
+            this.lblCliente.TabIndex = 88;
+            this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
+            this.lblCliente.Click += new System.EventHandler(this.label15_Click_1);
             // 
-            // label13
+            // lblProductos
             // 
-            this.label13.AutoSize = true;
-            this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
-            this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(35, 377);
-            this.label13.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(131, 23);
-            this.label13.TabIndex = 85;
-            this.label13.Text = "🛍️   Productos";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
+            this.lblProductos.AutoSize = true;
+            this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold);
+            this.lblProductos.ForeColor = System.Drawing.Color.Black;
+            this.lblProductos.Location = new System.Drawing.Point(35, 377);
+            this.lblProductos.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
+            this.lblProductos.Name = "lblProductos";
+            this.lblProductos.Size = new System.Drawing.Size(131, 23);
+            this.lblProductos.TabIndex = 85;
+            this.lblProductos.Text = "🛍️   Productos";
+            this.lblProductos.Click += new System.EventHandler(this.label13_Click);
             // 
             // pictureBox3
             // 
@@ -420,7 +362,7 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.ForeColor = System.Drawing.Color.White;
             this.panel2.Location = new System.Drawing.Point(213, -12);
-            this.panel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1136, 86);
             this.panel2.TabIndex = 60;
@@ -430,7 +372,7 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label18.Location = new System.Drawing.Point(916, 58);
+            this.label18.Location = new System.Drawing.Point(794, 56);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(114, 23);
             this.label18.TabIndex = 11;
@@ -439,7 +381,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(1043, 12);
+            this.pictureBox4.Location = new System.Drawing.Point(907, 10);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(89, 74);
@@ -463,57 +405,106 @@
             // btnbuscar
             // 
             this.btnbuscar.BackColor = System.Drawing.Color.Black;
-            this.btnbuscar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnbuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnbuscar.ForeColor = System.Drawing.Color.White;
-            this.btnbuscar.Location = new System.Drawing.Point(889, 113);
-            this.btnbuscar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnbuscar.Location = new System.Drawing.Point(507, 110);
+            this.btnbuscar.Margin = new System.Windows.Forms.Padding(4);
             this.btnbuscar.Name = "btnbuscar";
             this.btnbuscar.Size = new System.Drawing.Size(120, 49);
             this.btnbuscar.TabIndex = 89;
             this.btnbuscar.Text = "Buscar";
             this.btnbuscar.UseVisualStyleBackColor = false;
+            this.btnbuscar.Click += new System.EventHandler(this.btnbuscar_Click);
             // 
             // btnAgregar
             // 
-            this.btnAgregar.Font = new System.Drawing.Font("Times New Roman", 8.25F);
-            this.btnAgregar.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.btnAgregar.Location = new System.Drawing.Point(1016, 116);
+            this.btnAgregar.BackColor = System.Drawing.Color.Black;
+            this.btnAgregar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregar.ForeColor = System.Drawing.Color.White;
+            this.btnAgregar.Location = new System.Drawing.Point(634, 110);
             this.btnAgregar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(99, 44);
+            this.btnAgregar.Size = new System.Drawing.Size(99, 49);
             this.btnAgregar.TabIndex = 90;
             this.btnAgregar.Text = "Agregar";
-            this.btnAgregar.UseVisualStyleBackColor = true;
+            this.btnAgregar.UseVisualStyleBackColor = false;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click_3);
             // 
             // btnEditar
             // 
-            this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditar.Location = new System.Drawing.Point(1120, 114);
+            this.btnEditar.BackColor = System.Drawing.Color.Black;
+            this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditar.ForeColor = System.Drawing.Color.White;
+            this.btnEditar.Location = new System.Drawing.Point(748, 110);
             this.btnEditar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(99, 44);
+            this.btnEditar.Size = new System.Drawing.Size(99, 49);
             this.btnEditar.TabIndex = 91;
             this.btnEditar.Text = " Editar";
-            this.btnEditar.UseVisualStyleBackColor = true;
+            this.btnEditar.UseVisualStyleBackColor = false;
             this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(1236, 116);
+            this.btnEliminar.BackColor = System.Drawing.Color.Black;
+            this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.ForeColor = System.Drawing.Color.White;
+            this.btnEliminar.Location = new System.Drawing.Point(1036, 569);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(75, 36);
+            this.btnEliminar.Size = new System.Drawing.Size(94, 50);
             this.btnEliminar.TabIndex = 92;
             this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
+            this.btnEliminar.UseVisualStyleBackColor = false;
             this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
+            // 
+            // nombre
+            // 
+            this.nombre.DataPropertyName = "nombre_cliente";
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.nombre.DefaultCellStyle = dataGridViewCellStyle2;
+            this.nombre.HeaderText = "Nombre del cliente";
+            this.nombre.MinimumWidth = 8;
+            this.nombre.Name = "nombre";
+            this.nombre.Width = 200;
+            // 
+            // telefono
+            // 
+            this.telefono.DataPropertyName = "telefono";
+            this.telefono.HeaderText = "Télefono";
+            this.telefono.MinimumWidth = 8;
+            this.telefono.Name = "telefono";
+            this.telefono.Width = 150;
+            // 
+            // codigo
+            // 
+            this.codigo.DataPropertyName = "codigo";
+            this.codigo.HeaderText = "Código";
+            this.codigo.MinimumWidth = 8;
+            this.codigo.Name = "codigo";
+            this.codigo.Width = 150;
+            // 
+            // numero_cedula
+            // 
+            this.numero_cedula.DataPropertyName = "numero_cedula";
+            this.numero_cedula.HeaderText = "Numero de Cédula";
+            this.numero_cedula.MinimumWidth = 6;
+            this.numero_cedula.Name = "numero_cedula";
+            this.numero_cedula.Width = 150;
+            // 
+            // estado
+            // 
+            this.estado.DataPropertyName = "estado";
+            this.estado.HeaderText = "Estado";
+            this.estado.MinimumWidth = 8;
+            this.estado.Name = "estado";
+            this.estado.Width = 130;
             // 
             // Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1345, 876);
+            this.ClientSize = new System.Drawing.Size(1221, 876);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnAgregar);
@@ -522,10 +513,8 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CmbBusqueda);
             this.Controls.Add(this.DGVtabla1);
-            this.Controls.Add(this.txtNombreCliente);
-            this.Controls.Add(this.LblNombre);
             this.Controls.Add(this.LblBusqueda);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Cliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cliente";
@@ -546,8 +535,6 @@
 
         private System.Windows.Forms.ComboBox CmbBusqueda;
         private System.Windows.Forms.DataGridView DGVtabla1;
-        private System.Windows.Forms.TextBox txtNombreCliente;
-        private System.Windows.Forms.Label LblNombre;
         private System.Windows.Forms.Label LblBusqueda;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Panel panel2;
@@ -555,27 +542,27 @@
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label lblProductos;
+        private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.Label lblUsuarios;
+        private System.Windows.Forms.Label lblCompras;
+        private System.Windows.Forms.Label lblVenta;
+        private System.Windows.Forms.Label lblDevoluciones;
+        private System.Windows.Forms.Label lblCredito;
+        private System.Windows.Forms.Label lblCaja;
         private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblProveedores;
+        private System.Windows.Forms.Label lblInventario;
+        private System.Windows.Forms.Label lblMantenimiento;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnbuscar;
+        private System.Windows.Forms.Button btnAgregar;
+        private System.Windows.Forms.Button btnEditar;
+        private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
         private System.Windows.Forms.DataGridViewTextBoxColumn telefono;
         private System.Windows.Forms.DataGridViewTextBoxColumn codigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn numero_cedula;
         private System.Windows.Forms.DataGridViewTextBoxColumn estado;
-        private System.Windows.Forms.Button btnAgregar;
-        private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.Button btnEliminar;
     }
 }
