@@ -264,45 +264,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 if (tabla == null || tabla.Columns.Count == 0)
                 {
-                    MessageBox.Show(
-                        "No se encontraron datos de proveedores.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("No se encontraron datos de proveedores.");
                     return;
+                }
+
+                // Convertir la columna booleana a texto SIN crear otra columna
+                if (tabla.Columns.Contains("estado_proveedor"))
+                {
+                    tabla.Columns["estado_proveedor"].ColumnName = "estado";
+
+                    DataColumn columnaEstado = tabla.Columns["estado"];
+                    columnaEstado.DataType = typeof(string);
                 }
 
                 DGVtabla1.DataSource = tabla;
 
-                // Quitar el check de la columna estado
                 if (DGVtabla1.Columns.Contains("estado"))
                 {
                     DGVtabla1.Columns["estado"].HeaderText = "Estado";
-
-                    foreach (DataGridViewRow fila in DGVtabla1.Rows)
-                    {
-                        if (fila.Cells["estado"].Value != null &&
-                            fila.Cells["estado"].Value != DBNull.Value)
-                        {
-                            bool estado = Convert.ToBoolean(
-                                fila.Cells["estado"].Value);
-
-                            fila.Cells["estado"].Value =
-                                estado ? "Activo" : "Inactivo";
-                        }
-                    }
                 }
 
                 AjustarColumnas();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al cargar proveedores:\n\n" + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Error al cargar proveedores:\n\n" + ex.Message);
             }
         }
 
@@ -418,45 +404,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
+                string filtro = cmbBuscar.Text.Trim();
+
                 if (tabla == null || tabla.Rows.Count == 0)
                 {
                     DGVtabla1.DataSource = tabla;
                     return;
                 }
 
-                string filtro = cmbBuscar.Text.Trim();
-
-                DataTable resultado = tabla.Clone();
-
-                foreach (DataRow fila in tabla.Rows)
+                if (filtro == "Todos")
                 {
-                    bool estado = Convert.ToBoolean(fila["estado"]);
-
-                    if (filtro == "Todos")
-                    {
-                        resultado.ImportRow(fila);
-                    }
-                    else if (filtro == "Activos" && estado == true)
-                    {
-                        resultado.ImportRow(fila);
-                    }
-                    else if (filtro == "Inactivos" && estado == false)
-                    {
-                        resultado.ImportRow(fila);
-                    }
+                    DGVtabla1.DataSource = tabla;
                 }
-
-                DGVtabla1.DataSource = resultado;
+                else if (filtro == "Activos")
+                {
+                    tabla.DefaultView.RowFilter = "estado = true";
+                    DGVtabla1.DataSource = tabla.DefaultView;
+                }
+                else if (filtro == "Inactivos")
+                {
+                    tabla.DefaultView.RowFilter = "estado = false";
+                    DGVtabla1.DataSource = tabla.DefaultView;
+                }
 
                 AjustarColumnas();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar:\n\n" + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                    "Error al buscar:\n\n" + ex.Message);
             }
 
         }
