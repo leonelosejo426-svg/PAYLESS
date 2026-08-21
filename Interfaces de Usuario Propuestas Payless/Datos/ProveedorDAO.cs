@@ -192,15 +192,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    UPDATE proveedor
-                    SET
-                        nombre = @nombre,
-                        telefono = @telefono,
-                        correo = @correo,
-                        direccion = @direccion,
-                        estado_proveedor = @estado_proveedor,
-                        ruc = @ruc
-                    WHERE id_proveedor = @id_proveedor";
+            UPDATE proveedor
+            SET
+                nombre = @nombre,
+                telefono = @telefono,
+                correo = @correo,
+                direccion = @direccion,
+                estado_proveedor = @estado_proveedor,
+                ruc = @ruc
+            WHERE id_proveedor = @id_proveedor";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -237,14 +237,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                 return cmd.ExecuteNonQuery() > 0;
             }
-            catch (Exception ex)
+            catch
             {
-                System.Windows.Forms.MessageBox.Show(
-                    "Error al editar proveedor:\n\n" + ex.Message,
-                    "Error PostgreSQL",
-                    System.Windows.Forms.MessageBoxButtons.OK,
-                    System.Windows.Forms.MessageBoxIcon.Error);
-
                 return false;
             }
             finally
@@ -387,24 +381,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         public ClaseProveedor ObtenerProveedor(int idProveedor)
         {
-            ClaseProveedor proveedor = new ClaseProveedor();
+            ClaseProveedor proveedor = null;
 
             try
             {
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        id_proveedor,
-                        nombre,
-                        telefono,
-                        correo,
-                        direccion,
-                        estado_proveedor,
-                        ruc,
-                        fecha_registro
-                    FROM proveedor
-                    WHERE id_proveedor = @id_proveedor";
+            SELECT
+                id_proveedor,
+                nombre,
+                telefono,
+                correo,
+                direccion,
+                estado_proveedor,
+                ruc,
+                fecha_registro
+            FROM proveedor
+            WHERE id_proveedor = @id_proveedor";
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -420,39 +414,48 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                 if (reader.Read())
                 {
+                    proveedor = new ClaseProveedor();
+
                     proveedor.IdProveedor =
-                        Convert.ToInt32(
-                            reader["id_proveedor"]);
+                        Convert.ToInt32(reader["id_proveedor"]);
 
                     proveedor.Nombre =
                         reader["nombre"].ToString();
 
                     proveedor.Telefono =
-                        reader["telefono"].ToString();
+                        reader["telefono"] == DBNull.Value
+                        ? ""
+                        : reader["telefono"].ToString();
 
                     proveedor.Correo =
-                        reader["correo"].ToString();
+                        reader["correo"] == DBNull.Value
+                        ? ""
+                        : reader["correo"].ToString();
 
                     proveedor.Direccion =
-                        reader["direccion"].ToString();
+                        reader["direccion"] == DBNull.Value
+                        ? ""
+                        : reader["direccion"].ToString();
 
                     proveedor.EstadoProveedor =
                         Convert.ToBoolean(
                             reader["estado_proveedor"]);
 
                     proveedor.Ruc =
-                        reader["ruc"].ToString();
+                        reader["ruc"] == DBNull.Value
+                        ? ""
+                        : reader["ruc"].ToString();
 
-                    if (reader["fecha_registro"] != DBNull.Value)
-                    {
-                        proveedor.FechaRegistro =
-                            Convert.ToDateTime(
-                                reader["fecha_registro"]);
-                    }
+                    proveedor.FechaRegistro =
+                        Convert.ToDateTime(
+                            reader["fecha_registro"]);
                 }
+
+                reader.Close();
             }
             catch
             {
+                return null;
             }
             finally
             {
@@ -460,6 +463,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
 
             return proveedor;
+
         }
 
 
@@ -553,160 +557,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
 
-        // =========================================================
-        // OBTENER UN PROVEEDOR
-        // =========================================================
-        public ClaseProveedor ObtenerProveedor(int idProveedor)
-        {
-            ClaseProveedor proveedor = null;
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"
-            SELECT
-                id_proveedor,
-                nombre,
-                telefono,
-                correo,
-                direccion,
-                estado_proveedor,
-                ruc,
-                fecha_registro
-            FROM proveedor
-            WHERE id_proveedor = @id_proveedor";
-
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@id_proveedor",
-                    idProveedor);
-
-                NpgsqlDataReader reader =
-                    cmd.ExecuteReader();
-
-                if (reader.Read())
-                {
-                    proveedor = new ClaseProveedor();
-
-                    proveedor.IdProveedor =
-                        Convert.ToInt32(reader["id_proveedor"]);
-
-                    proveedor.Nombre =
-                        reader["nombre"].ToString();
-
-                    proveedor.Telefono =
-                        reader["telefono"] == DBNull.Value
-                        ? ""
-                        : reader["telefono"].ToString();
-
-                    proveedor.Correo =
-                        reader["correo"] == DBNull.Value
-                        ? ""
-                        : reader["correo"].ToString();
-
-                    proveedor.Direccion =
-                        reader["direccion"] == DBNull.Value
-                        ? ""
-                        : reader["direccion"].ToString();
-
-                    proveedor.EstadoProveedor =
-                        Convert.ToBoolean(
-                            reader["estado_proveedor"]);
-
-                    proveedor.Ruc =
-                        reader["ruc"] == DBNull.Value
-                        ? ""
-                        : reader["ruc"].ToString();
-
-                    proveedor.FechaRegistro =
-                        Convert.ToDateTime(
-                            reader["fecha_registro"]);
-                }
-
-                reader.Close();
-            }
-            catch
-            {
-                return null;
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return proveedor;
-        }
-
-
-        // =========================================================
-        // EDITAR PROVEEDOR
-        // =========================================================
-        public bool EditarProveedor(ClaseProveedor proveedor)
-        {
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"
-            UPDATE proveedor
-            SET
-                nombre = @nombre,
-                telefono = @telefono,
-                correo = @correo,
-                direccion = @direccion,
-                estado_proveedor = @estado_proveedor,
-                ruc = @ruc
-            WHERE id_proveedor = @id_proveedor";
-
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    proveedor.Nombre);
-
-                cmd.Parameters.AddWithValue(
-                    "@telefono",
-                    proveedor.Telefono);
-
-                cmd.Parameters.AddWithValue(
-                    "@correo",
-                    proveedor.Correo);
-
-                cmd.Parameters.AddWithValue(
-                    "@direccion",
-                    proveedor.Direccion);
-
-                cmd.Parameters.AddWithValue(
-                    "@estado_proveedor",
-                    proveedor.EstadoProveedor);
-
-                cmd.Parameters.AddWithValue(
-                    "@ruc",
-                    proveedor.Ruc);
-
-                cmd.Parameters.AddWithValue(
-                    "@id_proveedor",
-                    proveedor.IdProveedor);
-
-                return cmd.ExecuteNonQuery() > 0;
-            }
-            catch
-            {
-                return false;
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
+       
+        
     }
     
 }

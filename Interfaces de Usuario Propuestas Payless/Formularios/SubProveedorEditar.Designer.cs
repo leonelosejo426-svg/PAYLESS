@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SubProveedorEditar));
-            this.txtRUC = new System.Windows.Forms.TextBox();
+            this.txtRuc = new System.Windows.Forms.TextBox();
             this.txtDireccion = new System.Windows.Forms.TextBox();
             this.txtCorreo = new System.Windows.Forms.TextBox();
             this.LblNumero = new System.Windows.Forms.Label();
@@ -43,7 +43,7 @@
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.txtCodigo = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.cmbCategoria = new System.Windows.Forms.ComboBox();
+            this.cmbProveedor = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -56,21 +56,21 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtRUC
+            // txtRuc
             // 
-            this.txtRUC.BackColor = System.Drawing.Color.White;
-            this.txtRUC.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtRUC.Location = new System.Drawing.Point(452, 497);
-            this.txtRUC.Margin = new System.Windows.Forms.Padding(4);
-            this.txtRUC.Name = "txtRUC";
-            this.txtRUC.Size = new System.Drawing.Size(183, 26);
-            this.txtRUC.TabIndex = 134;
+            this.txtRuc.BackColor = System.Drawing.Color.White;
+            this.txtRuc.Font = new System.Drawing.Font("Times New Roman", 12F);
+            this.txtRuc.Location = new System.Drawing.Point(339, 489);
+            this.txtRuc.Margin = new System.Windows.Forms.Padding(4);
+            this.txtRuc.Name = "txtRuc";
+            this.txtRuc.Size = new System.Drawing.Size(183, 26);
+            this.txtRuc.TabIndex = 134;
             // 
             // txtDireccion
             // 
             this.txtDireccion.BackColor = System.Drawing.Color.White;
             this.txtDireccion.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtDireccion.Location = new System.Drawing.Point(452, 438);
+            this.txtDireccion.Location = new System.Drawing.Point(339, 430);
             this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(274, 26);
@@ -80,7 +80,7 @@
             // 
             this.txtCorreo.BackColor = System.Drawing.Color.White;
             this.txtCorreo.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtCorreo.Location = new System.Drawing.Point(452, 383);
+            this.txtCorreo.Location = new System.Drawing.Point(339, 375);
             this.txtCorreo.Margin = new System.Windows.Forms.Padding(4);
             this.txtCorreo.Name = "txtCorreo";
             this.txtCorreo.Size = new System.Drawing.Size(274, 26);
@@ -92,7 +92,7 @@
             this.LblNumero.BackColor = System.Drawing.Color.White;
             this.LblNumero.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNumero.ForeColor = System.Drawing.Color.Black;
-            this.LblNumero.Location = new System.Drawing.Point(207, 384);
+            this.LblNumero.Location = new System.Drawing.Point(94, 376);
             this.LblNumero.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNumero.Name = "LblNumero";
             this.LblNumero.Size = new System.Drawing.Size(56, 19);
@@ -102,7 +102,7 @@
             // txtTelefono
             // 
             this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtTelefono.Location = new System.Drawing.Point(452, 332);
+            this.txtTelefono.Location = new System.Drawing.Point(339, 324);
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(274, 26);
@@ -112,7 +112,7 @@
             // 
             this.txtNombre.BackColor = System.Drawing.Color.White;
             this.txtNombre.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtNombre.Location = new System.Drawing.Point(452, 285);
+            this.txtNombre.Location = new System.Drawing.Point(339, 277);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(274, 26);
@@ -124,7 +124,7 @@
             this.LblNombre.BackColor = System.Drawing.Color.White;
             this.LblNombre.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNombre.ForeColor = System.Drawing.Color.Black;
-            this.LblNombre.Location = new System.Drawing.Point(207, 287);
+            this.LblNombre.Location = new System.Drawing.Point(94, 279);
             this.LblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNombre.Name = "LblNombre";
             this.LblNombre.Size = new System.Drawing.Size(63, 19);
@@ -137,7 +137,7 @@
             this.Lbltelefono.BackColor = System.Drawing.Color.White;
             this.Lbltelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbltelefono.ForeColor = System.Drawing.Color.Black;
-            this.Lbltelefono.Location = new System.Drawing.Point(207, 334);
+            this.Lbltelefono.Location = new System.Drawing.Point(94, 326);
             this.Lbltelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Lbltelefono.Name = "Lbltelefono";
             this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
@@ -150,7 +150,7 @@
             this.LblEstado.BackColor = System.Drawing.Color.White;
             this.LblEstado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblEstado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.LblEstado.Location = new System.Drawing.Point(207, 499);
+            this.LblEstado.Location = new System.Drawing.Point(94, 491);
             this.LblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblEstado.Name = "LblEstado";
             this.LblEstado.Size = new System.Drawing.Size(94, 19);
@@ -163,7 +163,7 @@
             this.LblBusqueda.BackColor = System.Drawing.Color.White;
             this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
-            this.LblBusqueda.Location = new System.Drawing.Point(207, 440);
+            this.LblBusqueda.Location = new System.Drawing.Point(94, 432);
             this.LblBusqueda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblBusqueda.Name = "LblBusqueda";
             this.LblBusqueda.Size = new System.Drawing.Size(79, 19);
@@ -184,6 +184,7 @@
             this.btnBuscar.TabIndex = 206;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // textBox5
             // 
@@ -216,18 +217,18 @@
             this.label2.TabIndex = 203;
             this.label2.Text = "Codigo:";
             // 
-            // cmbCategoria
+            // cmbProveedor
             // 
-            this.cmbCategoria.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Items.AddRange(new object[] {
+            this.cmbProveedor.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbProveedor.FormattingEnabled = true;
+            this.cmbProveedor.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.cmbCategoria.Location = new System.Drawing.Point(230, 184);
-            this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.cmbCategoria.Name = "cmbCategoria";
-            this.cmbCategoria.Size = new System.Drawing.Size(260, 27);
-            this.cmbCategoria.TabIndex = 202;
+            this.cmbProveedor.Location = new System.Drawing.Point(230, 184);
+            this.cmbProveedor.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.cmbProveedor.Name = "cmbProveedor";
+            this.cmbProveedor.Size = new System.Drawing.Size(260, 27);
+            this.cmbProveedor.TabIndex = 202;
             // 
             // label1
             // 
@@ -294,13 +295,14 @@
             this.btnActualizar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnActualizar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActualizar.ForeColor = System.Drawing.Color.White;
-            this.btnActualizar.Location = new System.Drawing.Point(211, 618);
+            this.btnActualizar.Location = new System.Drawing.Point(98, 610);
             this.btnActualizar.Margin = new System.Windows.Forms.Padding(6);
             this.btnActualizar.Name = "btnActualizar";
             this.btnActualizar.Size = new System.Drawing.Size(113, 35);
             this.btnActualizar.TabIndex = 210;
             this.btnActualizar.Text = "Actualizar";
             this.btnActualizar.UseVisualStyleBackColor = false;
+            this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
             // btnRegresar
             // 
@@ -309,13 +311,14 @@
             this.btnRegresar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnRegresar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegresar.ForeColor = System.Drawing.Color.White;
-            this.btnRegresar.Location = new System.Drawing.Point(716, 618);
+            this.btnRegresar.Location = new System.Drawing.Point(573, 610);
             this.btnRegresar.Margin = new System.Windows.Forms.Padding(6);
             this.btnRegresar.Name = "btnRegresar";
             this.btnRegresar.Size = new System.Drawing.Size(117, 35);
             this.btnRegresar.TabIndex = 209;
             this.btnRegresar.Text = "Regresar";
             this.btnRegresar.UseVisualStyleBackColor = false;
+            this.btnRegresar.Click += new System.EventHandler(this.btnRegresar_Click);
             // 
             // cmbEstado
             // 
@@ -324,7 +327,7 @@
             this.cmbEstado.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.cmbEstado.Location = new System.Drawing.Point(452, 568);
+            this.cmbEstado.Location = new System.Drawing.Point(339, 560);
             this.cmbEstado.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(180, 27);
@@ -334,7 +337,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(207, 568);
+            this.label6.Location = new System.Drawing.Point(94, 560);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(60, 19);
@@ -355,13 +358,13 @@
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.cmbCategoria);
+            this.Controls.Add(this.cmbProveedor);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.pictureBox4);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.txtRUC);
+            this.Controls.Add(this.txtRuc);
             this.Controls.Add(this.txtDireccion);
             this.Controls.Add(this.txtCorreo);
             this.Controls.Add(this.LblNumero);
@@ -375,6 +378,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "SubProveedorEditar";
             this.Text = "SubProveedorEditar";
+            this.Load += new System.EventHandler(this.SubProveedorEditar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -383,7 +387,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtRUC;
+        private System.Windows.Forms.TextBox txtRuc;
         private System.Windows.Forms.TextBox txtDireccion;
         private System.Windows.Forms.TextBox txtCorreo;
         private System.Windows.Forms.Label LblNumero;
@@ -397,7 +401,7 @@
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.TextBox txtCodigo;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmbCategoria;
+        private System.Windows.Forms.ComboBox cmbProveedor;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.PictureBox pictureBox4;
