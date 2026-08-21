@@ -242,22 +242,56 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Productos_Load(object sender, EventArgs e)
         {
-            if (ClaseSesion.RolActual != "ADMIN")
-            {
-                MessageBox.Show(
-                    "No tienes acceso",
-                    "Acceso denegado",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+            // Cargar los productos automáticamente
+            MostrarProductos();
 
-                this.Hide();
-                return;
+            // Deshabilitar todas las opciones
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+            lblCliente.Enabled = false;
+            lblCredito.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+
+            // Habilitar opciones según el rol
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
             }
 
-            MostrarProductos();
         }
-
-
 
 
 
