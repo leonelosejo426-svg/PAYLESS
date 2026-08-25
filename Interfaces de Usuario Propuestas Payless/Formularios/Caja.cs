@@ -178,9 +178,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAperturadecaja_Click(object sender, EventArgs e)
         {
-            AperturaCaja ventana = new AperturaCaja();
-            ventana.Show();
-            this.Hide();
+            AperturaCaja ventana = new AperturaCaja(ClaseSesion.IdUsuario, ClaseSesion.UsuarioActual);
+            ventana.Show(); this.Hide();
         }
 
         private void btnArqueodecaja_Click(object sender, EventArgs e)
