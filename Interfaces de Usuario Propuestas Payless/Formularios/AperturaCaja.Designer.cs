@@ -40,6 +40,7 @@
             this.btnLimpiar = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.txtCambioDolar = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblUsuario
@@ -47,7 +48,7 @@
             this.lblUsuario.AutoSize = true;
             this.lblUsuario.BackColor = System.Drawing.Color.Transparent;
             this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuario.Location = new System.Drawing.Point(180, 116);
+            this.lblUsuario.Location = new System.Drawing.Point(348, 112);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(140, 23);
             this.lblUsuario.TabIndex = 0;
@@ -172,12 +173,24 @@
             this.txtCambioDolar.Size = new System.Drawing.Size(126, 29);
             this.txtCambioDolar.TabIndex = 13;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(180, 112);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 23);
+            this.label1.TabIndex = 14;
+            this.label1.Text = "Usuario:";
+            // 
             // AperturaCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(800, 485);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.txtCambioDolar);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnLimpiar);
@@ -214,5 +227,6 @@
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtCambioDolar;
+        private System.Windows.Forms.Label label1;
     }
 }
