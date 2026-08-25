@@ -43,7 +43,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             dtpFecha.Value = DateTime.Now;
             dtpHora.Value = DateTime.Now;
 
-            
+            dtpFecha.Value = DateTime.Now;
+            dtpHora.Value = DateTime.Now;
+
+            lblUsuario.Text = ClaseSesion.UsuarioActual;
+
 
         }
 
