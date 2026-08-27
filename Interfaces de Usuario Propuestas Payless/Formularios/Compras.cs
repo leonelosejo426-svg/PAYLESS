@@ -12,12 +12,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Compras_nuevo : Form
     {
-        private object ventana;
+        private CompraDAO compraDAO = new CompraDAO();
+
+        // Tabla interna para manejar los detalles de la compra.
+        // El precio de venta se conserva aquí aunque no aparezca
+        // como columna en el DataGridView.
+        private DataTable detallesCompra;
 
         public Compras_nuevo()
         {
             InitializeComponent();
+
+            ConfigurarFormulario();
+            CrearTablaDetalles();
+            ConfigurarDataGridView();
+
+            CargarProveedores();
+            CargarProductos();
         }
+
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
