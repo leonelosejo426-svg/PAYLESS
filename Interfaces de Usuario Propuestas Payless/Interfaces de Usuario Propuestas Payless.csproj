@@ -278,6 +278,7 @@
     <Compile Include="Datos\ProveedorDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
     <Compile Include="Formularios\AperturaCajaDAO.cs" />
+    <Compile Include="Formularios\CajaDao.cs" />
     <Compile Include="Formularios\SubProveedorEditar.cs">
       <SubType>Form</SubType>
     </Compile>
