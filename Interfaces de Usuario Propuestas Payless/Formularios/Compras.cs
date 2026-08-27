@@ -14,10 +14,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     public partial class Compras_nuevo : Form
     {
         CompraDAO compraDAO = new CompraDAO();
-
-        // Tabla interna para manejar los detalles de la compra.
-        // El precio de venta se conserva aquí aunque no aparezca
-        // como columna en el DataGridView.
         private DataTable detallesCompra;
 
         public Compras_nuevo()
@@ -30,6 +26,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             CargarProveedores();
             CargarProductos();
+
+            MostrarNumeroCompra();
         }
 
         private void ConfigurarFormulario()
@@ -70,6 +68,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             cmbCantidad.SelectedIndex = -1;
         }
+
+        private void MostrarNumeroCompra()
+        {
+            try
+            {
+                int numeroCompra =
+                    compraDAO.ObtenerSiguienteNumeroCompra();
+
+                txtNoCompra.Text =
+                    numeroCompra.ToString();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudo obtener el número de compra:\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
 
         private void CrearTablaDetalles()
         {
@@ -321,6 +341,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
+            // ============================================================
+            // VALIDAR PROVEEDOR
+            // ============================================================
+
             if (cmbProveedor.SelectedIndex == -1)
             {
                 MessageBox.Show(
@@ -329,9 +353,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
+                cmbProveedor.Focus();
+
                 return;
             }
 
+
+            // ============================================================
+            // VALIDAR DETALLES
+            // ============================================================
 
             if (detallesCompra.Rows.Count == 0)
             {
@@ -344,6 +374,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
+
+            // ============================================================
+            // VALIDAR TOTAL
+            // ============================================================
 
             if (!decimal.TryParse(
                 txtTotalCompra.Text,
@@ -360,6 +394,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
 
+            // ============================================================
+            // OBTENER PROVEEDOR
+            // ============================================================
+
             int idProveedor =
                 Convert.ToInt32(
                     cmbProveedor.SelectedValue);
@@ -367,9 +405,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             try
             {
-                // ====================================================
-                // GUARDAR MEDIANTE CompraDAO
-                // ====================================================
+                // ========================================================
+                // GUARDAR COMPRA
+                // ========================================================
+                //
+                // RegistrarCompra() inserta la compra en PostgreSQL
+                // y devuelve el id_compra generado realmente.
+                //
+                // ========================================================
 
                 int idCompra =
                     compraDAO.RegistrarCompra(
@@ -378,9 +421,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         detallesCompra);
 
 
+                // ========================================================
+                // MOSTRAR ID REAL DE LA COMPRA
+                // ========================================================
+
                 txtNoCompra.Text =
                     idCompra.ToString();
 
+
+                // ========================================================
+                // MENSAJE DE CONFIRMACIÓN
+                // ========================================================
 
                 MessageBox.Show(
                     "Compra guardada correctamente.\n\n" +
@@ -391,19 +442,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Information);
 
 
-                // ====================================================
-                // PDF
-                // ====================================================
+                // ========================================================
+                // AQUÍ IRÁ EL PDF
+                // ========================================================
                 //
-                // Aquí se conectará posteriormente el método para
-                // generar el comprobante PDF usando idCompra.
+                // Posteriormente podemos colocar:
                 //
                 // GenerarComprobantePDF(idCompra);
                 //
-                // ====================================================
+                // El PDF utilizará este mismo idCompra.
+                //
+                // ========================================================
 
+
+                // ========================================================
+                // LIMPIAR FORMULARIO
+                // ========================================================
 
                 LimpiarFormulario();
+
+
+                // ========================================================
+                // MOSTRAR EL SIGUIENTE NÚMERO
+                // ========================================================
+
+                MostrarNumeroCompra();
             }
             catch (Exception ex)
             {
@@ -415,6 +478,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Error);
             }
         }
+
+
 
         private void cmbProducto_SelectedIndexChanged(object sender, EventArgs e)
         {

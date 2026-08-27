@@ -51,6 +51,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
+        // ============================================================
+        // OBTENER SIGUIENTE NUMERO DE COMPRA
+        // ============================================================
+
+        public int ObtenerSiguienteNumeroCompra()
+        {
+            ConexionBD conexionBD = new ConexionBD();
+            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
+
+            try
+            {
+                if (!conexionBD.AbrirConexion())
+                {
+                    throw new Exception(
+                        "No se pudo abrir la conexión con la base de datos.");
+                }
+
+                string consulta = @"
+            SELECT COALESCE(MAX(id_compra), 0) + 1
+            FROM compra;
+        ";
+
+                using (NpgsqlCommand comando =
+                    new NpgsqlCommand(consulta, conexion))
+                {
+                    return Convert.ToInt32(
+                        comando.ExecuteScalar());
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
 
         // ============================================================
         // MOSTRAR PRODUCTOS
