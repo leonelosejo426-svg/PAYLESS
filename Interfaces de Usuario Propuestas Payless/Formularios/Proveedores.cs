@@ -194,8 +194,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label23_Click(object sender, EventArgs e)
         {
-            Compras ventana = new Compras();
-            ventana.show();
+            Compras_nuevo ventana = new Compras_nuevo();
+            ventana.Show();
             this.Hide();
         }
 
