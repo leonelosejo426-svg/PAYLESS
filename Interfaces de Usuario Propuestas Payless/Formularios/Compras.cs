@@ -76,8 +76,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 int numeroCompra =
                     compraDAO.ObtenerSiguienteNumeroCompra();
 
-                txtNoCompra.Text =
-                    numeroCompra.ToString();
+                txtNoCompra.Text = "N°" +
+                    numeroCompra.ToString() ;
             }
             catch (Exception ex)
             {
@@ -1036,6 +1036,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             txtPrecioVenta.Clear();
         }
 
+        private void txtNoCompra_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 
 }
