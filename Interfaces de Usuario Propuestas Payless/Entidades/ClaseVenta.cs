@@ -11,6 +11,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         public int IdVenta { get; set; }
 
+        public string CodigoVenta { get; set; }
+
         public DateTime Fecha { get; set; }
 
         public decimal Subtotal { get; set; }
