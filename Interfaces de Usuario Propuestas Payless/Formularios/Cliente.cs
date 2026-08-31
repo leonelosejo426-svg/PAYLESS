@@ -123,6 +123,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void Cliente_Load(object sender, EventArgs e)
         {
             DGVtabla1.DataSource = clienteDAO.MostrarClientes();
+
+            CmbBusqueda.Items.Clear();
+
+            CmbBusqueda.Items.Add("Nombre");
+            CmbBusqueda.Items.Add("Cédula");
+            CmbBusqueda.Items.Add("Teléfono");
+
+            CmbBusqueda.SelectedIndex = 0;
+
+            DGVtabla1.DataSource = clienteDAO.MostrarClientes();
         }
 
 
@@ -319,85 +329,38 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnbuscar_Click(object sender, EventArgs e)
         {
             if (CmbBusqueda.SelectedIndex == -1)
-
             {
-
-                MessageBox.Show("Selecciona una opción para buscar.");
+                MessageBox.Show(
+                    "Selecciona una opción para buscar.",
+                    "Búsqueda",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 return;
-
             }
 
-            Form ventanaBuscar = new Form();
+            string opcion = CmbBusqueda.Text.Trim();
+            string dato = txtBuscar.Text.Trim();
 
-            ventanaBuscar.Text = "Buscar cliente";
-
-            ventanaBuscar.Size = new Size(350, 160);
-
-            ventanaBuscar.StartPosition = FormStartPosition.CenterScreen;
-
-            ventanaBuscar.FormBorderStyle = FormBorderStyle.FixedDialog;
-
-            ventanaBuscar.MaximizeBox = false;
-
-            ventanaBuscar.MinimizeBox = false;
-
-            Label lbl = new Label();
-
-            lbl.Text = "Escribe el dato que deseas buscar:";
-
-            lbl.Location = new Point(20, 20);
-
-            lbl.AutoSize = true;
-
-            TextBox txt = new TextBox();
-
-            txt.Location = new Point(20, 50);
-
-            txt.Width = 290;
-
-            Button btnAceptar = new Button();
-
-            btnAceptar.Text = "Buscar";
-
-            btnAceptar.Location = new Point(115, 85);
-
-            btnAceptar.Width = 100;
-
-            btnAceptar.DialogResult = DialogResult.OK;
-
-            ventanaBuscar.Controls.Add(lbl);
-
-            ventanaBuscar.Controls.Add(txt);
-
-            ventanaBuscar.Controls.Add(btnAceptar);
-
-            ventanaBuscar.AcceptButton = btnAceptar;
-
-            if (ventanaBuscar.ShowDialog() == DialogResult.OK)
-
+            if (string.IsNullOrWhiteSpace(dato))
             {
+                MessageBox.Show(
+                    "Escribe el dato que deseas buscar.",
+                    "Búsqueda",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-                string dato = txt.Text.Trim();
+                txtBuscar.Focus();
+                return;
+            }
 
-                if (string.IsNullOrWhiteSpace(dato))
-
+            try
+            {
+                switch (opcion)
                 {
-
-                    MessageBox.Show("Escribe un dato para buscar.");
-
-                    return;
-
-                }
-
-                switch (CmbBusqueda.Text)
-
-                {
-
                     case "Nombre":
 
                         DGVtabla1.DataSource =
-
                             clienteDAO.BuscarPorNombre(dato);
 
                         break;
@@ -405,7 +368,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     case "Cédula":
 
                         DGVtabla1.DataSource =
-
                             clienteDAO.BuscarPorCedula(dato);
 
                         break;
@@ -413,27 +375,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     case "Teléfono":
 
                         DGVtabla1.DataSource =
-
                             clienteDAO.BuscarPorTelefono(dato);
 
                         break;
 
+                    default:
+
+                        MessageBox.Show(
+                            "Selecciona Nombre, Cédula o Teléfono.",
+                            "Búsqueda",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+
+                        return;
                 }
 
                 AjustarColumnas();
 
                 if (DGVtabla1.Rows.Count == 0)
-
                 {
-
-                    MessageBox.Show("No se encontraron clientes.");
-
+                    MessageBox.Show(
+                        "No se encontraron clientes.",
+                        "Búsqueda",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al buscar clientes:\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
 
             }
-
-            ventanaBuscar.Dispose();
-
         }
 
         private void label26_Click(object sender, EventArgs e)

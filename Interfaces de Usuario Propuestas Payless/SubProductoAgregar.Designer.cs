@@ -45,8 +45,6 @@
             this.cmbTalla = new System.Windows.Forms.ComboBox();
             this.cmbProveedor = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
-            this.txtCantidad = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -231,25 +229,6 @@
             this.cmbCategoria.Text = "Seleccione la catrgoria";
             this.cmbCategoria.SelectedIndexChanged += new System.EventHandler(this.cmbCategoria_SelectedIndexChanged);
             // 
-            // txtCantidad
-            // 
-            this.txtCantidad.Location = new System.Drawing.Point(263, 374);
-            this.txtCantidad.Margin = new System.Windows.Forms.Padding(4);
-            this.txtCantidad.Name = "txtCantidad";
-            this.txtCantidad.Size = new System.Drawing.Size(132, 22);
-            this.txtCantidad.TabIndex = 79;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(64, 375);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(87, 22);
-            this.label7.TabIndex = 80;
-            this.label7.Text = "Cantidad:";
-            // 
             // cmbMarca
             // 
             this.cmbMarca.FormattingEnabled = true;
@@ -258,7 +237,6 @@
             this.cmbMarca.Name = "cmbMarca";
             this.cmbMarca.Size = new System.Drawing.Size(132, 24);
             this.cmbMarca.TabIndex = 81;
-
             // 
             // SubProductoAgregar
             // 
@@ -267,8 +245,6 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(764, 591);
             this.Controls.Add(this.cmbMarca);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.cmbCategoria);
             this.Controls.Add(this.cmbProveedor);
             this.Controls.Add(this.cmbTalla);
@@ -311,8 +287,6 @@
         private System.Windows.Forms.ComboBox cmbTalla;
         private System.Windows.Forms.ComboBox cmbProveedor;
         private System.Windows.Forms.ComboBox cmbCategoria;
-        private System.Windows.Forms.TextBox txtCantidad;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox cmbMarca;
     }
 }
