@@ -406,7 +406,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            // Verificar que haya seleccionado un criterio
+            // ============================================================
+            // VERIFICAR QUE HAYA SELECCIONADO UN CRITERIO
+            // ============================================================
+
             if (cmdBuscarProducto.SelectedIndex == -1)
             {
                 MessageBox.Show(
@@ -419,7 +422,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
 
-            // Verificar que haya datos
+            // ============================================================
+            // VERIFICAR QUE HAYA PRODUCTOS
+            // ============================================================
+
             if (tablaProductos == null ||
                 tablaProductos.Rows.Count == 0)
             {
@@ -433,106 +439,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
 
+            // ============================================================
+            // OBTENER CRITERIO Y TEXTO
+            // ============================================================
+
             string criterio =
                 cmdBuscarProducto.SelectedItem.ToString();
 
-            string texto = "";
+            string texto =
+                txtBuscarProducto.Text.Trim();
 
 
-            // =====================================================
-            // VENTANA PARA ESCRIBIR EL VALOR A BUSCAR
-            // =====================================================
-
-            using (Form formularioBuscar = new Form())
-            {
-                formularioBuscar.Text = "Buscar producto";
-
-                formularioBuscar.StartPosition =
-                    FormStartPosition.CenterParent;
-
-                formularioBuscar.FormBorderStyle =
-                    FormBorderStyle.FixedDialog;
-
-                formularioBuscar.MaximizeBox = false;
-                formularioBuscar.MinimizeBox = false;
-
-                formularioBuscar.ClientSize =
-                    new Size(350, 130);
-
-
-                Label etiqueta = new Label();
-
-                etiqueta.Text =
-                    "Ingrese el valor que desea buscar:";
-
-                etiqueta.AutoSize = true;
-
-                etiqueta.Location =
-                    new Point(15, 15);
-
-
-                TextBox campoBuscar = new TextBox();
-
-                campoBuscar.Width = 310;
-
-                campoBuscar.Location =
-                    new Point(15, 40);
-
-
-                Button botonAceptar = new Button();
-
-                botonAceptar.Text = "Buscar";
-
-                botonAceptar.Width = 90;
-
-                botonAceptar.Location =
-                    new Point(145, 75);
-
-                botonAceptar.DialogResult =
-                    DialogResult.OK;
-
-
-                Button botonCancelar = new Button();
-
-                botonCancelar.Text = "Cancelar";
-
-                botonCancelar.Width = 90;
-
-                botonCancelar.Location =
-                    new Point(240, 75);
-
-                botonCancelar.DialogResult =
-                    DialogResult.Cancel;
-
-
-                formularioBuscar.Controls.Add(etiqueta);
-                formularioBuscar.Controls.Add(campoBuscar);
-                formularioBuscar.Controls.Add(botonAceptar);
-                formularioBuscar.Controls.Add(botonCancelar);
-
-
-                formularioBuscar.AcceptButton =
-                    botonAceptar;
-
-                formularioBuscar.CancelButton =
-                    botonCancelar;
-
-
-                if (formularioBuscar.ShowDialog(this)
-                    != DialogResult.OK)
-                {
-                    return;
-                }
-
-
-                texto =
-                    campoBuscar.Text.Trim();
-            }
-
-
-            // =====================================================
+            // ============================================================
             // VALIDAR TEXTO
-            // =====================================================
+            // ============================================================
 
             if (string.IsNullOrWhiteSpace(texto))
             {
@@ -541,6 +461,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
+
+                txtBuscarProducto.Focus();
 
                 return;
             }
@@ -551,20 +473,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 DataView vista =
                     new DataView(tablaProductos);
 
-
                 string textoSeguro =
                     texto.Replace("'", "''");
 
 
-                // =================================================
+                // ========================================================
                 // BÚSQUEDA SEGÚN CRITERIO
-                // =================================================
+                // ========================================================
 
                 switch (criterio)
                 {
-                    // =============================================
+                    // ====================================================
                     // ID
-                    // =============================================
+                    // ====================================================
 
                     case "ID":
 
@@ -580,9 +501,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Warning);
 
+                            txtBuscarProducto.Focus();
+
                             return;
                         }
-
 
                         vista.RowFilter =
                             $"id_producto = {id}";
@@ -590,9 +512,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         break;
 
 
-                    // =============================================
+                    // ====================================================
                     // NOMBRE
-                    // =============================================
+                    // ====================================================
 
                     case "Nombre":
 
@@ -603,9 +525,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         break;
 
 
-                    // =============================================
+                    // ====================================================
                     // CATEGORÍA
-                    // =============================================
+                    // ====================================================
 
                     case "Categoría":
 
@@ -616,9 +538,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         break;
 
 
-                    // =============================================
+                    // ====================================================
                     // MARCA
-                    // =============================================
+                    // ====================================================
 
                     case "Marca":
 
@@ -629,9 +551,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         break;
 
 
-                    // =============================================
+                    // ====================================================
                     // PROVEEDOR
-                    // =============================================
+                    // ====================================================
 
                     case "Proveedor":
 
@@ -642,9 +564,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         break;
 
 
-                    // =============================================
+                    // ====================================================
                     // ESTADO
-                    // =============================================
+                    // ====================================================
 
                     case "Estado":
 
@@ -669,6 +591,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Information);
 
+                            txtBuscarProducto.Focus();
+
                             return;
                         }
 
@@ -676,16 +600,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 }
 
 
-                // =================================================
+                // ========================================================
                 // MOSTRAR RESULTADOS
-                // =================================================
+                // ========================================================
 
                 dgvProductos.DataSource = vista;
 
 
-                // =================================================
+                // ========================================================
                 // SI NO HAY RESULTADOS
-                // =================================================
+                // ========================================================
 
                 if (vista.Count == 0)
                 {
@@ -699,7 +623,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar:\n\n" +
+                    "Error al realizar la búsqueda:\n\n" +
                     ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
