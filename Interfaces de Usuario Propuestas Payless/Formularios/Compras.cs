@@ -553,19 +553,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             try
             {
-                DataTable tallas =
-                    compraDAO.MostrarTallas(idProducto);
+                cmbTalla.DataSource = null;
+                cmbTalla.Items.Clear();
 
-                cmbTalla.DataSource = tallas;
-
-                cmbTalla.DisplayMember =
-                    "talla";
-
-                cmbTalla.ValueMember =
-                    "id_producto_talla";
+                // Tallas disponibles para zapatos
+                for (int talla = 15; talla <= 55; talla++)
+                {
+                    cmbTalla.Items.Add(talla);
+                }
 
                 cmbTalla.SelectedIndex = -1;
-
                 cmbTalla.Enabled = true;
             }
             catch (Exception ex)
@@ -623,7 +620,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-
             if (cmbProducto.SelectedIndex == -1)
             {
                 MessageBox.Show(
@@ -636,7 +632,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 return;
             }
-
 
             if (cmbTalla.SelectedIndex == -1)
             {
@@ -651,7 +646,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-
             if (cmbCantidad.SelectedIndex == -1)
             {
                 MessageBox.Show(
@@ -664,7 +658,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 return;
             }
-
 
             if (!decimal.TryParse(
                 txtPrecioCompra.Text,
@@ -682,7 +675,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-
             if (!decimal.TryParse(
                 txtPrecioVenta.Text,
                 out decimal precioVenta) ||
@@ -699,58 +691,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-
             DataRowView producto =
                 cmbProducto.SelectedItem as DataRowView;
 
             if (producto == null)
                 return;
 
-
             int idProducto =
                 Convert.ToInt32(
                     producto["id_producto"]);
 
+            string nombreProducto =
+                producto["nombre"].ToString();
 
-            int idProductoTalla =
-                Convert.ToInt32(
-                    cmbTalla.SelectedValue);
+            string categoria =
+                producto["nombre_categoria"].ToString();
 
+            string marca =
+                producto["nombre_marca"].ToString();
+
+            string talla =
+                cmbTalla.SelectedItem.ToString();
 
             int cantidad =
                 Convert.ToInt32(
                     cmbCantidad.SelectedItem);
 
-
-            string nombreProducto =
-                producto["nombre"].ToString();
-
-
-            string categoria =
-                producto["nombre_categoria"].ToString();
-
-
-            string marca =
-                producto["nombre_marca"].ToString();
-
-
-            string talla =
-                cmbTalla.Text;
-
-
             decimal subtotal =
                 precioCompra * cantidad;
 
-
-            // ========================================================
+            // ============================================================
             // GUARDAR DETALLE INTERNAMENTE
-            // ========================================================
+            // ============================================================
 
             DataRow fila =
                 detallesCompra.NewRow();
 
-            fila["id_producto_talla"] =
-                idProductoTalla;
+            // Por ahora se deja en 0.
+            // CompraDAO obtendrá/creará el id_producto_talla
+            // al momento de guardar la compra.
+            fila["id_producto_talla"] = 0;
 
             fila["codigo"] =
                 idProducto;
@@ -770,7 +750,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             fila["precio_compra"] =
                 precioCompra;
 
-            // Se guarda aunque no se muestre.
             fila["precio_venta"] =
                 precioVenta;
 
@@ -781,7 +760,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 subtotal;
 
             detallesCompra.Rows.Add(fila);
-
 
             MostrarDetalles();
 

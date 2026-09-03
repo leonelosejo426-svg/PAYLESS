@@ -182,6 +182,122 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
+        // ============================================================
+        // OBTENER O CREAR PRODUCTO_TALLA
+        // ============================================================
+
+        private int ObtenerOCrearProductoTalla(
+            int idProducto,
+            string talla,
+            NpgsqlConnection conexion,
+            NpgsqlTransaction transaccion)
+        {
+            string consultaBuscar = @"
+        SELECT id_producto_talla
+        FROM producto_talla
+        WHERE id_producto = @id_producto
+        AND talla = @talla;
+    ";
+
+            using (NpgsqlCommand comandoBuscar =
+                new NpgsqlCommand(
+                    consultaBuscar,
+                    conexion,
+                    transaccion))
+            {
+                comandoBuscar.Parameters.AddWithValue(
+                    "@id_producto",
+                    idProducto);
+
+                comandoBuscar.Parameters.AddWithValue(
+                    "@talla",
+                    talla);
+
+                object resultado =
+                    comandoBuscar.ExecuteScalar();
+
+                if (resultado != null)
+                {
+                    return Convert.ToInt32(resultado);
+                }
+            }
+
+
+            // ========================================================
+            // SI NO EXISTE, CREAR LA RELACIÓN PRODUCTO + TALLA
+            // ========================================================
+
+            string consultaInsertar = @"
+        INSERT INTO producto_talla
+        (
+            talla,
+            id_producto
+        )
+        VALUES
+        (
+            @talla,
+            @id_producto
+        )
+        RETURNING id_producto_talla;
+    ";
+
+            int idProductoTalla;
+
+            using (NpgsqlCommand comandoInsertar =
+                new NpgsqlCommand(
+                    consultaInsertar,
+                    conexion,
+                    transaccion))
+            {
+                comandoInsertar.Parameters.AddWithValue(
+                    "@talla",
+                    talla);
+
+                comandoInsertar.Parameters.AddWithValue(
+                    "@id_producto",
+                    idProducto);
+
+                idProductoTalla =
+                    Convert.ToInt32(
+                        comandoInsertar.ExecuteScalar());
+            }
+
+
+            // ========================================================
+            // CREAR INVENTARIO PARA LA TALLA
+            // ========================================================
+
+            string consultaInventario = @"
+        INSERT INTO inventario
+        (
+            stock_actual,
+            stock_minimo,
+            id_producto_talla
+        )
+        VALUES
+        (
+            0,
+            0,
+            @id_producto_talla
+        );
+    ";
+
+            using (NpgsqlCommand comandoInventario =
+                new NpgsqlCommand(
+                    consultaInventario,
+                    conexion,
+                    transaccion))
+            {
+                comandoInventario.Parameters.AddWithValue(
+                    "@id_producto_talla",
+                    idProductoTalla);
+
+                comandoInventario.ExecuteNonQuery();
+            }
+
+            return idProductoTalla;
+        }
+
 
         // ============================================================
         // REGISTRAR COMPRA
@@ -203,7 +319,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         "No se pudo abrir la conexión con la base de datos.");
                 }
 
-                using (NpgsqlTransaction transaccion = conexion.BeginTransaction())
+                using (NpgsqlTransaction transaccion =
+                    conexion.BeginTransaction())
                 {
                     try
                     {
@@ -248,11 +365,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
 
                         // ====================================================
-                        // INSERTAR DETALLE DE COMPRA
+                        // INSERTAR DETALLES
                         // ====================================================
 
                         foreach (DataRow fila in detalles.Rows)
                         {
+                            int idProducto =
+                                Convert.ToInt32(
+                                    fila["codigo"]);
+
+                            string talla =
+                                fila["talla"].ToString();
+
+
+                            // ==================================================
+                            // OBTENER O CREAR PRODUCTO + TALLA
+                            // ==================================================
+
+                            int idProductoTalla =
+                                ObtenerOCrearProductoTalla(
+                                    idProducto,
+                                    talla,
+                                    conexion,
+                                    transaccion);
+
+
+                            // ==================================================
+                            // INSERTAR DETALLE DE COMPRA
+                            // ==================================================
+
                             string consultaDetalle = @"
                         INSERT INTO detalle_compra
                         (
@@ -286,8 +427,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                                 comandoDetalle.Parameters.AddWithValue(
                                     "@id_producto_talla",
-                                    Convert.ToInt32(
-                                        fila["id_producto_talla"]));
+                                    idProductoTalla);
 
                                 comandoDetalle.Parameters.AddWithValue(
                                     "@cantidad",
@@ -313,18 +453,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             }
 
 
-                            // ====================================================
+                            // ==================================================
                             // ACTUALIZAR PRECIO DE VENTA DEL PRODUCTO
-                            // ====================================================
+                            // ==================================================
 
                             string consultaPrecioVenta = @"
                         UPDATE producto
                         SET precio_venta = @precio_venta
-                        WHERE id_producto = (
-                            SELECT id_producto
-                            FROM producto_talla
-                            WHERE id_producto_talla = @id_producto_talla
-                        );
+                        WHERE id_producto = @id_producto;
                     ";
 
                             using (NpgsqlCommand comandoPrecioVenta =
@@ -339,17 +475,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                                         fila["precio_venta"]));
 
                                 comandoPrecioVenta.Parameters.AddWithValue(
-                                    "@id_producto_talla",
-                                    Convert.ToInt32(
-                                        fila["id_producto_talla"]));
+                                    "@id_producto",
+                                    idProducto);
 
                                 comandoPrecioVenta.ExecuteNonQuery();
                             }
 
 
-                            // ====================================================
+                            // ==================================================
                             // ACTUALIZAR INVENTARIO
-                            // ====================================================
+                            // ==================================================
 
                             string consultaInventario = @"
                         UPDATE inventario
@@ -372,8 +507,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                                 comandoInventario.Parameters.AddWithValue(
                                     "@id_producto_talla",
-                                    Convert.ToInt32(
-                                        fila["id_producto_talla"]));
+                                    idProductoTalla);
 
                                 comandoInventario.ExecuteNonQuery();
                             }
