@@ -55,13 +55,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
         private void CargarTallas()
         {
-            cmbTalla.Items.Clear();
-
-            for (int i = 30; i <= 45; i++)
-            {
-                cmbTalla.Items.Add(i.ToString());
-            }
-            cmbTalla.SelectedIndex = -1;
+            
         }
         private bool ValidarCampos()
         {
@@ -146,19 +140,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return false;
             }
 
-            // Validar talla
-            if (cmbTalla.SelectedIndex == -1 ||
-                string.IsNullOrWhiteSpace(cmbTalla.Text))
-            {
-                MessageBox.Show(
-                    "Seleccione una talla",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbTalla.Focus();
-                return false;
-            }
 
             // Todos los campos son válidos
             return true;
@@ -237,9 +218,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 producto.IdProveedor = idProveedor;
 
 
-                // Talla
-                string talla = cmbTalla.Text.Trim();
-
+           
 
                 // Cantidad
                 if (!int.TryParse(
@@ -266,7 +245,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 bool resultado =
                     DAO.AgregarProducto(
                         producto,
-                        talla,
                         cantidad,
                         stockMinimo);
 
@@ -309,7 +287,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             cmbCategoria.SelectedIndex = -1;
             cmbMarca.SelectedIndex = -1;
             cmbProveedor.SelectedIndex = -1;
-            cmbTalla.SelectedIndex = -1;
             txtNombredelProducto.Focus();
 
         }
