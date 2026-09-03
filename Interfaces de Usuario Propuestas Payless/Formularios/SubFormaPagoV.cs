@@ -12,6 +12,9 @@ using System.Windows.Forms;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
+using iTextDocument = iTextSharp.text.Document;
+using iTextFont = iTextSharp.text.Font;
+using iTextElement = iTextSharp.text.Element;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
@@ -34,6 +37,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private DataTable detalleVenta;
 
         private decimal tipoCambioActual;
+        private bool pagoConfirmado = false;
 
 
 
@@ -457,15 +461,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            pagoConfirmado = true;
+            btnConfirmarPago.Enabled = false;
+            btnImprimirFactura.Enabled = true;
+
             MessageBox.Show(
                 "Pago confirmado correctamente.\n\n" +
                 "Venta: " + codigoVenta +
-                "\nTotal: C$ " +
-                total.ToString("N2"),
+                "\nTotal: C$ " + total.ToString("N2") +
+                "\n\nAhora puede imprimir la factura.",
                 "Pago confirmado",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
-            );
+                        );
             pagoConfirmado = true;
 
             btnConfirmarPago.Enabled = false;
@@ -522,178 +530,74 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void GenerarFacturaPDF(string ruta)
         {
-            DataTable detalleFactura =
-                ventaDAO.ObtenerDetalleParaFactura(detalleVenta);
+            DataTable detalleFactura = ventaDAO.ObtenerDetalleParaFactura(detalleVenta);
 
-            Document documento =
-                new Document(PageSize.A4, 40, 40, 40, 40);
-
-            PdfWriter.GetInstance(
-                documento,
-                new FileStream(ruta, FileMode.Create)
-            );
-
-            documento.Open();
-
-            Font titulo = FontFactory.GetFont(
-                FontFactory.HELVETICA_BOLD,
-                18
-            );
-
-            Font normal = FontFactory.GetFont(
-                FontFactory.HELVETICA,
-                10
-            );
-
-            Font negrita = FontFactory.GetFont(
-                FontFactory.HELVETICA_BOLD,
-                10
-            );
-
-            Paragraph encabezado =
-                new Paragraph("PAYLESS", titulo);
-
-            encabezado.Alignment =
-                Element.ALIGN_CENTER;
-
-            documento.Add(encabezado);
-
-            Paragraph factura =
-                new Paragraph(
-                    "FACTURA DE VENTA\n\n",
-                    negrita
-                );
-
-            factura.Alignment =
-                Element.ALIGN_CENTER;
-
-            documento.Add(factura);
-
-            documento.Add(
-                new Paragraph(
-                    "Código de venta: " + codigoVenta,
-                    normal
-                )
-            );
-
-            documento.Add(
-                new Paragraph(
-                    "Fecha: " +
-                    DateTime.Now.ToString("dd/MM/yyyy HH:mm"),
-                    normal
-                )
-            );
-
-            documento.Add(
-                new Paragraph("\n")
-            );
-
-            PdfPTable tabla =
-                new PdfPTable(5);
-
-            tabla.WidthPercentage = 100;
-
-            tabla.AddCell(
-                new PdfPCell(
-                    new Phrase("Producto", negrita)
-                )
-            );
-
-            tabla.AddCell(
-                new PdfPCell(
-                    new Phrase("Talla", negrita)
-                )
-            );
-
-            tabla.AddCell(
-                new PdfPCell(
-                    new Phrase("Cantidad", negrita)
-                )
-            );
-
-            tabla.AddCell(
-                new PdfPCell(
-                    new Phrase("Precio", negrita)
-                )
-            );
-
-            tabla.AddCell(
-                new PdfPCell(
-                    new Phrase("Subtotal", negrita)
-                )
-            );
-
-            foreach (DataRow fila in detalleFactura.Rows)
+            using (iTextDocument documento = new iTextDocument(iTextSharp.text.PageSize.A4, 40, 40, 40, 40))
             {
-                tabla.AddCell(
-                    fila["producto"].ToString()
+                PdfWriter.GetInstance(
+                    documento,
+                    new FileStream(ruta, FileMode.Create)
                 );
 
-                tabla.AddCell(
-                    fila["talla"].ToString()
-                );
+                documento.Open();
 
-                tabla.AddCell(
-                    fila["cantidad"].ToString()
-                );
+                // Estilos de fuente
+                iTextFont titulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
+                iTextFont normal = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                iTextFont negrita = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
 
-                tabla.AddCell(
-                    "C$ " +
-                    Convert.ToDecimal(
-                        fila["precio_venta"]
-                    ).ToString("N2")
-                );
+                // Encabezados
+                iTextSharp.text.Paragraph encabezado = new iTextSharp.text.Paragraph("PAYLESS", titulo)
+                {
+                    Alignment = iTextElement.ALIGN_CENTER
+                };
+                documento.Add(encabezado);
 
-                tabla.AddCell(
-                    "C$ " +
-                    Convert.ToDecimal(
-                        fila["subtotal"]
-                    ).ToString("N2")
-                );
+                iTextSharp.text.Paragraph factura = new iTextSharp.text.Paragraph("FACTURA DE VENTA\n\n", negrita)
+                {
+                    Alignment = iTextElement.ALIGN_CENTER
+                };
+                documento.Add(factura);
+
+                // Datos Generales
+                documento.Add(new iTextSharp.text.Paragraph("Código de venta: " + codigoVenta, normal));
+                documento.Add(new iTextSharp.text.Paragraph("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"), normal));
+                documento.Add(new iTextSharp.text.Paragraph("\n"));
+
+                // Tabla de Detalle
+                PdfPTable tabla = new PdfPTable(5)
+                {
+                    WidthPercentage = 100
+                };
+
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Producto", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Talla", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Cantidad", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Precio", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Subtotal", negrita)));
+
+                foreach (DataRow fila in detalleFactura.Rows)
+                {
+                    tabla.AddCell(fila["producto"].ToString());
+                    tabla.AddCell(fila["talla"].ToString());
+                    tabla.AddCell(fila["cantidad"].ToString());
+                    tabla.AddCell("C$ " + Convert.ToDecimal(fila["precio_venta"]).ToString("N2"));
+                    tabla.AddCell("C$ " + Convert.ToDecimal(fila["subtotal"]).ToString("N2"));
+                }
+
+                documento.Add(tabla);
+                documento.Add(new iTextSharp.text.Paragraph("\n"));
+
+                // Totales
+                documento.Add(new iTextSharp.text.Paragraph("Subtotal: C$ " + subtotal.ToString("N2"), normal));
+                documento.Add(new iTextSharp.text.Paragraph("IVA (15%): C$ " + iva.ToString("N2"), normal));
+                documento.Add(new iTextSharp.text.Paragraph("TOTAL: C$ " + total.ToString("N2"), negrita));
+                documento.Add(new iTextSharp.text.Paragraph("\n"));
+
+                documento.Add(new iTextSharp.text.Paragraph("Gracias por su compra.", normal));
+
+                documento.Close();
             }
-
-            documento.Add(tabla);
-
-            documento.Add(
-                new Paragraph("\n")
-            );
-
-            documento.Add(
-                new Paragraph(
-                    "Subtotal: C$ " +
-                    subtotal.ToString("N2"),
-                    normal
-                )
-            );
-
-            documento.Add(
-                new Paragraph(
-                    "IVA (15%): C$ " +
-                    iva.ToString("N2"),
-                    normal
-                )
-            );
-
-            documento.Add(
-                new Paragraph(
-                    "TOTAL: C$ " +
-                    total.ToString("N2"),
-                    negrita
-                )
-            );
-
-            documento.Add(
-                new Paragraph("\n")
-            );
-
-            documento.Add(
-                new Paragraph(
-                    "Gracias por su compra.",
-                    normal
-                )
-            );
-
-            documento.Close();
         }
 
         private void btnImprimirFactura_Click(object sender, EventArgs e)
@@ -713,7 +617,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             try
             {
                 SaveFileDialog guardar = new SaveFileDialog();
-
                 guardar.Filter = "Archivo PDF (*.pdf)|*.pdf";
                 guardar.Title = "Guardar factura";
                 guardar.FileName = "Factura_" + codigoVenta + ".pdf";
@@ -740,5 +643,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 );
             }
         }
+
     }
 }
