@@ -203,8 +203,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         "No se pudo abrir la conexión con la base de datos.");
                 }
 
-                using (NpgsqlTransaction transaccion =
-                    conexion.BeginTransaction())
+                using (NpgsqlTransaction transaccion = conexion.BeginTransaction())
                 {
                     try
                     {
@@ -213,18 +212,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         // ====================================================
 
                         string consultaCompra = @"
-                            INSERT INTO compra
-                            (
-                                total,
-                                id_proveedor
-                            )
-                            VALUES
-                            (
-                                @total,
-                                @id_proveedor
-                            )
-                            RETURNING id_compra;
-                        ";
+                    INSERT INTO compra
+                    (
+                        total,
+                        id_proveedor
+                    )
+                    VALUES
+                    (
+                        @total,
+                        @id_proveedor
+                    )
+                    RETURNING id_compra;
+                ";
 
                         int idCompra;
 
@@ -255,25 +254,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         foreach (DataRow fila in detalles.Rows)
                         {
                             string consultaDetalle = @"
-                                INSERT INTO detalle_compra
-                                (
-                                    id_compra,
-                                    id_producto_talla,
-                                    cantidad,
-                                    precio_compra,
-                                    precio_venta,
-                                    subtotal
-                                )
-                                VALUES
-                                (
-                                    @id_compra,
-                                    @id_producto_talla,
-                                    @cantidad,
-                                    @precio_compra,
-                                    @precio_venta,
-                                    @subtotal
-                                );
-                            ";
+                        INSERT INTO detalle_compra
+                        (
+                            id_compra,
+                            id_producto_talla,
+                            cantidad,
+                            precio_compra,
+                            precio_venta,
+                            subtotal
+                        )
+                        VALUES
+                        (
+                            @id_compra,
+                            @id_producto_talla,
+                            @cantidad,
+                            @precio_compra,
+                            @precio_venta,
+                            @subtotal
+                        );
+                    ";
 
                             using (NpgsqlCommand comandoDetalle =
                                 new NpgsqlCommand(
@@ -315,16 +314,50 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
 
                             // ====================================================
+                            // ACTUALIZAR PRECIO DE VENTA DEL PRODUCTO
+                            // ====================================================
+
+                            string consultaPrecioVenta = @"
+                        UPDATE producto
+                        SET precio_venta = @precio_venta
+                        WHERE id_producto = (
+                            SELECT id_producto
+                            FROM producto_talla
+                            WHERE id_producto_talla = @id_producto_talla
+                        );
+                    ";
+
+                            using (NpgsqlCommand comandoPrecioVenta =
+                                new NpgsqlCommand(
+                                    consultaPrecioVenta,
+                                    conexion,
+                                    transaccion))
+                            {
+                                comandoPrecioVenta.Parameters.AddWithValue(
+                                    "@precio_venta",
+                                    Convert.ToDecimal(
+                                        fila["precio_venta"]));
+
+                                comandoPrecioVenta.Parameters.AddWithValue(
+                                    "@id_producto_talla",
+                                    Convert.ToInt32(
+                                        fila["id_producto_talla"]));
+
+                                comandoPrecioVenta.ExecuteNonQuery();
+                            }
+
+
+                            // ====================================================
                             // ACTUALIZAR INVENTARIO
                             // ====================================================
 
                             string consultaInventario = @"
-                                UPDATE inventario
-                                SET
-                                    stock_actual = stock_actual + @cantidad,
-                                    fecha_actualizacion = CURRENT_TIMESTAMP
-                                WHERE id_producto_talla = @id_producto_talla;
-                            ";
+                        UPDATE inventario
+                        SET
+                            stock_actual = stock_actual + @cantidad,
+                            fecha_actualizacion = CURRENT_TIMESTAMP
+                        WHERE id_producto_talla = @id_producto_talla;
+                    ";
 
                             using (NpgsqlCommand comandoInventario =
                                 new NpgsqlCommand(
