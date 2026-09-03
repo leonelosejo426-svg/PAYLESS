@@ -616,7 +616,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
 
@@ -628,7 +627,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
 
@@ -636,21 +634,111 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             decimal iva = subtotal * 0.15m;
             decimal total = subtotal + iva;
 
-            MessageBox.Show(
-                "Venta preparada correctamente.\n\n" +
-                "Subtotal: C$ " + subtotal.ToString("N2") + "\n" +
-                "IVA: C$ " + iva.ToString("N2") + "\n" +
-                "Total: C$ " + total.ToString("N2"),
-                "Venta",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
+            DataTable detalleVenta = CrearDetalleVenta();
+
+            int idCliente = ObtenerIdCliente();
+
+            int idCaja = ventaDAO.ObtenerIdCajaAbierta();
+
+            if (idCaja <= 0)
+            {
+                MessageBox.Show(
+                    "No existe una caja abierta.",
+                    "Caja",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
+
+            // AQUÍ DEBES COLOCAR EL ID DEL USUARIO ACTUAL
+            int idUsuario = 1;
+
+            SubFormaPagoV formaPago = new SubFormaPagoV(
+                txtCodigoVenta.Text,
+                idCliente,
+                idUsuario,
+                idCaja,
+                subtotal,
+                iva,
+                total,
+                detalleVenta
             );
 
+            DialogResult resultado =
+                formaPago.ShowDialog();
+
+            if (resultado == DialogResult.OK)
+            {
+                Close();
+            }
+
+        }
+
+        private DataTable CrearDetalleVenta()
+        {
+            DataTable tabla = new DataTable();
+
+            tabla.Columns.Add(
+                "id_producto_talla",
+                typeof(int)
+            );
+
+            tabla.Columns.Add(
+                "cantidad",
+                typeof(int)
+            );
+
+            tabla.Columns.Add(
+                "precio_venta",
+                typeof(decimal)
+            );
+
+            tabla.Columns.Add(
+                "subtotal",
+                typeof(decimal)
+            );
+
+            foreach (DataGridViewRow fila
+                in dgvDetalleVenta.Rows)
+            {
+                if (fila.IsNewRow)
+                    continue;
+
+                DataRow nuevaFila =
+                    tabla.NewRow();
+
+                nuevaFila["id_producto_talla"] =
+                    Convert.ToInt32(
+                        fila.Cells["ID"].Value
+                    );
+
+                nuevaFila["cantidad"] =
+                    Convert.ToInt32(
+                        fila.Cells["Cantidad"].Value
+                    );
+
+                nuevaFila["precio_venta"] =
+                    Convert.ToDecimal(
+                        fila.Cells["Precio"].Value
+                    );
+
+                nuevaFila["subtotal"] =
+                    Convert.ToDecimal(
+                        fila.Cells["Subtotal"].Value
+                    );
+
+                tabla.Rows.Add(nuevaFila);
+            }
+
+            return tabla;
         }
 
         private void btnRegresar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
+
+        
     }
 }
