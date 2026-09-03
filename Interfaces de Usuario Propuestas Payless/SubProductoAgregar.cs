@@ -321,7 +321,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
-        
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

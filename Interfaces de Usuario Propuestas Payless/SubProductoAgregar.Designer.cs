@@ -37,12 +37,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.txtNombredelProducto = new System.Windows.Forms.TextBox();
             this.btnRegresar = new System.Windows.Forms.Button();
             this.btnGuardar = new System.Windows.Forms.Button();
-            this.cmbTalla = new System.Windows.Forms.ComboBox();
             this.cmbProveedor = new System.Windows.Forms.ComboBox();
             this.cmbCategoria = new System.Windows.Forms.ComboBox();
             this.txtCantidad = new System.Windows.Forms.TextBox();
@@ -143,25 +141,16 @@
             this.label4.TabIndex = 64;
             this.label4.Text = "Proveedor:";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(64, 271);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(57, 22);
-            this.label5.TabIndex = 65;
-            this.label5.Text = "Talla:";
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(64, 321);
+            this.label6.Location = new System.Drawing.Point(64, 282);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(93, 22);
             this.label6.TabIndex = 66;
             this.label6.Text = "Categoría:";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // txtNombredelProducto
             // 
@@ -176,7 +165,7 @@
             this.btnRegresar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.btnRegresar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRegresar.ForeColor = System.Drawing.Color.White;
-            this.btnRegresar.Location = new System.Drawing.Point(292, 442);
+            this.btnRegresar.Location = new System.Drawing.Point(286, 413);
             this.btnRegresar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnRegresar.Name = "btnRegresar";
             this.btnRegresar.Size = new System.Drawing.Size(139, 46);
@@ -190,7 +179,7 @@
             this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(79)))), ((int)(((byte)(97)))));
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnGuardar.Location = new System.Drawing.Point(128, 442);
+            this.btnGuardar.Location = new System.Drawing.Point(121, 413);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(129, 46);
@@ -198,15 +187,6 @@
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
-            // 
-            // cmbTalla
-            // 
-            this.cmbTalla.FormattingEnabled = true;
-            this.cmbTalla.Location = new System.Drawing.Point(263, 268);
-            this.cmbTalla.Margin = new System.Windows.Forms.Padding(4);
-            this.cmbTalla.Name = "cmbTalla";
-            this.cmbTalla.Size = new System.Drawing.Size(132, 24);
-            this.cmbTalla.TabIndex = 76;
             // 
             // cmbProveedor
             // 
@@ -223,7 +203,7 @@
             // 
             this.cmbCategoria.Font = new System.Drawing.Font("PMingLiU-ExtB", 11.25F);
             this.cmbCategoria.FormattingEnabled = true;
-            this.cmbCategoria.Location = new System.Drawing.Point(263, 321);
+            this.cmbCategoria.Location = new System.Drawing.Point(263, 277);
             this.cmbCategoria.Margin = new System.Windows.Forms.Padding(4);
             this.cmbCategoria.Name = "cmbCategoria";
             this.cmbCategoria.Size = new System.Drawing.Size(204, 27);
@@ -233,7 +213,7 @@
             // 
             // txtCantidad
             // 
-            this.txtCantidad.Location = new System.Drawing.Point(263, 374);
+            this.txtCantidad.Location = new System.Drawing.Point(263, 344);
             this.txtCantidad.Margin = new System.Windows.Forms.Padding(4);
             this.txtCantidad.Name = "txtCantidad";
             this.txtCantidad.Size = new System.Drawing.Size(132, 22);
@@ -243,7 +223,7 @@
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(64, 375);
+            this.label7.Location = new System.Drawing.Point(64, 343);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(87, 22);
@@ -258,25 +238,22 @@
             this.cmbMarca.Name = "cmbMarca";
             this.cmbMarca.Size = new System.Drawing.Size(132, 24);
             this.cmbMarca.TabIndex = 81;
-
             // 
             // SubProductoAgregar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(764, 591);
+            this.ClientSize = new System.Drawing.Size(764, 502);
             this.Controls.Add(this.cmbMarca);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.cmbCategoria);
             this.Controls.Add(this.cmbProveedor);
-            this.Controls.Add(this.cmbTalla);
             this.Controls.Add(this.btnRegresar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.txtNombredelProducto);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -303,12 +280,10 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtNombredelProducto;
         private System.Windows.Forms.Button btnRegresar;
         private System.Windows.Forms.Button btnGuardar;
-        private System.Windows.Forms.ComboBox cmbTalla;
         private System.Windows.Forms.ComboBox cmbProveedor;
         private System.Windows.Forms.ComboBox cmbCategoria;
         private System.Windows.Forms.TextBox txtCantidad;
