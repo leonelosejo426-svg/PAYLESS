@@ -279,14 +279,20 @@
     <Compile Include="Datos\ProveedorDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
     <Compile Include="Datos\VentaDAO.cs" />
-    <Compile Include="Entidades\NuevaVenta.cs">
+    <Compile Include="Formularios\NuevaVenta.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Entidades\NuevaVenta.Designer.cs">
+    <Compile Include="Formularios\NuevaVenta.Designer.cs">
       <DependentUpon>NuevaVenta.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\AperturaCajaDAO.cs" />
     <Compile Include="Formularios\CajaDao.cs" />
+    <Compile Include="Formularios\SubFormaPagoV.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\SubFormaPagoV.Designer.cs">
+      <DependentUpon>SubFormaPagoV.cs</DependentUpon>
+    </Compile>
     <Compile Include="Formularios\SubProveedorEditar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -531,8 +537,11 @@
     <Compile Include="Formularios\Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Entidades\NuevaVenta.resx">
+    <EmbeddedResource Include="Formularios\NuevaVenta.resx">
       <DependentUpon>NuevaVenta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\SubFormaPagoV.resx">
+      <DependentUpon>SubFormaPagoV.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\SubProveedorEditar.resx">
       <DependentUpon>SubProveedorEditar.cs</DependentUpon>
