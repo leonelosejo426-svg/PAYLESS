@@ -196,7 +196,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         public bool AgregarProducto(
     ClaseProducto producto,
-    string talla,
     int cantidad,
     int stockMinimo)
         {
