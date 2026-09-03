@@ -9,12 +9,10 @@ using System.Threading.Tasks;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 {
-    internal class VentaDAO
+    public class VentaDAO
     {
 
-        private ConexionBD conexionBD;
-
-     
+        private ConexionBD conexionBD = new ConexionBD();
 
         // =====================================================
         // 1. CARGAR CLIENTES
@@ -23,21 +21,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             DataTable tabla = new DataTable();
 
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT id_cliente, nombre
                 FROM cliente
                 WHERE estado = TRUE
                 ORDER BY nombre;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
                 }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
 
             return tabla;
@@ -50,8 +53,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             DataTable tabla = new DataTable();
 
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT 
                     p.id_producto,
@@ -60,20 +64,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     c.nombre_categoria,
                     m.nombre_marca
                 FROM producto p
-                INNER JOIN categoria c 
-                    ON p.id_categoria = c.id_categoria
-                INNER JOIN marca m 
-                    ON p.id_marca = m.id_marca
+                INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                INNER JOIN marca m ON p.id_marca = m.id_marca
                 WHERE p.estado_producto = TRUE
                 ORDER BY p.nombre;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
                 }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
 
             return tabla;
@@ -86,8 +92,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             DataTable tabla = new DataTable();
 
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT 
                     p.id_producto,
@@ -98,13 +105,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     p.id_marca,
                     m.nombre_marca
                 FROM producto p
-                INNER JOIN categoria c
-                    ON p.id_categoria = c.id_categoria
-                INNER JOIN marca m
-                    ON p.id_marca = m.id_marca
+                INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                INNER JOIN marca m ON p.id_marca = m.id_marca
                 WHERE p.id_producto = @idProducto;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idProducto", idProducto);
 
@@ -113,6 +118,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         da.Fill(tabla);
                     }
                 }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
 
             return tabla;
@@ -125,20 +134,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             DataTable tabla = new DataTable();
 
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT 
                     pt.id_producto_talla,
                     pt.talla
                 FROM producto_talla pt
-                INNER JOIN inventario i
-                    ON pt.id_producto_talla = i.id_producto_talla
+                INNER JOIN inventario i ON pt.id_producto_talla = i.id_producto_talla
                 WHERE pt.id_producto = @idProducto
                   AND i.stock_actual > 0
                 ORDER BY pt.talla;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idProducto", idProducto);
 
@@ -147,6 +156,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         da.Fill(tabla);
                     }
                 }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
 
             return tabla;
@@ -159,19 +172,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
             int stock = 0;
 
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT stock_actual
                 FROM inventario
                 WHERE id_producto_talla = @idProductoTalla;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idProductoTalla",
-                        idProductoTalla
-                    );
+                    cmd.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
 
                     object resultado = cmd.ExecuteScalar();
 
@@ -180,6 +191,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         stock = Convert.ToInt32(resultado);
                     }
                 }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
 
             return stock;
@@ -190,14 +205,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =====================================================
         public decimal? ObtenerPrecioProducto(int idProducto)
         {
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT precio_venta
                 FROM producto
                 WHERE id_producto = @idProducto;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idProducto", idProducto);
 
@@ -211,6 +227,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     return Convert.ToDecimal(resultado);
                 }
             }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
 
         // =====================================================
@@ -218,8 +238,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =====================================================
         public decimal ObtenerTipoCambioActual()
         {
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT tipo_cambio_dolar
                 FROM caja
@@ -227,7 +248,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 ORDER BY id_caja DESC
                 LIMIT 1;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     object resultado = cmd.ExecuteScalar();
 
@@ -239,6 +260,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     return Convert.ToDecimal(resultado);
                 }
             }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
 
         // =====================================================
@@ -246,20 +271,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =====================================================
         public string GenerarCodigoVenta()
         {
-            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
+            try
             {
+                conexionBD.AbrirConexion();
                 string sql = @"
                 SELECT COALESCE(MAX(id_venta), 0) + 1
                 FROM venta;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     int siguiente = Convert.ToInt32(cmd.ExecuteScalar());
 
                     return "V" + siguiente.ToString("D5");
                 }
             }
-
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
     }
 }

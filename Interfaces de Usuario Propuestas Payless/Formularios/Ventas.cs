@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using Interfaces_de_Usuario_Propuestas_Payless.Entidades;
 //using static System.Net.WebRequestMethods;
 
 
@@ -503,90 +504,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (cmbProducto.SelectedIndex == -1)
-            {
-                MessageBox.Show("Seleccione un producto");
-                return;
-            }
+            // Creas la instancia de la subpantalla
+            NuevaVenta ventana = new NuevaVenta();
 
-            if (cmbTalla.SelectedIndex == -1)
-            {
-                MessageBox.Show("Seleccione una talla");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtCantidad.Text))
-            {
-                MessageBox.Show("Ingrese cantidad");
-                return;
-            }
-
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
-
-            int stock = Convert.ToInt32(txtStockActual.Text);
-
-            if (cantidad > stock)
-            {
-                MessageBox.Show("Stock insuficiente");
-                return;
-            }
-
-            decimal precio =
-                Convert.ToDecimal(txtPrecioVenta.Text);
-
-            decimal subtotal =
-                precio * cantidad;
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                string codigo =
-                    fila.Cells[0].Value.ToString();
-
-                string talla =
-                    fila.Cells[4].Value.ToString();
-
-                if (codigo == txtCodigoProducto.Text &&
-                    talla == cmbTalla.Text)
-                {
-                    int cantidadActual =
-                        Convert.ToInt32(
-                            fila.Cells[7].Value);
-
-                    cantidadActual += cantidad;
-
-                    fila.Cells[7].Value =
-                        cantidadActual;
-
-                    fila.Cells[8].Value =
-                        cantidadActual * precio;
-
-                    CalcularTotales();
-
-                    LimpiarProducto();
-
-                    return;
-                }
-            }
-
-            dgvVenta.Rows.Add(
-                txtCodigoProducto.Text,
-                cmbProducto.Text,
-                txtCategoria.Text,
-                txtMarca.Text,
-                cmbTalla.Text,
-                precio,
-                stock,
-                cantidad,
-                subtotal
-            );
-
-            CalcularTotales();
-
-            LimpiarProducto();
+            // Con .Show() se abre sin bloquear ni ocultar el formulario principal
+            ventana.Show();
+            this.Show();
         }
+        
         private void CargarVentas()
         {
             if (File.Exists(rutaVentas))

@@ -138,8 +138,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             txtPrecioVenta.Clear();
             txtStockActual.Clear();
 
-            txtCantidad.Minimum = 1;
-            txtCantidad.Value = 1;
+            txtCantidad.Text = "1";
 
             dgvDetalleVenta.AllowUserToAddRows = false;
             dgvDetalleVenta.AutoGenerateColumns = false;
@@ -407,20 +406,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 return false;
             }
 
-            int cantidad = Convert.ToInt32(txtCantidad.Value);
 
-            if (cantidad <= 0)
+            if (!int.TryParse(txtCantidad.Text, out int cantidad) || cantidad <= 0)
             {
                 MessageBox.Show(
-                    "La cantidad debe ser mayor que cero.",
+                    "Ingrese una cantidad válida mayor que cero.",
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
-
             if (!int.TryParse(
                 txtStockActual.Text,
                 out int stock))
@@ -465,8 +461,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void AgregarDetalle()
         {
-            int cantidad =
-                Convert.ToInt32(txtCantidad.Value);
+            int cantidad = Convert.ToInt32(txtCantidad.Text);
 
             decimal subtotal =
                 CalcularSubtotalLinea(
@@ -573,7 +568,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             txtPrecioVenta.Clear();
             txtStockActual.Clear();
 
-            txtCantidad.Value = 1;
+            txtCantidad.Text = "1";
         }
 
         private decimal ObtenerSubtotal()
@@ -651,6 +646,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 MessageBoxIcon.Information
             );
 
+        }
+
+        private void btnRegresar_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
