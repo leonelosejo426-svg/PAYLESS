@@ -196,8 +196,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         public bool AgregarProducto(
     ClaseProducto producto,
-    string talla,
-    int cantidad,
+   
     int stockMinimo)
         {
             try
@@ -326,9 +325,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     "@id_producto",
                     idProducto);
 
-                cmdBuscarTalla.Parameters.AddWithValue(
-                    "@talla",
-                    talla);
+               
 
                 object resultadoTalla =
                     cmdBuscarTalla.ExecuteScalar();
@@ -356,9 +353,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             sqlActualizarStock,
                             conexion);
 
-                    cmdStock.Parameters.AddWithValue(
-                        "@cantidad",
-                        cantidad);
+                    
+                       
 
                     cmdStock.Parameters.AddWithValue(
                         "@stock_minimo",
@@ -394,17 +390,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             sqlNuevaTalla,
                             conexion);
 
-                    cmdNuevaTalla.Parameters.AddWithValue(
-                        "@talla",
-                        talla);
-
-                    cmdNuevaTalla.Parameters.AddWithValue(
-                        "@id_producto",
-                        idProducto);
-
-                    int idProductoTalla =
-                        Convert.ToInt32(
-                            cmdNuevaTalla.ExecuteScalar());
+                   
 
                     // ==========================================
                     // 7. CREAR INVENTARIO
@@ -431,17 +417,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             sqlInventario,
                             conexion);
 
-                    cmdInventario.Parameters.AddWithValue(
-                        "@stock_actual",
-                        cantidad);
+                   
 
                     cmdInventario.Parameters.AddWithValue(
                         "@stock_minimo",
                         stockMinimo);
 
-                    cmdInventario.Parameters.AddWithValue(
-                        "@id_producto_talla",
-                        idProductoTalla);
 
                     cmdInventario.ExecuteNonQuery();
                 }
