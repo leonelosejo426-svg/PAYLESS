@@ -492,32 +492,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         {
             decimal subtotal = 0;
 
-            foreach (DataGridViewRow fila
-                in dgvDetalleVenta.Rows)
+            foreach (DataGridViewRow fila in dgvDetalleVenta.Rows)
             {
                 if (fila.IsNewRow)
                     continue;
 
-                if (fila.Cells["Subtotal"].Value != null)
+                // Usa "colSubtotal" en lugar de "Subtotal"
+                if (fila.Cells["colSubtotal"].Value != null)
                 {
-                    subtotal +=
-                        Convert.ToDecimal(
-                            fila.Cells["Subtotal"].Value
-                        );
+                    subtotal += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
                 }
             }
 
             decimal iva = subtotal * 0.15m;
             decimal total = subtotal + iva;
 
-            lblSubtotal.Text =
-                "C$ " + subtotal.ToString("N2");
-
-            lblIVA.Text =
-                "C$ " + iva.ToString("N2");
-
-            lblTotal.Text =
-                "C$ " + total.ToString("N2");
+            lblSubtotal.Text = "C$ " + subtotal.ToString("N2");
+            lblIVA.Text = "C$ " + iva.ToString("N2");
+            lblTotal.Text = "C$ " + total.ToString("N2");
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -575,18 +567,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         {
             decimal subtotal = 0;
 
-            foreach (DataGridViewRow fila
-                in dgvDetalleVenta.Rows)
+            foreach (DataGridViewRow fila in dgvDetalleVenta.Rows)
             {
                 if (fila.IsNewRow)
                     continue;
 
-                if (fila.Cells["Subtotal"].Value != null)
+                // Cambiar "Subtotal" por "colSubtotal" en la validación
+                if (fila.Cells["colSubtotal"].Value != null)
                 {
-                    subtotal +=
-                        Convert.ToDecimal(
-                            fila.Cells["Subtotal"].Value
-                        );
+                    // Cambiar "Subtotal" por "colSubtotal" en la conversión
+                    subtotal += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
                 }
             }
 
@@ -679,59 +669,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         {
             DataTable tabla = new DataTable();
 
-            tabla.Columns.Add(
-                "id_producto_talla",
-                typeof(int)
-            );
+            tabla.Columns.Add("id_producto_talla", typeof(int));
+            tabla.Columns.Add("cantidad", typeof(int));
+            tabla.Columns.Add("precio_venta", typeof(decimal));
+            tabla.Columns.Add("subtotal", typeof(decimal));
 
-            tabla.Columns.Add(
-                "cantidad",
-                typeof(int)
-            );
-
-            tabla.Columns.Add(
-                "precio_venta",
-                typeof(decimal)
-            );
-
-            tabla.Columns.Add(
-                "subtotal",
-                typeof(decimal)
-            );
-
-            foreach (DataGridViewRow fila
-                in dgvDetalleVenta.Rows)
+            foreach (DataGridViewRow fila in dgvDetalleVenta.Rows)
             {
                 if (fila.IsNewRow)
                     continue;
 
-                DataRow nuevaFila =
-                    tabla.NewRow();
+                DataRow nuevaFila = tabla.NewRow();
 
-                nuevaFila["id_producto_talla"] =
-                    Convert.ToInt32(
-                        fila.Cells["ID"].Value
-                    );
-
-                nuevaFila["cantidad"] =
-                    Convert.ToInt32(
-                        fila.Cells["Cantidad"].Value
-                    );
-
-                nuevaFila["precio_venta"] =
-                    Convert.ToDecimal(
-                        fila.Cells["Precio"].Value
-                    );
-
-                nuevaFila["subtotal"] =
-                    Convert.ToDecimal(
-                        fila.Cells["Subtotal"].Value
-                    );
+                // Asegúrate de usar "colID", "colCantidad", "colPrecio" y "colSubtotal"
+                nuevaFila["id_producto_talla"] = Convert.ToInt32(fila.Cells["colIdProductoTalla"].Value);
+                nuevaFila["cantidad"] = Convert.ToInt32(fila.Cells["colCantidad"].Value);
+                nuevaFila["precio_venta"] = Convert.ToDecimal(fila.Cells["colPrecioVenta"].Value);
+                nuevaFila["subtotal"] = Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
 
                 tabla.Rows.Add(nuevaFila);
             }
 
             return tabla;
+        
         }
 
         private void btnRegresar_Click(object sender, EventArgs e)
