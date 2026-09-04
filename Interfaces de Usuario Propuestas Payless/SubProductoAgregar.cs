@@ -78,31 +78,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return false;
             }
 
-            // Validar cantidad
-            if (string.IsNullOrWhiteSpace(txtCantidad.Text))
-            {
-                MessageBox.Show(
-                    "Ingrese la cantidad del producto",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtCantidad.Focus();
-                return false;
-            }
-
-            // Validar que cantidad sea número
-            if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
-            {
-                MessageBox.Show(
-                    "Ingrese una cantidad válida mayor que cero",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtCantidad.Focus();
-                return false;
-            }
+          
 
             // Validar categoría
             if (cmbCategoria.SelectedIndex == -1 ||
@@ -241,21 +217,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string talla = cmbTalla.Text.Trim();
 
 
-                // Cantidad
-                if (!int.TryParse(
-                    txtCantidad.Text.Trim(),
-                    out int cantidad) ||
-                    cantidad <= 0)
-                {
-                    MessageBox.Show(
-                        "Ingrese una cantidad válida mayor que cero.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    txtCantidad.Focus();
-                    return;
-                }
+                
 
 
                 // Stock mínimo
@@ -266,8 +228,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 bool resultado =
                     DAO.AgregarProducto(
                         producto,
-                        talla,
-                        cantidad,
+                       
+                      
                         stockMinimo);
 
 
@@ -304,7 +266,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void LimpiarCampos()
 
         { txtNombredelProducto.Clear();
-            txtCantidad.Clear();
+            
 
             cmbCategoria.SelectedIndex = -1;
             cmbMarca.SelectedIndex = -1;
