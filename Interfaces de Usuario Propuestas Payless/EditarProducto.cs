@@ -145,6 +145,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             //Cargar proveedor
             txtProveedor.Text = producto["proveedor"].ToString();
 
+            //Cargar codigo 
+            txtCodigo.Text =
+            producto["codigo"].ToString();
+
 
         }
 
@@ -283,7 +287,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 idMarca;
 
 
-            if (resultado)
+            if (  resultado)
             {
                 MessageBox.Show(
                     "Producto actualizado correctamente.",
@@ -292,7 +296,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Information);
 
                 LimpiarFormulario();
-
 
             }
         }
