@@ -240,7 +240,7 @@
             this.panel1.Controls.Add(this.label3);
             this.panel1.Location = new System.Drawing.Point(8, 152);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(502, 236);
+            this.panel1.Size = new System.Drawing.Size(493, 236);
             this.panel1.TabIndex = 101;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
