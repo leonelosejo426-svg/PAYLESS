@@ -417,6 +417,7 @@
     <Compile Include="SubProductoAgregar.Designer.cs">
       <DependentUpon>SubProductoAgregar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilidades\ArbolBinarioVentas.cs" />
     <Compile Include="Utilidades\ClaseSesion.cs" />
     <Compile Include="Entidades\ClaseVenta.cs" />
     <Compile Include="Formularios\Cliente.cs">
@@ -537,6 +538,7 @@
     <Compile Include="Formularios\Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilidades\NodoVenta.cs" />
     <EmbeddedResource Include="Formularios\NuevaVenta.resx">
       <DependentUpon>NuevaVenta.cs</DependentUpon>
     </EmbeddedResource>
