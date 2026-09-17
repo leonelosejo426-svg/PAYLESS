@@ -1,18 +1,22 @@
 ﻿
-using System.Drawing.Printing;
+using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Entidades;
+using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.VisualBasic;
-using Interfaces_de_Usuario_Propuestas_Payless.Entidades;
 //using static System.Net.WebRequestMethods;
 
 
@@ -22,25 +26,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     public partial class Ventas : Form
     {
 
-        List<Producto> listaProductos = new List<Producto>();
 
-        List<Clientes> listaCliente = new List<Clientes>();
+        private VentaDAO ventaDAO = new VentaDAO();
 
-        List<Venta> listaVentas = new List<Venta>();
+        private ArbolBinarioVentas arbolVentas =
+            new ArbolBinarioVentas();
 
-        const decimal IVA_PORCENTAJE = 0.15m;
-
-        const decimal TIPO_CAMBIO = 36.40m;
-
-        int correlativoVenta = 1;
-
-        int filaEditar = -1;
-
-        string rutaVentas = "ventas.json";
-
-        string rutaProductos = "productos.json";
-        private Venta ventaActual;
-
+        private DataTable tablaVentas;
 
         public Ventas()
         {
@@ -48,67 +40,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
        
 
-        public class Producto
-        {
-            public string Codigo { get; set; }
-            public string Nombre { get; set; }
-            public string Categoria { get; set; }
-            public string Marca { get; set; }
-            public int Talla { get; set; }
-            public decimal Precio { get; set; }
-            public int Stock { get; set; }
-        }
-
-        public class Clientes
-        {
-            public int Id { get; set; }
-            public string Nombre { get; set; }
-        }
-
-        public class DetalleVenta
-        {
-            public string CodigoProducto { get; set; }
-            public string Producto { get; set; }
-            public string Categoria { get; set; }
-            public string Marca { get; set; }
-            public int Talla { get; set; }
-            public decimal PrecioVenta { get; set; }
-            public int Cantidad { get; set; }
-            public decimal Subtotal { get; set; }
-        }
-
-        public class Venta
-        {
-            public string CodigoVenta { get; set; }
-
-            public string Cliente { get; set; }
-
-            public DateTime Fecha { get; set; }
-
-            public decimal Subtotal { get; set; }
-
-            public decimal IVA { get; set; }
-
-            public decimal Descuento { get; set; }
-
-            public decimal Total { get; set; }
-
-            public string FormaPago { get; set; }
-
-            public decimal MontoCordobas { get; set; }
-
-            public decimal MontoDolares { get; set; }
-
-            public decimal Cambio { get; set; }
-
-            public List<DetalleVenta> Detalles { get; set; }
-        }
-
-
-
-
-
-
+    
 
 
 
@@ -210,296 +142,109 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
-        private void CargarProductos()
-        {
-            if (File.Exists(rutaProductos))
-            {
-                string json =
-                    File.ReadAllText(
-                        rutaProductos);
-
-                listaProductos =
-                    JsonConvert.DeserializeObject<List<Producto>>(json);
-
-                if (listaProductos == null)
-                {
-                    listaProductos =
-                        new List<Producto>();
-                }
-            }
-            else
-            {
-                listaProductos =
-                    new List<Producto>()
-                {
-            new Producto()
-            {
-                Codigo="P001",
-                Nombre="Zapato Escolar Negro",
-                Categoria="Escolar",
-                Marca="Bubble Gummers",
-                Talla=30,
-                Precio=1250,
-                Stock=10
-            },
-
-            new Producto()
-            {
-                Codigo="P002",
-                Nombre="Zapato Escolar Negro",
-                Categoria="Escolar",
-                Marca="Bubble Gummers",
-                Talla=31,
-                Precio=1250,
-                Stock=8
-            },
-
-            new Producto()
-            {
-                Codigo="P003",
-                Nombre="Tenis Deportivo Hombre",
-                Categoria="Deportivo",
-                Marca="Nike",
-                Talla=40,
-                Precio=2850,
-                Stock=5
-            },
-
-            new Producto()
-            {
-                Codigo="P004",
-                Nombre="Tenis Deportivo Hombre",
-                Categoria="Deportivo",
-                Marca="Nike",
-                Talla=41,
-                Precio=2850,
-                Stock=7
-            },
-
-            new Producto()
-            {
-                Codigo="P005",
-                Nombre="Sandalia Dama",
-                Categoria="Casual",
-                Marca="Skechers",
-                Talla=37,
-                Precio=1650,
-                Stock=12
-            }
-                };
-
-                GuardarProductos();
-            }
-
-            cmbProducto.Items.Clear();
-
-            foreach (Producto p in listaProductos)
-            {
-                if (p.Stock > 0)
-                {
-                    if (!cmbProducto.Items.Contains(
-                        p.Nombre))
-                    {
-                        cmbProducto.Items.Add(
-                            p.Nombre);
-                    }
-                }
-            }
-        }
-
-        private void GenerarCodigoVenta()
-        {
-            int siguiente = 1;
-
-            if (listaVentas.Count > 0)
-            {
-                string ultimoCodigo =
-                    listaVentas.Last().CodigoVenta;
-
-                siguiente =
-                    int.Parse(
-                        ultimoCodigo.Substring(1)) + 1;
-            }
-
-            txtCodigoVenta.Text =
-                "V" + siguiente.ToString("00000");
-        }
-
+       
         private void btnNuevaVenta_Click(object sender, EventArgs e)
         {
-            correlativoVenta++;
-
-            GenerarCodigoVenta();
-
-            dgvVenta.Rows.Clear();
-
-            cmbCliente.SelectedIndex = -1;
-
-            cmbProducto.SelectedIndex = -1;
-
-            cmbTalla.Items.Clear();
-
-            txtCodigoProducto.Clear();
-            txtCategoria.Clear();
-            txtMarca.Clear();
-            txtPrecioVenta.Clear();
-            txtCantidad.Clear();
-            txtStockActual.Clear();
-
-            txtSubtotal.Text = "0.00";
-            txtIVA.Text = "0.00";
-            txtDescuento.Text = "0.00";
-            txtTotal.Text = "0.00";
-
-            txtMontoCordobas.Clear();
-            txtMontoDolares.Clear();
-            txtMontoTarjeta.Clear();
-            txtMontoDolares.Clear();
+           
         }
 
 
 
         private void Ventas_Load(object sender, EventArgs e)
         {
-            CargarProductos();
+            cbBuscarPor.Items.Clear();
 
-            CargarCliente();
+            cbBuscarPor.Items.Add("Código");
+            cbBuscarPor.Items.Add("Cliente");
+            cbBuscarPor.Items.Add("Fecha");
+            cbBuscarPor.Items.Add("ID");
 
-            GenerarCodigoVenta();
+            cbBuscarPor.SelectedIndex = 0;
 
             CargarVentas();
-
-            txtCantidad.KeyPress += SoloNumeros;
-
-            txtMontoCordobas.KeyPress += SoloNumeros;
-
-            txtMontoDolares.KeyPress += SoloNumeros;
-
-            txtMontoTarjeta.KeyPress += SoloNumeros;
-
-            txtCodigoVenta.ReadOnly = true;
-            txtCodigoProducto.ReadOnly = true;
-            txtCategoria.ReadOnly = true;
-            txtMarca.ReadOnly = true;
-            txtPrecioVenta.ReadOnly = true;
-            txtStockActual.ReadOnly = true;
-
-            txtSubtotal.Text = "0.00";
-            txtIVA.Text = "0.00";
-            txtDescuento.Text = "0.00";
-            txtTotal.Text = "0.00";
-
-            rbEfectivo.Checked = true;
-
-            cmbTipoTarjeta.Enabled = false;
-            txtNumeroTarjeta.Enabled = false;
-            txtMontoTarjeta.Enabled = false;
-
-            cmbTipoTarjeta.Items.Add("Visa");
-            cmbTipoTarjeta.Items.Add("MasterCard");
         }
 
-
-
-        private void CargarCliente()
+        private void CargarVentas()
         {
-            listaCliente.Clear();
+            tablaVentas = ventaDAO.MostrarVentas();
 
-            listaCliente.Add(new Clientes()
+            arbolVentas = new ArbolBinarioVentas();
+
+            foreach (DataRow fila in tablaVentas.Rows)
             {
-                Id = 1,
-                Nombre = "Juan Perez"
-            });
-
-            listaCliente.Add(new Clientes()
-            {
-                Id = 2,
-                Nombre = "Maria Lopez"
-            });
-
-            listaCliente.Add(new Clientes()
-            {
-                Id = 3,
-                Nombre = "Carlos Martinez"
-            });
-
-            listaCliente.Add(new Clientes()
-            {
-                Id = 4,
-                Nombre = "Ana Gonzalez"
-            });
-
-            listaCliente.Add(new Clientes()
-            {
-                Id = 5,
-                Nombre = "Jose Rodriguez"
-            });
-
-            cmbCliente.Items.Clear();
-
-            foreach (Clientes c in listaCliente)
-            {
-                cmbCliente.Items.Add(c.Nombre);
+                arbolVentas.Insertar(fila);
             }
+
+            MostrarVentasEnGrid(
+                arbolVentas.RecorridoInOrden());
         }
+
+
+        private void MostrarVentasEnGrid(List<DataRow> ventas)
+        {
+            DataTable tablaResultado = tablaVentas.Clone();
+
+            foreach (DataRow fila in ventas)
+            {
+                tablaResultado.ImportRow(fila);
+            }
+
+            DGVtabla1.DataSource = tablaResultado;
+
+            ConfigurarGrid();
+        }
+
+
+        private void ConfigurarGrid()
+        {
+            if (DGVtabla1.Columns.Count == 0)
+                return;
+
+            DGVtabla1.Columns["id_venta"].Visible = false;
+
+            DGVtabla1.Columns["codigo_venta"].HeaderText = "Código";
+            DGVtabla1.Columns["fecha"].HeaderText = "Fecha";
+            DGVtabla1.Columns["cliente"].HeaderText = "Cliente";
+            DGVtabla1.Columns["subtotal"].HeaderText = "Subtotal";
+            DGVtabla1.Columns["iva"].HeaderText = "IVA";
+            DGVtabla1.Columns["total"].HeaderText = "Total";
+            DGVtabla1.Columns["estado"].HeaderText = "Estado";
+
+            DGVtabla1.Columns["subtotal"]
+                .DefaultCellStyle.Format = "C2";
+
+            DGVtabla1.Columns["iva"]
+                .DefaultCellStyle.Format = "C2";
+
+            DGVtabla1.Columns["total"]
+                .DefaultCellStyle.Format = "C2";
+
+            DGVtabla1.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
+
+            DGVtabla1.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
+
+            DGVtabla1.MultiSelect = false;
+
+            DGVtabla1.ReadOnly = true;
+
+            DGVtabla1.AllowUserToAddRows = false;
+        }
+
+
+
 
         private void cmbProducto_SelectedIndexChanged(object sender, EventArgs e)
         {
             
-            if (cmbProducto.SelectedIndex == -1)
-                return;
-
-            string nombreProducto = cmbProducto.Text;
-
-            cmbTalla.Items.Clear();
-
-            var tallas = listaProductos
-                .Where(p => p.Nombre == nombreProducto && p.Stock > 0)
-                .Select(p => p.Talla)
-                .Distinct()
-                .OrderBy(t => t);
-
-            foreach (var talla in tallas)
-            {
-                cmbTalla.Items.Add(talla);
-            }
-
-            txtCodigoProducto.Clear();
-            txtCategoria.Clear();
-            txtMarca.Clear();
-            txtPrecioVenta.Clear();
-            txtStockActual.Clear();
+            
         
     }
 
         private void cmbTalla_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbProducto.SelectedIndex == -1)
-                return;
-
-            if (cmbTalla.SelectedIndex == -1)
-                return;
-
-            string nombreProducto = cmbProducto.Text;
-
-            int talla = Convert.ToInt32(cmbTalla.Text);
-
-            Producto productoSeleccionado = listaProductos.FirstOrDefault(
-                p => p.Nombre == nombreProducto &&
-                     p.Talla == talla);
-
-            if (productoSeleccionado != null)
-            {
-                txtCodigoProducto.Text = productoSeleccionado.Codigo;
-
-                txtCategoria.Text = productoSeleccionado.Categoria;
-
-                txtMarca.Text = productoSeleccionado.Marca;
-
-                txtPrecioVenta.Text = productoSeleccionado.Precio.ToString("N2");
-
-                txtStockActual.Text = productoSeleccionado.Stock.ToString();
-            }
+            
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -512,833 +257,382 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             this.Show();
         }
         
-        private void CargarVentas()
-        {
-            if (File.Exists(rutaVentas))
-            {
-                string json =
-                    File.ReadAllText(rutaVentas);
-
-                if (!string.IsNullOrWhiteSpace(json))
-                {
-                    listaVentas =
-                        JsonConvert.DeserializeObject<List<Venta>>(json);
-
-                    if (listaVentas == null)
-                    {
-                        listaVentas =
-                            new List<Venta>();
-                    }
-                }
-            }
-        }
-        private void GuardarVentas()
-        {
-            string json =
-                JsonConvert.SerializeObject(
-                    listaVentas,
-                    Formatting.Indented);
-
-            File.WriteAllText(
-                rutaVentas,
-                json);
-        }
-
-        private void LimpiarProducto()
-        {
-            cmbProducto.SelectedIndex = -1;
-
-            cmbTalla.Items.Clear();
-
-            txtCodigoProducto.Clear();
-
-            txtCategoria.Clear();
-
-            txtMarca.Clear();
-
-            txtPrecioVenta.Clear();
-
-            txtCantidad.Clear();
-
-            txtStockActual.Clear();
-        }
-
-
-
-        private void CalcularTotales()
-        {
-            decimal subtotal = 0;
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.Cells[8].Value != null)
-                {
-                    subtotal +=
-                        Convert.ToDecimal(
-                            fila.Cells[8].Value);
-                }
-            }
-
-            decimal descuento =
-                CalcularDescuento(subtotal);
-
-            decimal iva =
-                subtotal * 0.15m;
-
-            decimal total =
-                subtotal + iva - descuento;
-
-            txtSubtotal.Text =
-                subtotal.ToString("N2");
-
-            txtDescuento.Text =
-                descuento.ToString("N2");
-
-            txtIVA.Text =
-                iva.ToString("N2");
-
-            txtTotal.Text =
-                total.ToString("N2");
-        }
-
+       
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (dgvVenta.CurrentRow == null)
-            {
-                MessageBox.Show("Seleccione una fila");
-                return;
-            }
-
-            filaEditar = dgvVenta.CurrentRow.Index;
-
-            txtCodigoProducto.Text =
-                dgvVenta.Rows[filaEditar].Cells[0].Value.ToString();
-
-            cmbProducto.Text =
-                dgvVenta.Rows[filaEditar].Cells[1].Value.ToString();
-
-            txtCategoria.Text =
-                dgvVenta.Rows[filaEditar].Cells[2].Value.ToString();
-
-            txtMarca.Text =
-                dgvVenta.Rows[filaEditar].Cells[3].Value.ToString();
-
-            cmbTalla.Text =
-                dgvVenta.Rows[filaEditar].Cells[4].Value.ToString();
-
-            txtPrecioVenta.Text =
-                dgvVenta.Rows[filaEditar].Cells[5].Value.ToString();
-
-            txtStockActual.Text =
-                dgvVenta.Rows[filaEditar].Cells[6].Value.ToString();
-
-            txtCantidad.Text =
-                dgvVenta.Rows[filaEditar].Cells[7].Value.ToString();
-
-            dgvVenta.Rows.RemoveAt(filaEditar);
-
-            CalcularTotales();
+            
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (dgvVenta.CurrentRow == null)
+            if (DGVtabla1.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Seleccione una fila");
+                MessageBox.Show(
+                    "Seleccione una venta.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
                 return;
             }
 
-            DialogResult respuesta =
+            int idVenta = Convert.ToInt32(
+                DGVtabla1.SelectedRows[0]
+                .Cells["id_venta"].Value);
+
+            string codigoVenta =
+                DGVtabla1.SelectedRows[0]
+                .Cells["codigo_venta"]
+                .Value.ToString();
+
+            string estado =
+                DGVtabla1.SelectedRows[0]
+                .Cells["estado"]
+                .Value.ToString();
+
+            if (estado == "Anulado")
+            {
                 MessageBox.Show(
-                    "¿Desea eliminar el producto?",
-                    "Confirmar",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+                    "Esta venta ya está anulada.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            DialogResult respuesta = MessageBox.Show(
+                "¿Desea anular la venta " +
+                codigoVenta + "?",
+                "Confirmar anulación",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (respuesta == DialogResult.Yes)
             {
-                dgvVenta.Rows.RemoveAt(
-                    dgvVenta.CurrentRow.Index);
+                bool resultado =
+                    ventaDAO.EliminarVenta(idVenta);
 
-                CalcularTotales();
-            }
-
-
-
-        }
-
-        private decimal CalcularDescuento(decimal subtotal)
-        {
-            int totalCantidad = 0;
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.Cells[7].Value != null)
+                if (resultado)
                 {
-                    totalCantidad +=
-                        Convert.ToInt32(
-                            fila.Cells[7].Value);
+                    MessageBox.Show(
+                        "Venta anulada correctamente.",
+                        "Información",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    CargarVentas();
                 }
             }
 
-            if (totalCantidad >= 8)
-            {
-                return subtotal * 0.10m;
-            }
 
-            if (totalCantidad >= 5)
-            {
-                return subtotal * 0.08m;
-            }
 
-            if (totalCantidad >= 3)
-            {
-                return subtotal * 0.05m;
-            }
-
-            return 0;
         }
 
-
-        private string ObtenerDescuento()
-        {
-            int totalCantidad = 0;
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.Cells[7].Value != null)
-                {
-                    totalCantidad +=
-                        Convert.ToInt32(
-                            fila.Cells[7].Value);
-                }
-            }
-
-            if (totalCantidad >= 8)
-                return "10%";
-
-            if (totalCantidad >= 5)
-                return "8%";
-
-            if (totalCantidad >= 3)
-                return "5%";
-
-            return "0%";
-        }
+     
 
         private void rbEfectivo_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbEfectivo.Checked)
-            {
-                txtMontoCordobas.Enabled = true;
-                txtMontoDolares.Enabled = true;
-
-                cmbTipoTarjeta.Enabled = false;
-                txtNumeroTarjeta.Enabled = false;
-                txtMontoTarjeta.Enabled = false;
-
-                cmbTipoTarjeta.SelectedIndex = -1;
-
-                txtNumeroTarjeta.Clear();
-                txtMontoTarjeta.Clear();
-            }
+     
         }
 
         private void rbTarjeta_CheckedChanged(object sender, EventArgs e)
         {
-            if (rbTarjeta.Checked)
-            {
-                txtMontoCordobas.Enabled = false;
-                txtMontoDolares.Enabled = false;
-
-                txtMontoCordobas.Clear();
-                txtMontoDolares.Clear();
-
-                cmbTipoTarjeta.Enabled = true;
-                txtNumeroTarjeta.Enabled = true;
-                txtMontoTarjeta.Enabled = true;
-            }
+           
         }
 
-        private void CalcularCambio()
-        {
-            decimal total =
-        Convert.ToDecimal(txtTotal.Text);
-
-            decimal cordobas = 0;
-            decimal dolares = 0;
-
-            decimal.TryParse(
-                txtMontoCordobas.Text,
-                out cordobas);
-
-            decimal.TryParse(
-                txtMontoDolares.Text,
-                out dolares);
-
-            decimal pagado =
-                cordobas +
-                (dolares * TIPO_CAMBIO);
-
-            decimal cambio =
-                pagado - total;
-
-            if (cambio < 0)
-                cambio = 0;
-
-            txtCambio.Text =
-                cambio.ToString("N2");
-        }
-
+       
         private void txtMontoCordobas_TextChanged(object sender, EventArgs e)
         {
-            CalcularCambio();
+       
         }
 
         private void txtMontoDolares_TextChanged(object sender, EventArgs e)
         {
-            CalcularCambio();
+           
            
         }
 
-        private void SoloNumeros(object sender, KeyPressEventArgs e)
-        {
-            TextBox txt = sender as TextBox;
-
-            if (!char.IsControl(e.KeyChar) &&
-                !char.IsDigit(e.KeyChar) &&
-                e.KeyChar != '.')
-            {
-                e.Handled = true;
-            }
-
-            if (e.KeyChar == '.' &&
-                txt.Text.Contains("."))
-            {
-                e.Handled = true;
-            }
-        }
-
-        private bool ValidarTarjeta()
-        {
-            if (cmbTipoTarjeta.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione el tipo de tarjeta");
-
-                return false;
-            }
-
-            if (txtNumeroTarjeta.Text.Length != 16)
-            {
-                MessageBox.Show(
-                    "La tarjeta debe tener 16 dígitos");
-
-                return false;
-            }
-
-            if (!txtNumeroTarjeta.Text.All(char.IsDigit))
-            {
-                MessageBox.Show(
-                    "Número de tarjeta inválido");
-
-                return false;
-            }
-
-            decimal montoTarjeta;
-
-            if (!decimal.TryParse(
-                txtMontoTarjeta.Text,
-                out montoTarjeta))
-            {
-                MessageBox.Show(
-                    "Monto inválido");
-
-                return false;
-            }
-
-            decimal total =
-                Convert.ToDecimal(txtTotal.Text);
-
-            if (montoTarjeta < total)
-            {
-                MessageBox.Show(
-                    "El monto de la tarjeta no cubre el total.\n" +
-                    "Faltan C$ " +
-                    (total - montoTarjeta).ToString("N2"));
-
-                return false;
-            }
-
-            return true;
-        }
-
-        private bool ValidarPagoEfectivo()
-        {
-          
-            decimal total =
-                Convert.ToDecimal(txtTotal.Text);
-
-            decimal cordobas = 0;
-            decimal dolares = 0;
-
-            decimal.TryParse(
-                txtMontoCordobas.Text,
-                out cordobas);
-
-            decimal.TryParse(
-                txtMontoDolares.Text,
-                out dolares);
-
-            decimal pagado =
-                cordobas +
-                (dolares * TIPO_CAMBIO);
-
-            if (pagado <= 0)
-            {
-                MessageBox.Show(
-                    "Debe ingresar un monto de pago.");
-
-                return false;
-            }
-
-            if (pagado < total)
-            {
-                MessageBox.Show(
-                    "El monto ingresado es insuficiente.\n" +
-                    "Faltan C$ " +
-                    (total - pagado).ToString("N2"));
-
-                return false;
-            }
-
-            return true;
-        }
-        
-
-        private string ObtenerFormaPago()
-        {
-            if (rbEfectivo.Checked)
-                return "Efectivo";
-
-            if (rbTarjeta.Checked)
-                return "Tarjeta";
-
-            return "";
-        }
-
-        private bool ValidarPago()
-        {
-            if (rbEfectivo.Checked)
-            {
-                return ValidarPagoEfectivo();
-            }
-
-            if (rbTarjeta.Checked)
-            {
-                return ValidarTarjeta();
-            }
-
-            return false;
-        }
-
-        private List<DetalleVenta> ObtenerDetallesVenta()
-        {
-            List<DetalleVenta> detalles =
-                new List<DetalleVenta>();
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                DetalleVenta detalle =
-                    new DetalleVenta();
-
-                detalle.CodigoProducto =
-                    fila.Cells[0].Value.ToString();
-
-                detalle.Producto =
-                    fila.Cells[1].Value.ToString();
-
-                detalle.Categoria =
-                    fila.Cells[2].Value.ToString();
-
-                detalle.Marca =
-                    fila.Cells[3].Value.ToString();
-
-                detalle.Talla =
-                    Convert.ToInt32(
-                        fila.Cells[4].Value);
-
-                detalle.PrecioVenta =
-                    Convert.ToDecimal(
-                        fila.Cells[5].Value);
-
-                detalle.Cantidad =
-                    Convert.ToInt32(
-                        fila.Cells[7].Value);
-
-                detalle.Subtotal =
-                    Convert.ToDecimal(
-                        fila.Cells[8].Value);
-
-                detalles.Add(detalle);
-            }
-
-            return detalles;
-        }
-        private void ActualizarStock()
-        {
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                string codigo =
-                    fila.Cells[0].Value.ToString();
-
-                int cantidad =
-                    Convert.ToInt32(
-                        fila.Cells[7].Value);
-
-                Producto producto =
-                    listaProductos.FirstOrDefault(
-                        p => p.Codigo == codigo);
-
-                if (producto != null)
-                {
-                    producto.Stock =
-                        producto.Stock - cantidad;
-
-                    if (producto.Stock < 0)
-                    {
-                        producto.Stock = 0;
-                    }
-                    
-                }
-                
-            }
-            GuardarProductos();
-        }
-        private Venta CrearVenta()
-        {
-            Venta venta = new Venta();
-
-            venta.CodigoVenta =
-                txtCodigoVenta.Text;
-
-            venta.Cliente =
-                cmbCliente.Text;
-
-            venta.Fecha =
-                DateTime.Now;
-
-            venta.Subtotal =
-                Convert.ToDecimal(
-                    txtSubtotal.Text);
-
-            venta.IVA =
-                Convert.ToDecimal(
-                    txtIVA.Text);
-
-            venta.Descuento =
-                Convert.ToDecimal(
-                    txtDescuento.Text);
-
-            venta.Total =
-                Convert.ToDecimal(
-                    txtTotal.Text);
-
-            venta.FormaPago =
-                ObtenerFormaPago();
-
-            decimal montoCordobas = 0;
-            decimal montoDolares = 0;
-
-            decimal.TryParse(
-                txtMontoCordobas.Text,
-                out montoCordobas);
-
-            decimal.TryParse(
-                txtMontoDolares.Text,
-                out montoDolares);
-
-            venta.MontoCordobas =
-                montoCordobas;
-
-            venta.MontoDolares =
-                montoDolares;
-
-            decimal cambio = 0;
-
-            decimal.TryParse(
-                txtCambio.Text,
-                out cambio);
-
-            venta.Cambio =
-                cambio;
-
-            venta.Detalles =
-                ObtenerDetallesVenta();
-
-            return venta;
-        }
-        private bool ValidarCliente()
-        {
-            if (cmbCliente.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione un cliente");
-
-                return false;
-            }
-
-            return true;
-        }
-        private bool ValidarDetalle()
-        {
-            int filas = 0;
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (!fila.IsNewRow)
-                    filas++;
-            }
-
-            if (filas == 0)
-            {
-                MessageBox.Show(
-                    "Debe agregar productos");
-
-                return false;
-            }
-
-            return true;
-        }
-
+       
         private void btnGuardarVenta_Click(object sender, EventArgs e)
         {
-            if(!ValidarCliente())
-        return;
-
-            if (!ValidarDetalle())
-                return;
-
-            if (!ValidarPago())
-                return;
-
-            Venta venta = CrearVenta();
-            ventaActual = venta;
-
-            listaVentas.Add(venta);
-            GuardarVentas();
-
-            ActualizarStock();
-            CargarProductos();
-
-            MessageBox.Show(
-                "Venta guardada correctamente",
-                "Éxito",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-            MostrarResumenVenta(venta);
-
-            btnNuevaVenta.PerformClick();
+           
         }
 
-        private void GuardarProductos()
-        {
-            string json =
-                JsonConvert.SerializeObject(
-                    listaProductos,
-                    Formatting.Indented);
-
-            File.WriteAllText(
-                rutaProductos,
-                json);
-        }
-
-        private int ObtenerCantidadProductos()
-        {
-            int cantidad = 0;
-
-            foreach (DataGridViewRow fila in dgvVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                cantidad +=
-                    Convert.ToInt32(
-                        fila.Cells[7].Value);
-            }
-
-            return cantidad;
-        }
-        private void MostrarResumenVenta(Venta venta)
-        {
-            MessageBox.Show(
-                "Código: " + venta.CodigoVenta +
-                "\nCliente: " + venta.Cliente +
-                "\nTotal: C$ " + venta.Total.ToString("N2") +
-                "\nForma Pago: " + venta.FormaPago,
-                "Resumen Venta");
-        }
+       
+      
 
         private void btnImprimirFactura_Click(object sender, EventArgs e)
         {
-            if (ventaActual == null)
+            if (DGVtabla1.SelectedRows.Count == 0)
             {
                 MessageBox.Show(
-                    "Primero debe guardar una venta");
-
+                    "Seleccione una venta para imprimir.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
-            printDialog1.Document = printDocument1;
+            int idVenta = Convert.ToInt32(DGVtabla1.SelectedRows[0].Cells["id_venta"].Value);
 
-            if (printDialog1.ShowDialog() == DialogResult.OK)
+            // Llamada al método centralizado de impresión
+            ImprimirFacturaPorId(idVenta);
+
+        }
+
+        private void GenerarFacturaPDF(
+     string rutaPDF,
+     string codigoVenta,
+     DateTime fecha,
+     string cliente,
+     string usuario,
+     decimal subtotal,
+     decimal iva,
+     decimal total,
+     DataTable detalle)
+        {
+            iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
+
+            using (FileStream fs = new FileStream(rutaPDF, FileMode.Create))
             {
-                printDocument1.Print();
+                iTextSharp.text.pdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, fs);
+                doc.Open();
+
+                // 1. PALETA DE COLORES CORPORATIVA PAYLESS (Naranja #F26522 y Gris Oscuro)
+                iTextSharp.text.BaseColor colorNaranjaPayless = new iTextSharp.text.BaseColor(242, 101, 34);
+                iTextSharp.text.BaseColor colorTexto = new iTextSharp.text.BaseColor(40, 40, 40);
+                iTextSharp.text.BaseColor colorGrisClaro = new iTextSharp.text.BaseColor(248, 249, 250);
+                iTextSharp.text.BaseColor colorBorde = new iTextSharp.text.BaseColor(220, 220, 220);
+
+                iTextSharp.text.Font fuenteTitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 16f, colorNaranjaPayless);
+                iTextSharp.text.Font fuenteSubtitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f, iTextSharp.text.BaseColor.GRAY);
+                iTextSharp.text.Font fuenteEtiqueta = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f, colorTexto);
+                iTextSharp.text.Font fuenteTexto = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 8.5f, colorTexto);
+                iTextSharp.text.Font fuenteCabeceraTabla = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 8.5f, iTextSharp.text.BaseColor.WHITE);
+                iTextSharp.text.Font fuenteTotalBold = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 10f, colorNaranjaPayless);
+
+                // 2. ENCABEZADO Y CARGA DEL LOGO
+                iTextSharp.text.pdf.PdfPTable headerTable = new iTextSharp.text.pdf.PdfPTable(2);
+                headerTable.WidthPercentage = 100f;
+                headerTable.SetWidths(new float[] { 50f, 50f });
+
+                iTextSharp.text.pdf.PdfPCell cellLeft = new iTextSharp.text.pdf.PdfPCell();
+                cellLeft.Border = iTextSharp.text.Rectangle.NO_BORDER;
+
+                // Nombre de la imagen exacto especificado en Respaldos
+                string rutaBase = Path.Combine(Application.StartupPath, "Respaldos", "WhatsApp Image 2026-06-17 at 11.49.19 AM");
+                string rutaLogo = File.Exists(rutaBase + ".jpeg") ? rutaBase + ".jpeg" : (File.Exists(rutaBase + ".jpg") ? rutaBase + ".jpg" : rutaBase);
+
+                if (File.Exists(rutaLogo))
+                {
+                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(rutaLogo);
+                    logo.ScaleToFit(140f, 60f);
+                    cellLeft.AddElement(logo);
+                }
+                else
+                {
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("PAYLESS SHOESOURCE", fuenteTitulo));
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("Calzado y Accesorios", fuenteSubtitulo));
+                }
+
+                headerTable.AddCell(cellLeft);
+
+                iTextSharp.text.pdf.PdfPCell cellRight = new iTextSharp.text.pdf.PdfPCell();
+                cellRight.Border = iTextSharp.text.Rectangle.NO_BORDER;
+
+                iTextSharp.text.Paragraph pTituloFactura = new iTextSharp.text.Paragraph("FACTURA DE VENTA", fuenteTitulo);
+                pTituloFactura.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pTituloFactura);
+
+                iTextSharp.text.Paragraph pNumFactura = new iTextSharp.text.Paragraph($"Nº: {codigoVenta}", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 11f, colorTexto));
+                pNumFactura.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pNumFactura);
+
+                iTextSharp.text.Paragraph pFecha = new iTextSharp.text.Paragraph($"Fecha: {fecha:dd/MM/yyyy HH:mm}", fuenteTexto);
+                pFecha.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pFecha);
+
+                headerTable.AddCell(cellRight);
+                doc.Add(headerTable);
+
+                // Línea divisora en color Naranja
+                doc.Add(new iTextSharp.text.Paragraph(" "));
+                iTextSharp.text.pdf.PdfPTable line = new iTextSharp.text.pdf.PdfPTable(1);
+                line.WidthPercentage = 100f;
+                iTextSharp.text.pdf.PdfPCell lineCell = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(""));
+                lineCell.BorderWidthBottom = 2f;
+                lineCell.BorderColorBottom = colorNaranjaPayless;
+                lineCell.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                line.AddCell(lineCell);
+                doc.Add(line);
+
+                doc.Add(new iTextSharp.text.Paragraph(" ", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 4f)));
+
+                // 3. DATOS DE CLIENTE Y CAJERO
+                iTextSharp.text.pdf.PdfPTable infoTable = new iTextSharp.text.pdf.PdfPTable(2);
+                infoTable.WidthPercentage = 100f;
+                infoTable.SetWidths(new float[] { 50f, 50f });
+
+                iTextSharp.text.pdf.PdfPCell cellCliente = new iTextSharp.text.pdf.PdfPCell();
+                cellCliente.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                cellCliente.AddElement(new iTextSharp.text.Phrase($"Cliente: {cliente}", fuenteEtiqueta));
+                infoTable.AddCell(cellCliente);
+
+                iTextSharp.text.pdf.PdfPCell cellAtendido = new iTextSharp.text.pdf.PdfPCell();
+                cellAtendido.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                iTextSharp.text.Paragraph pAtendido = new iTextSharp.text.Paragraph($"Atendido por: {usuario}", fuenteTexto);
+                pAtendido.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellAtendido.AddElement(pAtendido);
+                infoTable.AddCell(cellAtendido);
+
+                doc.Add(infoTable);
+                doc.Add(new iTextSharp.text.Paragraph(" \n"));
+
+                // 4. TABLA DE PRODUCTOS (7 COLUMNAS) CON ENCABEZADO NARANJA
+                iTextSharp.text.pdf.PdfPTable tabla = new iTextSharp.text.pdf.PdfPTable(7);
+                tabla.WidthPercentage = 100f;
+                tabla.SetWidths(new float[] { 28f, 14f, 14f, 10f, 8f, 13f, 13f });
+
+                string[] encabezados = { "Producto", "Marca", "Categoría", "Talla", "Cant.", "Precio", "Subtotal" };
+                foreach (string enc in encabezados)
+                {
+                    iTextSharp.text.pdf.PdfPCell cellHeader = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(enc, fuenteCabeceraTabla));
+                    cellHeader.BackgroundColor = colorNaranjaPayless;
+                    cellHeader.HorizontalAlignment = (enc == "Producto" || enc == "Marca" || enc == "Categoría")
+                        ? iTextSharp.text.Element.ALIGN_LEFT
+                        : iTextSharp.text.Element.ALIGN_CENTER;
+                    cellHeader.Padding = 5f;
+                    cellHeader.BorderColor = colorNaranjaPayless;
+                    tabla.AddCell(cellHeader);
+                }
+
+                bool esGris = false;
+                foreach (DataRow fila in detalle.Rows)
+                {
+                    iTextSharp.text.BaseColor bgFila = esGris ? colorGrisClaro : iTextSharp.text.BaseColor.WHITE;
+
+                    AgregarCeldaTabla(tabla, fila["producto"].ToString(), fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_LEFT);
+                    AgregarCeldaTabla(tabla, fila["marca"].ToString(), fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_LEFT);
+                    AgregarCeldaTabla(tabla, fila["categoria"].ToString(), fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_LEFT);
+                    AgregarCeldaTabla(tabla, fila["talla"].ToString(), fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+                    AgregarCeldaTabla(tabla, fila["cantidad"].ToString(), fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+
+                    decimal precio = Convert.ToDecimal(fila["precio_venta"]);
+                    decimal sub = Convert.ToDecimal(fila["subtotal"]);
+
+                    AgregarCeldaTabla(tabla, $"C$ {precio:N2}", fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_RIGHT);
+                    AgregarCeldaTabla(tabla, $"C$ {sub:N2}", fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_RIGHT);
+
+                    esGris = !esGris;
+                }
+
+                doc.Add(tabla);
+                doc.Add(new iTextSharp.text.Paragraph(" "));
+
+                // 5. RESUMEN DE TOTALES
+                iTextSharp.text.pdf.PdfPTable tablaTotales = new iTextSharp.text.pdf.PdfPTable(2);
+                tablaTotales.WidthPercentage = 45f;
+                tablaTotales.HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                tablaTotales.SetWidths(new float[] { 45f, 55f });
+
+                AgregarFilaTotal(tablaTotales, "Subtotal:", $"C$ {subtotal:N2}", fuenteTexto, false, colorBorde);
+                AgregarFilaTotal(tablaTotales, "IVA (15%):", $"C$ {iva:N2}", fuenteTexto, false, colorBorde);
+                AgregarFilaTotal(tablaTotales, "TOTAL:", $"C$ {total:N2}", fuenteTotalBold, true, colorNaranjaPayless);
+
+                doc.Add(tablaTotales);
+
+                // 6. PIE DE PÁGINA
+                doc.Add(new iTextSharp.text.Paragraph(" \n"));
+                iTextSharp.text.Paragraph leyenda = new iTextSharp.text.Paragraph(
+                    "Payless ShoeSource Nicaragua\n" +
+                    "Dirección: Managua, Nicaragua | Teléfono: +505 2222-0000\n" +
+                    "¡Gracias por su compra! Conserve este comprobante para cambios.", fuenteSubtitulo)
+                {
+                    Alignment = iTextSharp.text.Element.ALIGN_CENTER
+                };
+
+                doc.Add(leyenda);
+                doc.Close();
             }
         }
 
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        public void ImprimirFacturaPorId(int idVenta)
         {
-            Font titulo =
-        new Font("Arial", 16, FontStyle.Bold);
+            // 1. Obtener datos mediante tu DAO
+            DataTable venta = ventaDAO.ObtenerVentaPorId(idVenta);
+            DataTable detalle = ventaDAO.ObtenerDetalleVentaPorId(idVenta);
 
-            Font normal =
-                new Font("Arial", 10);
-
-            int y = 20;
-
-            e.Graphics.DrawString(
-                "PAYLESS",
-                titulo,
-                Brushes.Black,
-                250,
-                y);
-
-            y += 40;
-
-            e.Graphics.DrawString(
-                "FACTURA",
-                titulo,
-                Brushes.Black,
-                240,
-                y);
-
-            y += 50;
-
-            e.Graphics.DrawString(
-                "Venta: " +
-                ventaActual.CodigoVenta,
-                normal,
-                Brushes.Black,
-                20,
-                y);
-
-            y += 25;
-
-            e.Graphics.DrawString(
-                "Cliente: " +
-                ventaActual.Cliente,
-                normal,
-                Brushes.Black,
-                20,
-                y);
-
-            y += 25;
-
-            e.Graphics.DrawString(
-                "Fecha: " +
-                ventaActual.Fecha.ToString(),
-                normal,
-                Brushes.Black,
-                20,
-                y);
-
-            y += 40;
-
-            e.Graphics.DrawString(
-                "PRODUCTOS",
-                titulo,
-                Brushes.Black,
-                20,
-                y);
-
-            y += 35;
-
-            foreach (DetalleVenta item in ventaActual.Detalles)
+            if (venta == null || venta.Rows.Count == 0 || detalle == null || detalle.Rows.Count == 0)
             {
-                string linea =
-                    item.Producto +
-                    " Talla:" +
-                    item.Talla +
-                    " Cant:" +
-                    item.Cantidad +
-                    " C$" +
-                    item.Subtotal.ToString("N2");
-
-                e.Graphics.DrawString(
-                    linea,
-                    normal,
-                    Brushes.Black,
-                    20,
-                    y);
-
-                y += 25;
+                MessageBox.Show("No se encontró la venta o no tiene productos.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
 
-            y += 20;
+            // 2. Extraer los datos necesarios
+            DataRow f = venta.Rows[0];
+            string codigo = f["codigo_venta"].ToString();
+            string ruta = System.IO.Path.Combine(Application.StartupPath, $"Factura_{codigo}.pdf");
 
-            e.Graphics.DrawString(
-                "Subtotal: C$ " +
-                ventaActual.Subtotal.ToString("N2"),
-                normal,
-                Brushes.Black,
-                20,
-                y);
+            // 3. Generar PDF (usando el método iTextSharp que ya tienes)
+            GenerarFacturaPDF(
+                ruta,
+                codigo,
+                Convert.ToDateTime(f["fecha"]),
+                f["cliente"].ToString(),
+                "N/A",
+                Convert.ToDecimal(f["subtotal"]),
+                Convert.ToDecimal(f["iva"]),
+                Convert.ToDecimal(f["total"]),
+                detalle
+            );
 
-            y += 25;
+            // 4. Abrir el PDF automáticamente
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(ruta) { UseShellExecute = true });
+        }
 
-            e.Graphics.DrawString(
-                "IVA: C$ " +
-                ventaActual.IVA.ToString("N2"),
-                normal,
-                Brushes.Black,
-                20,
-                y);
+        private void AgregarCeldaTabla(iTextSharp.text.pdf.PdfPTable tabla, string texto, iTextSharp.text.Font fuente, iTextSharp.text.BaseColor bg, iTextSharp.text.BaseColor borde, int alineacion)
+        {
+            iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(texto, fuente));
+            cell.BackgroundColor = bg;
+            cell.BorderColor = borde;
+            cell.Padding = 4f;
+            cell.HorizontalAlignment = alineacion;
+            tabla.AddCell(cell);
+        }
 
-            y += 25;
+        private void AgregarFilaTotal(iTextSharp.text.pdf.PdfPTable tabla, string etiqueta, string valor, iTextSharp.text.Font fuente, bool destacar, iTextSharp.text.BaseColor colorBorde)
+        {
+            iTextSharp.text.pdf.PdfPCell cEtiq = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(etiqueta, fuente));
+            cEtiq.Border = iTextSharp.text.Rectangle.NO_BORDER;
+            cEtiq.HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT;
+            cEtiq.Padding = 3f;
 
-            e.Graphics.DrawString(
-                "Descuento: C$ " +
-                ventaActual.Descuento.ToString("N2"),
-                normal,
-                Brushes.Black,
-                20,
-                y);
+            iTextSharp.text.pdf.PdfPCell cVal = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(valor, fuente));
+            cVal.HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT;
+            cVal.Padding = 3f;
 
-            y += 25;
+            if (destacar)
+            {
+                cVal.BorderColor = colorBorde;
+                cVal.BorderWidth = 1f;
+                cEtiq.BorderColor = colorBorde;
+            }
+            else
+            {
+                cVal.Border = iTextSharp.text.Rectangle.NO_BORDER;
+            }
 
-            e.Graphics.DrawString(
-                "TOTAL: C$ " +
-                ventaActual.Total.ToString("N2"),
-                titulo,
-                Brushes.Black,
-                20,
-                y);
+            tabla.AddCell(cEtiq);
+            tabla.AddCell(cVal);
+        }
 
-            y += 50;
 
-            e.Graphics.DrawString(
-                "Gracias por comprar en Payless",
-                normal,
-                Brushes.Black,
-                20,
-                y);
+
+
+        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
+            
         }
 
         private void btnCargarVenta_Click(object sender, EventArgs e)
@@ -1356,6 +650,65 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
         }
+
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            string valor = txtBuscar.Text.Trim();
+
+            if (string.IsNullOrEmpty(valor))
+            {
+                CargarVentas();
+                return;
+            }
+
+            string campo = cbBuscarPor.Text;
+
+            List<DataRow> resultados =
+                arbolVentas.Buscar(campo, valor);
+
+            MostrarVentasEnGrid(resultados);
+
+            if (resultados.Count == 0)
+            {
+                MessageBox.Show(
+                    "No se encontraron ventas.",
+                    "Búsqueda",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+
+
+        }
+
+        private void txtBuscar_KeyDown(
+            object sender,
+            KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnBuscar.PerformClick();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+
+
+
     }
 
 }

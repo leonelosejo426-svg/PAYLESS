@@ -807,53 +807,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return "Cliente general";
         }
 
-        private void RegistrarDetalleVenta(
-    NpgsqlConnection conexion,
-    NpgsqlTransaction transaccion,
-    int idVenta,
-    DataTable detalleVenta)
-        {
-            string sql = @"
-        INSERT INTO detalle_venta
-        (
-            id_venta,
-            id_producto_talla,
-            cantidad,
-            precio_unitario,
-            subtotal
-        )
-        VALUES
-        (
-            @idVenta,
-            @idProductoTalla,
-            @cantidad,
-            @precioUnitario,
-            @subtotal
-        );";
-
-            foreach (DataRow fila in detalleVenta.Rows)
-            {
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion, transaccion))
-                {
-                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
-                    cmd.Parameters.AddWithValue(
-                        "@idProductoTalla",
-                        Convert.ToInt32(fila["id_producto_talla"]));
-                    cmd.Parameters.AddWithValue(
-                        "@cantidad",
-                        Convert.ToInt32(fila["cantidad"]));
-                    cmd.Parameters.AddWithValue(
-                        "@precioUnitario",
-                        Convert.ToDecimal(fila["precio_venta"]));
-                    cmd.Parameters.AddWithValue(
-                        "@subtotal",
-                        Convert.ToDecimal(fila["subtotal"]));
-
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
-
+        // ============================================================
+        // 13. MOSTRAR VENTAS
+        // ============================================================
         public DataTable MostrarVentas()
         {
             DataTable tabla = new DataTable();
@@ -863,7 +819,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-            SELECT 
+            SELECT
                 v.id_venta,
                 v.codigo_venta,
                 v.fecha,
@@ -871,19 +827,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 v.subtotal,
                 v.iva,
                 v.total,
-                CASE 
+                CASE
                     WHEN v.estado = TRUE THEN 'Activo'
                     ELSE 'Anulado'
                 END AS estado
             FROM venta v
-            LEFT JOIN cliente c 
+            LEFT JOIN cliente c
                 ON c.id_cliente = v.id_cliente
-            ORDER BY v.id_venta DESC;";
+            ORDER BY v.id_venta ASC;";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                    sql,
+                    conexionBD.ObtenerConexion()))
                 {
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -905,80 +863,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
-
-public DataTable BuscarVentas(string campo, string valor)
-        {
-            DataTable tabla = new DataTable();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"
-            SELECT 
-                v.id_venta,
-                v.codigo_venta,
-                v.fecha,
-                COALESCE(c.nombre, 'Consumidor final') AS cliente,
-                v.subtotal,
-                v.iva,
-                v.total,
-                CASE 
-                    WHEN v.estado = TRUE THEN 'Activo'
-                    ELSE 'Anulado'
-                END AS estado
-            FROM venta v
-            LEFT JOIN cliente c 
-                ON c.id_cliente = v.id_cliente
-            WHERE ";
-
-                if (campo == "Código")
-                {
-                    sql += "v.codigo_venta ILIKE @valor ";
-                }
-                else if (campo == "Cliente")
-                {
-                    sql += "c.nombre ILIKE @valor ";
-                }
-                else if (campo == "Fecha")
-                {
-                    sql += "CAST(v.fecha AS TEXT) ILIKE @valor ";
-                }
-                else
-                {
-                    sql += "CAST(v.id_venta AS TEXT) ILIKE @valor ";
-                }
-
-                sql += "ORDER BY v.id_venta DESC;";
-
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
-                {
-                    cmd.Parameters.AddWithValue("@valor", "%" + valor + "%");
-
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
-                    {
-                        da.Fill(tabla);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al buscar la venta: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-
+        // ============================================================
+        // 14. ANULAR VENTA
+        // ============================================================
         public bool EliminarVenta(int idVenta)
         {
             try
@@ -991,7 +878,8 @@ public DataTable BuscarVentas(string campo, string valor)
             WHERE id_venta = @idVenta;";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                    sql,
+                    conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idVenta", idVenta);
 
@@ -1014,116 +902,84 @@ public DataTable BuscarVentas(string campo, string valor)
             }
         }
 
-
+        // ============================================================
+        // 15. OBTENER VENTA POR ID
+        // ============================================================
         public DataTable ObtenerVentaPorId(int idVenta)
         {
-            DataTable tabla = new DataTable();
+            DataTable dt = new DataTable();
+            ConexionBD conexionBD = new ConexionBD();
 
-            try
+            // Creamos una nueva conexión local a partir de la conexión existente
+            // para no alterar ni desechar la conexión global del sistema
+            using (NpgsqlConnection con = new NpgsqlConnection(conexionBD.ObtenerConexion().ConnectionString))
             {
-                conexionBD.AbrirConexion();
-
-                string sql = @"
+                string query = @"
             SELECT 
                 v.id_venta,
-                v.codigo_venta,
+                'V' || LPAD(v.id_venta::text, 5, '0') AS codigo_venta,
                 v.fecha,
+                COALESCE(c.nombre, 'Cliente General') AS cliente,
+                u.nombre_completo AS usuario,
                 v.subtotal,
                 v.descuento,
                 v.iva,
-                v.total,
-                v.estado,
-                v.id_cliente,
-                COALESCE(c.nombre, 'Consumidor final') AS cliente
+                v.total
             FROM venta v
-            LEFT JOIN cliente c
-                ON c.id_cliente = v.id_cliente
-            WHERE v.id_venta = @idVenta;";
+            LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
+            INNER JOIN usuario u ON v.id_usuario = u.id_usuario
+            WHERE v.id_venta = @id_venta;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
-
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    cmd.Parameters.AddWithValue("@id_venta", idVenta);
+                    using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
                     {
-                        da.Fill(tabla);
+                        con.Open();
+                        adapter.Fill(dt);
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al obtener la venta: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
 
-            return tabla;
+            return dt;
         }
-
 
         public DataTable ObtenerDetalleVentaPorId(int idVenta)
         {
-            DataTable tabla = new DataTable();
+            DataTable dt = new DataTable();
+            ConexionBD conexionBD = new ConexionBD();
 
-            try
+            using (NpgsqlConnection con = new NpgsqlConnection(conexionBD.ObtenerConexion().ConnectionString))
             {
-                conexionBD.AbrirConexion();
-
-                string sql = @"
-            SELECT
+                string query = @"
+            SELECT 
                 p.nombre AS producto,
                 m.nombre_marca AS marca,
-                c.nombre_categoria AS categoria,
+                cat.nombre_categoria AS categoria,
                 pt.talla,
                 dv.cantidad,
                 dv.precio_unitario AS precio_venta,
                 dv.subtotal
             FROM detalle_venta dv
-            INNER JOIN producto_talla pt
-                ON pt.id_producto_talla = dv.id_producto_talla
-            INNER JOIN producto p
-                ON p.id_producto = pt.id_producto
-            INNER JOIN marca m
-                ON m.id_marca = p.id_marca
-            INNER JOIN categoria c
-                ON c.id_categoria = p.id_categoria
-            WHERE dv.id_venta = @idVenta
-            ORDER BY dv.id_detalle_venta;";
+            INNER JOIN producto_talla pt ON dv.id_producto_talla = pt.id_producto_talla
+            INNER JOIN producto p ON pt.id_producto = p.id_producto
+            LEFT JOIN marca m ON p.id_marca = m.id_marca
+            LEFT JOIN categoria cat ON p.id_categoria = cat.id_categoria
+            WHERE dv.id_venta = @id_venta;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
-                    cmd.Parameters.AddWithValue("@idVenta", idVenta);
-
-                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    cmd.Parameters.AddWithValue("@id_venta", idVenta);
+                    using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
                     {
-                        da.Fill(tabla);
+                        con.Open();
+                        adapter.Fill(dt);
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al obtener el detalle de la venta: " + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
 
-            return tabla;
+            return dt;
         }
-
 
 
 
