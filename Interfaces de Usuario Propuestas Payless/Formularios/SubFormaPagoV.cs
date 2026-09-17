@@ -112,23 +112,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void CargarInformacionVenta()
         {
-            lblCodigoVenta.Text = "N° " + codigoVenta;
+            lblCodigoVenta.Text =
+       "N° " + codigoVenta;
 
             lblSubtotal.Text =
                 "C$ " + subtotal.ToString("N2");
 
-            lblIVA.Text = "15%";
+            lblIVA.Text =
+                "C$ " + iva.ToString("N2");
 
             lblTotal.Text =
                 "C$ " + total.ToString("N2");
 
-           
-
-           
-
-            // El nombre del cliente se puede cargar
-            // posteriormente desde la base de datos.
-            lblCliente.Text = "Cliente";
+            lblCliente.Text =
+                ventaDAO.ObtenerNombreCliente(idCliente);
         }
 
         // =====================================================
@@ -157,7 +154,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             txtMontoCordobas.Clear();
             txtMontoDolares.Clear();
-            txtMontoTarjeta.Clear();
+            txtDigitosTarjeta.Clear();
 
             lblTotalEntregado.Text = "C$ 0.00";
             lblCambio.Text = "C$ 0.00";
@@ -351,47 +348,47 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     "Seleccione el tipo de tarjeta.",
                     "Validación",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(
-                txtMontoTarjeta.Text))
+            string digitos =
+                txtDigitosTarjeta.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(digitos))
             {
                 MessageBox.Show(
                     "Ingrese los últimos 4 dígitos de la tarjeta.",
                     "Validación",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 return;
             }
 
-            if (txtMontoTarjeta.Text.Length != 4)
+            if (digitos.Length != 4 ||
+                !int.TryParse(digitos, out _))
             {
                 MessageBox.Show(
-                    "Debe ingresar exactamente los últimos 4 dígitos.",
+                    "Debe ingresar exactamente 4 dígitos numéricos.",
                     "Validación",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 return;
             }
 
-            if (!decimal.TryParse(
-                lblMonto.Text,
-                out decimal montoTarjeta))
+            decimal montoTarjeta =
+                ObtenerDecimal(txtDigitosTarjeta.Text);
+
+            if (montoTarjeta <= 0)
             {
                 MessageBox.Show(
-                    "Ingrese un monto válido.",
+                    "Ingrese un monto válido para la tarjeta.",
                     "Validación",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 return;
             }
@@ -399,15 +396,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (montoTarjeta < total)
             {
                 MessageBox.Show(
-                    "El monto de la tarjeta es insuficiente.",
+                    "El monto de la tarjeta es insuficiente.\n\n" +
+                    "Total: C$ " +
+                    total.ToString("N2") +
+                    "\nMonto ingresado: C$ " +
+                    montoTarjeta.ToString("N2"),
                     "Pago insuficiente",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                    MessageBoxIcon.Warning);
 
                 return;
             }
 
+            // Se guarda únicamente como referencia
+            // el tipo de tarjeta.
             RegistrarPago(
                 "Tarjeta",
                 0,
@@ -479,15 +481,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             btnConfirmarPago.Enabled = false;
             btnImprimirFactura.Enabled = true;
 
-            MessageBox.Show(
-                "Pago confirmado correctamente.\n\n" +
-                "Venta: " + codigoVenta +
-                "\nTotal: C$ " + total.ToString("N2") +
-                "\n\nAhora puede imprimir la factura.",
-                "Pago confirmado",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
+        
 
         }
 
@@ -523,7 +517,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private void LimpiarTarjeta()
         {
             cbTipoTarjeta.SelectedIndex = -1;
-            txtMontoTarjeta.Clear();
+            txtDigitosTarjeta.Clear();
             
         }
 
@@ -545,9 +539,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 iTextFont titulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
                 iTextFont normal = FontFactory.GetFont(FontFactory.HELVETICA, 10);
                 iTextFont negrita = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
+                iTextFont piePaginaFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 9, iTextSharp.text.BaseColor.GRAY);
+
+                // =====================================================
+                // AGREGAR LOGO
+                // =====================================================
+                string rutaLogo = System.IO.Path.Combine(Application.StartupPath, "Imagenes", "logo.png"); // Ajusta la ruta/nombre de tu imagen
+                if (File.Exists(rutaLogo))
+                {
+                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(rutaLogo);
+                    logo.Alignment = iTextElement.ALIGN_CENTER;
+                    logo.ScaleToFit(120f, 60f); // Redimensiona la imagen (ancho, alto)
+                    documento.Add(logo);
+                }
 
                 // Encabezados
-                iTextSharp.text.Paragraph encabezado = new iTextSharp.text.Paragraph("PAYLESS", titulo)
+                iTextSharp.text.Paragraph encabezado = new iTextSharp.text.Paragraph("PAYLESS SHOESOURCE", titulo)
                 {
                     Alignment = iTextElement.ALIGN_CENTER
                 };
@@ -564,21 +571,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 documento.Add(new iTextSharp.text.Paragraph("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"), normal));
                 documento.Add(new iTextSharp.text.Paragraph("\n"));
 
-                // Tabla de Detalle
-                PdfPTable tabla = new PdfPTable(5)
+               
+                PdfPTable tabla = new PdfPTable(7)
                 {
                     WidthPercentage = 100
                 };
 
+                // Encabezados
                 tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Producto", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Marca", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Categoría", negrita)));
                 tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Talla", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Cantidad", negrita)));
+                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Cant.", negrita)));
                 tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Precio", negrita)));
                 tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Subtotal", negrita)));
 
+                // Recorrido de los datos traídos desde VentaDAO
                 foreach (DataRow fila in detalleFactura.Rows)
                 {
                     tabla.AddCell(fila["producto"].ToString());
+                    tabla.AddCell(fila["marca"].ToString());
+                    tabla.AddCell(fila["categoria"].ToString());
                     tabla.AddCell(fila["talla"].ToString());
                     tabla.AddCell(fila["cantidad"].ToString());
                     tabla.AddCell("C$ " + Convert.ToDecimal(fila["precio_venta"]).ToString("N2"));
@@ -592,9 +605,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 documento.Add(new iTextSharp.text.Paragraph("Subtotal: C$ " + subtotal.ToString("N2"), normal));
                 documento.Add(new iTextSharp.text.Paragraph("IVA (15%): C$ " + iva.ToString("N2"), normal));
                 documento.Add(new iTextSharp.text.Paragraph("TOTAL: C$ " + total.ToString("N2"), negrita));
-                documento.Add(new iTextSharp.text.Paragraph("\n"));
+                documento.Add(new iTextSharp.text.Paragraph("\n\n"));
 
-                documento.Add(new iTextSharp.text.Paragraph("Gracias por su compra.", normal));
+                // =====================================================
+                // LEYENDA INFERIOR (PIE DE PÁGINA / DATOS EMPRESA)
+                // =====================================================
+                iTextSharp.text.Paragraph leyenda = new iTextSharp.text.Paragraph(
+                    "Payless ShoeSource Nicaragua\n" +
+                    "Dirección: Managua, Nicaragua\n" +
+                    "Teléfono: +505 2222-0000\n" +
+                    "¡Gracias por su compra!", piePaginaFont)
+                {
+                    Alignment = iTextElement.ALIGN_CENTER
+                };
+
+                documento.Add(leyenda);
 
                 documento.Close();
             }
@@ -610,33 +635,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
 
             try
             {
-                SaveFileDialog guardar = new SaveFileDialog();
-                guardar.Filter = "Archivo PDF (*.pdf)|*.pdf";
-                guardar.Title = "Guardar factura";
-                guardar.FileName = "Factura_" + codigoVenta + ".pdf";
+                // Ruta temporal para guardar y abrir el PDF directamente
+                string tempFolder = System.IO.Path.GetTempPath();
+                string rutaArchivo = System.IO.Path.Combine(tempFolder, $"Factura_{codigoVenta}.pdf");
 
-                if (guardar.ShowDialog() != DialogResult.OK)
-                    return;
+                // Genera el archivo en la carpeta temporal
+                GenerarFacturaPDF(rutaArchivo);
 
-                GenerarFacturaPDF(guardar.FileName);
-
-                MessageBox.Show(
-                    "Factura generada correctamente.",
-                    "Factura",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                // Abre el PDF en el visor predeterminado del sistema operativo
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(rutaArchivo)
+                {
+                    UseShellExecute = true
+                });
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al generar la factura:\n" + ex.Message,
+                    "Error al visualizar la factura:\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -644,5 +664,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
         }
 
+        private void btnCancelar_Click_1(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
     }
 }

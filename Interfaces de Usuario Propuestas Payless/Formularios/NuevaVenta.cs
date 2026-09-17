@@ -688,12 +688,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 nuevaFila["subtotal"] = Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
 
                 tabla.Rows.Add(nuevaFila);
+                this.Hide();
             }
 
             return tabla;
-        
+            
         }
-
         private void btnRegresar_Click(object sender, EventArgs e)
         {
             this.Close();
