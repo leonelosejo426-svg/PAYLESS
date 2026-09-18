@@ -282,6 +282,7 @@
     <Compile Include="Datos\ProductoDAO.cs" />
     <Compile Include="Datos\ProveedorDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
+    <Compile Include="Datos\ReporteCajaDAO.cs" />
     <Compile Include="Datos\VentaDAO.cs" />
     <Compile Include="Formularios\EgresosCaja.cs">
       <SubType>Form</SubType>
@@ -547,6 +548,7 @@
     <Compile Include="Formularios\Ventas.Designer.cs">
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilidades\GeneradorReporteCajaPDF.cs" />
     <Compile Include="Utilidades\NodoVenta.cs" />
     <EmbeddedResource Include="Formularios\EgresosCaja.resx">
       <DependentUpon>EgresosCaja.cs</DependentUpon>
