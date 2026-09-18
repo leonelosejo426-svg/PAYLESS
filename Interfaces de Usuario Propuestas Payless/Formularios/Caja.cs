@@ -1,4 +1,5 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
+using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using Npgsql;
 using System;
@@ -11,376 +12,185 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Collections.Specialized.BitVector32;
+using System.Diagnostics;
+using iTextDocument = iTextSharp.text.Document;
+using iTextParagraph = iTextSharp.text.Paragraph;
+using iTextFont = iTextSharp.text.Font;
+using iTextElement = iTextSharp.text.Element;
+using iTextBaseColor = iTextSharp.text.BaseColor;
+using iTextImage = iTextSharp.text.Image;
+using iTextPdfPTable = iTextSharp.text.pdf.PdfPTable;
+using iTextPdfPCell = iTextSharp.text.pdf.PdfPCell;
+using iTextPdfWriter = iTextSharp.text.pdf.PdfWriter;
+using iTextPdfContentByte = iTextSharp.text.pdf.PdfContentByte;
+using iTextPhrase = iTextSharp.text.Phrase;
 
+using System.IO;
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Caja : Form
     {
-        private ConexionBD conexionBD;
-        private ClaseCaja cajaActual;
+        private CajaDAO cajaDAO = new CajaDAO();
+
+        private int idCajaActual = 0;
+
+        private decimal saldoInicial = 0;
+        private decimal totalIngresos = 0;
+        private decimal totalEgresos = 0;
+        private decimal saldoEsperado = 0;
+
 
         public Caja()
         {
             InitializeComponent();
 
-            conexionBD = new ConexionBD();
+          
         }
 
         private void Caja_Load(object sender, EventArgs e)
         {
-            // =====================================================
-            // NAVEGACIÓN
-            // =====================================================
+            lblUsuario.Text = ClaseSesion.UsuarioActual;
 
-            lblCaja.Enabled = false;
-            lblProveedores.Enabled = false;
-            lblProductos.Enabled = false;
-            lblVenta.Enabled = false;
-            lblCompras.Enabled = false;
-            lblUsuarios.Enabled = false;
-
-            lblCliente.Enabled = false;
-            lblCredito.Enabled = false;
-            lblInventario.Enabled = false;
-            lblMantenimiento.Enabled = false;
-
-            switch (ClaseSesion.RolActual)
-            {
-                case "Administrador":
-
-                    lblCaja.Enabled = true;
-                    lblCompras.Enabled = true;
-                    lblVenta.Enabled = true;
-                    lblUsuarios.Enabled = true;
-                    lblMantenimiento.Enabled = true;
-
-                    break;
-
-                case "Gerente":
-
-                    lblCaja.Enabled = true;
-                    lblCompras.Enabled = true;
-                    lblVenta.Enabled = true;
-
-                    break;
-
-                case "Cajero":
-
-                    lblCaja.Enabled = true;
-                    lblVenta.Enabled = true;
-
-                    break;
-            }
-
-            // =====================================================
-            // CARGAR CAJA
-            // =====================================================
+       
 
             CargarCaja();
         }
 
         private void CargarCaja()
         {
-            try
+            DataTable tabla =
+                cajaDAO.ObtenerCajaAbierta();
+
+            if (tabla.Rows.Count == 0)
             {
-                string sql = @"
-                    SELECT
-                        id_caja,
-                        fecha_apertura,
-                        fecha_cierre,
-                        saldo_inicial,
-                        monto_esperado,
-                        monto_arqueo,
-                        diferencia,
-                        saldo_final,
-                        tipo_cambio_dolar,
-                        estado_caja,
-                        id_usuario
-                    FROM caja
-                    WHERE id_usuario = @id_usuario
-                    AND estado_caja = 'Abierta'
-                    ORDER BY id_caja DESC
-                    LIMIT 1;
-                ";
+                idCajaActual = 0;
 
-                if (!conexionBD.AbrirConexion())
-                {
-                    MessageBox.Show(
-                        "No se pudo establecer conexión con la base de datos.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                lblSaldoInicial.Text = "C$ 0.00";
+                lblTotalIngresos.Text = "C$ 0.00";
+                lblTotalEgresos.Text = "C$ 0.00";
+                lblSaldoEsperado.Text = "C$ 0.00";
 
-                    return;
-                }
+                DGVMovimientosCaja.DataSource = null;
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
-                {
-                    cmd.Parameters.AddWithValue(
-                        "@id_usuario",
-                        ClaseSesion.IdUsuario);
-
-                    using (NpgsqlDataReader reader =
-                        cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            cajaActual = new ClaseCaja();
-
-                            cajaActual.IdCaja =
-                                Convert.ToInt32(reader["id_caja"]);
-
-                            cajaActual.FechaApertura =
-                                Convert.ToDateTime(reader["fecha_apertura"]);
-
-                            cajaActual.FechaCierre =
-                                reader["fecha_cierre"] == DBNull.Value
-                                ? (DateTime?)null
-                                : Convert.ToDateTime(reader["fecha_cierre"]);
-
-                            cajaActual.SaldoInicial =
-                                Convert.ToDecimal(reader["saldo_inicial"]);
-
-                            cajaActual.MontoEsperado =
-                                Convert.ToDecimal(reader["monto_esperado"]);
-
-                            cajaActual.MontoArqueo =
-                                Convert.ToDecimal(reader["monto_arqueo"]);
-
-                            cajaActual.Diferencia =
-                                Convert.ToDecimal(reader["diferencia"]);
-
-                            cajaActual.SaldoFinal =
-                                reader["saldo_final"] == DBNull.Value
-                                ? 0
-                                : Convert.ToDecimal(reader["saldo_final"]);
-
-                            cajaActual.TipoCambioDolar =
-                                Convert.ToDecimal(reader["tipo_cambio_dolar"]);
-
-                            cajaActual.EstadoCaja =
-                                reader["estado_caja"].ToString();
-
-                            cajaActual.IdUsuario =
-                                Convert.ToInt32(reader["id_usuario"]);
-                        }
-                        else
-                        {
-                            cajaActual = null;
-                        }
-                    }
-                }
-
-                conexionBD.CerrarConexion();
-
-                if (cajaActual == null)
-                {
-                    MessageBox.Show(
-                        "No hay una caja abierta para el usuario actual.",
-                        "Caja",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    LimpiarCaja();
-
-                    return;
-                }
-
-                CargarDatosEnFormulario();
+                return;
             }
-            catch (Exception ex)
-            {
-                conexionBD.CerrarConexion();
 
-                MessageBox.Show(
-                    "Error al cargar la caja:\n\n" + ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
+            DataRow fila = tabla.Rows[0];
+
+            idCajaActual =
+                Convert.ToInt32(
+                    fila["id_caja"]);
+
+            saldoInicial =
+                Convert.ToDecimal(
+                    fila["saldo_inicial"]);
+
+            CargarResumen();
+
+            CargarMovimientos();
         }
 
-        private void CargarDatosEnFormulario()
+
+        // CARGAR RESUMEN
+        // =====================================================
+        private void CargarResumen()
         {
-            if (cajaActual == null)
+            totalIngresos =
+                cajaDAO.ObtenerTotalIngresos(
+                    idCajaActual);
+
+            totalEgresos =
+                cajaDAO.ObtenerTotalEgresos(
+                    idCajaActual);
+
+            saldoEsperado =
+                saldoInicial
+                + totalIngresos
+                - totalEgresos;
+
+            lblSaldoInicial.Text =
+                "C$ " +
+                saldoInicial.ToString("N2");
+
+            lblTotalIngresos.Text =
+                "C$ " +
+                totalIngresos.ToString("N2");
+
+            lblTotalEgresos.Text =
+                "C$ " +
+                totalEgresos.ToString("N2");
+
+            lblSaldoEsperado.Text =
+                "C$ " +
+                saldoEsperado.ToString("N2");
+        }
+
+
+        // CARGAR MOVIMIENTOS
+        // =====================================================
+        private void CargarMovimientos()
+        {
+            if (idCajaActual == 0)
+            {
+                DGVMovimientosCaja.DataSource = null;
+                return;
+            }
+
+            DataTable tabla =
+                cajaDAO.ObtenerMovimientosCaja(
+                    idCajaActual);
+
+            DGVMovimientosCaja.DataSource =
+                tabla;
+
+            ConfigurarGrid();
+        }
+
+
+        // CONFIGURAR DATAGRIDVIEW
+        // =====================================================
+        private void ConfigurarGrid()
+        {
+            if (DGVMovimientosCaja.Columns.Count == 0)
                 return;
 
-            List<TextBox> textBoxes =
-                ObtenerTextBox(this);
+            DGVMovimientosCaja.Columns["tipo"]
+                .HeaderText = "Tipo";
 
-            if (textBoxes.Count >= 1)
-                textBoxes[0].Text =
-                    ClaseSesion.UsuarioActual;
+            DGVMovimientosCaja.Columns["concepto"]
+                .HeaderText = "Concepto";
 
-            if (textBoxes.Count >= 2)
-                textBoxes[1].Text =
-                    cajaActual.SaldoInicial.ToString("N2");
+            DGVMovimientosCaja.Columns["monto"]
+                .HeaderText = "Monto";
 
-            decimal ingresos =
-                ObtenerIngresos();
+            DGVMovimientosCaja.Columns["fecha_hora"]
+                .HeaderText = "Fecha y Hora";
 
-            decimal egresos =
-                ObtenerEgresos();
+            DGVMovimientosCaja.Columns["monto"]
+                .DefaultCellStyle.Format = "C2";
 
-            decimal saldoFinal =
-                cajaActual.SaldoInicial +
-                ingresos -
-                egresos;
+            DGVMovimientosCaja.Columns["fecha_hora"]
+                .DefaultCellStyle.Format =
+                "dd/MM/yyyy HH:mm:ss";
 
-            if (textBoxes.Count >= 3)
-                textBoxes[2].Text =
-                    ingresos.ToString("N2");
+            DGVMovimientosCaja.AutoSizeColumnsMode =
+                DataGridViewAutoSizeColumnsMode.Fill;
 
-            if (textBoxes.Count >= 4)
-                textBoxes[3].Text =
-                    egresos.ToString("N2");
+            DGVMovimientosCaja.SelectionMode =
+                DataGridViewSelectionMode.FullRowSelect;
 
-            if (textBoxes.Count >= 5)
-                textBoxes[4].Text =
-                    saldoFinal.ToString("N2");
+            DGVMovimientosCaja.MultiSelect = false;
+
+            DGVMovimientosCaja.ReadOnly = true;
+
+            DGVMovimientosCaja.AllowUserToAddRows =
+                false;
         }
 
-        // =========================================================
-        // OBTENER TODOS LOS TEXTBOX DEL FORMULARIO
-        // =========================================================
 
-        private List<TextBox> ObtenerTextBox(Control control)
-        {
-            List<TextBox> resultado =
-                new List<TextBox>();
 
-            foreach (Control elemento in control.Controls)
-            {
-                if (elemento is TextBox)
-                {
-                    resultado.Add(
-                        (TextBox)elemento);
-                }
 
-                if (elemento.HasChildren)
-                {
-                    resultado.AddRange(
-                        ObtenerTextBox(elemento));
-                }
-            }
 
-            resultado = resultado
-                .OrderBy(x => x.TabIndex)
-                .ToList();
-
-            return resultado;
-        }
-
-        // =========================================================
-        // OBTENER TOTAL DE INGRESOS
-        // =========================================================
-
-        private decimal ObtenerIngresos()
-        {
-            if (cajaActual == null)
-                return 0;
-
-            decimal resultado = 0;
-
-            try
-            {
-                string sql = @"
-                    SELECT COALESCE(SUM(total), 0)
-                    FROM venta
-                    WHERE id_caja = @id_caja
-                    AND estado = TRUE;
-                ";
-
-                if (!conexionBD.AbrirConexion())
-                    return 0;
-
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
-                {
-                    cmd.Parameters.AddWithValue(
-                        "@id_caja",
-                        cajaActual.IdCaja);
-
-                    resultado =
-                        Convert.ToDecimal(
-                            cmd.ExecuteScalar());
-                }
-
-                conexionBD.CerrarConexion();
-            }
-            catch
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return resultado;
-        }
-
-        // =========================================================
-        // OBTENER TOTAL DE EGRESOS
-        // =========================================================
-
-        private decimal ObtenerEgresos()
-        {
-            if (cajaActual == null)
-                return 0;
-
-            decimal resultado = 0;
-
-            try
-            {
-                string sql = @"
-                    SELECT COALESCE(SUM(monto), 0)
-                    FROM egreso_caja
-                    WHERE id_caja = @id_caja;
-                ";
-
-                if (!conexionBD.AbrirConexion())
-                    return 0;
-
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
-                {
-                    cmd.Parameters.AddWithValue(
-                        "@id_caja",
-                        cajaActual.IdCaja);
-
-                    resultado =
-                        Convert.ToDecimal(
-                            cmd.ExecuteScalar());
-                }
-
-                conexionBD.CerrarConexion();
-            }
-            catch
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return resultado;
-        }
-
-        // =========================================================
-        // LIMPIAR INFORMACIÓN
-        // =========================================================
-
-        private void LimpiarCaja()
-        {
-            List<TextBox> textBoxes =
-                ObtenerTextBox(this);
-
-            foreach (TextBox txt in textBoxes)
-            {
-                txt.Clear();
-            }
-        }
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -496,51 +306,54 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     ClaseSesion.IdUsuario,
                     ClaseSesion.UsuarioActual);
 
-            ventana.Show();
+            ventana.ShowDialog();
 
             this.Hide();
         }
 
         private void btnArqueodecaja_Click(object sender, EventArgs e)
         {
-            if (cajaActual == null)
+
+            if (idCajaActual == 0)
             {
                 MessageBox.Show(
-                    "No existe una caja abierta.",
-                    "Caja",
+                    "No hay una caja abierta.",
+                    "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
                 return;
             }
 
-            ArqueodeCaja ventana =
+            ArqueodeCaja formulario =
                 new ArqueodeCaja();
 
-            ventana.Show();
+            formulario.ShowDialog();
 
-            this.Hide();
+            CargarCaja();
         }
 
         private void btnCierredecaja_Click(object sender, EventArgs e)
         {
-            if (cajaActual == null)
+
+
+            if (idCajaActual == 0)
             {
                 MessageBox.Show(
-                    "No existe una caja abierta.",
-                    "Caja",
+                    "No hay una caja abierta.",
+                    "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
                 return;
             }
 
-            CierredeCaja ventana =
+            CierredeCaja formulario =
                 new CierredeCaja();
 
-            ventana.Show();
+            formulario.ShowDialog();
 
-            this.Hide();
+            CargarCaja();
         }
 
         private void label25_Click(object sender, EventArgs e)
@@ -557,159 +370,431 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGuardarMovimiento_Click(object sender, EventArgs e)
         {
-            if (cajaActual == null)
+           
+
+           
+          
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            if (idCajaActual == 0)
             {
                 MessageBox.Show(
-                    "No existe una caja abierta.",
-                    "Caja",
+                    "No hay una caja abierta para imprimir.",
+                    "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
                 return;
             }
-
-            List<TextBox> textBoxes =
-                ObtenerTextBox(this);
-
-            if (textBoxes.Count < 7)
-            {
-                MessageBox.Show(
-                    "No se encontraron todos los campos necesarios del formulario.",
-                    "Caja",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            // =====================================================
-            // CONCEPTO Y MONTO
-            // =====================================================
-
-            string concepto =
-                textBoxes[5].Text.Trim();
-
-            decimal monto;
-
-            if (string.IsNullOrWhiteSpace(concepto))
-            {
-                MessageBox.Show(
-                    "Ingrese el concepto del movimiento.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                textBoxes[5].Focus();
-
-                return;
-            }
-
-            if (!decimal.TryParse(
-                textBoxes[6].Text,
-                out monto))
-            {
-                MessageBox.Show(
-                    "Ingrese un monto válido.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                textBoxes[6].Focus();
-
-                return;
-            }
-
-            if (monto <= 0)
-            {
-                MessageBox.Show(
-                    "El monto debe ser mayor que cero.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                textBoxes[6].Focus();
-
-                return;
-            }
-
-            // =====================================================
-            // GUARDAR EN EGRESO_CAJA
-            // =====================================================
 
             try
             {
-                string sql = @"
-                    INSERT INTO egreso_caja
-                    (
-                        descripcion,
-                        monto,
-                        fecha,
-                        id_caja
-                    )
-                    VALUES
-                    (
-                        @descripcion,
-                        @monto,
-                        CURRENT_TIMESTAMP,
-                        @id_caja
-                    );
-                ";
+                // =====================================================
+                // CREAR CARPETA DE REPORTES
+                // =====================================================
 
-                if (!conexionBD.AbrirConexion())
+                string carpeta =
+                    Path.Combine(
+                        Application.StartupPath,
+                        "Reportes");
+
+                if (!Directory.Exists(carpeta))
                 {
-                    MessageBox.Show(
-                        "No se pudo conectar con la base de datos.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-                    return;
+                    Directory.CreateDirectory(carpeta);
                 }
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                // =====================================================
+                // NOMBRE DEL ARCHIVO
+                // =====================================================
+
+                string nombreArchivo =
+                    "Reporte_Caja_" +
+                    idCajaActual +
+                    "_" +
+                    DateTime.Now.ToString("yyyyMMdd_HHmmss") +
+                    ".pdf";
+
+                string ruta =
+                    Path.Combine(
+                        carpeta,
+                        nombreArchivo);
+
+                // =====================================================
+                // CREAR DOCUMENTO
+                // =====================================================
+
+                iTextDocument documento =
+                    new iTextDocument(
+                        iTextSharp.text.PageSize.A4,
+                        40,
+                        40,
+                        50,
+                        50);
+
+                iTextPdfWriter writer =
+                    iTextPdfWriter.GetInstance(
+                        documento,
+                        new FileStream(
+                            ruta,
+                            FileMode.Create));
+
+                documento.Open();
+
+                // =====================================================
+                // FUENTES
+                // =====================================================
+
+                iTextFont titulo =
+                    iTextSharp.text.FontFactory.GetFont(
+                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
+                        20);
+
+                iTextFont subtitulo =
+                    iTextSharp.text.FontFactory.GetFont(
+                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
+                        13);
+
+                iTextFont normal =
+                    iTextSharp.text.FontFactory.GetFont(
+                        iTextSharp.text.FontFactory.HELVETICA,
+                        10);
+
+                iTextFont negrita =
+                    iTextSharp.text.FontFactory.GetFont(
+                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
+                        10);
+
+                iTextFont pie =
+                    iTextSharp.text.FontFactory.GetFont(
+                        iTextSharp.text.FontFactory.HELVETICA_OBLIQUE,
+                        9,
+                        iTextBaseColor.GRAY);
+
+                // =====================================================
+                // MARCA DE AGUA
+                // =====================================================
+
+                iTextPdfContentByte canvas =
+                    writer.DirectContentUnder;
+
+                iTextFont fuenteMarcaAgua =
+                    iTextSharp.text.FontFactory.GetFont(
+                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
+                        55,
+                        iTextBaseColor.LIGHT_GRAY);
+
+                iTextPhrase fraseMarcaAgua =
+                    new iTextPhrase(
+                        "PAYLESS",
+                        fuenteMarcaAgua);
+
+                iTextSharp.text.pdf.ColumnText.ShowTextAligned(
+                    canvas,
+                    iTextElement.ALIGN_CENTER,
+                    fraseMarcaAgua,
+                    300,
+                    400,
+                    45);
+
+                // =====================================================
+                // LOGO
+                // =====================================================
+
+                string rutaLogo =
+                    Path.Combine(
+                        Application.StartupPath,
+                        "Imagenes",
+                        "logo.png");
+
+                if (File.Exists(rutaLogo))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@descripcion",
-                        concepto);
+                    iTextImage logo =
+                        iTextImage.GetInstance(
+                            rutaLogo);
 
-                    cmd.Parameters.AddWithValue(
-                        "@monto",
-                        monto);
+                    logo.Alignment =
+                        iTextElement.ALIGN_CENTER;
 
-                    cmd.Parameters.AddWithValue(
-                        "@id_caja",
-                        cajaActual.IdCaja);
+                    logo.ScaleToFit(
+                        120f,
+                        60f);
 
-                    cmd.ExecuteNonQuery();
+                    documento.Add(logo);
                 }
 
-                conexionBD.CerrarConexion();
+                // =====================================================
+                // ENCABEZADO
+                // =====================================================
+
+                iTextParagraph encabezado =
+                    new iTextParagraph(
+                        "PAYLESS SHOESOURCE",
+                        titulo);
+
+                encabezado.Alignment =
+                    iTextElement.ALIGN_CENTER;
+
+                documento.Add(encabezado);
+
+                iTextParagraph reporte =
+                    new iTextParagraph(
+                        "REPORTE DE CAJA",
+                        subtitulo);
+
+                reporte.Alignment =
+                    iTextElement.ALIGN_CENTER;
+
+                documento.Add(reporte);
+
+                documento.Add(
+                    new iTextParagraph("\n"));
+
+                // =====================================================
+                // INFORMACIÓN GENERAL
+                // =====================================================
+
+                documento.Add(
+                    new iTextParagraph(
+                        "Número de caja: " +
+                        idCajaActual,
+                        normal));
+
+                documento.Add(
+                    new iTextParagraph(
+                        "Usuario: " +
+                        lblUsuario.Text,
+                        normal));
+
+                documento.Add(
+                    new iTextParagraph(
+                        "Fecha del reporte: " +
+                        DateTime.Now.ToString(
+                            "dd/MM/yyyy HH:mm:ss"),
+                        normal));
+
+                documento.Add(
+                    new iTextParagraph("\n"));
+
+                // =====================================================
+                // RESUMEN DE CAJA
+                // =====================================================
+
+                documento.Add(
+                    new iTextParagraph(
+                        "RESUMEN DE CAJA",
+                        subtitulo));
+
+                iTextPdfPTable tablaResumen =
+                    new iTextPdfPTable(2);
+
+                tablaResumen.WidthPercentage = 100;
+
+                tablaResumen.AddCell(
+                    new iTextPdfPCell(
+                        new iTextPhrase(
+                            "Concepto",
+                            negrita)));
+
+                tablaResumen.AddCell(
+                    new iTextPdfPCell(
+                        new iTextPhrase(
+                            "Monto",
+                            negrita)));
+
+                tablaResumen.AddCell(
+                    "Saldo inicial");
+
+                tablaResumen.AddCell(
+                    lblSaldoInicial.Text);
+
+                tablaResumen.AddCell(
+                    "Total ingresos");
+
+                tablaResumen.AddCell(
+                    lblTotalIngresos.Text);
+
+                tablaResumen.AddCell(
+                    "Total egresos");
+
+                tablaResumen.AddCell(
+                    lblTotalEgresos.Text);
+
+                tablaResumen.AddCell(
+                    "Saldo esperado");
+
+                tablaResumen.AddCell(
+                    lblSaldoEsperado.Text);
+
+                documento.Add(
+                    tablaResumen);
+
+                documento.Add(
+                    new iTextParagraph("\n"));
+
+                // =====================================================
+                // MOVIMIENTOS
+                // =====================================================
+
+                documento.Add(
+                    new iTextParagraph(
+                        "MOVIMIENTOS DE CAJA",
+                        subtitulo));
+
+                iTextPdfPTable tablaMovimientos =
+                    new iTextPdfPTable(4);
+
+                tablaMovimientos.WidthPercentage = 100;
+
+                tablaMovimientos.SetWidths(
+                    new float[]
+                    {
+                1.2f,
+                2.5f,
+                1.5f,
+                2.2f
+                    });
+
+                tablaMovimientos.AddCell(
+                    new iTextPdfPCell(
+                        new iTextPhrase(
+                            "Tipo",
+                            negrita)));
+
+                tablaMovimientos.AddCell(
+                    new iTextPdfPCell(
+                        new iTextPhrase(
+                            "Concepto",
+                            negrita)));
+
+                tablaMovimientos.AddCell(
+                    new iTextPdfPCell(
+                        new iTextPhrase(
+                            "Monto",
+                            negrita)));
+
+                tablaMovimientos.AddCell(
+                    new iTextPdfPCell(
+                        new iTextPhrase(
+                            "Fecha y Hora",
+                            negrita)));
+
+                // =====================================================
+                // RECORRER MOVIMIENTOS
+                // =====================================================
+
+                foreach (
+                    DataGridViewRow fila
+                    in DGVMovimientosCaja.Rows)
+                {
+                    if (fila.IsNewRow)
+                        continue;
+
+                    string tipo =
+                        fila.Cells["tipo"].Value == null
+                        ? ""
+                        : fila.Cells["tipo"].Value.ToString();
+
+                    string concepto =
+                        fila.Cells["concepto"].Value == null
+                        ? ""
+                        : fila.Cells["concepto"].Value.ToString();
+
+                    string monto = "C$ 0.00";
+
+                    if (fila.Cells["monto"].Value != null &&
+                        fila.Cells["monto"].Value != DBNull.Value)
+                    {
+                        decimal valor =
+                            Convert.ToDecimal(
+                                fila.Cells["monto"].Value);
+
+                        monto =
+                            "C$ " +
+                            valor.ToString("N2");
+                    }
+
+                    string fecha = "";
+
+                    if (fila.Cells["fecha_hora"].Value != null &&
+                        fila.Cells["fecha_hora"].Value != DBNull.Value)
+                    {
+                        fecha =
+                            Convert.ToDateTime(
+                                fila.Cells["fecha_hora"].Value)
+                            .ToString(
+                                "dd/MM/yyyy HH:mm");
+                    }
+
+                    tablaMovimientos.AddCell(tipo);
+                    tablaMovimientos.AddCell(concepto);
+                    tablaMovimientos.AddCell(monto);
+                    tablaMovimientos.AddCell(fecha);
+                }
+
+                documento.Add(
+                    tablaMovimientos);
+
+                documento.Add(
+                    new iTextParagraph("\n"));
+
+                // =====================================================
+                // INFORMACIÓN DE PAYLESS
+                // =====================================================
+
+                iTextParagraph informacionEmpresa =
+                    new iTextParagraph(
+                        "Payless ShoeSource Nicaragua\n" +
+                        "Dirección: Managua, Nicaragua\n" +
+                        "Teléfono: +505 2222-0000\n" +
+                        "Documento generado por el sistema Payless\n" +
+                        "¡Gracias por su trabajo!",
+                        pie);
+
+                informacionEmpresa.Alignment =
+                    iTextElement.ALIGN_CENTER;
+
+                documento.Add(
+                    informacionEmpresa);
+
+                // =====================================================
+                // CERRAR DOCUMENTO
+                // =====================================================
+
+                documento.Close();
+
+                // =====================================================
+                // ABRIR PDF
+                // =====================================================
+
+                Process.Start(ruta);
 
                 MessageBox.Show(
-                    "Movimiento guardado correctamente.",
-                    "Caja",
+                    "Reporte de caja generado correctamente.",
+                    "Imprimir",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-
-                textBoxes[5].Clear();
-                textBoxes[6].Clear();
-
-                CargarCaja();
             }
             catch (Exception ex)
             {
-                conexionBD.CerrarConexion();
-
                 MessageBox.Show(
-                    "Error al guardar el movimiento:\n\n" +
+                    "No se pudo generar el reporte de caja.\n\n" +
                     ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            EgresosCaja formulario =
+               new EgresosCaja();
+
+            formulario.ShowDialog();
+
+            CargarCaja();
         }
     }
 }

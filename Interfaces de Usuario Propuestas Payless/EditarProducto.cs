@@ -287,8 +287,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 idMarca;
 
 
-            if (  resultado)
-            {
+            
                 MessageBox.Show(
                     "Producto actualizado correctamente.",
                     "Correcto",
@@ -297,7 +296,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 LimpiarFormulario();
 
-            }
+            
         }
 
         //Limpiar
