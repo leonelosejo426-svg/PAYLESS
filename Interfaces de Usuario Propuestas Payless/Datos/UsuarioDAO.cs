@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 {
-    internal class UsuarioDAO
+    public class UsuarioDAO
     {
-
+        
         ConexionBD conexionBD = new ConexionBD();
 
         public bool IniciarSesion(string usuario, string password)
@@ -23,19 +23,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"SELECT u.id_usuario,
-                                      u.nombre_usuario,
-                                      u.nombre_completo,
-                                      r.nombre_rol
-                                FROM usuario u
-                                INNER JOIN rol r
-                                    ON u.id_rol = r.id_rol
-                                WHERE u.nombre_usuario = @usuario
-                                    AND u.password = @password
-                                    AND u.estado = TRUE";
-
+                              u.nombre_usuario,
+                              u.nombre_completo,
+                              r.nombre_rol
+                       FROM usuario u
+                       INNER JOIN rol r ON u.id_rol = r.id_rol
+                       WHERE u.nombre_usuario = @usuario
+                           AND u.password = @password
+                           AND u.estado = TRUE";
 
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion());
-
                 cmd.Parameters.AddWithValue("@usuario", usuario);
                 cmd.Parameters.AddWithValue("@password", password);
 
@@ -47,21 +44,44 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     ClaseSesion.UsuarioActual = reader["nombre_usuario"].ToString();
                     ClaseSesion.RolActual = reader["nombre_rol"].ToString();
 
+                    reader.Close();
+
+                    ClaseSesion.TieneCajaActiva = false;
+
+                    // Evaluamos el rol del usuario de forma segura
+                    if (ClaseSesion.RolActual.Trim().ToLower() == "cajero")
+                    {
+                        string sqlCaja = @"SELECT COUNT(*) 
+                                   FROM caja 
+                                   WHERE id_usuario = @idUsuario 
+                                     AND estado_caja = 'Abierta';";
+
+                        using (NpgsqlCommand cmdCaja = new NpgsqlCommand(sqlCaja, conexionBD.ObtenerConexion()))
+                        {
+                            cmdCaja.Parameters.AddWithValue("@idUsuario", ClaseSesion.IdUsuario);
+                            int conteo = Convert.ToInt32(cmdCaja.ExecuteScalar());
+
+                            // Aquí ya NO hay mensajes de diagnóstico, asigna el valor directo
+                            ClaseSesion.TieneCajaActiva = (conteo > 0);
+                        }
+                    }
+
                     return true;
                 }
+
+                if (reader != null && !reader.IsClosed) reader.Close();
                 return false;
             }
-
             catch
             {
                 return false;
             }
-
             finally
             {
                 conexionBD.CerrarConexion();
             }
         }
+
 
 
 
@@ -474,6 +494,36 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
 
             return tabla;
+        }
+
+        public bool TieneCajaAbierta(int idUsuario)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"SELECT COUNT(*) 
+                           FROM caja 
+                           WHERE id_usuario = @idUsuario 
+                             AND estado_caja = 'Abierta';";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    int conteo = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    return conteo > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show($"Error al validar estado de caja en UsuarioDAO: {ex.Message}", "Error Técnico");
+                return false;
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
     }
 }

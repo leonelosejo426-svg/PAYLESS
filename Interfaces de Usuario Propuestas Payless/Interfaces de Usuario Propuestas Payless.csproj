@@ -283,6 +283,8 @@
     <Compile Include="Datos\ProveedorDAO.cs" />
     <Compile Include="Datos\RecuperacionDAO.cs" />
     <Compile Include="Datos\ReporteCajaDAO.cs" />
+    <Compile Include="Datos\ReporteProductoDAO.cs" />
+    <Compile Include="Datos\ReporteUsuarioDAO.cs" />
     <Compile Include="Datos\VentaDAO.cs" />
     <Compile Include="Formularios\EgresosCaja.cs">
       <SubType>Form</SubType>
@@ -702,6 +704,7 @@
     <None Include="Resources\logo payless.jpeg" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Ayuda\" />
     <Folder Include="Negocio\" />
   </ItemGroup>
   <ItemGroup>

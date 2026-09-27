@@ -15,9 +15,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     public partial class Reportes : Form
     {
         private ReporteCajaDAO reporteCajaDAO = new ReporteCajaDAO();
-        private ReporteProductoDAO reporteProductoDAO = new ReporteProductoDAO();
-        private ReporteUsuarioDAO reporteUsuarioDAO = new ReporteUsuarioDAO();
-
 
         private DataTable tablaReporte;
 
@@ -54,10 +51,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             cbTipoReporte.Items.Clear();
 
-            cbTipoReporte.Items.Add("Reporte de Caja");
-            cbTipoReporte.Items.Add("Reporte de Productos");
-            cbTipoReporte.Items.Add("Reporte de Ventas");
-            cbTipoReporte.Items.Add("Reporte de Usuarios");
+            cbTipoReporte.Items.Add(
+                "Reporte de Caja");
+
+            cbTipoReporte.Items.Add(
+                "Reporte de Ventas");
+
+            cbTipoReporte.Items.Add(
+                "Reporte de Inventario");
 
             cbTipoReporte.SelectedIndex = 0;
         }
@@ -406,115 +407,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void cbTipoReporte_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ConfigurarFiltrosSegunReporte();
             GenerarReporteSeleccionado();
-        }
-
-        private void ConfigurarFiltrosSegunReporte()
-        {
-            if (cbTipoReporte.SelectedItem == null)
-                return;
-
-            string reporte =
-                cbTipoReporte.SelectedItem.ToString();
-
-            if (reporte == "Reporte de Caja")
-            {
-                cbCriterio.Enabled = true;
-                cbUsuario.Enabled = true;
-                cbEstado.Enabled = true;
-
-                cbRol.Enabled = false;
-
-                dtpFechaDesde.Enabled =
-                    cbCriterio.SelectedItem != null &&
-                    cbCriterio.SelectedItem.ToString() == "Por período";
-
-                dtpFechaHasta.Enabled =
-                    cbCriterio.SelectedItem != null &&
-                    cbCriterio.SelectedItem.ToString() == "Por período";
-
-                CargarEstadosCaja();
-            }
-            else if (reporte == "Reporte de Productos")
-            {
-                cbCriterio.SelectedIndex = 0;
-                cbCriterio.Enabled = false;
-
-                cbUsuario.SelectedIndex = 0;
-                cbUsuario.Enabled = false;
-
-                cbRol.Enabled = false;
-
-                cbEstado.Enabled = true;
-
-                dtpFechaDesde.Enabled = false;
-                dtpFechaHasta.Enabled = false;
-
-                CargarEstadosProductos();
-            }
-            else if (reporte == "Reporte de Usuarios")
-            {
-                cbCriterio.SelectedIndex = 0;
-                cbCriterio.Enabled = false;
-
-                cbUsuario.Enabled = true;
-
-                cbRol.Enabled = true;
-
-                cbEstado.Enabled = true;
-
-                dtpFechaDesde.Enabled = false;
-                dtpFechaHasta.Enabled = false;
-
-                CargarUsuariosReporteUsuarios();
-                CargarEstadosUsuarios();
-                CargarRoles();
-            }
-            else if (reporte == "Reporte de Ventas")
-            {
-                cbCriterio.Enabled = true;
-                cbUsuario.Enabled = true;
-
-                cbRol.Enabled = false;
-
-                cbEstado.Enabled = true;
-
-                CargarEstadosVentas();
-            }
-        }
-
-        private void CargarEstadosProductos()
-        {
-            cbEstado.Items.Clear();
-
-            cbEstado.Items.Add("Todos");
-            cbEstado.Items.Add("Activo");
-            cbEstado.Items.Add("Inactivo");
-
-            cbEstado.SelectedIndex = 0;
-        }
-
-        private void CargarEstadosCaja()
-        {
-            cbEstado.Items.Clear();
-
-            cbEstado.Items.Add("Todos");
-            cbEstado.Items.Add("Abierta");
-            cbEstado.Items.Add("Cerrada");
-
-            cbEstado.SelectedIndex = 0;
-        }
-
-        private void CargarEstadosVentas()
-        {
-            cbEstado.Items.Clear();
-
-            cbEstado.Items.Add("Todos");
-            cbEstado.Items.Add("Activas");
-            cbEstado.Items.Add("Anuladas");
-
-            cbEstado.SelectedIndex = 0;
         }
 
         private void cbUsuario_SelectedIndexChanged(object sender, EventArgs e)
@@ -551,73 +444,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 GenerarReporteCaja();
             }
-            else if (reporte == "Reporte de Productos")
+            else
             {
-                GenerarReporteProductos();
-            }
-            else if (reporte == "Reporte de Usuarios")
-            {
-                GenerarReporteUsuarios();
-            }
-            else if (reporte == "Reporte de Ventas")
-            {
-              //  GenerarReporteVentas();
-            }
-        }
-
-        private void GenerarReporteProductos()
-        {
-            try
-            {
-                string estado =
-                    cbEstado.SelectedItem == null
-                    ? "Todos"
-                    : cbEstado.SelectedItem.ToString();
-
-                tablaReporte =
-                    reporteProductoDAO.ObtenerReporteProductos(
-                        estado);
-
-                DGVtabla1.DataSource = tablaReporte;
-
-                if (tablaReporte.Rows.Count > 0)
-                {
-                    FormatearReporteProductos();
-                    btnImprimir.Enabled = true;
-                }
-                else
-                {
-                    btnImprimir.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al cargar el reporte de productos:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                DGVtabla1.DataSource = null;
 
                 btnImprimir.Enabled = false;
-            }
-        }
-
-        private void FormatearReporteProductos()
-        {
-            if (DGVtabla1.Columns.Contains("ID Producto"))
-                DGVtabla1.Columns["ID Producto"].Width = 80;
-
-            if (DGVtabla1.Columns.Contains("Precio Venta"))
-            {
-                DGVtabla1.Columns["Precio Venta"]
-                    .DefaultCellStyle.Format = "C$ #,##0.00";
-            }
-
-            if (DGVtabla1.Columns.Contains("Stock Total"))
-            {
-                DGVtabla1.Columns["Stock Total"]
-                    .DefaultCellStyle.Format = "N0";
             }
         }
 
@@ -682,155 +513,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
-        private void CargarEstadosUsuarios()
-        {
-            cbEstado.Items.Clear();
-
-            cbEstado.Items.Add("Todos");
-            cbEstado.Items.Add("Activo");
-            cbEstado.Items.Add("Inactivo");
-
-            cbEstado.SelectedIndex = 0;
-        }
-
-        private void CargarRoles()
-        {
-            cbRol.Items.Clear();
-
-            cbRol.Items.Add("Todos");
-
-            DataTable roles =
-                reporteUsuarioDAO.ObtenerRoles();
-
-            foreach (DataRow fila in roles.Rows)
-            {
-                cbRol.Items.Add(
-                    fila["nombre_rol"].ToString());
-            }
-
-            cbRol.SelectedIndex = 0;
-        }
-        private void CargarUsuariosReporteUsuarios()
-        {
-            cbUsuario.Items.Clear();
-
-            cbUsuario.Items.Add("Todos");
-
-            DataTable usuarios =
-                reporteUsuarioDAO.ObtenerUsuarios();
-
-            foreach (DataRow fila in usuarios.Rows)
-            {
-                cbUsuario.Items.Add(
-                    fila["nombre_usuario"].ToString());
-            }
-
-            cbUsuario.SelectedIndex = 0;
-        }
-
-        private void GenerarReporteUsuarios()
-        {
-            try
-            {
-                string usuario =
-                    cbUsuario.SelectedItem == null
-                    ? "Todos"
-                    : cbUsuario.SelectedItem.ToString();
-
-                string rol =
-                    cbRol.SelectedItem == null
-                    ? "Todos"
-                    : cbRol.SelectedItem.ToString();
-
-                string estado =
-                    cbEstado.SelectedItem == null
-                    ? "Todos"
-                    : cbEstado.SelectedItem.ToString();
-
-                tablaReporte =
-                    reporteUsuarioDAO.ObtenerReporteUsuarios(
-                        usuario,
-                        rol,
-                        estado);
-
-                DGVtabla1.DataSource = tablaReporte;
-
-                if (tablaReporte.Rows.Count > 0)
-                {
-                    FormatearReporteUsuarios();
-                    btnImprimir.Enabled = false;
-                }
-                else
-                {
-                    btnImprimir.Enabled = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al cargar el reporte de usuarios:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                btnImprimir.Enabled = false;
-            }
-        }
-
-        private void FormatearReporteUsuarios()
-        {
-            if (DGVtabla1.Columns.Contains("ID Usuario"))
-                DGVtabla1.Columns["ID Usuario"].Width = 70;
-
-            if (DGVtabla1.Columns.Contains("Usuario"))
-                DGVtabla1.Columns["Usuario"].Width = 100;
-
-            if (DGVtabla1.Columns.Contains("Nombre Completo"))
-                DGVtabla1.Columns["Nombre Completo"].Width = 180;
-
-            if (DGVtabla1.Columns.Contains("Correo"))
-                DGVtabla1.Columns["Correo"].Width = 180;
-
-            if (DGVtabla1.Columns.Contains("Rol"))
-                DGVtabla1.Columns["Rol"].Width = 120;
-
-            if (DGVtabla1.Columns.Contains("Fecha Registro"))
-            {
-                DGVtabla1.Columns["Fecha Registro"]
-                    .DefaultCellStyle.Format =
-                    "dd/MM/yyyy HH:mm";
-            }
-
-            if (DGVtabla1.Columns.Contains("Último Ingreso"))
-            {
-                DGVtabla1.Columns["Último Ingreso"]
-                    .DefaultCellStyle.Format =
-                    "dd/MM/yyyy HH:mm";
-            }
-
-            if (DGVtabla1.Columns.Contains("Total Ingresos"))
-            {
-                DGVtabla1.Columns["Total Ingresos"]
-                    .DefaultCellStyle.Format = "N0";
-            }
-
-            if (DGVtabla1.Columns.Contains("Ingresos Exitosos"))
-            {
-                DGVtabla1.Columns["Ingresos Exitosos"]
-                    .DefaultCellStyle.Format = "N0";
-            }
-
-            if (DGVtabla1.Columns.Contains("Ingresos Fallidos"))
-            {
-                DGVtabla1.Columns["Ingresos Fallidos"]
-                    .DefaultCellStyle.Format = "N0";
-            }
-        }
-
-        private void cbRol_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            GenerarReporteSeleccionado();
-        }
     }
 }

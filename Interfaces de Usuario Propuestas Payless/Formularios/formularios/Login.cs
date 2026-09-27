@@ -15,9 +15,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Login: Form
     {
-
-        private ConexionBD conexionBD = new ConexionBD();
-        public ReporteUsuarioDAO reporteUsuarioDAO = new ReporteUsuarioDAO();
         public Login()
         {
             InitializeComponent();
@@ -25,79 +22,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnSesion_Click(object sender, EventArgs e)
         {
-            string usuario = txtUsuario.Text.Trim();
+
+
+            string usuario = txtUsuario.Text;
             string contraseña = txtContraseña.Text;
 
-            if (string.IsNullOrEmpty(usuario))
+            if (usuario == "")
             {
-                MessageBox.Show("Ingrese el usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese el usuario.");
                 txtUsuario.Focus();
                 return;
             }
 
-            if (string.IsNullOrEmpty(contraseña))
+            if (contraseña == "")
             {
-                MessageBox.Show("Ingrese la contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese la contraseña.");
                 txtContraseña.Focus();
                 return;
             }
 
-            try
+
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+
+            if (usuarioDAO.IniciarSesion(usuario, contraseña))
             {
-                // 1. Guardamos el historial de log en tu clase de reportes
-                ReporteUsuarioDAO reporteDAO = new ReporteUsuarioDAO();
-                reporteDAO.IniciarSesion(usuario, contraseña);
+                MessageBox.Show("Bienvenido " + ClaseSesion.RolActual + " " + ClaseSesion.UsuarioActual);
 
-                // 2. Ejecutamos la sesión operativa en tu UsuarioDAO
-                UsuarioDAO usuarioDAO = new UsuarioDAO();
-
-                if (usuarioDAO.IniciarSesion(usuario, contraseña))
-                {
-                    MessageBox.Show("Bienvenido " + ClaseSesion.RolActual + " " + ClaseSesion.UsuarioActual, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // 3. CONTROL DE ROLES: Solo el cajero está amarrado al estado de la caja
-                    if (ClaseSesion.RolActual.Trim().ToLower() == "cajero")
-                    {
-                        if (ClaseSesion.TieneCajaActiva)
-                        {
-                            // Si ya se había aperturado previamente, entra directo a vender
-                            MessageBox.Show("Detectamos una caja activa. Abriendo módulo de ventas...", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            Caja ventanaVenta = new Caja();
-                            ventanaVenta.FormClosed += (s, args) => this.Close();
-                            ventanaVenta.Show();
-                        }
-                        else
-                        {
-                            // Si no tiene caja abierta hoy, lo enviamos a aperturar pasándole el ID y Nombre
-                            MessageBox.Show("Debe realizar la apertura de caja para iniciar operaciones.", "Apertura Obligatoria", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-                            AperturaCaja ventanaApertura = new AperturaCaja(ClaseSesion.IdUsuario, ClaseSesion.UsuarioActual);
-                            ventanaApertura.FormClosed += (s, args) => this.Close();
-                            ventanaApertura.Show();
-                        }
-                    }
-                    else
-                    {
-                        // CUALQUIER OTRO ROL (Admin, Supervisor, etc.) entra directo al sistema normal
-                        Menú_Principal ventana = new Menú_Principal();
-                        ventana.FormClosed += (s, args) => this.Close();
-                        ventana.Show();
-                    }
-
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    txtContraseña.Clear();
-                    txtContraseña.Focus();
-                }
+                Menú_Principal ventana = new Menú_Principal();
+                ventana.Show();
+                this.Hide();
             }
-            catch (Exception ex)
+
+            else 
             {
-                MessageBox.Show("Error al conectar con la base de datos: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Usuario o contraseña incorrectos.");
             }
+
+
+
+
+
 
 
 
