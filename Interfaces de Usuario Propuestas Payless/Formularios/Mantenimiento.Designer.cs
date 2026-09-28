@@ -97,12 +97,13 @@
             this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(26, 668);
+            this.label13.Location = new System.Drawing.Point(14, 663);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(80, 19);
             this.label13.TabIndex = 119;
             this.label13.Text = "🆘   Ayuda";
+            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // lblMantenimiento
             // 
@@ -465,7 +466,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1067, 749);
+            this.ClientSize = new System.Drawing.Size(1067, 765);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox2);

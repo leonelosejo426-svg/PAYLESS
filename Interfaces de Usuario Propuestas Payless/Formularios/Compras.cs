@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
@@ -1017,6 +1019,43 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void txtNoCompra_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string rutaPDF = @"C:\Users\Lenovo\Desktop\PAYLESS\Interfaces de Usuario Propuestas Payless\Ayuda\Manual_Usuario.pdf";
+
+                if (!File.Exists(rutaPDF))
+                {
+                    MessageBox.Show($"No se encontró el manual en la ruta:\n{rutaPDF}",
+                                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 1. Convertir la ruta del disco a formato URI web (maneja espacios y caracteres especiales)
+                string uriPDF = new Uri(rutaPDF).AbsoluteUri;
+
+                // 2. Cambia el número 4 por el número exacto de la página de Caja
+                int numeroPaginaCaja = 4;
+
+                // 3. Crear el argumento en formato file:///C:/...#page=2
+                string argumentos = $"\"{uriPDF}#page={numeroPaginaCaja}\"";
+
+                ProcessStartInfo edgeInfo = new ProcessStartInfo
+                {
+                    FileName = "msedge.exe",
+                    Arguments = argumentos,
+                    UseShellExecute = true
+                };
+
+                Process.Start(edgeInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 

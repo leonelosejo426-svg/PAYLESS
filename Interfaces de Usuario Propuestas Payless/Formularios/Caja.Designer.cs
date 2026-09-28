@@ -31,7 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Caja));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -51,9 +50,11 @@
             this.lblProveedores = new System.Windows.Forms.Label();
             this.lblProductos = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.btnImprimir = new System.Windows.Forms.Button();
             this.btnArqueodecaja = new System.Windows.Forms.Button();
-            this.btnCierredecaja = new System.Windows.Forms.Button();
             this.btnAperturadecaja = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.btnCierredecaja = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.dtpHora = new System.Windows.Forms.DateTimePicker();
@@ -71,8 +72,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.DGVMovimientosCaja = new System.Windows.Forms.DataGridView();
-            this.button1 = new System.Windows.Forms.Button();
-            this.btnImprimir = new System.Windows.Forms.Button();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -170,6 +169,7 @@
             this.label27.Size = new System.Drawing.Size(80, 19);
             this.label27.TabIndex = 128;
             this.label27.Text = "🆘   Ayuda";
+            this.label27.Click += new System.EventHandler(this.label27_Click);
             // 
             // lblMantenimiento
             // 
@@ -363,6 +363,20 @@
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Opciones de caja";
             // 
+            // btnImprimir
+            // 
+            this.btnImprimir.BackColor = System.Drawing.Color.Transparent;
+            this.btnImprimir.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnImprimir.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImprimir.ForeColor = System.Drawing.Color.Black;
+            this.btnImprimir.Location = new System.Drawing.Point(532, 39);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(103, 42);
+            this.btnImprimir.TabIndex = 148;
+            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.UseVisualStyleBackColor = false;
+            this.btnImprimir.Click += new System.EventHandler(this.button2_Click_1);
+            // 
             // btnArqueodecaja
             // 
             this.btnArqueodecaja.BackColor = System.Drawing.Color.Transparent;
@@ -377,20 +391,6 @@
             this.btnArqueodecaja.UseVisualStyleBackColor = false;
             this.btnArqueodecaja.Click += new System.EventHandler(this.btnArqueodecaja_Click);
             // 
-            // btnCierredecaja
-            // 
-            this.btnCierredecaja.BackColor = System.Drawing.Color.Transparent;
-            this.btnCierredecaja.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCierredecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCierredecaja.ForeColor = System.Drawing.Color.Black;
-            this.btnCierredecaja.Location = new System.Drawing.Point(413, 39);
-            this.btnCierredecaja.Name = "btnCierredecaja";
-            this.btnCierredecaja.Size = new System.Drawing.Size(103, 42);
-            this.btnCierredecaja.TabIndex = 72;
-            this.btnCierredecaja.Text = "Cierre";
-            this.btnCierredecaja.UseVisualStyleBackColor = false;
-            this.btnCierredecaja.Click += new System.EventHandler(this.btnCierredecaja_Click);
-            // 
             // btnAperturadecaja
             // 
             this.btnAperturadecaja.BackColor = System.Drawing.Color.Transparent;
@@ -404,6 +404,34 @@
             this.btnAperturadecaja.Text = "Apertura";
             this.btnAperturadecaja.UseVisualStyleBackColor = false;
             this.btnAperturadecaja.Click += new System.EventHandler(this.btnAperturadecaja_Click);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.Transparent;
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(151, 39);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(103, 42);
+            this.button1.TabIndex = 87;
+            this.button1.Text = "Egresos";
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // btnCierredecaja
+            // 
+            this.btnCierredecaja.BackColor = System.Drawing.Color.Transparent;
+            this.btnCierredecaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCierredecaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCierredecaja.ForeColor = System.Drawing.Color.Black;
+            this.btnCierredecaja.Location = new System.Drawing.Point(413, 39);
+            this.btnCierredecaja.Name = "btnCierredecaja";
+            this.btnCierredecaja.Size = new System.Drawing.Size(103, 42);
+            this.btnCierredecaja.TabIndex = 72;
+            this.btnCierredecaja.Text = "Cierre";
+            this.btnCierredecaja.UseVisualStyleBackColor = false;
+            this.btnCierredecaja.Click += new System.EventHandler(this.btnCierredecaja_Click);
             // 
             // label6
             // 
@@ -596,58 +624,22 @@
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.DGVMovimientosCaja.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.DGVMovimientosCaja.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DGVMovimientosCaja.DefaultCellStyle = dataGridViewCellStyle2;
             this.DGVMovimientosCaja.EnableHeadersVisualStyles = false;
             this.DGVMovimientosCaja.Location = new System.Drawing.Point(226, 166);
             this.DGVMovimientosCaja.Name = "DGVMovimientosCaja";
             this.DGVMovimientosCaja.RowHeadersWidth = 62;
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
-            this.DGVMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            this.DGVMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.DGVMovimientosCaja.RowTemplate.Height = 28;
             this.DGVMovimientosCaja.Size = new System.Drawing.Size(659, 249);
             this.DGVMovimientosCaja.TabIndex = 138;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.Black;
-            this.button1.Location = new System.Drawing.Point(151, 39);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 42);
-            this.button1.TabIndex = 87;
-            this.button1.Text = "Egresos";
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // btnImprimir
-            // 
-            this.btnImprimir.BackColor = System.Drawing.Color.Transparent;
-            this.btnImprimir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnImprimir.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnImprimir.ForeColor = System.Drawing.Color.Black;
-            this.btnImprimir.Location = new System.Drawing.Point(532, 39);
-            this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(103, 42);
-            this.btnImprimir.TabIndex = 148;
-            this.btnImprimir.Text = "Imprimir";
-            this.btnImprimir.UseVisualStyleBackColor = false;
-            this.btnImprimir.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // Caja
             // 
