@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Caja));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -72,6 +72,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.DGVMovimientosCaja = new System.Windows.Forms.DataGridView();
+            this.lblReportes = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -137,6 +138,7 @@
             // groupBox4
             // 
             this.groupBox4.BackColor = System.Drawing.Color.White;
+            this.groupBox4.Controls.Add(this.lblReportes);
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.lblMantenimiento);
             this.groupBox4.Controls.Add(this.lblCaja);
@@ -163,7 +165,7 @@
             this.label27.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label27.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label27.ForeColor = System.Drawing.Color.Black;
-            this.label27.Location = new System.Drawing.Point(31, 678);
+            this.label27.Location = new System.Drawing.Point(30, 721);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(80, 19);
@@ -622,31 +624,46 @@
             // 
             // DGVMovimientosCaja
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DGVMovimientosCaja.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DGVMovimientosCaja.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.DGVMovimientosCaja.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGVMovimientosCaja.EnableHeadersVisualStyles = false;
             this.DGVMovimientosCaja.Location = new System.Drawing.Point(226, 166);
             this.DGVMovimientosCaja.Name = "DGVMovimientosCaja";
             this.DGVMovimientosCaja.RowHeadersWidth = 62;
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.DGVMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            this.DGVMovimientosCaja.RowsDefaultCellStyle = dataGridViewCellStyle4;
             this.DGVMovimientosCaja.RowTemplate.Height = 28;
             this.DGVMovimientosCaja.Size = new System.Drawing.Size(659, 249);
             this.DGVMovimientosCaja.TabIndex = 138;
+            // 
+            // lblReportes
+            // 
+            this.lblReportes.AutoSize = true;
+            this.lblReportes.BackColor = System.Drawing.Color.White;
+            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReportes.ForeColor = System.Drawing.Color.Black;
+            this.lblReportes.Location = new System.Drawing.Point(30, 672);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReportes.Name = "lblReportes";
+            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.TabIndex = 135;
+            this.lblReportes.Text = "📋   Reportes";
+            this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
             // 
             // Caja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1033, 697);
+            this.ClientSize = new System.Drawing.Size(1033, 724);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.dtpHora);
@@ -723,5 +740,6 @@
         private System.Windows.Forms.DataGridView DGVMovimientosCaja;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnImprimir;
+        private System.Windows.Forms.Label lblReportes;
     }
 }

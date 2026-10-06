@@ -159,7 +159,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             lblTotalEntregado.Text = "C$ 0.00";
             lblCambio.Text = "C$ 0.00";
 
+            // ==========================================
+            // TIPOS DE TARJETA
+            // ==========================================
+
+            cbTipoTarjeta.Items.Clear();
+
+            cbTipoTarjeta.Items.Add("Visa");
+            cbTipoTarjeta.Items.Add("Mastercard");
+            cbTipoTarjeta.Items.Add("American Express");
+
             cbTipoTarjeta.SelectedIndex = -1;
+
+            // ==========================================
+            // PANELES
+            // ==========================================
 
             panelEfectivo.Enabled = true;
             panelTarjeta.Enabled = false;
@@ -190,7 +204,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             LimpiarEfectivo();
 
             lblMonto.Text =
-                total.ToString("N2");
+                "C$ " + total.ToString("N2");
         }
 
         private void txtMontoCordobas_TextChanged(
@@ -342,6 +356,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void ConfirmarPagoTarjeta()
         {
+            // 1. Validar tipo de tarjeta
             if (cbTipoTarjeta.SelectedIndex == -1)
             {
                 MessageBox.Show(
@@ -349,75 +364,74 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
+                cbTipoTarjeta.Focus();
                 return;
             }
 
-            string digitos =
-                txtDigitosTarjeta.Text.Trim();
+            // 2. Validar últimos 4 dígitos
+            string digitos = txtDigitosTarjeta.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(digitos))
+            if (string.IsNullOrWhiteSpace(digitos) || digitos.Length != 4 || !digitos.All(char.IsDigit))
             {
                 MessageBox.Show(
-                    "Ingrese los últimos 4 dígitos de la tarjeta.",
+                    "Debe ingresar exactamente los últimos 4 dígitos numéricos de la tarjeta.",
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
+                txtDigitosTarjeta.Focus();
                 return;
             }
 
-            if (digitos.Length != 4 ||
-                !int.TryParse(digitos, out _))
+            // 3. Validar Fecha de Expiración (MM/YY)
+            string fechaExp = txtVencimiento.Text.Trim();
+            bool formatoFechaValido = System.Text.RegularExpressions.Regex.IsMatch(fechaExp, @"^(0[1-9]|1[0-2])\/\d{2}$");
+
+            if (!formatoFechaValido)
             {
                 MessageBox.Show(
-                    "Debe ingresar exactamente 4 dígitos numéricos.",
+                    "Ingrese una fecha de expiración válida en formato MM/YY (Ejemplo: 04/27).",
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
+                txtVencimiento.Focus();
                 return;
             }
 
-            decimal montoTarjeta =
-                ObtenerDecimal(txtDigitosTarjeta.Text);
+            // 4. Validar Código de Seguridad (CVV/CVC)
+            string cvv = txtDigitosTarjeta.Text.Trim();
 
-            if (montoTarjeta <= 0)
+            if (string.IsNullOrWhiteSpace(cvv) || (cvv.Length != 3 && cvv.Length != 4) || !cvv.All(char.IsDigit))
             {
                 MessageBox.Show(
-                    "Ingrese un monto válido para la tarjeta.",
+                    "Ingrese un código de seguridad (CVV) válido de 3 o 4 dígitos.",
                     "Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
-
+                txtDigitosTarjeta.Focus();
                 return;
             }
 
-            if (montoTarjeta < total)
-            {
-                MessageBox.Show(
-                    "El monto de la tarjeta es insuficiente.\n\n" +
-                    "Total: C$ " +
-                    total.ToString("N2") +
-                    "\nMonto ingresado: C$ " +
-                    montoTarjeta.ToString("N2"),
-                    "Pago insuficiente",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+            // 5. Procesar Pago
+            decimal montoTarjeta = total;
 
-                return;
-            }
-
-            // Se guarda únicamente como referencia
-            // el tipo de tarjeta.
+            // Registrar el pago pasando el tipo de tarjeta y el monto
             RegistrarPago(
                 "Tarjeta",
-                0,
-                0,
-                0,
+                0,              // Efectivo recibido
+                0,              // Cambio
+                0,              // Transferencia
                 cbTipoTarjeta.Text,
                 montoTarjeta
             );
+
+            MessageBox.Show(
+                "Pago con tarjeta procesado correctamente.",
+                "Éxito",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         // =====================================================
@@ -464,6 +478,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             pagoConfirmado = true;
+
             btnConfirmarPago.Enabled = false;
             btnImprimirFactura.Enabled = true;
 
@@ -475,13 +490,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 "Pago confirmado",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
-                        );
-            pagoConfirmado = true;
+            );
 
-            btnConfirmarPago.Enabled = false;
-            btnImprimirFactura.Enabled = true;
 
-        
 
         }
 
@@ -518,7 +529,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             cbTipoTarjeta.SelectedIndex = -1;
             txtDigitosTarjeta.Clear();
-            
+
+            lblMonto.Text = "C$ 0.00";
         }
 
 

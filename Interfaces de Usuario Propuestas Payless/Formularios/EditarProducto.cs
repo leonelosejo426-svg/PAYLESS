@@ -29,37 +29,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void EditarProducto_Load(object sender, EventArgs e)
         {
-            // Cargar productos
-            DataTable productos =
-                productoDAO.MostrarProductos();
+            DataTable productos = productoDAO.MostrarProductos();
 
             CBnombreP.DataSource = productos;
             CBnombreP.DisplayMember = "nombre";
             CBnombreP.ValueMember = "id_producto";
 
-            CBnombreP.DropDownStyle =
-                ComboBoxStyle.DropDown;
+            CBnombreP.DropDownStyle = ComboBoxStyle.DropDown;
+            CBnombreP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            CBnombreP.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-            CBnombreP.AutoCompleteMode =
-                AutoCompleteMode.SuggestAppend;
+            // No seleccionar ningún producto al abrir
+            CBnombreP.SelectedIndex = -1;
+            CBnombreP.Text = "";
 
-            CBnombreP.AutoCompleteSource =
-                AutoCompleteSource.ListItems;
-
-
-            // Cargar categorías
-            DataTable categorias =
-                productoDAO.CargarCategorias();
+            DataTable categorias = productoDAO.CargarCategorias();
 
             CBcategoria.DataSource = categorias;
-            CBcategoria.DisplayMember =
-                "nombre_categoria";
+            CBcategoria.DisplayMember = "nombre_categoria";
+            CBcategoria.ValueMember = "id_categoria";
 
-            CBcategoria.ValueMember =
-                "id_categoria";
+            // No seleccionar ninguna categoría al abrir
+            CBcategoria.SelectedIndex = -1;
+            CBcategoria.Text = "";
 
-
-            // El código solamente se muestra
             txtCodigo.ReadOnly = true;
         }
 
@@ -77,8 +70,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            string nombreProducto =
-               CBnombreP.Text.Trim();
+            string nombreProducto = CBnombreP.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(nombreProducto))
             {
@@ -88,12 +80,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
+                CBnombreP.Focus();
                 return;
-
             }
-            DataTable resultado = productoDAO.BuscarPorNombre(nombreProducto);
 
-            if (resultado.Rows.Count == 0)
+            DataTable resultado =
+                productoDAO.BuscarPorNombre(nombreProducto);
+
+            if (resultado == null || resultado.Rows.Count == 0)
             {
                 MessageBox.Show(
                     "No se encontró el producto.",
@@ -104,32 +98,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
+            DataRow producto = resultado.Rows[0];
 
-            DataRow producto =
-                resultado.Rows[0];
-
-            // Id del producto
+            // ID
             idProductoSeleccionado =
-               Convert.ToInt32(
-                   producto["id_producto"]);
+                Convert.ToInt32(producto["id_producto"]);
 
-            // Cargar nombre
+            // Nombre
             CBnombreP.Text =
                 producto["nombre"].ToString();
 
-            //Cargar categoria 
-            string categoria = producto["categoria"].ToString();
-            for(int i = 0;
-                i<CBcategoria.Items.Count;
-                i++)
-            {
-                DataRowView fila = CBcategoria.Items[i] as DataRowView;
+            // Categoría
+            string categoria =
+                producto["categoria"].ToString();
 
-                if(fila != null)
+            for (int i = 0; i < CBcategoria.Items.Count; i++)
+            {
+                DataRowView fila =
+                    CBcategoria.Items[i] as DataRowView;
+
+                if (fila != null)
                 {
                     string nombreCategoria =
                         fila["nombre_categoria"].ToString();
-                    if(nombreCategoria.Equals(
+
+                    if (nombreCategoria.Equals(
                         categoria,
                         StringComparison.OrdinalIgnoreCase))
                     {
@@ -139,16 +132,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 }
             }
 
-            //Cargar marca
-            txtMarca.Text = producto["marca"].ToString();
+            // Marca
+            txtMarca.Text =
+                producto["marca"].ToString();
 
-            //Cargar proveedor
-            txtProveedor.Text = producto["proveedor"].ToString();
+            // Proveedor
+            txtProveedor.Text =
+                producto["proveedor"].ToString();
 
-            //Cargar codigo 
+            // Código
             txtCodigo.Text =
-            producto["codigo"].ToString();
-
+                producto["codigo"].ToString();
 
         }
 

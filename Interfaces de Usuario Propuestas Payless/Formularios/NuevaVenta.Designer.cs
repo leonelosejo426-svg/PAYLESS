@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NuevaVenta));
             this.btnPagar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -37,7 +37,16 @@
             this.btnAgregar = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.dgvDetalleVenta = new System.Windows.Forms.DataGridView();
+            this.colIdProductoTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtCantidad = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.txtStockActual = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
@@ -57,31 +66,22 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.lblUsuario = new System.Windows.Forms.Label();
             this.CBcliente = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtCodigoVenta = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.colIdProductoTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.lblIVA = new System.Windows.Forms.Label();
             this.lblSubtotal = new System.Windows.Forms.Label();
-            this.txtCantidad = new System.Windows.Forms.TextBox();
-            this.lblUsuario = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
+            this.lblIVA = new System.Windows.Forms.Label();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.btnRegresar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleVenta)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -169,14 +169,14 @@
             // 
             // dgvDetalleVenta
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDetalleVenta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDetalleVenta.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvDetalleVenta.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetalleVenta.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colIdProductoTalla,
@@ -190,17 +190,73 @@
             this.dgvDetalleVenta.Location = new System.Drawing.Point(68, 546);
             this.dgvDetalleVenta.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.dgvDetalleVenta.Name = "dgvDetalleVenta";
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvDetalleVenta.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvDetalleVenta.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvDetalleVenta.RowHeadersWidth = 62;
             this.dgvDetalleVenta.Size = new System.Drawing.Size(1128, 231);
             this.dgvDetalleVenta.TabIndex = 98;
+            // 
+            // colIdProductoTalla
+            // 
+            this.colIdProductoTalla.HeaderText = "ID";
+            this.colIdProductoTalla.MinimumWidth = 8;
+            this.colIdProductoTalla.Name = "colIdProductoTalla";
+            this.colIdProductoTalla.Width = 50;
+            // 
+            // colProducto
+            // 
+            this.colProducto.HeaderText = "Producto";
+            this.colProducto.MinimumWidth = 8;
+            this.colProducto.Name = "colProducto";
+            this.colProducto.Width = 150;
+            // 
+            // colCategoria
+            // 
+            this.colCategoria.HeaderText = "Categoría";
+            this.colCategoria.MinimumWidth = 8;
+            this.colCategoria.Name = "colCategoria";
+            this.colCategoria.Width = 115;
+            // 
+            // colMarca
+            // 
+            this.colMarca.HeaderText = "Marca";
+            this.colMarca.MinimumWidth = 8;
+            this.colMarca.Name = "colMarca";
+            this.colMarca.Width = 150;
+            // 
+            // colTalla
+            // 
+            this.colTalla.HeaderText = "Talla";
+            this.colTalla.MinimumWidth = 8;
+            this.colTalla.Name = "colTalla";
+            this.colTalla.Width = 150;
+            // 
+            // colPrecioVenta
+            // 
+            this.colPrecioVenta.HeaderText = "Precio V.";
+            this.colPrecioVenta.MinimumWidth = 8;
+            this.colPrecioVenta.Name = "colPrecioVenta";
+            this.colPrecioVenta.Width = 150;
+            // 
+            // colCantidad
+            // 
+            this.colCantidad.HeaderText = "Cantidad";
+            this.colCantidad.MinimumWidth = 8;
+            this.colCantidad.Name = "colCantidad";
+            this.colCantidad.Width = 150;
+            // 
+            // colSubtotal
+            // 
+            this.colSubtotal.HeaderText = "Subtotal";
+            this.colSubtotal.MinimumWidth = 8;
+            this.colSubtotal.Name = "colSubtotal";
+            this.colSubtotal.Width = 150;
             // 
             // groupBox3
             // 
@@ -227,6 +283,16 @@
             this.groupBox3.Size = new System.Drawing.Size(1587, 154);
             this.groupBox3.TabIndex = 97;
             this.groupBox3.TabStop = false;
+            this.groupBox3.Enter += new System.EventHandler(this.groupBox3_Enter);
+            // 
+            // txtCantidad
+            // 
+            this.txtCantidad.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCantidad.Location = new System.Drawing.Point(1398, 101);
+            this.txtCantidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtCantidad.Name = "txtCantidad";
+            this.txtCantidad.Size = new System.Drawing.Size(99, 35);
+            this.txtCantidad.TabIndex = 103;
             // 
             // label13
             // 
@@ -437,6 +503,24 @@
             this.groupBox1.TabIndex = 95;
             this.groupBox1.TabStop = false;
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(1169, 33);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(92, 27);
+            this.label17.TabIndex = 92;
+            this.label17.Text = "Usuario:";
+            // 
+            // lblUsuario
+            // 
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Location = new System.Drawing.Point(1282, 33);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(86, 27);
+            this.lblUsuario.TabIndex = 91;
+            this.lblUsuario.Text = "Usuario";
+            // 
             // CBcliente
             // 
             this.CBcliente.FormattingEnabled = true;
@@ -487,62 +571,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Información de la Venta";
             // 
-            // colIdProductoTalla
-            // 
-            this.colIdProductoTalla.HeaderText = "ID";
-            this.colIdProductoTalla.MinimumWidth = 8;
-            this.colIdProductoTalla.Name = "colIdProductoTalla";
-            this.colIdProductoTalla.Width = 50;
-            // 
-            // colProducto
-            // 
-            this.colProducto.HeaderText = "Producto";
-            this.colProducto.MinimumWidth = 8;
-            this.colProducto.Name = "colProducto";
-            this.colProducto.Width = 150;
-            // 
-            // colCategoria
-            // 
-            this.colCategoria.HeaderText = "Categoría";
-            this.colCategoria.MinimumWidth = 8;
-            this.colCategoria.Name = "colCategoria";
-            this.colCategoria.Width = 115;
-            // 
-            // colMarca
-            // 
-            this.colMarca.HeaderText = "Marca";
-            this.colMarca.MinimumWidth = 8;
-            this.colMarca.Name = "colMarca";
-            this.colMarca.Width = 150;
-            // 
-            // colTalla
-            // 
-            this.colTalla.HeaderText = "Talla";
-            this.colTalla.MinimumWidth = 8;
-            this.colTalla.Name = "colTalla";
-            this.colTalla.Width = 150;
-            // 
-            // colPrecioVenta
-            // 
-            this.colPrecioVenta.HeaderText = "Precio V.";
-            this.colPrecioVenta.MinimumWidth = 8;
-            this.colPrecioVenta.Name = "colPrecioVenta";
-            this.colPrecioVenta.Width = 150;
-            // 
-            // colCantidad
-            // 
-            this.colCantidad.HeaderText = "Cantidad";
-            this.colCantidad.MinimumWidth = 8;
-            this.colCantidad.Name = "colCantidad";
-            this.colCantidad.Width = 150;
-            // 
-            // colSubtotal
-            // 
-            this.colSubtotal.HeaderText = "Subtotal";
-            this.colSubtotal.MinimumWidth = 8;
-            this.colSubtotal.Name = "colSubtotal";
-            this.colSubtotal.Width = 150;
-            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.lblSubtotal);
@@ -560,62 +588,27 @@
             this.groupBox4.TabIndex = 104;
             this.groupBox4.TabStop = false;
             // 
-            // label15
+            // lblSubtotal
             // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label15.Location = new System.Drawing.Point(18, 32);
-            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(253, 33);
-            this.label15.TabIndex = 100;
-            this.label15.Text = "Resumen de la Venta";
-            this.label15.Click += new System.EventHandler(this.label15_Click);
+            this.lblSubtotal.AutoSize = true;
+            this.lblSubtotal.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSubtotal.Location = new System.Drawing.Point(150, 78);
+            this.lblSubtotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSubtotal.Name = "lblSubtotal";
+            this.lblSubtotal.Size = new System.Drawing.Size(56, 27);
+            this.lblSubtotal.TabIndex = 108;
+            this.lblSubtotal.Text = "IVA:";
             // 
-            // textBox1
+            // lblIVA
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(34, 182);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(300, 2);
-            this.textBox1.TabIndex = 101;
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(30, 78);
-            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(97, 27);
-            this.label16.TabIndex = 102;
-            this.label16.Text = "Subtotal:";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(30, 137);
-            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(56, 27);
-            this.label18.TabIndex = 104;
-            this.label18.Text = "IVA:";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(30, 199);
-            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(66, 27);
-            this.label19.TabIndex = 105;
-            this.label19.Text = "Total:";
+            this.lblIVA.AutoSize = true;
+            this.lblIVA.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIVA.Location = new System.Drawing.Point(150, 137);
+            this.lblIVA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblIVA.Name = "lblIVA";
+            this.lblIVA.Size = new System.Drawing.Size(56, 27);
+            this.lblIVA.TabIndex = 107;
+            this.lblIVA.Text = "15%";
             // 
             // lblTotal
             // 
@@ -629,54 +622,62 @@
             this.lblTotal.TabIndex = 106;
             this.lblTotal.Text = "C$0.00";
             // 
-            // lblIVA
+            // label19
             // 
-            this.lblIVA.AutoSize = true;
-            this.lblIVA.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblIVA.Location = new System.Drawing.Point(150, 137);
-            this.lblIVA.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblIVA.Name = "lblIVA";
-            this.lblIVA.Size = new System.Drawing.Size(56, 27);
-            this.lblIVA.TabIndex = 107;
-            this.lblIVA.Text = "15%";
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(30, 199);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(66, 27);
+            this.label19.TabIndex = 105;
+            this.label19.Text = "Total:";
             // 
-            // lblSubtotal
+            // label18
             // 
-            this.lblSubtotal.AutoSize = true;
-            this.lblSubtotal.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSubtotal.Location = new System.Drawing.Point(150, 78);
-            this.lblSubtotal.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSubtotal.Name = "lblSubtotal";
-            this.lblSubtotal.Size = new System.Drawing.Size(56, 27);
-            this.lblSubtotal.TabIndex = 108;
-            this.lblSubtotal.Text = "IVA:";
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label18.Location = new System.Drawing.Point(30, 137);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(56, 27);
+            this.label18.TabIndex = 104;
+            this.label18.Text = "IVA:";
             // 
-            // txtCantidad
+            // label16
             // 
-            this.txtCantidad.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCantidad.Location = new System.Drawing.Point(1398, 101);
-            this.txtCantidad.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtCantidad.Name = "txtCantidad";
-            this.txtCantidad.Size = new System.Drawing.Size(99, 35);
-            this.txtCantidad.TabIndex = 103;
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(30, 78);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(97, 27);
+            this.label16.TabIndex = 102;
+            this.label16.Text = "Subtotal:";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
-            // lblUsuario
+            // textBox1
             // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(1282, 33);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(86, 27);
-            this.lblUsuario.TabIndex = 91;
-            this.lblUsuario.Text = "Usuario";
+            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(34, 182);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(300, 2);
+            this.textBox1.TabIndex = 101;
             // 
-            // label17
+            // label15
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(1169, 33);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(92, 27);
-            this.label17.TabIndex = 92;
-            this.label17.Text = "Usuario:";
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.label15.Location = new System.Drawing.Point(18, 32);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(253, 33);
+            this.label15.TabIndex = 100;
+            this.label15.Text = "Resumen de la Venta";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // btnRegresar
             // 

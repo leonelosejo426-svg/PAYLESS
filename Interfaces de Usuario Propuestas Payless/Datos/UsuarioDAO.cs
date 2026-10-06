@@ -104,6 +104,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         u.nombre_completo,
                         r.nombre_rol,
                         u.estado
+                       
                     FROM usuario u
                     INNER JOIN rol r
                         ON u.id_rol = r.id_rol
@@ -178,6 +179,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             string nombreCompleto,
             string password,
             int idRol,
+            string correo,
+            string telefono,
+            string cedula,
             bool estado)
         {
             try
@@ -191,6 +195,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         nombre_completo,
                         password,
                         id_rol,
+                        correo,
+                        telefono,
+                        cedula,
                         estado
                     )
                     VALUES
@@ -199,6 +206,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         @nombre_completo,
                         @password,
                         @id_rol,
+                        @correo,
+                        @telefono,
+                        @cedula,
                         @estado
                     )";
 
@@ -222,6 +232,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 cmd.Parameters.AddWithValue(
                     "@id_rol",
                     idRol);
+
+                cmd.Parameters.AddWithValue(
+                    "@correo",
+                    correo);
+
+                cmd.Parameters.AddWithValue(
+                    "@telefono",
+                    telefono);
+
+                cmd.Parameters.AddWithValue(
+                    "@cedula",
+                    cedula);
 
                 cmd.Parameters.AddWithValue(
                     "@estado",
@@ -250,6 +272,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             string nombreCompleto,
             string password,
             int idRol,
+            string correo,
+            string telefono,
+            string cedula,
             bool estado)
         {
             try
@@ -261,10 +286,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     SET
                         nombre_usuario = @nombre_usuario,
                         nombre_completo = @nombre_completo,
-                        password = @password,
                         id_rol = @id_rol,
+                        correo = @correo,
+                        telefono = @telefono,
+                        cedula = @cedula,
                         estado = @estado
+                        password = @password,
                     WHERE id_usuario = @id_usuario";
+
 
                 NpgsqlCommand cmd =
                     new NpgsqlCommand(
@@ -286,6 +315,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 cmd.Parameters.AddWithValue(
                     "@id_rol",
                     idRol);
+
+                cmd.Parameters.AddWithValue(
+                    "@correo",
+                    correo);
+
+                cmd.Parameters.AddWithValue(
+                    "@telefono",
+                    telefono);
+
+                cmd.Parameters.AddWithValue(
+                    "@cedula",
+                    cedula);
 
                 cmd.Parameters.AddWithValue(
                     "@estado",
@@ -460,33 +501,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        u.id_usuario,
-                        u.nombre_usuario,
-                        u.nombre_completo,
-                        u.password,
-                        u.id_rol,
-                        u.estado
-                    FROM usuario u
-                    WHERE u.id_usuario = @id_usuario";
+            SELECT
+                u.id_usuario,
+                u.nombre_usuario,
+                u.nombre_completo,
+                u.id_rol,
+                u.correo,
+                u.telefono,
+                u.cedula,
+                u.estado,
+                u.password
+            FROM usuario u
+            WHERE u.id_usuario = @id_usuario";
 
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@id_usuario", idUsuario);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_usuario",
-                    idUsuario);
-
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(cmd);
-
-                da.Fill(tabla);
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
             }
             catch
             {
-                return tabla;
+                return null;
             }
             finally
             {

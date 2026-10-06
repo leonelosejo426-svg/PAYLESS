@@ -28,6 +28,56 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Reportes_Load(object sender, EventArgs e)
         {
+
+
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+
+
+            lblCliente.Enabled = false;
+            lblCredito.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
+
             CargarTiposReporte();
             CargarCriterios();
             CargarUsuarios();
@@ -46,8 +96,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             btnImprimir.Enabled = false;
 
-            // Cargar automáticamente el reporte seleccionado
-            GenerarReporteSeleccionado();
+            DGVtabla1.DataSource = null;
+
+            cbTipoReporte.SelectedIndex = -1;
         }
 
         private void CargarTiposReporte()
@@ -56,10 +107,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             cbTipoReporte.Items.Add("Reporte de Caja");
             cbTipoReporte.Items.Add("Reporte de Productos");
-            cbTipoReporte.Items.Add("Reporte de Ventas");
             cbTipoReporte.Items.Add("Reporte de Usuarios");
+            cbTipoReporte.Items.Add("Reporte de Ventas");
 
-            cbTipoReporte.SelectedIndex = 0;
+            cbTipoReporte.SelectedIndex = -1;
+            cbTipoReporte.Text = "Seleccione un reporte...";
         }
 
         private void CargarCriterios()
@@ -269,10 +321,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
-            if (DGVtabla1.CurrentRow == null)
+            if (cbTipoReporte.SelectedItem == null)
             {
                 MessageBox.Show(
-                    "Seleccione una caja para imprimir.",
+                    "Seleccione un tipo de reporte.",
                     "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -292,17 +344,52 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
+            string reporte =
+                cbTipoReporte.SelectedItem.ToString();
+
             try
             {
-                int idCaja =
-                    Convert.ToInt32(
-                        DGVtabla1.CurrentRow
-                        .Cells["ID Caja"]
-                        .Value);
+                if (reporte == "Reporte de Caja")
+                {
+                    if (DGVtabla1.CurrentRow == null)
+                    {
+                        MessageBox.Show(
+                            "Seleccione una caja para imprimir.",
+                            "Aviso",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
 
-                GeneradorReporteCajaPDF.Generar(
-                    tablaReporte,
-                    idCaja);
+                        return;
+                    }
+
+                    int idCaja =
+                        Convert.ToInt32(
+                            DGVtabla1.CurrentRow
+                            .Cells["ID Caja"]
+                            .Value);
+
+                    GeneradorReporteCajaPDF.Generar(
+                        tablaReporte,
+                        idCaja);
+                }
+                else if (reporte == "Reporte de Productos")
+                {
+                    GeneradorReporteProductosPDF.Generar(
+                        tablaReporte);
+                }
+                else if (reporte == "Reporte de Usuarios")
+                {
+                    GeneradorReporteUsuariosPDF.Generar(
+                        tablaReporte);
+                }
+                else if (reporte == "Reporte de Ventas")
+                {
+                    MessageBox.Show(
+                        "El reporte de ventas todavía no tiene impresión configurada.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {
@@ -542,7 +629,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void GenerarReporteSeleccionado()
         {
             if (cbTipoReporte.SelectedItem == null)
+            {
+                DGVtabla1.DataSource = null;
+                tablaReporte = null;
+                btnImprimir.Enabled = false;
                 return;
+            }
 
             string reporte =
                 cbTipoReporte.SelectedItem.ToString();
@@ -831,6 +923,90 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void cbRol_SelectedIndexChanged(object sender, EventArgs e)
         {
             GenerarReporteSeleccionado();
+        }
+
+        private void label26_Click_2(object sender, EventArgs e)
+        {
+            Menú_Principal ventana = new Menú_Principal();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblCaja_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblUsuarios_Click(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblCliente_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblProductos_Click(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblProveedores_Click(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblCompras_Click(object sender, EventArgs e)
+        {
+            Compras_nuevo ventana = new Compras_nuevo();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblVenta_Click(object sender, EventArgs e)
+        {
+            Ventas ventana = new Ventas();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblCredito_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblInventario_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void lblMantenimiento_Click(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento();
+            ventana.Show();
+            this.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes();
+            ventana.Show();
+            this.Close();
         }
     }
 }

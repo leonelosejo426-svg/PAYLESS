@@ -145,13 +145,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtMontoInicial.Clear();
-            txtCambioDolar.Clear();
 
-            dtpFecha.Value = DateTime.Now;
-            dtpHora.Value = DateTime.Now;
 
-            txtMontoInicial.Focus();
+        
+            if (aperturaCajaDAO.ExisteCajaAbierta())
+            {
+                Caja ventana = new Caja();
+                ventana.Show();
+                this.Close();
+            }
+            else
+            {
+                Login ventana = new Login();
+                ventana.Show();
+                this.Close();
+            }
         }
     }
 }

@@ -185,6 +185,57 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Ventas_Load(object sender, EventArgs e)
         {
+
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+
+
+            lblCliente.Enabled = false;
+            lblVenta.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
+
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
+
             cbBuscarPor.Items.Clear();
 
             cbBuscarPor.Items.Add("Código");
@@ -284,9 +335,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             // Creas la instancia de la subpantalla
             NuevaVenta ventana = new NuevaVenta();
-
-            // Con .Show() se abre sin bloquear ni ocultar el formulario principal
-            ventana.Show();
+            ventana.ShowDialog();
             this.Show();
         }
         

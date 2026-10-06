@@ -153,6 +153,53 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void inventario_Load(object sender, EventArgs e)
         {
 
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+
+
+            lblCliente.Enabled = false;
+            lblCredito.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -257,6 +304,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
            Nivelacion_inventario ventana = new Nivelacion_inventario();
             ventana.Show();
             this.Hide();
+        }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }

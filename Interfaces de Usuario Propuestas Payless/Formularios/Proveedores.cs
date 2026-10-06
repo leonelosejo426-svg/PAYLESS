@@ -66,7 +66,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CargarProveedores();
 
 
-
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;
@@ -76,9 +75,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
             lblCliente.Enabled = false;
-            lblCredito.Enabled = false;
+            lblVenta.Enabled = false;
             lblInventario.Enabled = false;
             lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
 
 
             switch (ClaseSesion.RolActual)
@@ -91,10 +91,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblMantenimiento.Enabled = true;
                     lblCliente.Enabled = true;
-                    lblCredito.Enabled = true;
+                    lblVenta.Enabled = true;
                     lblInventario.Enabled = true;
                     lblProveedores.Enabled = true;
                     lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
 
 
                     break;
@@ -113,8 +114,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblVenta.Enabled = true;
 
                     break;
-
-
             }
         }
 

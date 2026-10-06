@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using static Interfaces_de_Usuario_Propuestas_Payless.Ventas;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
@@ -22,6 +23,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private decimal precioVentaActual = 0;
         private decimal tipoCambioActual = 0;
+
+        // LISTA ENLAZADA DE LOS PRODUCTOS DE LA VENTA
+        private ListaEnlazadaDetalleVenta listaDetalleVenta =
+            new ListaEnlazadaDetalleVenta();
         public NuevaVenta()
         {
             InitializeComponent();
@@ -120,7 +125,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             }
         }
 
-       
+
 
         private void ConfigurarFormulario()
         {
@@ -139,6 +144,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             txtStockActual.Clear();
 
             txtCantidad.Text = "1";
+
+            // LIMPIAR LISTA ENLAZADA
+            listaDetalleVenta.Limpiar();
+
+            dgvDetalleVenta.Rows.Clear();
 
             dgvDetalleVenta.AllowUserToAddRows = false;
             dgvDetalleVenta.AutoGenerateColumns = false;
@@ -361,7 +371,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 return;
 
             AgregarDetalle();
+
             CalcularTotales();
+
             LimpiarCampos();
         }
 
@@ -469,15 +481,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     cantidad
                 );
 
+            NodoDetalleVenta nuevoNodo =
+                new NodoDetalleVenta(
+                    idProductoTallaSeleccionado,
+                    CBproducto.Text,
+                    CBcategoria.Text,
+                    CBmarca.Text,
+                    CBTalla.Text,
+                    precioVentaActual,
+                    cantidad,
+                    subtotal
+                );
+
+            // AGREGAR A LA LISTA ENLAZADA
+            listaDetalleVenta.Agregar(nuevoNodo);
+
+            // MOSTRAR EN EL DATAGRIDVIEW
             dgvDetalleVenta.Rows.Add(
-                idProductoTallaSeleccionado,
-                CBproducto.Text,
-                CBcategoria.Text,
-                CBmarca.Text,
-                CBTalla.Text,
-                precioVentaActual,
-                cantidad,
-                subtotal
+                nuevoNodo.IdProductoTalla,
+                nuevoNodo.Producto,
+                nuevoNodo.Categoria,
+                nuevoNodo.Marca,
+                nuevoNodo.Talla,
+                nuevoNodo.PrecioVenta,
+                nuevoNodo.Cantidad,
+                nuevoNodo.Subtotal
             );
         }
 
@@ -490,26 +518,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void CalcularTotales()
         {
-            decimal subtotal = 0;
-
-            foreach (DataGridViewRow fila in dgvDetalleVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                // Usa "colSubtotal" en lugar de "Subtotal"
-                if (fila.Cells["colSubtotal"].Value != null)
-                {
-                    subtotal += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
-                }
-            }
+            decimal subtotal = listaDetalleVenta.ObtenerSubtotal();
 
             decimal iva = subtotal * 0.15m;
+
             decimal total = subtotal + iva;
 
-            lblSubtotal.Text = "C$ " + subtotal.ToString("N2");
-            lblIVA.Text = "C$ " + iva.ToString("N2");
-            lblTotal.Text = "C$ " + total.ToString("N2");
+            lblSubtotal.Text =
+                "C$ " + subtotal.ToString("N2");
+
+            lblIVA.Text =
+                "C$ " + iva.ToString("N2");
+
+            lblTotal.Text =
+                "C$ " + total.ToString("N2");
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -520,7 +542,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void EliminarUltimoDetalle()
         {
-            if (dgvDetalleVenta.Rows.Count == 0)
+            if (listaDetalleVenta.EstaVacia())
             {
                 MessageBox.Show(
                     "No hay productos para eliminar.",
@@ -532,14 +554,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 return;
             }
 
-            dgvDetalleVenta.Rows.RemoveAt(
-                dgvDetalleVenta.Rows.Count - 1
-            );
+            // ELIMINAR DE LA LISTA ENLAZADA
+            listaDetalleVenta.EliminarUltimo();
+
+            // ELIMINAR DEL DATAGRIDVIEW
+            if (dgvDetalleVenta.Rows.Count > 0)
+            {
+                dgvDetalleVenta.Rows.RemoveAt(
+                    dgvDetalleVenta.Rows.Count - 1
+                );
+            }
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
+            listaDetalleVenta.Limpiar();
+
+            dgvDetalleVenta.Rows.Clear();
+
             LimpiarCampos();
+
+            CalcularTotales();
 
         }
 
@@ -565,22 +600,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private decimal ObtenerSubtotal()
         {
-            decimal subtotal = 0;
-
-            foreach (DataGridViewRow fila in dgvDetalleVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                // Cambiar "Subtotal" por "colSubtotal" en la validación
-                if (fila.Cells["colSubtotal"].Value != null)
-                {
-                    // Cambiar "Subtotal" por "colSubtotal" en la conversión
-                    subtotal += Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
-                }
-            }
-
-            return subtotal;
+            return listaDetalleVenta.ObtenerSubtotal();
         }
 
         private int ObtenerIdCliente()
@@ -606,10 +626,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+
                 return;
             }
 
-            if (dgvDetalleVenta.Rows.Count == 0)
+            if (listaDetalleVenta.EstaVacia())
             {
                 MessageBox.Show(
                     "Debe agregar al menos un producto a la venta.",
@@ -617,18 +638,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+
                 return;
             }
 
-            decimal subtotal = ObtenerSubtotal();
-            decimal iva = subtotal * 0.15m;
-            decimal total = subtotal + iva;
+            decimal subtotal =
+                listaDetalleVenta.ObtenerSubtotal();
 
-            DataTable detalleVenta = CrearDetalleVenta();
+            decimal iva =
+                subtotal * 0.15m;
 
-            int idCliente = ObtenerIdCliente();
+            decimal total =
+                subtotal + iva;
 
-            int idCaja = ventaDAO.ObtenerIdCajaAbierta();
+            DataTable detalleVenta =
+                CrearDetalleVenta();
+
+            int idCliente =
+                ObtenerIdCliente();
+
+            int idCaja =
+                ventaDAO.ObtenerIdCajaAbierta();
 
             if (idCaja <= 0)
             {
@@ -638,67 +668,62 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+
                 return;
             }
 
-            // AQUÍ DEBES COLOCAR EL ID DEL USUARIO ACTUAL
-            int idUsuario = 1;
+            // USUARIO QUE INICIÓ SESIÓN
+            int idUsuario = ClaseSesion.IdUsuario;
 
-            SubFormaPagoV formaPago = new SubFormaPagoV(
-                txtCodigoVenta.Text,
-                idCliente,
-                idUsuario,
-                idCaja,
-                subtotal,
-                iva,
-                total,
-                detalleVenta
-            );
+            if (idUsuario <= 0)
+            {
+                MessageBox.Show(
+                    "No se pudo identificar al usuario actual.",
+                    "Usuario",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                return;
+            }
+
+            SubFormaPagoV formaPago =
+                new SubFormaPagoV(
+                    txtCodigoVenta.Text,
+                    idCliente,
+                    idUsuario,
+                    idCaja,
+                    subtotal,
+                    iva,
+                    total,
+                    detalleVenta
+                );
 
             DialogResult resultado =
                 formaPago.ShowDialog();
 
             if (resultado == DialogResult.OK)
             {
+                listaDetalleVenta.Limpiar();
+
+                dgvDetalleVenta.Rows.Clear();
+
                 Close();
             }
-
         }
 
         private DataTable CrearDetalleVenta()
         {
-            DataTable tabla = new DataTable();
-
-            tabla.Columns.Add("id_producto_talla", typeof(int));
-            tabla.Columns.Add("cantidad", typeof(int));
-            tabla.Columns.Add("precio_venta", typeof(decimal));
-            tabla.Columns.Add("subtotal", typeof(decimal));
-
-            foreach (DataGridViewRow fila in dgvDetalleVenta.Rows)
-            {
-                if (fila.IsNewRow)
-                    continue;
-
-                DataRow nuevaFila = tabla.NewRow();
-
-                // Asegúrate de usar "colID", "colCantidad", "colPrecio" y "colSubtotal"
-                nuevaFila["id_producto_talla"] = Convert.ToInt32(fila.Cells["colIdProductoTalla"].Value);
-                nuevaFila["cantidad"] = Convert.ToInt32(fila.Cells["colCantidad"].Value);
-                nuevaFila["precio_venta"] = Convert.ToDecimal(fila.Cells["colPrecioVenta"].Value);
-                nuevaFila["subtotal"] = Convert.ToDecimal(fila.Cells["colSubtotal"].Value);
-
-                tabla.Rows.Add(nuevaFila);
-                this.Hide();
-            }
-
-            return tabla;
-            
+            return listaDetalleVenta.CrearDetalleVenta();
         }
         private void btnRegresar_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        
+        private void groupBox3_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

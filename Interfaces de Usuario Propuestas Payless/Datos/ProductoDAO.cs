@@ -543,42 +543,36 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        p.id_producto,
-                        p.nombre,
-                        p.precio_venta,
-                        p.estado_producto,
-                        c.nombre_categoria AS categoria,
-                        m.nombre_marca AS marca,
-                        pr.nombre AS proveedor
-                    FROM producto p
+            SELECT
+                p.id_producto,
+                p.nombre,
+                p.codigo,
+                c.nombre_categoria AS categoria,
+                m.nombre_marca AS marca,
+                pr.nombre AS proveedor
+            FROM producto p
+            INNER JOIN categoria c
+                ON p.id_categoria = c.id_categoria
+            INNER JOIN marca m
+                ON p.id_marca = m.id_marca
+            INNER JOIN proveedor pr
+                ON p.id_proveedor = pr.id_proveedor
+            WHERE p.nombre ILIKE @nombre
+            ORDER BY p.nombre";
 
-                    INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
+                using (NpgsqlCommand cmd =
+                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue(
+                        "@nombre",
+                        "%" + nombre + "%");
 
-                    INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
-
-                    INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
-
-                    WHERE p.nombre ILIKE @nombre
-
-                    ORDER BY p.nombre";
-
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@nombre",
-                    "%" + nombre + "%");
-
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(cmd);
-
-                da.Fill(tabla);
+                    using (NpgsqlDataAdapter da =
+                        new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
             }
             catch
             {
@@ -591,7 +585,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return tabla;
         }
-
 
         // =========================================================
         // BUSCAR POR CATEGORÍA

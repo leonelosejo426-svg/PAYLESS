@@ -551,6 +551,10 @@
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilidades\GeneradorReporteCajaPDF.cs" />
+    <Compile Include="Utilidades\GeneradorReporteProductosPDF.cs" />
+    <Compile Include="Utilidades\GeneradorReporteUsuariosPDF.cs" />
+    <Compile Include="Utilidades\ListaEnlazadaDetalleVenta.cs" />
+    <Compile Include="Utilidades\NodoDetalleVenta.cs" />
     <Compile Include="Utilidades\NodoVenta.cs" />
     <EmbeddedResource Include="Formularios\EgresosCaja.resx">
       <DependentUpon>EgresosCaja.cs</DependentUpon>

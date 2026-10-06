@@ -73,9 +73,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(7, 16);
+            this.pictureBox1.Location = new System.Drawing.Point(14, 31);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(111, 79);
+            this.pictureBox1.Size = new System.Drawing.Size(73, 58);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
@@ -202,7 +202,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
-            this.btnGuardar.Click += new System.EventHandler(this.button1_Click);
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
             // 
             // btnCancelar
             // 
@@ -311,7 +311,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Pusuario";
-            this.Text = "Pusuario";
+            this.Text = "Agregar Usuario";
             this.Load += new System.EventHandler(this.Pusuario_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -321,11 +321,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
+   
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;

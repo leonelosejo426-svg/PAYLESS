@@ -67,17 +67,17 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
+            this.lblMantenimiento = new System.Windows.Forms.Label();
+            this.lblInventario = new System.Windows.Forms.Label();
+            this.lblCredito = new System.Windows.Forms.Label();
+            this.lblCaja = new System.Windows.Forms.Label();
             this.label27 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
+            this.lblVenta = new System.Windows.Forms.Label();
+            this.lblCompras = new System.Windows.Forms.Label();
+            this.lblUsuarios = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.lblProveedores = new System.Windows.Forms.Label();
+            this.lblProductos = new System.Windows.Forms.Label();
             this.cmbFecha = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtNoCompra = new System.Windows.Forms.TextBox();
@@ -90,6 +90,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.lblReportes = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -456,19 +457,20 @@
             // groupBox5
             // 
             this.groupBox5.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox5.Controls.Add(this.lblReportes);
             this.groupBox5.Controls.Add(this.pictureBox3);
             this.groupBox5.Controls.Add(this.label5);
-            this.groupBox5.Controls.Add(this.label4);
-            this.groupBox5.Controls.Add(this.label30);
-            this.groupBox5.Controls.Add(this.label29);
-            this.groupBox5.Controls.Add(this.label28);
+            this.groupBox5.Controls.Add(this.lblMantenimiento);
+            this.groupBox5.Controls.Add(this.lblInventario);
+            this.groupBox5.Controls.Add(this.lblCredito);
+            this.groupBox5.Controls.Add(this.lblCaja);
             this.groupBox5.Controls.Add(this.label27);
-            this.groupBox5.Controls.Add(this.label26);
-            this.groupBox5.Controls.Add(this.label25);
-            this.groupBox5.Controls.Add(this.label24);
-            this.groupBox5.Controls.Add(this.label23);
-            this.groupBox5.Controls.Add(this.label22);
-            this.groupBox5.Controls.Add(this.label21);
+            this.groupBox5.Controls.Add(this.lblVenta);
+            this.groupBox5.Controls.Add(this.lblCompras);
+            this.groupBox5.Controls.Add(this.lblUsuarios);
+            this.groupBox5.Controls.Add(this.lblCliente);
+            this.groupBox5.Controls.Add(this.lblProveedores);
+            this.groupBox5.Controls.Add(this.lblProductos);
             this.groupBox5.Location = new System.Drawing.Point(-2, 2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(191, 951);
@@ -500,61 +502,61 @@
             this.label5.Text = "📋 Ayuda";
             this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
-            // label4
+            // lblMantenimiento
             // 
-            this.label4.AutoSize = true;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(26, 624);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(132, 19);
-            this.label4.TabIndex = 117;
-            this.label4.Text = "🛠️ Mantenimiento";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
+            this.lblMantenimiento.AutoSize = true;
+            this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMantenimiento.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblMantenimiento.Location = new System.Drawing.Point(26, 624);
+            this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblMantenimiento.Name = "lblMantenimiento";
+            this.lblMantenimiento.Size = new System.Drawing.Size(132, 19);
+            this.lblMantenimiento.TabIndex = 117;
+            this.lblMantenimiento.Text = "🛠️ Mantenimiento";
+            this.lblMantenimiento.Click += new System.EventHandler(this.label4_Click);
             // 
-            // label30
+            // lblInventario
             // 
-            this.label30.AutoSize = true;
-            this.label30.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label30.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label30.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label30.Location = new System.Drawing.Point(26, 582);
-            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(99, 19);
-            this.label30.TabIndex = 116;
-            this.label30.Text = "📦 Inventario";
-            this.label30.Click += new System.EventHandler(this.label30_Click);
+            this.lblInventario.AutoSize = true;
+            this.lblInventario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblInventario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblInventario.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblInventario.Location = new System.Drawing.Point(26, 582);
+            this.lblInventario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblInventario.Name = "lblInventario";
+            this.lblInventario.Size = new System.Drawing.Size(99, 19);
+            this.lblInventario.TabIndex = 116;
+            this.lblInventario.Text = "📦 Inventario";
+            this.lblInventario.Click += new System.EventHandler(this.label30_Click);
             // 
-            // label29
+            // lblCredito
             // 
-            this.label29.AutoSize = true;
-            this.label29.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label29.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label29.Location = new System.Drawing.Point(26, 540);
-            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(88, 19);
-            this.label29.TabIndex = 115;
-            this.label29.Text = "🧾   Credito";
-            this.label29.Click += new System.EventHandler(this.label29_Click);
+            this.lblCredito.AutoSize = true;
+            this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCredito.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblCredito.Location = new System.Drawing.Point(26, 540);
+            this.lblCredito.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCredito.Name = "lblCredito";
+            this.lblCredito.Size = new System.Drawing.Size(88, 19);
+            this.lblCredito.TabIndex = 115;
+            this.lblCredito.Text = "🧾   Credito";
+            this.lblCredito.Click += new System.EventHandler(this.label29_Click);
             // 
-            // label28
+            // lblCaja
             // 
-            this.label28.AutoSize = true;
-            this.label28.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label28.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label28.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label28.Location = new System.Drawing.Point(24, 241);
-            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(69, 19);
-            this.label28.TabIndex = 114;
-            this.label28.Text = "💰   Caja";
-            this.label28.Click += new System.EventHandler(this.label28_Click);
+            this.lblCaja.AutoSize = true;
+            this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCaja.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblCaja.Location = new System.Drawing.Point(24, 241);
+            this.lblCaja.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCaja.Name = "lblCaja";
+            this.lblCaja.Size = new System.Drawing.Size(69, 19);
+            this.lblCaja.TabIndex = 114;
+            this.lblCaja.Text = "💰   Caja";
+            this.lblCaja.Click += new System.EventHandler(this.label28_Click);
             // 
             // label27
             // 
@@ -570,89 +572,89 @@
             this.label27.Text = "☰   Menú\r\n";
             this.label27.Click += new System.EventHandler(this.label27_Click);
             // 
-            // label26
+            // lblVenta
             // 
-            this.label26.AutoSize = true;
-            this.label26.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label26.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label26.Location = new System.Drawing.Point(26, 499);
-            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(84, 19);
-            this.label26.TabIndex = 7;
-            this.label26.Text = "🛒   Ventas";
-            this.label26.Click += new System.EventHandler(this.label26_Click);
+            this.lblVenta.AutoSize = true;
+            this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVenta.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblVenta.Location = new System.Drawing.Point(26, 499);
+            this.lblVenta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblVenta.Name = "lblVenta";
+            this.lblVenta.Size = new System.Drawing.Size(84, 19);
+            this.lblVenta.TabIndex = 7;
+            this.lblVenta.Text = "🛒   Ventas";
+            this.lblVenta.Click += new System.EventHandler(this.label26_Click);
             // 
-            // label25
+            // lblCompras
             // 
-            this.label25.AutoSize = true;
-            this.label25.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label25.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label25.Location = new System.Drawing.Point(26, 458);
-            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(98, 19);
-            this.label25.TabIndex = 6;
-            this.label25.Text = "💳   Compras";
-            this.label25.Click += new System.EventHandler(this.label25_Click);
+            this.lblCompras.AutoSize = true;
+            this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCompras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblCompras.Location = new System.Drawing.Point(26, 458);
+            this.lblCompras.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCompras.Name = "lblCompras";
+            this.lblCompras.Size = new System.Drawing.Size(98, 19);
+            this.lblCompras.TabIndex = 6;
+            this.lblCompras.Text = "💳   Compras";
+            this.lblCompras.Click += new System.EventHandler(this.label25_Click);
             // 
-            // label24
+            // lblUsuarios
             // 
-            this.label24.AutoSize = true;
-            this.label24.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label24.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label24.Location = new System.Drawing.Point(26, 284);
-            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(97, 19);
-            this.label24.TabIndex = 5;
-            this.label24.Text = "👥   Usuarios";
-            this.label24.Click += new System.EventHandler(this.label24_Click);
+            this.lblUsuarios.AutoSize = true;
+            this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuarios.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblUsuarios.Location = new System.Drawing.Point(26, 284);
+            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblUsuarios.Name = "lblUsuarios";
+            this.lblUsuarios.Size = new System.Drawing.Size(97, 19);
+            this.lblUsuarios.TabIndex = 5;
+            this.lblUsuarios.Text = "👥   Usuarios";
+            this.lblUsuarios.Click += new System.EventHandler(this.label24_Click);
             // 
-            // label23
+            // lblCliente
             // 
-            this.label23.AutoSize = true;
-            this.label23.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label23.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label23.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label23.Location = new System.Drawing.Point(24, 326);
-            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(94, 19);
-            this.label23.TabIndex = 4;
-            this.label23.Text = "🧑‍🤝‍🧑   Clientes";
-            this.label23.Click += new System.EventHandler(this.label23_Click);
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCliente.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblCliente.Location = new System.Drawing.Point(24, 326);
+            this.lblCliente.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(87, 19);
+            this.lblCliente.TabIndex = 4;
+            this.lblCliente.Text = "🧑‍🤝‍🧑   Cliente";
+            this.lblCliente.Click += new System.EventHandler(this.label23_Click);
             // 
-            // label22
+            // lblProveedores
             // 
-            this.label22.AutoSize = true;
-            this.label22.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label22.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label22.Location = new System.Drawing.Point(26, 421);
-            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(122, 19);
-            this.label22.TabIndex = 3;
-            this.label22.Text = "🚚   Proveedores";
-            this.label22.Click += new System.EventHandler(this.label22_Click);
+            this.lblProveedores.AutoSize = true;
+            this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProveedores.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblProveedores.Location = new System.Drawing.Point(26, 421);
+            this.lblProveedores.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblProveedores.Name = "lblProveedores";
+            this.lblProveedores.Size = new System.Drawing.Size(122, 19);
+            this.lblProveedores.TabIndex = 3;
+            this.lblProveedores.Text = "🚚   Proveedores";
+            this.lblProveedores.Click += new System.EventHandler(this.label22_Click);
             // 
-            // label21
+            // lblProductos
             // 
-            this.label21.AutoSize = true;
-            this.label21.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label21.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label21.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label21.Location = new System.Drawing.Point(26, 375);
-            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(104, 19);
-            this.label21.TabIndex = 2;
-            this.label21.Text = "🛍️   Productos";
-            this.label21.Click += new System.EventHandler(this.label21_Click);
+            this.lblProductos.AutoSize = true;
+            this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProductos.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.lblProductos.Location = new System.Drawing.Point(26, 375);
+            this.lblProductos.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblProductos.Name = "lblProductos";
+            this.lblProductos.Size = new System.Drawing.Size(104, 19);
+            this.lblProductos.TabIndex = 2;
+            this.lblProductos.Text = "🛍️   Productos";
+            this.lblProductos.Click += new System.EventHandler(this.label21_Click);
             // 
             // cmbFecha
             // 
@@ -775,6 +777,20 @@
             this.label9.TabIndex = 33;
             this.label9.Text = "Subtotal:";
             // 
+            // lblReportes
+            // 
+            this.lblReportes.AutoSize = true;
+            this.lblReportes.BackColor = System.Drawing.Color.White;
+            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReportes.ForeColor = System.Drawing.Color.Black;
+            this.lblReportes.Location = new System.Drawing.Point(30, 667);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReportes.Name = "lblReportes";
+            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.TabIndex = 134;
+            this.lblReportes.Text = "📋   Reportes";
+            // 
             // Compras_nuevo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -798,6 +814,7 @@
             this.Controls.Add(this.groupBox5);
             this.Name = "Compras_nuevo";
             this.Text = "Compras_nuevo";
+            this.Load += new System.EventHandler(this.Compras_nuevo_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
@@ -849,17 +866,17 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label30;
-        private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label lblMantenimiento;
+        private System.Windows.Forms.Label lblInventario;
+        private System.Windows.Forms.Label lblCredito;
+        private System.Windows.Forms.Label lblCaja;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblVenta;
+        private System.Windows.Forms.Label lblCompras;
+        private System.Windows.Forms.Label lblUsuarios;
+        private System.Windows.Forms.Label lblCliente;
+        private System.Windows.Forms.Label lblProveedores;
+        private System.Windows.Forms.Label lblProductos;
         private System.Windows.Forms.ComboBox cmbFecha;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtNoCompra;
@@ -874,5 +891,6 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox cmbTalla;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblReportes;
     }
 }

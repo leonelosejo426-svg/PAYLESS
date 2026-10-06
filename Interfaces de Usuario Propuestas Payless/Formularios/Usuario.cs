@@ -1,15 +1,17 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
@@ -31,7 +33,55 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Usuario_Load(object sender, EventArgs e)
         {
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
 
+
+            lblCliente.Enabled = false;
+            lblVenta.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
+
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
         }
 
         private void MostrarUsuarios()
@@ -138,6 +188,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             columnaRol.Width = 120;
 
             dgvUsuarios.Columns.Add(columnaRol);
+
+
 
 
             // ==========================
@@ -561,6 +613,57 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 txtBuscar.Enabled = true;
                 txtBuscar.Focus();
+            }
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Pusuario ventana = new Pusuario();
+            ventana.ShowDialog();
+            this.Show();
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            Editar_usuarios ventana = new Editar_usuarios();
+            ventana.ShowDialog();
+            this.Show();
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string rutaPDF = @"C:\Users\Lenovo\Desktop\PAYLESS\Interfaces de Usuario Propuestas Payless\Ayuda\Manual_Usuario.pdf";
+
+                if (!File.Exists(rutaPDF))
+                {
+                    MessageBox.Show($"No se encontró el manual en la ruta:\n{rutaPDF}",
+                                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 1. Convertir la ruta del disco a formato URI web (maneja espacios y caracteres especiales)
+                string uriPDF = new Uri(rutaPDF).AbsoluteUri;
+
+                // 2. Cambia el número 2 por el número exacto de la página de Caja
+                int numeroPaginaCaja = 7;
+
+                // 3. Crear el argumento en formato file:///C:/...#page=2
+                string argumentos = $"\"{uriPDF}#page={numeroPaginaCaja}\"";
+
+                ProcessStartInfo edgeInfo = new ProcessStartInfo
+                {
+                    FileName = "msedge.exe",
+                    Arguments = argumentos,
+                    UseShellExecute = true
+                };
+
+                Process.Start(edgeInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

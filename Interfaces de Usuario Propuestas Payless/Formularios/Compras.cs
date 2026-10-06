@@ -1057,6 +1057,60 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void Compras_nuevo_Load(object sender, EventArgs e)
+        {
+
+            lblCaja.Enabled = false;
+            lblProveedores.Enabled = false;
+            lblProductos.Enabled = false;
+            lblVenta.Enabled = false;
+            lblCompras.Enabled = false;
+            lblUsuarios.Enabled = false;
+
+
+            lblCliente.Enabled = false;
+            lblVenta.Enabled = false;
+            lblInventario.Enabled = false;
+            lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
+
+
+            switch (ClaseSesion.RolActual)
+            {
+                case "Administrador":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblUsuarios.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblVenta.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblProveedores.Enabled = true;
+                    lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
+
+
+                    break;
+
+                case "Gerente":
+
+                    lblCaja.Enabled = true;
+                    lblCompras.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+
+                case "Cajero":
+
+                    lblCaja.Enabled = true;
+                    lblVenta.Enabled = true;
+
+                    break;
+            }
+        }
     }
 
 }

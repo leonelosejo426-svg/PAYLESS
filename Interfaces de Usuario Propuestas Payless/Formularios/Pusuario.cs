@@ -2,9 +2,6 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
-using System;
-using System.Data;
-using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
@@ -25,10 +22,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             InitializeComponent();
 
-            // Cargar eventos
-            btnGuardar.Click += btnGuardar_Click;
-            btnCancelar.Click += btnCancelar_Click;
-            this.Load += Pusuario_Load;
+           // // Cargar eventos
+            //btnGuardar.Click += btnGuardar_Click;
+            //btnCancelar.Click += btnCancelar_Click;
+            //this.Load += Pusuario_Load;
         }
 
 
@@ -99,7 +96,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             try
             {
                 // =================================================
-                // OBTENER DATOS DE LOS CONTROLES
+                // OBTENER DATOS
                 // =================================================
 
                 string nombreUsuario =
@@ -120,7 +117,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 string cedula =
                     txtCedula.Text.Trim();
 
-                string gmail =
+                string correo =
                     txtGmail.Text.Trim();
 
 
@@ -252,6 +249,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         nombreCompleto,
                         password,
                         idRol,
+                        correo,
+                        telefono,
+                        cedula,
                         estado);
 
 

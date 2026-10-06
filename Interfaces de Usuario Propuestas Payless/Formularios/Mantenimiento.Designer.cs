@@ -60,6 +60,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.lblReportes = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel8.SuspendLayout();
@@ -71,6 +72,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.Controls.Add(this.lblReportes);
             this.groupBox1.Controls.Add(this.label13);
             this.groupBox1.Controls.Add(this.lblMantenimiento);
             this.groupBox1.Controls.Add(this.lblInventario);
@@ -97,7 +99,7 @@
             this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(14, 663);
+            this.label13.Location = new System.Drawing.Point(26, 663);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(80, 19);
@@ -112,7 +114,7 @@
             this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMantenimiento.ForeColor = System.Drawing.Color.Black;
-            this.lblMantenimiento.Location = new System.Drawing.Point(14, 586);
+            this.lblMantenimiento.Location = new System.Drawing.Point(26, 587);
             this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMantenimiento.Name = "lblMantenimiento";
             this.lblMantenimiento.Size = new System.Drawing.Size(140, 19);
@@ -461,6 +463,20 @@
             this.label3.TabIndex = 129;
             this.label3.Text = "Respaldo de Base de Datos";
             // 
+            // lblReportes
+            // 
+            this.lblReportes.AutoSize = true;
+            this.lblReportes.BackColor = System.Drawing.Color.White;
+            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReportes.ForeColor = System.Drawing.Color.Black;
+            this.lblReportes.Location = new System.Drawing.Point(26, 627);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReportes.Name = "lblReportes";
+            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.TabIndex = 134;
+            this.lblReportes.Text = "📋   Reportes";
+            // 
             // Mantenimiento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -525,5 +541,6 @@
         private System.Windows.Forms.Button btnDescargar;
         private System.Windows.Forms.Button btnRestaurar;
         private System.Windows.Forms.Button btnSeleccionar;
+        private System.Windows.Forms.Label lblReportes;
     }
 }

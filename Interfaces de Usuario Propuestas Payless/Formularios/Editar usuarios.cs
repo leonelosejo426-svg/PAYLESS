@@ -62,9 +62,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             try
             {
-                int idUsuario = Convert.ToInt32(cmbUsuario.SelectedValue);
+                int idUsuario =
+                    Convert.ToInt32(cmbUsuario.SelectedValue);
 
-                DataTable tabla = usuarioDAO.ObtenerUsuario(idUsuario);
+                DataTable tabla =
+                    usuarioDAO.ObtenerUsuario(idUsuario);
 
                 if (tabla == null || tabla.Rows.Count == 0)
                 {
@@ -79,35 +81,56 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 DataRow fila = tabla.Rows[0];
 
-                // Guardamos el ID del usuario que vamos a editar
-                idUsuarioSeleccionado = Convert.ToInt32(fila["id_usuario"]);
+                // Guardar ID seleccionado
+                idUsuarioSeleccionado =
+                    Convert.ToInt32(fila["id_usuario"]);
 
-                // Cargar datos en los controles
-                txtCodigo.Text = fila["id_usuario"].ToString();
-                txtNombreUsuario.Text = fila["nombre_usuario"].ToString();
-                txtNombreCompleto.Text = fila["nombre_completo"].ToString();
-                txtContraseña.Text = fila["password"].ToString();
-                txtConfirmar.Text = fila["password"].ToString();
+                // Cargar datos
+                txtCodigo.Text =
+                    fila["id_usuario"].ToString();
 
-                // Cargar rol
+                txtNombreUsuario.Text =
+                    fila["nombre_usuario"].ToString();
+
+                txtNombreCompleto.Text =
+                    fila["nombre_completo"].ToString();
+
+                txtGmail.Text = fila["correo"].ToString();
+
+                txtCedula.Text = fila["cedula"].ToString();
+
+                txtTelefono.Text = fila["telefono"].ToString();
+
+                txtContraseña.Text =
+                    fila["password"].ToString();
+
+                txtConfirmar.Text =
+                    fila["password"].ToString();
+
+               
+
+                // Rol
                 if (fila["id_rol"] != DBNull.Value)
                 {
                     cmbRol.SelectedValue =
                         Convert.ToInt32(fila["id_rol"]);
                 }
 
-                // Cargar estado
+                // Estado
                 if (fila["estado"] != DBNull.Value)
                 {
-                    bool estado = Convert.ToBoolean(fila["estado"]);
+                    bool estado =
+                        Convert.ToBoolean(fila["estado"]);
 
-                    cmbEstado.SelectedIndex = estado ? 0 : 1;
+                    cmbEstado.SelectedIndex =
+                        estado ? 0 : 1;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar el usuario: " + ex.Message,
+                    "Error al buscar el usuario:\n\n" +
+                    ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -232,6 +255,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 bool estado =
                     cmbEstado.SelectedIndex == 0;
 
+
+
                 // =================================================
                 // LLAMADA AL MÉTODO EditarUsuario DEL DAO
                 // =================================================
@@ -242,6 +267,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     txtNombreCompleto.Text.Trim(),
                     txtContraseña.Text,
                     idRol,
+                    txtGmail.Text.Trim(),
+                    txtTelefono.Text.Trim(),
+                    txtCedula.Text.Trim(),
                     estado
                 );
 
@@ -276,12 +304,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void CargarUsuarios()
         {
-            DataTable tabla = usuarioDAO.MostrarUsuarios();
+            try
+            {
+                DataTable tabla = usuarioDAO.MostrarUsuarios();
 
-            cmbRol.DataSource = tabla;
-            cmbEstado.DisplayMember = "nombre_usuario";
-            cmbRol.ValueMember = "id_usuario";
-            cmbEstado.SelectedIndex = -1;
+                cmbUsuario.DataSource = tabla;
+                cmbUsuario.DisplayMember = "nombre_usuario";
+                cmbUsuario.ValueMember = "id_usuario";
+
+                cmbUsuario.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudieron cargar los usuarios.\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         // =========================================================
@@ -290,20 +331,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void CargarRoles()
         {
-            DataTable tabla = usuarioDAO.CargarRoles();
+            try
+            {
+                DataTable tabla = usuarioDAO.CargarRoles();
 
-            cmbRol.DataSource = tabla;
-            cmbRol.DisplayMember = "nombre_rol";
-            cmbRol.ValueMember = "id_rol";
-            cmbRol.SelectedIndex = -1;
+                cmbRol.DataSource = tabla;
+                cmbRol.DisplayMember = "nombre_rol";
+                cmbRol.ValueMember = "id_rol";
+
+                cmbRol.SelectedIndex = -1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "No se pudieron cargar los roles.\n\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
 
 
         private void btnRegresar_Click(object sender, EventArgs e)
         {
-            Usuario ventana = new Usuario();
-            ventana.Show();
+            
             this.Close();
 
         }
