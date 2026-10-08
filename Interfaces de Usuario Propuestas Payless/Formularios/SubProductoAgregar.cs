@@ -29,7 +29,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CargarCategorias();
             CargarMarcas();
             CargarProveedores();
-            CargarTallas();
+           
 
         }
         private void CargarCategorias()
@@ -53,16 +53,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             cmbProveedor.ValueMember = "id_proveedor";
             cmbProveedor.SelectedIndex = -1;
         }
-        private void CargarTallas()
-        {
-            cmbTalla.Items.Clear();
-
-            for (int i = 30; i <= 45; i++)
-            {
-                cmbTalla.Items.Add(i.ToString());
-            }
-            cmbTalla.SelectedIndex = -1;
-        }
+       
         private bool ValidarCampos()
         {
             // Validar nombre
@@ -122,19 +113,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return false;
             }
 
-            // Validar talla
-            if (cmbTalla.SelectedIndex == -1 ||
-                string.IsNullOrWhiteSpace(cmbTalla.Text))
-            {
-                MessageBox.Show(
-                    "Seleccione una talla",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
 
-                cmbTalla.Focus();
-                return false;
-            }
 
             // Todos los campos son válidos
             return true;
@@ -144,124 +123,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnGuardar_Click(object sender, EventArgs e)
         {
 
-            if (!ValidarCampos())
-                return;
-
-            try
-            {
-                ClaseProducto producto = new ClaseProducto();
-
-                // Nombre
-                producto.Nombre =
-                    txtNombredelProducto.Text.Trim();
-
-                // Producto nuevo = activo
-                producto.EstadoProducto = true;
-
-
-                // Categoría
-                if (!int.TryParse(
-                    cmbCategoria.SelectedValue?.ToString(),
-                    out int idCategoria))
-                {
-                    MessageBox.Show(
-                        "Seleccione una categoría válida.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    cmbCategoria.Focus();
-                    return;
-                }
-
-                producto.IdCategoria = idCategoria;
-
-
-                // Marca
-                if (!int.TryParse(
-                    cmbMarca.SelectedValue?.ToString(),
-                    out int idMarca))
-                {
-                    MessageBox.Show(
-                        "Seleccione una marca válida.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    cmbMarca.Focus();
-                    return;
-                }
-
-                producto.IdMarca = idMarca;
-
-
-                // Proveedor
-                if (!int.TryParse(
-                    cmbProveedor.SelectedValue?.ToString(),
-                    out int idProveedor))
-                {
-                    MessageBox.Show(
-                        "Seleccione un proveedor válido.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    cmbProveedor.Focus();
-                    return;
-                }
-
-                producto.IdProveedor = idProveedor;
-
-
-                // Talla
-                string talla = cmbTalla.Text.Trim();
-
-
-                
-
-
-                // Stock mínimo
-                int stockMinimo = 5;
-
-
-                // Guardar
-                bool resultado =
-                    DAO.AgregarProducto(
-                        producto,
-                       
-                      
-                        stockMinimo);
-
-
-                if (resultado)
-                {
-                    MessageBox.Show(
-                        "Producto guardado correctamente.",
-                        "Éxito",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    LimpiarCampos();
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "No se pudo guardar el producto.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Ocurrió un error al guardar el producto:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-            }
+            
         }
         private void LimpiarCampos()
 
@@ -271,7 +133,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             cmbCategoria.SelectedIndex = -1;
             cmbMarca.SelectedIndex = -1;
             cmbProveedor.SelectedIndex = -1;
-            cmbTalla.SelectedIndex = -1;
+           
             txtNombredelProducto.Focus();
 
         }

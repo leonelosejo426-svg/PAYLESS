@@ -32,6 +32,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             CargarUsuarios();
             CargarRoles();
+            
 
             cmbEstado.Items.Clear();
             cmbEstado.Items.Add("Activo");
@@ -86,28 +87,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     Convert.ToInt32(fila["id_usuario"]);
 
                 // Cargar datos
-                txtCodigo.Text =
-                    fila["id_usuario"].ToString();
+                txtCodigo.Text = fila["id_usuario"].ToString();
+                txtNombreUsuario.Text = fila["nombre_usuario"].ToString();
+                txtNombreCompleto.Text = fila["nombre_completo"].ToString();
 
-                txtNombreUsuario.Text =
-                    fila["nombre_usuario"].ToString();
+                txtGmail.Text = fila["correo"] != DBNull.Value ? fila["correo"].ToString() : "";
+                txtCedula.Text = fila["cedula"] != DBNull.Value ? fila["cedula"].ToString() : "";
+                txtTelefono.Text = fila["telefono"] != DBNull.Value ? fila["telefono"].ToString() : "";
 
-                txtNombreCompleto.Text =
-                    fila["nombre_completo"].ToString();
+                txtContraseña.Text = fila["password"].ToString();
+                txtConfirmar.Text = fila["password"].ToString();
 
-                txtGmail.Text = fila["correo"].ToString();
 
-                txtCedula.Text = fila["cedula"].ToString();
-
-                txtTelefono.Text = fila["telefono"].ToString();
-
-                txtContraseña.Text =
-                    fila["password"].ToString();
-
-                txtConfirmar.Text =
-                    fila["password"].ToString();
-
-               
 
                 // Rol
                 if (fila["id_rol"] != DBNull.Value)
@@ -358,6 +349,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             
             this.Close();
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
 
         }
     }

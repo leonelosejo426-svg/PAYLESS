@@ -29,28 +29,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         ""Categoría"",
                         ""Marca"",
                         ""Proveedor"",
+                        ""Talla"",
                         ""Precio Venta"",
-                        ""Tallas"",
-                        ""Stock Total"",
+                        ""Stock"",
                         ""Estado""
                     FROM vw_reporte_productos
                     WHERE
                         @estado = 'Todos'
                         OR ""Estado"" = @estado
-                    ORDER BY ""Producto"";
+                    ORDER BY ""Producto"", ""Talla"";
                 ";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@estado",
-                        estado);
+                    cmd.Parameters.AddWithValue("@estado", estado);
 
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }

@@ -557,8 +557,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
 
-       
-        
+        public DataTable MostrarProveedoresConProductos()
+        {
+            DataTable tabla = new DataTable();
+
+            using (NpgsqlConnection conexion = new NpgsqlConnection(conexionBD.ObtenerConexion().ConnectionString))
+            {
+                string sql = @"
+            SELECT DISTINCT 
+                p.id_proveedor, 
+                p.nombre
+            FROM proveedor p
+            INNER JOIN producto prod ON p.id_proveedor = prod.id_proveedor
+            ORDER BY p.nombre ASC;";
+
+                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conexion))
+                {
+                    da.Fill(tabla);
+                }
+            }
+
+            return tabla;
+        }
+
     }
     
 }

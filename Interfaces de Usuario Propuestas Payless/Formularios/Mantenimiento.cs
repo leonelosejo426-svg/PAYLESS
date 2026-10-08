@@ -17,7 +17,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     {
         private RespaldoBD respaldoBD = new RespaldoBD();
 
-        // Guarda temporalmente el archivo seleccionado
         private string rutaArchivoSeleccionado = "";
         public Mantenimiento()
         {
@@ -101,6 +100,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Mantenimiento_Load(object sender, EventArgs e)
         {
+            ConfigurarPermisos();
+
+            try
+            {
+                CargarRespaldos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
+        }
+
+
+        private void ConfigurarPermisos()
+        {
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;
@@ -108,13 +127,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblCompras.Enabled = false;
             lblUsuarios.Enabled = false;
 
-
             lblCliente.Enabled = false;
-            lblVenta.Enabled = false;
             lblInventario.Enabled = false;
             lblMantenimiento.Enabled = false;
             lblReportes.Enabled = false;
-
 
             switch (ClaseSesion.RolActual)
             {
@@ -126,12 +142,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblMantenimiento.Enabled = true;
                     lblCliente.Enabled = true;
-                    lblVenta.Enabled = true;
                     lblInventario.Enabled = true;
                     lblProveedores.Enabled = true;
                     lblProductos.Enabled = true;
                     lblReportes.Enabled = true;
-
 
                     break;
 
@@ -150,36 +164,55 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     break;
             }
-
-
-            CargarRespaldos();
-
-            // AQUÍ VA TU CÓDIGO:
-            dgvRespaldos.DataSource = respaldoBD.MostrarRespaldos();
-
-            // Código ultra corto para los tamaños (Ajustado por el orden de tus columnas)
-            dgvRespaldos.Columns[0].Width = 240; // Nombre
-            dgvRespaldos.Columns[2].Width = 140; // Fecha
-            dgvRespaldos.Columns[3].Width = 80;  // Tamaño
-            dgvRespaldos.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill; // Ruta (Ubicación)
-
         }
 
         private void CargarRespaldos()
         {
             try
             {
-                dgvRespaldos.DataSource = null;
-
                 dgvRespaldos.DataSource =
                     respaldoBD.MostrarRespaldos();
+
+                if (dgvRespaldos.Columns.Contains(
+                    "Nombre"))
+                {
+                    dgvRespaldos.Columns[
+                        "Nombre"].Width = 200;
+                }
+
+                if (dgvRespaldos.Columns.Contains(
+                    "Tipo"))
+                {
+                    dgvRespaldos.Columns[
+                        "Tipo"].Width = 120;
+                }
+
+                if (dgvRespaldos.Columns.Contains(
+                    "Ruta"))
+                {
+                    dgvRespaldos.Columns[
+                        "Ruta"].Width = 450;
+                }
+
+                if (dgvRespaldos.Columns.Contains(
+                    "Fecha"))
+                {
+                    dgvRespaldos.Columns[
+                        "Fecha"].Width = 150;
+                }
+
+                if (dgvRespaldos.Columns.Contains(
+                    "Tamaño"))
+                {
+                    dgvRespaldos.Columns[
+                        "Tamaño"].Width = 100;
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "No se pudieron cargar los respaldos.\n\n" +
                     ex.Message,
-                    "Error",
+                    "Error al cargar respaldos",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -206,40 +239,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             try
             {
-                string nombre = "Respaldo_Sistema";
-
-                string rutaArchivo;
+                string ruta;
 
                 bool resultado =
-                    respaldoBD.CrearRespaldo(
-                        nombre,
-                        out rutaArchivo);
+                    respaldoBD.CrearRespaldoCompleto(
+                        "Respaldo_Completo",
+                        out ruta);
 
                 if (resultado)
                 {
                     MessageBox.Show(
-                        "El respaldo se creó correctamente.",
-                        "Respaldo",
+                        "Respaldo completo creado correctamente.\n\n" +
+                        "El archivo fue cifrado para proteger " +
+                        "la información de la base de datos.\n\n" +
+                        "Ubicación:\n" +
+                        ruta,
+                        "Respaldo completo",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
                     CargarRespaldos();
                 }
-                else
-                {
-                    MessageBox.Show(
-                        "No se pudo crear el respaldo.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Ocurrió un error al crear el respaldo.\n\n" +
                     ex.Message,
-                    "Error",
+                    "Error al crear respaldo",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -249,26 +275,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             try
             {
-                using (OpenFileDialog dialogo = new OpenFileDialog())
+                using (OpenFileDialog dialogo =
+                    new OpenFileDialog())
                 {
-                    dialogo.Title = "Seleccionar respaldo";
+                    dialogo.Title =
+                        "Seleccionar respaldo completo";
 
                     dialogo.Filter =
-                        "Archivos SQL (*.sql)|*.sql|" +
-                        "Todos los archivos (*.*)|*.*";
+                        "Respaldos SQL (*.sql)|*.sql";
 
                     dialogo.Multiselect = false;
 
-                    if (dialogo.ShowDialog() == DialogResult.OK)
+                    if (dialogo.ShowDialog() ==
+                        DialogResult.OK)
                     {
                         rutaArchivoSeleccionado =
                             dialogo.FileName;
 
                         MessageBox.Show(
-                            "Archivo seleccionado:\n\n" +
-                            Path.GetFileName(
-                                rutaArchivoSeleccionado),
-                            "Archivo seleccionado",
+                            "Respaldo seleccionado:\n\n" +
+                            rutaArchivoSeleccionado,
+                            "Seleccionar respaldo",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
                     }
@@ -277,7 +304,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "No se pudo seleccionar el archivo.\n\n" +
                     ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
@@ -289,19 +315,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             try
             {
-           
-                if (string.IsNullOrWhiteSpace(
-                    rutaArchivoSeleccionado))
-                {
-                    rutaArchivoSeleccionado =
-                        ObtenerRutaSeleccionada();
-                }
-
-                if (string.IsNullOrWhiteSpace(
-                    rutaArchivoSeleccionado))
+                if (dgvRespaldos.CurrentRow == null)
                 {
                     MessageBox.Show(
-                        "Seleccione primero un archivo de respaldo.",
+                        "Seleccione un respaldo de la lista.",
                         "Restaurar",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -309,49 +326,105 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                DialogResult confirmacion =
+                // Obtener tipo
+                string tipo =
+                    dgvRespaldos.CurrentRow
+                    .Cells["Tipo"]
+                    .Value?
+                    .ToString();
+
+                // Obtener ruta
+                string ruta =
+                    dgvRespaldos.CurrentRow
+                    .Cells["Ruta"]
+                    .Value?
+                    .ToString();
+
+                if (string.IsNullOrWhiteSpace(tipo))
+                {
                     MessageBox.Show(
-                        "¿Está seguro de restaurar este respaldo?\n\n" +
-                        "La información actual de la base de datos " +
-                        "puede verse afectada.",
+                        "No se pudo determinar el tipo " +
+                        "de respaldo.",
+                        "Restaurar",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                // ======================================================
+                // SOLAMENTE COMPLETO
+                // ======================================================
+
+                if (!tipo.Equals(
+                    "Completo",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    MessageBox.Show(
+                        "Solo se pueden restaurar " +
+                        "los respaldos completos.\n\n" +
+                        "El respaldo seleccionado es de tipo: " +
+                        tipo,
+                        "Restaurar respaldo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(ruta))
+                {
+                    MessageBox.Show(
+                        "No se encontró la ruta del respaldo.",
+                        "Restaurar",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    return;
+                }
+
+                // ======================================================
+                // CONFIRMACIÓN
+                // ======================================================
+
+                DialogResult respuesta =
+                    MessageBox.Show(
+                        "¿Está seguro de restaurar este " +
+                        "respaldo completo?\n\n" +
+                        "La información actual de la base " +
+                        "de datos será reemplazada.",
                         "Confirmar restauración",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
 
-                if (confirmacion != DialogResult.Yes)
+                if (respuesta != DialogResult.Yes)
                     return;
+
+                // ======================================================
+                // RESTAURAR
+                // ======================================================
 
                 bool resultado =
                     respaldoBD.RestaurarRespaldo(
-                        rutaArchivoSeleccionado);
+                        ruta);
 
                 if (resultado)
                 {
                     MessageBox.Show(
-                        "El respaldo se restauró correctamente.",
+                        "El respaldo completo fue " +
+                        "descifrado y restaurado correctamente.",
                         "Restauración",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    rutaArchivoSeleccionado = "";
-
                     CargarRespaldos();
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "No se pudo restaurar el respaldo.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Ocurrió un error al restaurar el respaldo.\n\n" +
                     ex.Message,
-                    "Error",
+                    "Error al restaurar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -362,35 +435,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (dgvRespaldos.CurrentRow == null)
                 return "";
 
-            try
+            if (dgvRespaldos.Columns.Contains("Ruta"))
             {
-                // Si tienes una columna llamada rutaArchivo
-                if (dgvRespaldos.Columns.Contains(
-                    "rutaArchivo"))
-                {
-                    object valor =
-                        dgvRespaldos.CurrentRow
-                        .Cells["rutaArchivo"].Value;
+                object valor =
+                    dgvRespaldos.CurrentRow
+                    .Cells["Ruta"]
+                    .Value;
 
-                    if (valor != null)
-                        return valor.ToString();
-                }
-
-                // Si la ruta está en la columna Ruta
-                if (dgvRespaldos.Columns.Contains(
-                    "Ruta"))
-                {
-                    object valor =
-                        dgvRespaldos.CurrentRow
-                        .Cells["Ruta"].Value;
-
-                    if (valor != null)
-                        return valor.ToString();
-                }
-            }
-            catch
-            {
-                return "";
+                if (valor != null)
+                    return valor.ToString();
             }
 
             return "";
@@ -405,14 +458,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 if (string.IsNullOrWhiteSpace(ruta))
                 {
-                    ruta = rutaArchivoSeleccionado;
-                }
-
-                if (string.IsNullOrWhiteSpace(ruta) ||
-                    !File.Exists(ruta))
-                {
                     MessageBox.Show(
-                        "Seleccione un respaldo válido.",
+                        "Seleccione un respaldo.",
                         "Descargar",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -423,25 +470,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 using (SaveFileDialog dialogo =
                     new SaveFileDialog())
                 {
-                    dialogo.Title =
-                        "Guardar copia del respaldo";
-
-                    dialogo.Filter =
-                        "Archivo SQL (*.sql)|*.sql";
-
                     dialogo.FileName =
                         Path.GetFileName(ruta);
+
+                    dialogo.Filter =
+                        "Archivo de respaldo (*.sql)|*.sql";
 
                     if (dialogo.ShowDialog() ==
                         DialogResult.OK)
                     {
-                        File.Copy(
+                        respaldoBD.CopiarRespaldo(
                             ruta,
-                            dialogo.FileName,
-                            true);
+                            dialogo.FileName);
 
                         MessageBox.Show(
-                            "El respaldo se guardó correctamente.",
+                            "Respaldo descargado correctamente.",
                             "Descargar",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information);
@@ -451,9 +494,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "No se pudo guardar el respaldo.\n\n" +
                     ex.Message,
-                    "Error",
+                    "Error al descargar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -468,14 +510,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 if (string.IsNullOrWhiteSpace(ruta))
                 {
-                    ruta = rutaArchivoSeleccionado;
-                }
-
-                if (string.IsNullOrWhiteSpace(ruta) ||
-                    !File.Exists(ruta))
-                {
                     MessageBox.Show(
-                        "Seleccione primero un respaldo.",
+                        "Seleccione un respaldo.",
                         "Eliminar",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning);
@@ -483,47 +519,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                DialogResult confirmacion =
+                DialogResult respuesta =
                     MessageBox.Show(
-                        "¿Está seguro de eliminar este respaldo?\n\n" +
-                        Path.GetFileName(ruta),
+                        "¿Está seguro de eliminar " +
+                        "el respaldo seleccionado?",
                         "Confirmar eliminación",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Warning);
 
-                if (confirmacion != DialogResult.Yes)
+                if (respuesta != DialogResult.Yes)
                     return;
 
-                bool resultado =
-                    respaldoBD.EliminarRespaldo(ruta);
+                respaldoBD.EliminarRespaldo(
+                    ruta);
 
-                if (resultado)
-                {
-                    MessageBox.Show(
-                        "El respaldo se eliminó correctamente.",
-                        "Eliminar",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                MessageBox.Show(
+                    "Respaldo eliminado correctamente.",
+                    "Eliminar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
 
-                    rutaArchivoSeleccionado = "";
-
-                    CargarRespaldos();
-                }
-                else
-                {
-                    MessageBox.Show(
-                        "No se pudo eliminar el respaldo.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-                }
+                CargarRespaldos();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Ocurrió un error al eliminar el respaldo.\n\n" +
                     ex.Message,
-                    "Error",
+                    "Error al eliminar",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
@@ -531,7 +553,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button6_Click(object sender, EventArgs e)
         {
+            try
+            {
+                CargarRespaldos();
 
+                MessageBox.Show(
+                    "Lista de respaldos actualizada.",
+                    "Actualizar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
 
         private void label13_Click(object sender, EventArgs e)
@@ -570,5 +609,99 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnIncremental_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string carpeta;
+
+                bool resultado =
+                    respaldoBD.CrearRespaldoIncremental(
+                        out carpeta);
+
+                if (resultado)
+                {
+                    MessageBox.Show(
+                        "Respaldo incremental creado correctamente.\n\n" +
+                        "Ubicación:\n" +
+                        carpeta,
+                        "Respaldo incremental",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    CargarRespaldos();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error al crear respaldo incremental",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnDiferencial_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string ruta;
+
+                bool resultado =
+                    respaldoBD.CrearRespaldoDiferencial(
+                        out ruta);
+
+                if (resultado)
+                {
+                    MessageBox.Show(
+                        "Respaldo diferencial creado correctamente.\n\n" +
+                        "El archivo fue cifrado para proteger " +
+                        "la información de la base de datos.\n\n" +
+                        "Ubicación:\n" +
+                        ruta,
+                        "Respaldo diferencial",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    CargarRespaldos();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    ex.Message,
+                    "Error al crear respaldo diferencial",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private string ObtenerTamaño(
+            long bytes)
+        {
+            if (bytes < 1024)
+                return bytes + " B";
+
+            if (bytes <
+                1024 * 1024)
+            {
+                return
+                    $"{bytes / 1024.0:F2} KB";
+            }
+
+            if (bytes <
+                1024L * 1024L * 1024L)
+            {
+                return
+                    $"{bytes / 1024.0 / 1024.0:F2} MB";
+            }
+
+            return
+                $"{bytes / 1024.0 / 1024.0 / 1024.0:F2} GB";
+        }
+
+
     }
 }

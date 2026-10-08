@@ -170,10 +170,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void CBproducto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CBproducto.SelectedIndex == -1)
-                return;
-
-            if (CBproducto.SelectedValue == null)
+            if (CBproducto.SelectedIndex == -1 || CBproducto.SelectedValue == null)
                 return;
 
             try
@@ -181,13 +178,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 if (CBproducto.SelectedValue is DataRowView)
                     return;
 
-                idProductoSeleccionado =
-                    Convert.ToInt32(CBproducto.SelectedValue);
+                idProductoSeleccionado = Convert.ToInt32(CBproducto.SelectedValue);
 
                 CargarInformacionProducto();
-                CargarTallas();
 
+                // Limpiamos precio y stock hasta que el usuario elija la talla
+                txtPrecioVenta.Clear();
+                precioVentaActual = 0;
                 txtStockActual.Clear();
+
+                CargarTallas();
             }
             catch (Exception ex)
             {
@@ -202,48 +202,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void CargarInformacionProducto()
         {
-            DataTable producto =
-                ventaDAO.ObtenerProducto(idProductoSeleccionado);
+            DataTable producto = ventaDAO.ObtenerProducto(idProductoSeleccionado);
 
             if (producto.Rows.Count == 0)
                 return;
 
             DataRow fila = producto.Rows[0];
 
-            CBcategoria.Text =
-                fila["nombre_categoria"].ToString();
-
-            CBmarca.Text =
-                fila["nombre_marca"].ToString();
-
-            CargarPrecio();
+            CBcategoria.Text = fila["nombre_categoria"].ToString();
+            CBmarca.Text = fila["nombre_marca"].ToString();
         }
 
-        private void CargarPrecio()
-        {
-            decimal? precio =
-                ventaDAO.ObtenerPrecioProducto(idProductoSeleccionado);
 
-            if (precio == null || precio.Value <= 0)
-            {
-                precioVentaActual = 0;
-                txtPrecioVenta.Clear();
-
-                MessageBox.Show(
-                    "Este producto no tiene un precio de venta registrado.",
-                    "Precio no disponible",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-
-                return;
-            }
-
-            precioVentaActual = precio.Value;
-
-            txtPrecioVenta.Text =
-                precioVentaActual.ToString("N2");
-        }
 
         private void CargarTallas()
         {
@@ -306,21 +276,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void cmbTalla_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (CBTalla.SelectedIndex == -1)
+            if (CBTalla.SelectedIndex == -1 || CBTalla.SelectedValue == null)
+            {
+                txtStockActual.Clear();
+                txtPrecioVenta.Clear();
+                precioVentaActual = 0;
                 return;
-
-            if (CBTalla.SelectedValue == null)
-                return;
+            }
 
             try
             {
                 if (CBTalla.SelectedValue is DataRowView)
                     return;
 
-                idProductoTallaSeleccionado =
-                    Convert.ToInt32(CBTalla.SelectedValue);
+                idProductoTallaSeleccionado = Convert.ToInt32(CBTalla.SelectedValue);
 
                 CargarStock();
+                CargarPrecio(); // Muestra el precio una vez elegida la talla
             }
             catch (Exception ex)
             {
@@ -331,6 +303,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxIcon.Error
                 );
             }
+        }
+
+        private void CargarPrecio()
+        {
+            if (idProductoTallaSeleccionado <= 0)
+                return;
+
+            decimal? precio = ventaDAO.ObtenerPrecioProductoTalla(idProductoTallaSeleccionado);
+
+            if (precio == null || precio.Value <= 0)
+            {
+                precioVentaActual = 0;
+                txtPrecioVenta.Clear();
+                return;
+            }
+
+            precioVentaActual = precio.Value;
+            txtPrecioVenta.Text = precioVentaActual.ToString("N2");
         }
 
         private void CargarStock()

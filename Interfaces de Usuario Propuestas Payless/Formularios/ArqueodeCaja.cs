@@ -1,4 +1,5 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,12 +16,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
     public partial class ArqueodeCaja : Form
     {
 
-        private ArqueoCajaDAO arqueoDAO =
-           new ArqueoCajaDAO();
-
+        private ArqueoCajaDAO arqueoDAO = new ArqueoCajaDAO();
         private int idCajaActual = 0;
         private decimal tipoCambio = 36.50m;
 
+        // Ventas esperadas del turno por moneda
+        private decimal ventasEsperadasCordobas = 0m;
+        private decimal ventasEsperadasDolares = 0m;
 
         public ArqueodeCaja()
         {
@@ -39,28 +41,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void ArqueodeCaja_Load(object sender, EventArgs e)
         {
-            idCajaActual =
-                arqueoDAO.ObtenerCajaAbierta();
+            idCajaActual = arqueoDAO.ObtenerCajaAbierta();
 
             if (idCajaActual == 0)
             {
-                MessageBox.Show(
-                    "No hay una caja abierta.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("No hay una caja abierta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 Close();
                 return;
             }
 
-            tipoCambio =
-                arqueoDAO.ObtenerTipoCambio(
-                    idCajaActual);
+            tipoCambio = arqueoDAO.ObtenerTipoCambio(idCajaActual);
 
-            lblTipoCambio.Text =
-                "C$ " +
-                tipoCambio.ToString("N2");
+            if (Controls.Find("lblTipoCambio", true).Length > 0)
+                lblTipoCambio.Text = "C$ " + tipoCambio.ToString("N2");
+
+            // Carga de ventas esperadas en Córdobas
+            ventasEsperadasCordobas = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
+
+            if (Controls.Find("lblVentasTotales", true).Length > 0)
+                lblVentasTotales.Text = "C$ " + ventasEsperadasCordobas.ToString("N2");
 
             ConfigurarEventos();
             CalcularArqueo();
@@ -71,59 +70,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // =====================================================
         private void ConfigurarEventos()
         {
-            txt100Dolares.TextChanged +=
-                Cantidades_TextChanged;
+            // Dólares
+            txt100Dolares.TextChanged += Cantidades_TextChanged;
+            txt50Dolares.TextChanged += Cantidades_TextChanged;
+            txt20Dolares.TextChanged += Cantidades_TextChanged;
+            txt10Dolares.TextChanged += Cantidades_TextChanged;
+            txt5Dolares.TextChanged += Cantidades_TextChanged;
+            txt1Dolar.TextChanged += Cantidades_TextChanged;
 
-            txt50Dolares.TextChanged +=
-                Cantidades_TextChanged;
+            // Billetes Córdobas
+            txt1000Cordobas.TextChanged += Cantidades_TextChanged;
+            txt500Cordobas.TextChanged += Cantidades_TextChanged;
+            txt200Cordobas.TextChanged += Cantidades_TextChanged;
+            txt100Cordobas.TextChanged += Cantidades_TextChanged;
+            txt50Cordobas.TextChanged += Cantidades_TextChanged;
+            txt20Cordobas.TextChanged += Cantidades_TextChanged;
+            txt10Cordobas.TextChanged += Cantidades_TextChanged;
+            txt5Cordobas.TextChanged += Cantidades_TextChanged;
 
-            txt20Dolares.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt20Dolares.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt5Dolares.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt1Dolar.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt1000Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt500Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt200Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt100Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt50Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt20Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt10Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt5Cordobas.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt5Moneda.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt1Moneda.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt50Centavos.TextChanged +=
-                Cantidades_TextChanged;
-
-            txt25Centavos.TextChanged +=
-                Cantidades_TextChanged;
+            // Monedas Córdobas
+            txt5Moneda.TextChanged += Cantidades_TextChanged;
+            txt1Moneda.TextChanged += Cantidades_TextChanged;
+            txt50Centavos.TextChanged += Cantidades_TextChanged;
+            txt25Centavos.TextChanged += Cantidades_TextChanged;
         }
 
         private void Cantidades_TextChanged(
@@ -136,19 +105,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // =====================================================
         // CONVERTIR CANTIDAD
         // =====================================================
-        private int Cantidad(
-            TextBox txt)
+        private int Cantidad(TextBox txt)
         {
-            int cantidad;
-
-            if (int.TryParse(
-                txt.Text.Trim(),
-                out cantidad))
-            {
-                if (cantidad >= 0)
-                    return cantidad;
-            }
-
+            if (txt != null && int.TryParse(txt.Text.Trim(), out int cantidad) && cantidad >= 0)
+                return cantidad;
             return 0;
         }
 
@@ -157,186 +117,118 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // =====================================================
         private void CalcularArqueo()
         {
-            decimal total100D =
-                Cantidad(txt100Dolares) * 100m;
+            // 1. DÓLARES (RECURSIVO)
+            int[] cantDolares = {
+                Cantidad(txt100Dolares), Cantidad(txt50Dolares), Cantidad(txt20Dolares),
+                Cantidad(txt10Dolares),  Cantidad(txt5Dolares),  Cantidad(txt1Dolar)
+            };
+            decimal[] denomDolares = { 100m, 50m, 20m, 10m, 5m, 1m };
 
-            decimal total50D =
-                Cantidad(txt50Dolares) * 50m;
+            // Subtotales individuales dólares
+            lblTotal100Dolares.Text = "$ " + (cantDolares[0] * 100m).ToString("N2");
+            lblTotal50Dolares.Text = "$ " + (cantDolares[1] * 50m).ToString("N2");
+            lblTotal20Dolares.Text = "$ " + (cantDolares[2] * 20m).ToString("N2");
+            lblTotal10Dolares.Text = "$ " + (cantDolares[3] * 10m).ToString("N2");
+            lblTotal5Dolares.Text = "$ " + (cantDolares[4] * 5m).ToString("N2");
+            lblTotal1Dolar.Text = "$ " + (cantDolares[5] * 1m).ToString("N2");
 
-            decimal total20D =
-                Cantidad(txt20Dolares) * 20m;
+            decimal totalDolares = RecursividadArqueo.SumarDenominacionesRecursivo(cantDolares, denomDolares);
+            decimal conversionDolares = totalDolares * tipoCambio;
 
-            decimal total10D =
-                Cantidad(txt20Dolares) * 10m;
+            // 2. BILLETES CÓRDOBAS (RECURSIVO)
+            int[] cantBilletesCor = {
+                Cantidad(txt1000Cordobas), Cantidad(txt500Cordobas), Cantidad(txt200Cordobas), Cantidad(txt100Cordobas),
+                Cantidad(txt50Cordobas),   Cantidad(txt20Cordobas),  Cantidad(txt10Cordobas),  Cantidad(txt5Cordobas)
+            };
+            decimal[] denomBilletesCor = { 1000m, 500m, 200m, 100m, 50m, 20m, 10m, 5m };
 
-            decimal total5D =
-                Cantidad(txt5Dolares) * 5m;
+            // Subtotales individuales billetes
+            lblTotal1000Cordobas.Text = "C$ " + (cantBilletesCor[0] * 1000m).ToString("N2");
+            lblTotal500Cordobas.Text = "C$ " + (cantBilletesCor[1] * 500m).ToString("N2");
+            lblTotal200Cordobas.Text = "C$ " + (cantBilletesCor[2] * 200m).ToString("N2");
+            lblTotal100Cordobas.Text = "C$ " + (cantBilletesCor[3] * 100m).ToString("N2");
+            lblTotal50Cordobas.Text = "C$ " + (cantBilletesCor[4] * 50m).ToString("N2");
+            lblTotal20Cordobas.Text = "C$ " + (cantBilletesCor[5] * 20m).ToString("N2");
+            lblTotal10Cordobas.Text = "C$ " + (cantBilletesCor[6] * 10m).ToString("N2");
+            lblTotal5Cordobas.Text = "C$ " + (cantBilletesCor[7] * 5m).ToString("N2");
 
-            decimal total1D =
-                Cantidad(txt1Dolar) * 1m;
+            decimal totalBilletesCordobas = RecursividadArqueo.SumarDenominacionesRecursivo(cantBilletesCor, denomBilletesCor);
 
-            lblTotal100Dolares.Text =
-                "$ " + total100D.ToString("N2");
+            if (Controls.Find("lblTotalBilletesCordobas", true).Length > 0)
+                lblTotalEnCordobas.Text = "C$ " + totalBilletesCordobas.ToString("N2");
 
-            lblTotal50Dolares.Text =
-                "$ " + total50D.ToString("N2");
+            // 3. MONEDAS CÓRDOBAS (RECURSIVO)
+            int[] cantMonedas = {
+                Cantidad(txt5Moneda), Cantidad(txt1Moneda), Cantidad(txt50Centavos), Cantidad(txt25Centavos)
+            };
+            decimal[] denomMonedas = { 5m, 1m, 0.50m, 0.25m };
 
-            lblTotal20Dolares.Text =
-                "$ " + total20D.ToString("N2");
+            // Subtotales individuales monedas
+            lblTotal5Moneda.Text = "C$ " + (cantMonedas[0] * 5m).ToString("N2");
+            lblTotal1Moneda.Text = "C$ " + (cantMonedas[1] * 1m).ToString("N2");
+            lblTotal50Centavos.Text = "C$ " + (cantMonedas[2] * 0.50m).ToString("N2");
+            lblTotal25Centavos.Text = "C$ " + (cantMonedas[3] * 0.25m).ToString("N2");
 
-            lblTotal10Dolares.Text =
-                "$ " + total10D.ToString("N2");
+            decimal totalMonedas = RecursividadArqueo.SumarDenominacionesRecursivo(cantMonedas, denomMonedas);
 
-            lblTotal5Dolares.Text =
-                "$ " + total5D.ToString("N2");
+            if (Controls.Find("lblTotalMonedas", true).Length > 0)
+                lblTotalEnMonedas.Text = "C$ " + totalMonedas.ToString("N2");
 
-            lblTotal1Dolar.Text =
-                "$ " + total1D.ToString("N2");
+            // 4. TOTAL ACUMULADO ARQUEADO EN CÓRDOBAS
+            List<decimal> subtotales = new List<decimal> { totalBilletesCordobas, totalMonedas, conversionDolares };
+            decimal montoTotalArqueado = RecursividadArqueo.SumarListaRecursivo(subtotales);
 
-            decimal totalDolares =
-                total100D +
-                total50D +
-                total20D +
-                total10D +
-                total5D +
-                total1D;
+            if (Controls.Find("lblMontoTotalArqueado", true).Length > 0)
+                lblMontoTotalArqueado.Text = "C$ " + montoTotalArqueado.ToString("N2");
 
-            lblTotalBilletesDolares.Text =
-                "$ " +
-                totalDolares.ToString("N2");
+            // 5. RESUMEN EN PANTALLA
+            if (Controls.Find("lblTotalEnCordobas", true).Length > 0)
+                lblTotalEnCordobas.Text = "C$ " + totalBilletesCordobas.ToString("N2");
 
-            decimal conversionDolares =
-                totalDolares * tipoCambio;
+            if (Controls.Find("lblTotalEnMonedas", true).Length > 0)
+                lblTotalEnMonedas.Text = "C$ " + totalMonedas.ToString("N2");
 
-            lblConversionDolares.Text =
-                "C$ " +
-                conversionDolares.ToString("N2");
+            if (Controls.Find("lblTotalEnDolares", true).Length > 0)
+                lblTotalEnDolares.Text = "$ " + totalDolares.ToString("N2");
 
-            // =================================================
-            // CÓRDOBAS
-            // =================================================
+            if (Controls.Find("lblConversionDolares", true).Length > 0)
+                lblConversionDolares.Text = "C$ " + conversionDolares.ToString("N2");
 
-            decimal total1000 =
-                Cantidad(txt1000Cordobas) * 1000m;
+            // CÁLCULO DE DIFERENCIAS (Efectivo real en C$ vs Ventas Esperadas)
+            var (faltanteCor, sobranteCor) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasCordobas, montoTotalArqueado);
 
-            decimal total500 =
-                Cantidad(txt500Cordobas) * 500m;
+            if (Controls.Find("lblFaltanteCordobas", true).Length > 0)
+                lblFaltanteCordobas.Text = "C$ " + faltanteCor.ToString("N2");
 
-            decimal total200 =
-                Cantidad(txt200Cordobas) * 200m;
-
-            decimal total100 =
-                Cantidad(txt100Cordobas) * 100m;
-
-            decimal total50 =
-                Cantidad(txt50Cordobas) * 50m;
-
-            decimal total20 =
-                Cantidad(txt20Cordobas) * 20m;
-
-            decimal total10 =
-                Cantidad(txt10Cordobas) * 10m;
-
-            decimal total5 =
-                Cantidad(txt5Cordobas) * 5m;
-
-            lblTotal1000Cordobas.Text =
-                "C$ " + total1000.ToString("N2");
-
-            lblTotal500Cordobas.Text =
-                "C$ " + total500.ToString("N2");
-
-            lblTotal200Cordobas.Text =
-                "C$ " + total200.ToString("N2");
-
-            lblTotal100Cordobas.Text =
-                "C$ " + total100.ToString("N2");
-
-            lblTotal50Cordobas.Text =
-                "C$ " + total50.ToString("N2");
-
-            lblTotal20Cordobas.Text =
-                "C$ " + total20.ToString("N2");
-
-            lblTotal10Cordobas.Text =
-                "C$ " + total10.ToString("N2");
-
-            lblTotal5Cordobas.Text =
-                "C$ " + total5.ToString("N2");
-
-            decimal totalBilletesCordobas =
-                total1000 +
-                total500 +
-                total200 +
-                total100 +
-                total50 +
-                total20 +
-                total10 +
-                total5;
-
-            lblTotalBilletesCordobas.Text =
-                "C$ " +
-                totalBilletesCordobas.ToString("N2");
-
-            // =================================================
-            // MONEDAS
-            // =================================================
-
-            decimal total5Moneda =
-                Cantidad(txt5Moneda) * 5m;
-
-            decimal total1Moneda =
-                Cantidad(txt1Moneda) * 1m;
-
-            decimal total50Centavos =
-                Cantidad(txt50Centavos) * 0.50m;
-
-            decimal total25Centavos =
-                Cantidad(txt25Centavos) * 0.25m;
-
-            lblTotal5Moneda.Text =
-                "C$ " +
-                total5Moneda.ToString("N2");
-
-            lblTotal1Moneda.Text =
-                "C$ " +
-                total1Moneda.ToString("N2");
-
-            lblTotal50Centavos.Text =
-                "C$ " +
-                total50Centavos.ToString("N2");
-
-            lblTotal25Centavos.Text =
-                "C$ " +
-                total25Centavos.ToString("N2");
-
-            decimal totalMonedas =
-                total5Moneda +
-                total1Moneda +
-                total50Centavos +
-                total25Centavos;
-
-            lblTotalMonedas.Text =
-                "C$ " +
-                totalMonedas.ToString("N2");
-
-            // =================================================
-            // TOTAL ARQUEADO
-            // =================================================
-
-            decimal totalCordobas =
-                totalBilletesCordobas +
-                totalMonedas;
-
-            decimal montoTotal =
-                totalCordobas +
-                conversionDolares;
-
-            lblMontoTotalArqueado.Text =
-                "C$ " +
-                montoTotal.ToString("N2");
+            if (Controls.Find("lblSobranteCordobas", true).Length > 0)
+                lblSobranteCordobas.Text = "C$ " + sobranteCor.ToString("N2");
         }
 
+
+        private void ActualizarResumenArqueo(decimal totalBilletesCordobas, decimal totalMonedas, decimal totalDolares, decimal conversionDolares)
+        {
+            // Totales contados
+            lblTotalEnCordobas.Text = "C $ " + totalBilletesCordobas.ToString("N2");
+            lblTotalEnMonedas.Text = "C $ " + totalMonedas.ToString("N2");
+            lblTotalEnDolares.Text = "$ " + totalDolares.ToString("N2");
+
+            // Totales conversión y billetes dólares
+           // lblTotalBilletesDolar.Text = "$ " + totalDolares.ToString("N2");
+            lblConversionDolares.Text = "C $ " + conversionDolares.ToString("N2");
+
+            // Diferencias Córdobas (Esperado vs Contado)
+            decimal totalCordobasReal = totalBilletesCordobas + totalMonedas;
+            var (faltanteCor, sobranteCor) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasCordobas, totalCordobasReal);
+
+            lblFaltanteCordobas.Text = "C $ " + faltanteCor.ToString("N2");
+            lblSobranteCordobas.Text = "C $ " + sobranteCor.ToString("N2");
+
+            // Diferencias Dólares (Esperado vs Contado)
+            var (faltanteDol, sobranteDol) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasDolares, totalDolares);
+
+            //lblFaltanteDolares.Text = "$ " + faltanteDol.ToString("N2");
+            //lblSobranteDolares.Text = "$ " + sobranteDol.ToString("N2");
+        }
 
         private void label25_Click(object sender, EventArgs e)
         {
@@ -375,7 +267,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Close(); 
+            Close();
         }
 
         private void textBox7_TextChanged(object sender, EventArgs e)
@@ -390,66 +282,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            decimal montoArqueo =
-                ObtenerMontoArqueado();
+            decimal montoArqueo = ObtenerMontoArqueado();
 
-            DialogResult respuesta =
-                MessageBox.Show(
-                    "¿Está seguro de guardar el arqueo?\n\n" +
-                    "Monto arqueado: C$ " +
-                    montoArqueo.ToString("N2"),
-                    "Confirmar arqueo",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+            DialogResult respuesta = MessageBox.Show(
+                "¿Está seguro de guardar el arqueo?\n\n" +
+                "Monto arqueado: C$ " + montoArqueo.ToString("N2"),
+                "Confirmar arqueo",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
             if (respuesta != DialogResult.Yes)
                 return;
 
-            bool resultado =
-                arqueoDAO.GuardarArqueo(
-                    idCajaActual,
-                    montoArqueo);
+            bool resultado = arqueoDAO.GuardarArqueo(idCajaActual, montoArqueo);
 
             if (resultado)
             {
-                MessageBox.Show(
-                    "Arqueo guardado correctamente.",
-                    "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
+                MessageBox.Show("Arqueo guardado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 Close();
             }
             else
             {
-                MessageBox.Show(
-                    "No se pudo guardar el arqueo.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo guardar el arqueo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private decimal ObtenerMontoArqueado()
         {
-            string texto =
-                lblMontoTotalArqueado.Text
-                .Replace("C$", "")
-                .Trim();
+            string texto = lblMontoTotalArqueado.Text.Replace("C$", "").Replace("C $", "").Trim();
 
-            decimal monto;
-
-            if (decimal.TryParse(
-                texto,
-                NumberStyles.Number,
-                CultureInfo.CurrentCulture,
-                out monto))
+            if (decimal.TryParse(texto, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal monto))
             {
                 return monto;
             }
 
             return 0;
         }
-
     }
 }

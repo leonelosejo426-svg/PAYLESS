@@ -272,9 +272,9 @@
             this.panel2.Controls.Add(this.pictureBox5);
             this.panel2.Controls.Add(this.lblAcercaD);
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(1, -12);
+            this.panel2.Location = new System.Drawing.Point(-11, -12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(954, 73);
+            this.panel2.Size = new System.Drawing.Size(966, 73);
             this.panel2.TabIndex = 61;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 

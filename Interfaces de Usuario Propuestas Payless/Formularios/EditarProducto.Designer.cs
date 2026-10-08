@@ -80,7 +80,7 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label18.Location = new System.Drawing.Point(601, 49);
+            this.label18.Location = new System.Drawing.Point(469, 46);
             this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(92, 19);
@@ -238,7 +238,7 @@
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(8, 152);
+            this.panel1.Location = new System.Drawing.Point(64, 154);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(493, 236);
             this.panel1.TabIndex = 101;
@@ -249,7 +249,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(705, 465);
+            this.ClientSize = new System.Drawing.Size(594, 402);
             this.Controls.Add(this.txtCodigo);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.btnBuscar);

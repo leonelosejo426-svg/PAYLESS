@@ -267,76 +267,48 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =========================================================
 
         public bool EditarUsuario(
-            int idUsuario,
-            string nombreUsuario,
-            string nombreCompleto,
-            string password,
-            int idRol,
-            string correo,
-            string telefono,
-            string cedula,
-            bool estado)
+    int idUsuario,
+    string nombreUsuario,
+    string nombreCompleto,
+    string password,
+    int idRol,
+    string correo,
+    string telefono,
+    string cedula,
+    bool estado)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    UPDATE usuario
-                    SET
-                        nombre_usuario = @nombre_usuario,
-                        nombre_completo = @nombre_completo,
-                        id_rol = @id_rol,
-                        correo = @correo,
-                        telefono = @telefono,
-                        cedula = @cedula,
-                        estado = @estado
-                        password = @password,
-                    WHERE id_usuario = @id_usuario";
+    SELECT
+        u.id_usuario,
+        u.nombre_usuario,
+        u.nombre_completo,
+        u.id_rol,
+        COALESCE(u.correo, '') AS correo,
+        COALESCE(u.telefono, '') AS telefono,
+        COALESCE(u.cedula, '') AS cedula,
+        u.estado,
+        u.password
+    FROM usuario u
+    WHERE u.id_usuario = @id_usuario";
 
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@nombre_usuario", nombreUsuario);
+                    cmd.Parameters.AddWithValue("@nombre_completo", nombreCompleto);
+                    cmd.Parameters.AddWithValue("@password", password);
+                    cmd.Parameters.AddWithValue("@id_rol", idRol);
+                    cmd.Parameters.AddWithValue("@correo", correo);
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+                    cmd.Parameters.AddWithValue("@cedula", cedula);
+                    cmd.Parameters.AddWithValue("@estado", estado);
+                    cmd.Parameters.AddWithValue("@id_usuario", idUsuario);
 
-                NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                cmd.Parameters.AddWithValue(
-                    "@nombre_usuario",
-                    nombreUsuario);
-
-                cmd.Parameters.AddWithValue(
-                    "@nombre_completo",
-                    nombreCompleto);
-
-                cmd.Parameters.AddWithValue(
-                    "@password",
-                    password);
-
-                cmd.Parameters.AddWithValue(
-                    "@id_rol",
-                    idRol);
-
-                cmd.Parameters.AddWithValue(
-                    "@correo",
-                    correo);
-
-                cmd.Parameters.AddWithValue(
-                    "@telefono",
-                    telefono);
-
-                cmd.Parameters.AddWithValue(
-                    "@cedula",
-                    cedula);
-
-                cmd.Parameters.AddWithValue(
-                    "@estado",
-                    estado);
-
-                cmd.Parameters.AddWithValue(
-                    "@id_usuario",
-                    idUsuario);
-
-                return cmd.ExecuteNonQuery() > 0;
+                    return cmd.ExecuteNonQuery() > 0;
+                }
             }
             catch
             {

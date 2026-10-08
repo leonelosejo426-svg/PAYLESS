@@ -1,4 +1,5 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
+using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -11,166 +12,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 {
     internal class CompraDAO
     {
-        // ============================================================
-        // MOSTRAR PROVEEDORES
-        // ============================================================
+        private ConexionBD conexionBD = new ConexionBD();
 
-        public DataTable MostrarProveedores()
+        public DataTable MostrarCompras()
         {
             DataTable tabla = new DataTable();
-
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
 
             try
             {
                 conexionBD.AbrirConexion();
 
-                string consulta = @"
-                    SELECT 
-                        id_proveedor,
-                        nombre
-                    FROM proveedor
-                    WHERE estado_proveedor = TRUE
-                    ORDER BY nombre;
-                ";
+                string sql = @"
+            SELECT
+                c.id_compra,
+                'C' || LPAD(c.id_compra::text, 5, '0') AS codigo_compra,
+                c.fecha,
+                p.nombre AS proveedor,
+                c.total,
+                c.estado
+            FROM compra c
+            INNER JOIN proveedor p ON c.id_proveedor = p.id_proveedor
+            WHERE c.estado = TRUE
+            ORDER BY c.id_compra DESC;";
 
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                using (NpgsqlDataAdapter adaptador =
-                    new NpgsqlDataAdapter(comando))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    adaptador.Fill(tabla);
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-        // ============================================================
-        // OBTENER SIGUIENTE NUMERO DE COMPRA
-        // ============================================================
-
-        public int ObtenerSiguienteNumeroCompra()
-        {
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
-            {
-                if (!conexionBD.AbrirConexion())
-                {
-                    throw new Exception(
-                        "No se pudo abrir la conexión con la base de datos.");
-                }
-
-                string consulta = @"
-            SELECT COALESCE(MAX(id_compra), 0) + 1
-            FROM compra;
-        ";
-
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                {
-                    return Convert.ToInt32(
-                        comando.ExecuteScalar());
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
-
-
-        // ============================================================
-        // MOSTRAR PRODUCTOS
-        // ============================================================
-
-        public DataTable MostrarProductos()
-        {
-            DataTable tabla = new DataTable();
-
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string consulta = @"
-                    SELECT
-                        p.id_producto,
-                        p.nombre,
-                        c.nombre_categoria,
-                        m.nombre_marca,
-                        p.id_categoria,
-                        p.id_marca
-                    FROM producto p
-                    INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
-                    INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
-                    WHERE p.estado_producto = TRUE
-                    ORDER BY p.nombre;
-                ";
-
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                using (NpgsqlDataAdapter adaptador =
-                    new NpgsqlDataAdapter(comando))
-                {
-                    adaptador.Fill(tabla);
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-
-        // ============================================================
-        // MOSTRAR TALLAS DEL PRODUCTO
-        // ============================================================
-
-        public DataTable MostrarTallas(int idProducto)
-        {
-            DataTable tabla = new DataTable();
-
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string consulta = @"
-                    SELECT
-                        id_producto_talla,
-                        talla
-                    FROM producto_talla
-                    WHERE id_producto = @id_producto
-                    ORDER BY CAST(talla AS INTEGER);
-                ";
-
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                {
-                    comando.Parameters.AddWithValue(
-                        "@id_producto",
-                        idProducto);
-
-                    using (NpgsqlDataAdapter adaptador =
-                        new NpgsqlDataAdapter(comando))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
-                        adaptador.Fill(tabla);
+                        da.Fill(tabla);
                     }
                 }
             }
@@ -182,344 +51,139 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
-        // ============================================================
-        // OBTENER O CREAR PRODUCTO_TALLA
-        // ============================================================
-
-        private int ObtenerOCrearProductoTalla(
-            int idProducto,
-            string talla,
-            NpgsqlConnection conexion,
-            NpgsqlTransaction transaccion)
+        public DataTable BuscarCompraPorId(int idCompra)
         {
-            string consultaBuscar = @"
-        SELECT id_producto_talla
-        FROM producto_talla
-        WHERE id_producto = @id_producto
-        AND talla = @talla;
-    ";
+            DataTable tabla = new DataTable();
 
-            using (NpgsqlCommand comandoBuscar =
-                new NpgsqlCommand(
-                    consultaBuscar,
-                    conexion,
-                    transaccion))
+            using (NpgsqlConnection conexion = conexionBD.ObtenerConexion())
             {
-                comandoBuscar.Parameters.AddWithValue(
-                    "@id_producto",
-                    idProducto);
+                string sql = @"
+                    SELECT
+                        c.id_compra,
+                        c.fecha,
+                        p.nombre AS proveedor,
+                        c.total,
+                        c.estado
+                    FROM compra c
+                    INNER JOIN proveedor p ON c.id_proveedor = p.id_proveedor
+                    WHERE c.id_compra = @idCompra AND c.estado = TRUE;
+                ";
 
-                comandoBuscar.Parameters.AddWithValue(
-                    "@talla",
-                    talla);
-
-                object resultado =
-                    comandoBuscar.ExecuteScalar();
-
-                if (resultado != null)
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
                 {
-                    return Convert.ToInt32(resultado);
+                    cmd.Parameters.AddWithValue("@idCompra", idCompra);
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
                 }
             }
 
-
-            // ========================================================
-            // SI NO EXISTE, CREAR LA RELACIÓN PRODUCTO + TALLA
-            // ========================================================
-
-            string consultaInsertar = @"
-        INSERT INTO producto_talla
-        (
-            talla,
-            id_producto
-        )
-        VALUES
-        (
-            @talla,
-            @id_producto
-        )
-        RETURNING id_producto_talla;
-    ";
-
-            int idProductoTalla;
-
-            using (NpgsqlCommand comandoInsertar =
-                new NpgsqlCommand(
-                    consultaInsertar,
-                    conexion,
-                    transaccion))
-            {
-                comandoInsertar.Parameters.AddWithValue(
-                    "@talla",
-                    talla);
-
-                comandoInsertar.Parameters.AddWithValue(
-                    "@id_producto",
-                    idProducto);
-
-                idProductoTalla =
-                    Convert.ToInt32(
-                        comandoInsertar.ExecuteScalar());
-            }
-
-
-            // ========================================================
-            // CREAR INVENTARIO PARA LA TALLA
-            // ========================================================
-
-            string consultaInventario = @"
-        INSERT INTO inventario
-        (
-            stock_actual,
-            stock_minimo,
-            id_producto_talla
-        )
-        VALUES
-        (
-            0,
-            0,
-            @id_producto_talla
-        );
-    ";
-
-            using (NpgsqlCommand comandoInventario =
-                new NpgsqlCommand(
-                    consultaInventario,
-                    conexion,
-                    transaccion))
-            {
-                comandoInventario.Parameters.AddWithValue(
-                    "@id_producto_talla",
-                    idProductoTalla);
-
-                comandoInventario.ExecuteNonQuery();
-            }
-
-            return idProductoTalla;
+            return tabla;
         }
 
-
-        // ============================================================
-        // REGISTRAR COMPRA
-        // ============================================================
-
-        public int RegistrarCompra(
-            decimal total,
-            int idProveedor,
-            DataTable detalles)
+        // =========================================================================
+        // GUARDA LA COMPRA, DETALLES Y ACTUALIZA STOCK DE TALLAS EN UNA TRANSACCIÓN
+        // =========================================================================
+        public int RegistrarCompraTransaccional(int idProveedor, decimal total, ListaEnlazadaDetalleCompra detalles)
         {
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
+            using (NpgsqlConnection conexion = new NpgsqlConnection(conexionBD.ObtenerConexion().ConnectionString))
             {
-                if (!conexionBD.AbrirConexion())
-                {
-                    throw new Exception(
-                        "No se pudo abrir la conexión con la base de datos.");
-                }
-
-                using (NpgsqlTransaction transaccion =
-                    conexion.BeginTransaction())
+                conexion.Open();
+                using (NpgsqlTransaction transaccion = conexion.BeginTransaction())
                 {
                     try
                     {
-                        // ====================================================
-                        // INSERTAR COMPRA
-                        // ====================================================
-
-                        string consultaCompra = @"
-                    INSERT INTO compra
-                    (
-                        total,
-                        id_proveedor
-                    )
-                    VALUES
-                    (
-                        @total,
-                        @id_proveedor
-                    )
-                    RETURNING id_compra;
-                ";
+                        // 1. Insertar Encabezado de Compra
+                        string sqlCompra = @"
+                            INSERT INTO compra (id_proveedor, total, estado, fecha)
+                            VALUES (@idProveedor, @total, TRUE, CURRENT_TIMESTAMP)
+                            RETURNING id_compra;";
 
                         int idCompra;
-
-                        using (NpgsqlCommand comando =
-                            new NpgsqlCommand(
-                                consultaCompra,
-                                conexion,
-                                transaccion))
+                        using (NpgsqlCommand cmdCompra = new NpgsqlCommand(sqlCompra, conexion, transaccion))
                         {
-                            comando.Parameters.AddWithValue(
-                                "@total",
-                                total);
-
-                            comando.Parameters.AddWithValue(
-                                "@id_proveedor",
-                                idProveedor);
-
-                            idCompra =
-                                Convert.ToInt32(
-                                    comando.ExecuteScalar());
+                            cmdCompra.Parameters.AddWithValue("@idProveedor", idProveedor);
+                            cmdCompra.Parameters.AddWithValue("@total", total);
+                            idCompra = Convert.ToInt32(cmdCompra.ExecuteScalar());
                         }
 
+                        NodoDetalleCompra actual = detalles.ObtenerPrimero();
 
-                        // ====================================================
-                        // INSERTAR DETALLES
-                        // ====================================================
-
-                        foreach (DataRow fila in detalles.Rows)
+                        while (actual != null)
                         {
-                            int idProducto =
-                                Convert.ToInt32(
-                                    fila["codigo"]);
+                            // 2. Buscar si la Talla existe para este producto
+                            int idProductoTalla = 0;
+                            string sqlBuscarTalla = @"
+                                SELECT id_producto_talla 
+                                FROM producto_talla 
+                                WHERE id_producto = @idProducto 
+                                  AND LOWER(TRIM(talla)) = LOWER(TRIM(@talla));";
 
-                            string talla =
-                                fila["talla"].ToString();
-
-
-                            // ==================================================
-                            // OBTENER O CREAR PRODUCTO + TALLA
-                            // ==================================================
-
-                            int idProductoTalla =
-                                ObtenerOCrearProductoTalla(
-                                    idProducto,
-                                    talla,
-                                    conexion,
-                                    transaccion);
-
-
-                            // ==================================================
-                            // INSERTAR DETALLE DE COMPRA
-                            // ==================================================
-
-                            string consultaDetalle = @"
-                        INSERT INTO detalle_compra
-                        (
-                            id_compra,
-                            id_producto_talla,
-                            cantidad,
-                            precio_compra,
-                            precio_venta,
-                            subtotal
-                        )
-                        VALUES
-                        (
-                            @id_compra,
-                            @id_producto_talla,
-                            @cantidad,
-                            @precio_compra,
-                            @precio_venta,
-                            @subtotal
-                        );
-                    ";
-
-                            using (NpgsqlCommand comandoDetalle =
-                                new NpgsqlCommand(
-                                    consultaDetalle,
-                                    conexion,
-                                    transaccion))
+                            using (NpgsqlCommand cmdBuscar = new NpgsqlCommand(sqlBuscarTalla, conexion, transaccion))
                             {
-                                comandoDetalle.Parameters.AddWithValue(
-                                    "@id_compra",
-                                    idCompra);
-
-                                comandoDetalle.Parameters.AddWithValue(
-                                    "@id_producto_talla",
-                                    idProductoTalla);
-
-                                comandoDetalle.Parameters.AddWithValue(
-                                    "@cantidad",
-                                    Convert.ToInt32(
-                                        fila["cantidad"]));
-
-                                comandoDetalle.Parameters.AddWithValue(
-                                    "@precio_compra",
-                                    Convert.ToDecimal(
-                                        fila["precio_compra"]));
-
-                                comandoDetalle.Parameters.AddWithValue(
-                                    "@precio_venta",
-                                    Convert.ToDecimal(
-                                        fila["precio_venta"]));
-
-                                comandoDetalle.Parameters.AddWithValue(
-                                    "@subtotal",
-                                    Convert.ToDecimal(
-                                        fila["subtotal"]));
-
-                                comandoDetalle.ExecuteNonQuery();
+                                cmdBuscar.Parameters.AddWithValue("@idProducto", actual.IdProducto);
+                                cmdBuscar.Parameters.AddWithValue("@talla", actual.Talla);
+                                object res = cmdBuscar.ExecuteScalar();
+                                if (res != null && res != DBNull.Value)
+                                {
+                                    idProductoTalla = Convert.ToInt32(res);
+                                }
                             }
 
-
-                            // ==================================================
-                            // ACTUALIZAR PRECIO DE VENTA DEL PRODUCTO
-                            // ==================================================
-
-                            string consultaPrecioVenta = @"
-                        UPDATE producto
-                        SET precio_venta = @precio_venta
-                        WHERE id_producto = @id_producto;
-                    ";
-
-                            using (NpgsqlCommand comandoPrecioVenta =
-                                new NpgsqlCommand(
-                                    consultaPrecioVenta,
-                                    conexion,
-                                    transaccion))
+                            // 3. Si no existe, crear la Talla en producto_talla (solo id_producto y talla)
+                            if (idProductoTalla == 0)
                             {
-                                comandoPrecioVenta.Parameters.AddWithValue(
-                                    "@precio_venta",
-                                    Convert.ToDecimal(
-                                        fila["precio_venta"]));
+                            string sqlCrearTalla = @"
+                            INSERT INTO producto_talla (id_producto, talla)
+                            VALUES (@idProducto, @talla)
+                            RETURNING id_producto_talla;";
 
-                                comandoPrecioVenta.Parameters.AddWithValue(
-                                    "@id_producto",
-                                    idProducto);
-
-                                comandoPrecioVenta.ExecuteNonQuery();
+                                using (NpgsqlCommand cmdCrear = new NpgsqlCommand(sqlCrearTalla, conexion, transaccion))
+                                {
+                                    cmdCrear.Parameters.AddWithValue("@idProducto", actual.IdProducto);
+                                    cmdCrear.Parameters.AddWithValue("@talla", actual.Talla);
+                                    idProductoTalla = Convert.ToInt32(cmdCrear.ExecuteScalar());
+                                }
                             }
 
+                            // 4. Insertar Detalle de Compra
+                            // El Trigger 'trg_actualizar_inventario_compra' de PostgreSQL 
+                            // actualizará o creará automáticamente el registro en la tabla 'inventario'.
+                            string sqlDetalle = @"
+    INSERT INTO detalle_compra (id_compra, id_producto_talla, cantidad, precio_compra, subtotal)
+    VALUES (@idCompra, @idProductoTalla, @cantidad, @precioCompra, @subtotal);";
 
-                            // ==================================================
-                            // ACTUALIZAR INVENTARIO
-                            // ==================================================
-
-                            string consultaInventario = @"
-                        UPDATE inventario
-                        SET
-                            stock_actual = stock_actual + @cantidad,
-                            fecha_actualizacion = CURRENT_TIMESTAMP
-                        WHERE id_producto_talla = @id_producto_talla;
-                    ";
-
-                            using (NpgsqlCommand comandoInventario =
-                                new NpgsqlCommand(
-                                    consultaInventario,
-                                    conexion,
-                                    transaccion))
+                            using (NpgsqlCommand cmdDetalle = new NpgsqlCommand(sqlDetalle, conexion, transaccion))
                             {
-                                comandoInventario.Parameters.AddWithValue(
-                                    "@cantidad",
-                                    Convert.ToInt32(
-                                        fila["cantidad"]));
-
-                                comandoInventario.Parameters.AddWithValue(
-                                    "@id_producto_talla",
-                                    idProductoTalla);
-
-                                comandoInventario.ExecuteNonQuery();
+                                cmdDetalle.Parameters.AddWithValue("@idCompra", idCompra);
+                                cmdDetalle.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
+                                cmdDetalle.Parameters.AddWithValue("@cantidad", actual.Cantidad);
+                                cmdDetalle.Parameters.AddWithValue("@precioCompra", actual.PrecioCompra);
+                                cmdDetalle.Parameters.AddWithValue("@subtotal", actual.Subtotal);
+                                cmdDetalle.ExecuteNonQuery();
                             }
+
+                            // 5. Actualizar Precio de Venta en la tabla 'producto' si aplica
+                            if (actual.PrecioVenta > 0)
+                            {
+                                string sqlPrecio = @"
+        UPDATE producto_talla
+        SET precio_venta = @precioVenta
+        WHERE id_producto_talla = @idProductoTalla;";
+
+                                using (NpgsqlCommand cmdPrecio = new NpgsqlCommand(sqlPrecio, conexion, transaccion))
+                                {
+                                    cmdPrecio.Parameters.AddWithValue("@precioVenta", actual.PrecioVenta);
+                                    cmdPrecio.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
+                                    cmdPrecio.ExecuteNonQuery();
+                                }
+                            }
+
+                            actual = actual.Siguiente;
                         }
-
-
-                        // ====================================================
-                        // CONFIRMAR TRANSACCIÓN
-                        // ====================================================
 
                         transaccion.Commit();
-
                         return idCompra;
                     }
                     catch
@@ -529,245 +193,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     }
                 }
             }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
         }
 
-
-        // ============================================================
-        // MOSTRAR COMPRAS
-        // ============================================================
-
-        public DataTable MostrarCompras()
-        {
-            DataTable tabla = new DataTable();
-
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string consulta = @"
-                    SELECT
-                        c.id_compra AS ""ID"",
-                        c.fecha AS ""Fecha"",
-                        p.nombre AS ""Proveedor"",
-                        c.total AS ""Total"",
-                        c.estado AS ""Estado""
-                    FROM compra c
-                    INNER JOIN proveedor p
-                        ON c.id_proveedor = p.id_proveedor
-                    ORDER BY c.id_compra DESC;
-                ";
-
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                using (NpgsqlDataAdapter adaptador =
-                    new NpgsqlDataAdapter(comando))
-                {
-                    adaptador.Fill(tabla);
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-
-        // ============================================================
-        // BUSCAR COMPRA POR ID
-        // ============================================================
-
-        public DataTable BuscarCompra(int idCompra)
-        {
-            DataTable tabla = new DataTable();
-
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string consulta = @"
-                    SELECT
-                        c.id_compra AS ""ID"",
-                        c.fecha AS ""Fecha"",
-                        p.nombre AS ""Proveedor"",
-                        c.total AS ""Total"",
-                        c.estado AS ""Estado""
-                    FROM compra c
-                    INNER JOIN proveedor p
-                        ON c.id_proveedor = p.id_proveedor
-                    WHERE c.id_compra = @id_compra;
-                ";
-
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                {
-                    comando.Parameters.AddWithValue(
-                        "@id_compra",
-                        idCompra);
-
-                    using (NpgsqlDataAdapter adaptador =
-                        new NpgsqlDataAdapter(comando))
-                    {
-                        adaptador.Fill(tabla);
-                    }
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-
-        // ============================================================
-        // MOSTRAR DETALLE DE COMPRA
-        // ============================================================
-
-        public DataTable MostrarDetalleCompra(int idCompra)
-        {
-            DataTable tabla = new DataTable();
-
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
-
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string consulta = @"
-                    SELECT
-                        dc.id_detalle_compra AS ""ID"",
-                        pr.nombre AS ""Producto"",
-                        pt.talla AS ""Talla"",
-                        dc.cantidad AS ""Cantidad"",
-                        dc.precio_compra AS ""Precio Compra"",
-                        dc.precio_venta AS ""Precio Venta"",
-                        dc.subtotal AS ""Subtotal""
-                    FROM detalle_compra dc
-                    INNER JOIN producto_talla pt
-                        ON dc.id_producto_talla =
-                           pt.id_producto_talla
-                    INNER JOIN producto pr
-                        ON pt.id_producto =
-                           pr.id_producto
-                    WHERE dc.id_compra = @id_compra
-                    ORDER BY dc.id_detalle_compra;
-                ";
-
-                using (NpgsqlCommand comando =
-                    new NpgsqlCommand(consulta, conexion))
-                {
-                    comando.Parameters.AddWithValue(
-                        "@id_compra",
-                        idCompra);
-
-                    using (NpgsqlDataAdapter adaptador =
-                        new NpgsqlDataAdapter(comando))
-                    {
-                        adaptador.Fill(tabla);
-                    }
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-
-            return tabla;
-        }
-
-
-        // ============================================================
-        // ELIMINAR COMPRA
-        // ============================================================
+        
 
         public bool EliminarCompra(int idCompra)
         {
-            ConexionBD conexionBD = new ConexionBD();
-            NpgsqlConnection conexion = conexionBD.ObtenerConexion();
+            using (NpgsqlConnection conexion = new NpgsqlConnection(conexionBD.ObtenerConexion().ConnectionString))
+            {
+                string sql = @"
+                    UPDATE compra
+                    SET estado = FALSE
+                    WHERE id_compra = @id_compra;";
 
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@id_compra", idCompra);
+                    conexion.Open();
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+        }
+
+
+
+        public string GenerarCodigoCompra()
+        {
             try
             {
-                if (!conexionBD.AbrirConexion())
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COALESCE(MAX(id_compra), 0) + 1 FROM compra;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    return false;
-                }
-
-                using (NpgsqlTransaction transaccion =
-                    conexion.BeginTransaction())
-                {
-                    try
-                    {
-                        string consultaDetalle = @"
-                            DELETE FROM detalle_compra
-                            WHERE id_compra = @id_compra;
-                        ";
-
-                        using (NpgsqlCommand comandoDetalle =
-                            new NpgsqlCommand(
-                                consultaDetalle,
-                                conexion,
-                                transaccion))
-                        {
-                            comandoDetalle.Parameters.AddWithValue(
-                                "@id_compra",
-                                idCompra);
-
-                            comandoDetalle.ExecuteNonQuery();
-                        }
-
-
-                        string consultaCompra = @"
-                            DELETE FROM compra
-                            WHERE id_compra = @id_compra;
-                        ";
-
-                        int filasAfectadas;
-
-                        using (NpgsqlCommand comandoCompra =
-                            new NpgsqlCommand(
-                                consultaCompra,
-                                conexion,
-                                transaccion))
-                        {
-                            comandoCompra.Parameters.AddWithValue(
-                                "@id_compra",
-                                idCompra);
-
-                            filasAfectadas =
-                                comandoCompra.ExecuteNonQuery();
-                        }
-
-
-                        if (filasAfectadas == 0)
-                        {
-                            transaccion.Rollback();
-                            return false;
-                        }
-
-
-                        transaccion.Commit();
-
-                        return true;
-                    }
-                    catch
-                    {
-                        transaccion.Rollback();
-                        throw;
-                    }
+                    int siguiente = Convert.ToInt32(cmd.ExecuteScalar());
+                    return "C" + siguiente.ToString("D5");
                 }
             }
             finally
@@ -777,3 +237,4 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
     }
 }
+

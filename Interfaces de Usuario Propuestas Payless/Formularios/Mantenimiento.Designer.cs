@@ -29,8 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mantenimiento));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblReportes = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lblMantenimiento = new System.Windows.Forms.Label();
             this.lblInventario = new System.Windows.Forms.Label();
@@ -60,13 +61,17 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lblReportes = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnDiferencial = new System.Windows.Forms.Button();
+            this.btnIncremental = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRespaldos)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -86,11 +91,25 @@
             this.groupBox1.Controls.Add(this.lblCaja);
             this.groupBox1.Controls.Add(this.label26);
             this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Location = new System.Drawing.Point(-1, 74);
+            this.groupBox1.Location = new System.Drawing.Point(-1, -5);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(186, 729);
+            this.groupBox1.Size = new System.Drawing.Size(186, 808);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
+            // 
+            // lblReportes
+            // 
+            this.lblReportes.AutoSize = true;
+            this.lblReportes.BackColor = System.Drawing.Color.White;
+            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReportes.ForeColor = System.Drawing.Color.Black;
+            this.lblReportes.Location = new System.Drawing.Point(26, 630);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReportes.Name = "lblReportes";
+            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.TabIndex = 134;
+            this.lblReportes.Text = "📋   Reportes";
             // 
             // label13
             // 
@@ -99,7 +118,7 @@
             this.label13.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.Black;
-            this.label13.Location = new System.Drawing.Point(26, 663);
+            this.label13.Location = new System.Drawing.Point(26, 721);
             this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(80, 19);
@@ -290,9 +309,9 @@
             this.panel8.Controls.Add(this.pictureBox2);
             this.panel8.Controls.Add(this.label28);
             this.panel8.ForeColor = System.Drawing.Color.White;
-            this.panel8.Location = new System.Drawing.Point(-7, 1);
+            this.panel8.Location = new System.Drawing.Point(-7, -5);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(1083, 88);
+            this.panel8.Size = new System.Drawing.Size(1083, 94);
             this.panel8.TabIndex = 87;
             this.panel8.Paint += new System.Windows.Forms.PaintEventHandler(this.panel8_Paint);
             // 
@@ -325,7 +344,7 @@
             this.label28.BackColor = System.Drawing.Color.Transparent;
             this.label28.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label28.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label28.Location = new System.Drawing.Point(29, 30);
+            this.label28.Location = new System.Drawing.Point(203, 39);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(227, 36);
             this.label28.TabIndex = 0;
@@ -335,10 +354,10 @@
             // dgvRespaldos
             // 
             this.dgvRespaldos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRespaldos.Location = new System.Drawing.Point(248, 366);
+            this.dgvRespaldos.Location = new System.Drawing.Point(245, 457);
             this.dgvRespaldos.Name = "dgvRespaldos";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvRespaldos.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvRespaldos.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvRespaldos.Size = new System.Drawing.Size(744, 296);
             this.dgvRespaldos.TabIndex = 88;
             // 
@@ -355,11 +374,14 @@
             // 
             // btnCrearRespaldo
             // 
-            this.btnCrearRespaldo.Location = new System.Drawing.Point(19, 51);
+            this.btnCrearRespaldo.FlatAppearance.BorderSize = 0;
+            this.btnCrearRespaldo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCrearRespaldo.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCrearRespaldo.Location = new System.Drawing.Point(54, 56);
             this.btnCrearRespaldo.Name = "btnCrearRespaldo";
-            this.btnCrearRespaldo.Size = new System.Drawing.Size(106, 30);
+            this.btnCrearRespaldo.Size = new System.Drawing.Size(197, 30);
             this.btnCrearRespaldo.TabIndex = 126;
-            this.btnCrearRespaldo.Text = "➕ Crear Respaldo";
+            this.btnCrearRespaldo.Text = "Respaldo Completo";
             this.btnCrearRespaldo.UseVisualStyleBackColor = true;
             this.btnCrearRespaldo.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -372,10 +394,9 @@
             this.groupBox2.Controls.Add(this.btnRestaurar);
             this.groupBox2.Controls.Add(this.btnSeleccionar);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.btnCrearRespaldo);
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(203, 216);
+            this.groupBox2.Location = new System.Drawing.Point(203, 308);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(852, 102);
             this.groupBox2.TabIndex = 127;
@@ -383,7 +404,8 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(728, 52);
+            this.button6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Location = new System.Drawing.Point(709, 52);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(106, 30);
             this.button6.TabIndex = 135;
@@ -393,7 +415,8 @@
             // 
             // btnEliminar
             // 
-            this.btnEliminar.Location = new System.Drawing.Point(587, 51);
+            this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminar.Location = new System.Drawing.Point(551, 51);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(106, 30);
             this.btnEliminar.TabIndex = 134;
@@ -403,9 +426,10 @@
             // 
             // btnDescargar
             // 
-            this.btnDescargar.Location = new System.Drawing.Point(444, 51);
+            this.btnDescargar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDescargar.Location = new System.Drawing.Point(380, 52);
             this.btnDescargar.Name = "btnDescargar";
-            this.btnDescargar.Size = new System.Drawing.Size(106, 30);
+            this.btnDescargar.Size = new System.Drawing.Size(122, 30);
             this.btnDescargar.TabIndex = 133;
             this.btnDescargar.Text = "💾 Descargar";
             this.btnDescargar.UseVisualStyleBackColor = true;
@@ -413,7 +437,8 @@
             // 
             // btnRestaurar
             // 
-            this.btnRestaurar.Location = new System.Drawing.Point(307, 51);
+            this.btnRestaurar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRestaurar.Location = new System.Drawing.Point(219, 52);
             this.btnRestaurar.Name = "btnRestaurar";
             this.btnRestaurar.Size = new System.Drawing.Size(106, 30);
             this.btnRestaurar.TabIndex = 132;
@@ -423,7 +448,8 @@
             // 
             // btnSeleccionar
             // 
-            this.btnSeleccionar.Location = new System.Drawing.Point(158, 52);
+            this.btnSeleccionar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSeleccionar.Location = new System.Drawing.Point(42, 51);
             this.btnSeleccionar.Name = "btnSeleccionar";
             this.btnSeleccionar.Size = new System.Drawing.Size(122, 30);
             this.btnSeleccionar.TabIndex = 131;
@@ -434,10 +460,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.label4.Location = new System.Drawing.Point(15, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 19);
+            this.label4.Size = new System.Drawing.Size(69, 19);
             this.label4.TabIndex = 130;
             this.label4.Text = "Acciones";
             // 
@@ -459,23 +486,59 @@
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.label3.Location = new System.Drawing.Point(325, 162);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(178, 19);
+            this.label3.Size = new System.Drawing.Size(184, 19);
             this.label3.TabIndex = 129;
-            this.label3.Text = "Respaldo de Base de Datos";
+            this.label3.Text = "Respaldos de Base de Datos";
             // 
-            // lblReportes
+            // groupBox3
             // 
-            this.lblReportes.AutoSize = true;
-            this.lblReportes.BackColor = System.Drawing.Color.White;
-            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblReportes.ForeColor = System.Drawing.Color.Black;
-            this.lblReportes.Location = new System.Drawing.Point(26, 627);
-            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Size = new System.Drawing.Size(100, 19);
-            this.lblReportes.TabIndex = 134;
-            this.lblReportes.Text = "📋   Reportes";
+            this.groupBox3.Controls.Add(this.btnDiferencial);
+            this.groupBox3.Controls.Add(this.btnIncremental);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.btnCrearRespaldo);
+            this.groupBox3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(203, 195);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(852, 107);
+            this.groupBox3.TabIndex = 130;
+            this.groupBox3.TabStop = false;
+            // 
+            // btnDiferencial
+            // 
+            this.btnDiferencial.FlatAppearance.BorderSize = 0;
+            this.btnDiferencial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDiferencial.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDiferencial.Location = new System.Drawing.Point(571, 56);
+            this.btnDiferencial.Name = "btnDiferencial";
+            this.btnDiferencial.Size = new System.Drawing.Size(215, 30);
+            this.btnDiferencial.TabIndex = 133;
+            this.btnDiferencial.Text = "Respaldo Diferencial";
+            this.btnDiferencial.UseVisualStyleBackColor = true;
+            this.btnDiferencial.Click += new System.EventHandler(this.btnDiferencial_Click);
+            // 
+            // btnIncremental
+            // 
+            this.btnIncremental.FlatAppearance.BorderSize = 0;
+            this.btnIncremental.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnIncremental.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnIncremental.Location = new System.Drawing.Point(307, 56);
+            this.btnIncremental.Name = "btnIncremental";
+            this.btnIncremental.Size = new System.Drawing.Size(205, 30);
+            this.btnIncremental.TabIndex = 132;
+            this.btnIncremental.Text = "Respaldo Incremental";
+            this.btnIncremental.UseVisualStyleBackColor = true;
+            this.btnIncremental.Click += new System.EventHandler(this.btnIncremental_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.label5.Location = new System.Drawing.Point(15, 22);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(182, 19);
+            this.label5.TabIndex = 131;
+            this.label5.Text = "Metodos de Restauracion";
             // 
             // Mantenimiento
             // 
@@ -483,13 +546,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1067, 765);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvRespaldos);
             this.Controls.Add(this.panel8);
-            this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Mantenimiento";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -504,6 +568,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvRespaldos)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -542,5 +608,9 @@
         private System.Windows.Forms.Button btnRestaurar;
         private System.Windows.Forms.Button btnSeleccionar;
         private System.Windows.Forms.Label lblReportes;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Button btnDiferencial;
+        private System.Windows.Forms.Button btnIncremental;
     }
 }

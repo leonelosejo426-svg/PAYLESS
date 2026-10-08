@@ -52,10 +52,10 @@
             this.cmbEstado = new System.Windows.Forms.ComboBox();
             this.btnActualizar = new System.Windows.Forms.Button();
             this.btnRegresar = new System.Windows.Forms.Button();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
-            this.txtCedula = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.txtTelefono = new System.Windows.Forms.TextBox();
+            this.txtCedula = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -79,7 +79,7 @@
             this.label1.Location = new System.Drawing.Point(7, 25);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(298, 47);
+            this.label1.Size = new System.Drawing.Size(202, 31);
             this.label1.TabIndex = 0;
             this.label1.Text = "Editar Usuarios";
             // 
@@ -89,7 +89,7 @@
             this.label2.Location = new System.Drawing.Point(26, 53);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(0, 19);
+            this.label2.Size = new System.Drawing.Size(0, 13);
             this.label2.TabIndex = 1;
             // 
             // label3
@@ -98,7 +98,7 @@
             this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(13, 53);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(235, 26);
+            this.label3.Size = new System.Drawing.Size(154, 19);
             this.label3.TabIndex = 2;
             this.label3.Text = "Seleccionar Usuarios:";
             // 
@@ -108,7 +108,7 @@
             this.cmbUsuario.FormattingEnabled = true;
             this.cmbUsuario.Location = new System.Drawing.Point(174, 50);
             this.cmbUsuario.Name = "cmbUsuario";
-            this.cmbUsuario.Size = new System.Drawing.Size(189, 35);
+            this.cmbUsuario.Size = new System.Drawing.Size(189, 27);
             this.cmbUsuario.TabIndex = 3;
             // 
             // btnBuscar
@@ -130,7 +130,7 @@
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(493, 49);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(93, 26);
+            this.label4.Size = new System.Drawing.Size(61, 19);
             this.label4.TabIndex = 3;
             this.label4.Text = "Codigo:";
             // 
@@ -139,7 +139,7 @@
             this.txtCodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCodigo.Location = new System.Drawing.Point(560, 51);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(100, 35);
+            this.txtCodigo.Size = new System.Drawing.Size(100, 26);
             this.txtCodigo.TabIndex = 5;
             // 
             // label5
@@ -148,7 +148,7 @@
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(13, 132);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(225, 26);
+            this.label5.Size = new System.Drawing.Size(148, 19);
             this.label5.TabIndex = 6;
             this.label5.Text = "Nombre de usuarios:";
             // 
@@ -158,7 +158,7 @@
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(12, 186);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(202, 26);
+            this.label6.Size = new System.Drawing.Size(132, 19);
             this.label6.TabIndex = 7;
             this.label6.Text = "Nombre completo:";
             // 
@@ -168,7 +168,7 @@
             this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(13, 236);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(214, 26);
+            this.label7.Size = new System.Drawing.Size(138, 19);
             this.label7.TabIndex = 8;
             this.label7.Text = "Correo electronico:";
             // 
@@ -178,7 +178,7 @@
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(13, 291);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(56, 26);
+            this.label8.Size = new System.Drawing.Size(38, 19);
             this.label8.TabIndex = 9;
             this.label8.Text = "Rol:";
             // 
@@ -188,7 +188,7 @@
             this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(16, 475);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(90, 26);
+            this.label9.Size = new System.Drawing.Size(60, 19);
             this.label9.TabIndex = 10;
             this.label9.Text = "Estado:";
             // 
@@ -198,7 +198,7 @@
             this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(16, 531);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(130, 26);
+            this.label10.Size = new System.Drawing.Size(86, 19);
             this.label10.TabIndex = 11;
             this.label10.Text = "Contraseña";
             // 
@@ -208,7 +208,7 @@
             this.label11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(16, 584);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(279, 26);
+            this.label11.Size = new System.Drawing.Size(180, 19);
             this.label11.TabIndex = 12;
             this.label11.Text = "Confirmacion contraseña:";
             // 
@@ -217,7 +217,7 @@
             this.txtNombreUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombreUsuario.Location = new System.Drawing.Point(203, 130);
             this.txtNombreUsuario.Name = "txtNombreUsuario";
-            this.txtNombreUsuario.Size = new System.Drawing.Size(200, 35);
+            this.txtNombreUsuario.Size = new System.Drawing.Size(200, 26);
             this.txtNombreUsuario.TabIndex = 13;
             // 
             // txtNombreCompleto
@@ -225,7 +225,7 @@
             this.txtNombreCompleto.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtNombreCompleto.Location = new System.Drawing.Point(203, 185);
             this.txtNombreCompleto.Name = "txtNombreCompleto";
-            this.txtNombreCompleto.Size = new System.Drawing.Size(200, 35);
+            this.txtNombreCompleto.Size = new System.Drawing.Size(200, 26);
             this.txtNombreCompleto.TabIndex = 14;
             // 
             // txtGmail
@@ -233,7 +233,7 @@
             this.txtGmail.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtGmail.Location = new System.Drawing.Point(203, 235);
             this.txtGmail.Name = "txtGmail";
-            this.txtGmail.Size = new System.Drawing.Size(200, 35);
+            this.txtGmail.Size = new System.Drawing.Size(200, 26);
             this.txtGmail.TabIndex = 15;
             // 
             // txtContraseña
@@ -241,7 +241,7 @@
             this.txtContraseña.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtContraseña.Location = new System.Drawing.Point(206, 530);
             this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.Size = new System.Drawing.Size(200, 35);
+            this.txtContraseña.Size = new System.Drawing.Size(200, 26);
             this.txtContraseña.TabIndex = 16;
             // 
             // txtConfirmar
@@ -249,7 +249,7 @@
             this.txtConfirmar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtConfirmar.Location = new System.Drawing.Point(206, 583);
             this.txtConfirmar.Name = "txtConfirmar";
-            this.txtConfirmar.Size = new System.Drawing.Size(200, 35);
+            this.txtConfirmar.Size = new System.Drawing.Size(200, 26);
             this.txtConfirmar.TabIndex = 17;
             // 
             // cmbRol
@@ -258,7 +258,7 @@
             this.cmbRol.FormattingEnabled = true;
             this.cmbRol.Location = new System.Drawing.Point(203, 292);
             this.cmbRol.Name = "cmbRol";
-            this.cmbRol.Size = new System.Drawing.Size(121, 35);
+            this.cmbRol.Size = new System.Drawing.Size(121, 27);
             this.cmbRol.TabIndex = 18;
             // 
             // cmbEstado
@@ -267,7 +267,7 @@
             this.cmbEstado.FormattingEnabled = true;
             this.cmbEstado.Location = new System.Drawing.Point(206, 475);
             this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(121, 35);
+            this.cmbEstado.Size = new System.Drawing.Size(121, 27);
             this.cmbEstado.TabIndex = 19;
             // 
             // btnActualizar
@@ -296,31 +296,15 @@
             this.btnRegresar.UseVisualStyleBackColor = false;
             this.btnRegresar.Click += new System.EventHandler(this.btnRegresar_Click);
             // 
-            // txtTelefono
-            // 
-            this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTelefono.Location = new System.Drawing.Point(202, 353);
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(200, 35);
-            this.txtTelefono.TabIndex = 25;
-            // 
             // label15
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.Location = new System.Drawing.Point(12, 354);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(106, 26);
+            this.label15.Size = new System.Drawing.Size(72, 19);
             this.label15.TabIndex = 24;
             this.label15.Text = "Telefono:";
-            // 
-            // txtCedula
-            // 
-            this.txtCedula.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCedula.Location = new System.Drawing.Point(206, 410);
-            this.txtCedula.Name = "txtCedula";
-            this.txtCedula.Size = new System.Drawing.Size(200, 35);
-            this.txtCedula.TabIndex = 27;
             // 
             // label14
             // 
@@ -328,19 +312,36 @@
             this.label14.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(16, 411);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(93, 26);
+            this.label14.Size = new System.Drawing.Size(61, 19);
             this.label14.TabIndex = 26;
             this.label14.Text = "Cedula:";
             // 
+            // txtTelefono
+            // 
+            this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTelefono.Location = new System.Drawing.Point(206, 354);
+            this.txtTelefono.Name = "txtTelefono";
+            this.txtTelefono.Size = new System.Drawing.Size(200, 26);
+            this.txtTelefono.TabIndex = 27;
+            // 
+            // txtCedula
+            // 
+            this.txtCedula.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCedula.Location = new System.Drawing.Point(203, 403);
+            this.txtCedula.Name = "txtCedula";
+            this.txtCedula.Size = new System.Drawing.Size(200, 26);
+            this.txtCedula.TabIndex = 28;
+            this.txtCedula.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
             // Editar_usuarios
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(683, 769);
             this.Controls.Add(this.txtCedula);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.txtTelefono);
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.btnRegresar);
             this.Controls.Add(this.btnActualizar);
@@ -402,9 +403,9 @@
         private System.Windows.Forms.ComboBox cmbEstado;
         private System.Windows.Forms.Button btnActualizar;
         private System.Windows.Forms.Button btnRegresar;
-        private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txtCedula;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox txtTelefono;
+        private System.Windows.Forms.TextBox txtCedula;
     }
 }

@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,9 +15,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
 {
     internal class RespaldoBD
     {
-
         private ConexionBD conexionBD;
+
         private string rutaCarpetaRespaldos;
+        private string rutaCarpetaCompletos;
+        private string rutaCarpetaIncrementales;
+        private string rutaCarpetaDiferenciales;
+        private string rutaCarpetaWAL;
 
         private string rutaPgDump =
             @"C:\Program Files\PostgreSQL\16\bin\pg_dump.exe";
@@ -23,346 +29,670 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
         private string rutaPsql =
             @"C:\Program Files\PostgreSQL\16\bin\psql.exe";
 
+        // =====================================================
+        // CONSTRUCTOR
+        // =====================================================
         public RespaldoBD()
         {
             conexionBD = new ConexionBD();
 
-            // Carpeta Respaldos dentro del directorio
-            // donde se ejecuta el programa
             rutaCarpetaRespaldos =
                 Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory,
                     "Respaldos");
 
-            // Crear carpeta automáticamente
-            if (!Directory.Exists(rutaCarpetaRespaldos))
-            {
-                Directory.CreateDirectory(rutaCarpetaRespaldos);
-            }
+            rutaCarpetaCompletos =
+                Path.Combine(
+                    rutaCarpetaRespaldos,
+                    "Completos");
+
+            rutaCarpetaIncrementales =
+                Path.Combine(
+                    rutaCarpetaRespaldos,
+                    "Incrementales");
+
+            rutaCarpetaDiferenciales =
+                Path.Combine(
+                    rutaCarpetaRespaldos,
+                    "Diferenciales");
+
+            rutaCarpetaWAL =
+                Path.Combine(
+                    rutaCarpetaRespaldos,
+                    "WAL");
+
+            Directory.CreateDirectory(
+                rutaCarpetaRespaldos);
+
+            Directory.CreateDirectory(
+                rutaCarpetaCompletos);
+
+            Directory.CreateDirectory(
+                rutaCarpetaIncrementales);
+
+            Directory.CreateDirectory(
+                rutaCarpetaDiferenciales);
+
+            Directory.CreateDirectory(
+                rutaCarpetaWAL);
         }
 
         // =====================================================
-        // CREAR RESPALDO
+        // RESPALDO COMPLETO
         // =====================================================
-
-        public bool CrearRespaldo(
-    string nombrePersonalizado,
-    out string rutaArchivoFinal)
+        public bool CrearRespaldoCompleto(
+            string nombrePersonalizado,
+            out string rutaArchivo)
         {
-            rutaArchivoFinal = string.Empty;
+            rutaArchivo = "";
+
+            string archivoTemporal = "";
 
             try
             {
                 if (!File.Exists(rutaPgDump))
                 {
-                    return false;
+                    throw new Exception(
+                        "No se encontró pg_dump.exe:\n" +
+                        rutaPgDump);
                 }
 
-                if (!Directory.Exists(rutaCarpetaRespaldos))
-                {
-                    Directory.CreateDirectory(rutaCarpetaRespaldos);
-                }
+                string nombre =
+                    nombrePersonalizado + "_" +
+                    DateTime.Now.ToString(
+                        "yyyy-MM-dd_HH-mm-ss");
 
-                string nombreArchivo =
-                    $"{nombrePersonalizado}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.sql";
-
-                rutaArchivoFinal =
+                archivoTemporal =
                     Path.Combine(
-                        rutaCarpetaRespaldos,
-                        nombreArchivo);
+                        rutaCarpetaCompletos,
+                        nombre +
+                        "_temporal.sql");
 
-                string host = conexionBD.ObtenerHost();
-                int puerto = conexionBD.ObtenerPuerto();
-                string baseDatos = conexionBD.ObtenerBaseDatos();
-                string usuario = conexionBD.ObtenerUsuario();
-                string password = conexionBD.ObtenerPassword();
+                rutaArchivo =
+                    Path.Combine(
+                        rutaCarpetaCompletos,
+                        nombre +
+                        ".sql");
 
-                ProcessStartInfo proceso =
-                    new ProcessStartInfo();
+                // Crear SQL temporal
+                EjecutarPgDump(
+                    archivoTemporal);
 
-                proceso.FileName = rutaPgDump;
+                // Cifrar
+                CifradoRespaldo.CifrarArchivo(
+                    archivoTemporal,
+                    rutaArchivo);
 
-                proceso.Arguments =
-                    $"-h \"{host}\" " +
-                    $"-p {puerto} " +
-                    $"-U \"{usuario}\" " +
-                    $"-F p " +
-                    $"-f \"{rutaArchivoFinal}\" " +
-                    $"\"{baseDatos}\"";
-
-                proceso.UseShellExecute = false;
-                proceso.CreateNoWindow = true;
-                proceso.RedirectStandardError = true;
-
-                // Contraseña real de ConexionBD
-                proceso.EnvironmentVariables["PGPASSWORD"] =
-                    password;
-
-                using (Process procesoPgDump =
-                    new Process())
+                // Eliminar SQL sin cifrar
+                if (File.Exists(archivoTemporal))
                 {
-                    procesoPgDump.StartInfo = proceso;
+                    File.Delete(archivoTemporal);
+                }
 
-                    procesoPgDump.Start();
-
-                    string error =
-                        procesoPgDump.StandardError.ReadToEnd();
-
-                    procesoPgDump.WaitForExit();
-
-                    if (procesoPgDump.ExitCode != 0)
+                return File.Exists(rutaArchivo);
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(archivoTemporal) &&
+                    File.Exists(archivoTemporal))
+                {
+                    try
                     {
-                        if (File.Exists(rutaArchivoFinal))
-                        {
-                            File.Delete(rutaArchivoFinal);
-                        }
-
-                        rutaArchivoFinal = string.Empty;
-
-                        return false;
+                        File.Delete(archivoTemporal);
+                    }
+                    catch
+                    {
                     }
                 }
 
-                return File.Exists(rutaArchivoFinal);
-            }
-            catch
-            {
-                rutaArchivoFinal = string.Empty;
-                return false;
-            }
-            finally
-            {
-                try
-                {
-                    conexionBD.CerrarConexion();
-                }
-                catch
-                {
-                }
+                rutaArchivo = "";
+                throw;
             }
         }
 
         // =====================================================
-        // OBTENER CONTRASEÑA DE POSTGRESQL
+        // RESPALDO DIFERENCIAL
         // =====================================================
-
-        private string ObtenerPasswordConexion()
+        public bool CrearRespaldoDiferencial(
+            out string rutaArchivo)
         {
-            try
-            {
-                conexionBD.AbrirConexion();
+            rutaArchivo = "";
 
-                NpgsqlConnection conexion =
-                    conexionBD.ObtenerConexion();
-
-                // Npgsql no permite recuperar la contraseña
-                // después de crear la conexión.
-                // Por eso se obtiene desde la cadena
-                // de conexión de la clase ConexionBD.
-
-                conexionBD.CerrarConexion();
-
-                return ObtenerPasswordDesdeCadena();
-            }
-            catch
-            {
-                return string.Empty;
-            }
-            finally
-            {
-                try
-                {
-                    conexionBD.CerrarConexion();
-                }
-                catch
-                {
-                }
-            }
-        }
-
-        private string ObtenerPasswordDesdeCadena()
-        {
-            // IMPORTANTE:
-            // Aquí debes colocar la misma contraseña que
-            // utilizas en tu ConexionBD.
-            return "LeonelF_241207";
-        }
-
-        // =====================================================
-        // MOSTRAR RESPALDOS
-        // =====================================================
-
-        public DataTable MostrarRespaldos()
-        {
-            DataTable tabla = new DataTable();
-
-            tabla.Columns.Add("Nombre");
-            tabla.Columns.Add("Ruta");
-            tabla.Columns.Add("Fecha");
-            tabla.Columns.Add("Tamaño");
+            string archivoTemporal = "";
 
             try
             {
-                if (!Directory.Exists(rutaCarpetaRespaldos))
+                if (!File.Exists(rutaPgDump))
                 {
-                    Directory.CreateDirectory(
-                        rutaCarpetaRespaldos);
+                    throw new Exception(
+                        "No se encontró pg_dump.exe:\n" +
+                        rutaPgDump);
                 }
 
-                string[] archivos =
+                string nombre =
+                    "Diferencial_" +
+                    DateTime.Now.ToString(
+                        "yyyy-MM-dd_HH-mm-ss");
+
+                archivoTemporal =
+                    Path.Combine(
+                        rutaCarpetaDiferenciales,
+                        nombre +
+                        "_temporal.sql");
+
+                rutaArchivo =
+                    Path.Combine(
+                        rutaCarpetaDiferenciales,
+                        nombre +
+                        ".sql");
+
+                // Crear SQL
+                EjecutarPgDump(
+                    archivoTemporal);
+
+                // Cifrar
+                CifradoRespaldo.CifrarArchivo(
+                    archivoTemporal,
+                    rutaArchivo);
+
+                // Eliminar SQL original
+                if (File.Exists(archivoTemporal))
+                {
+                    File.Delete(archivoTemporal);
+                }
+
+                return File.Exists(rutaArchivo);
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(archivoTemporal) &&
+                    File.Exists(archivoTemporal))
+                {
+                    try
+                    {
+                        File.Delete(archivoTemporal);
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                rutaArchivo = "";
+                throw;
+            }
+        }
+
+        // =====================================================
+        // EJECUTAR PG_DUMP
+        // =====================================================
+        private void EjecutarPgDump(
+            string rutaArchivoSQL)
+        {
+            string host =
+                conexionBD.ObtenerHost();
+
+            int port =
+                conexionBD.ObtenerPuerto();
+
+            string database =
+                conexionBD.ObtenerBaseDatos();
+
+            string user =
+                conexionBD.ObtenerUsuario();
+
+            string password =
+                conexionBD.ObtenerPassword();
+
+            ProcessStartInfo proceso =
+                new ProcessStartInfo();
+
+            proceso.FileName =
+                rutaPgDump;
+
+            proceso.Arguments =
+                "-h \"" + host + "\" " +
+                "-p \"" + port + "\" " +
+                "-U \"" + user + "\" " +
+                "-F p " +
+                "-f \"" + rutaArchivoSQL + "\" " +
+                "\"" + database + "\"";
+
+            proceso.UseShellExecute = false;
+            proceso.CreateNoWindow = true;
+
+            proceso.RedirectStandardError = true;
+            proceso.RedirectStandardOutput = true;
+
+            proceso.EnvironmentVariables["PGPASSWORD"] =
+                password;
+
+            using (Process procesoPG =
+                   Process.Start(proceso))
+            {
+                string error =
+                    procesoPG.StandardError.ReadToEnd();
+
+                procesoPG.WaitForExit();
+
+                if (procesoPG.ExitCode != 0)
+                {
+                    throw new Exception(
+                        "Error al crear el respaldo:\n" +
+                        error);
+                }
+            }
+        }
+
+        // =====================================================
+        // RESPALDO INCREMENTAL
+        // =====================================================
+        public bool CrearRespaldoIncremental(
+            out string carpetaIncremental)
+        {
+            carpetaIncremental = "";
+
+            try
+            {
+                string fecha =
+                    DateTime.Now.ToString(
+                        "yyyy-MM-dd_HH-mm-ss");
+
+                carpetaIncremental =
+                    Path.Combine(
+                        rutaCarpetaIncrementales,
+                        "Incremental_" + fecha);
+
+                Directory.CreateDirectory(
+                    carpetaIncremental);
+
+                // Forzar cambio de WAL
+                using (NpgsqlConnection conexion =
+                       new NpgsqlConnection(
+                           ObtenerCadenaConexion()))
+                {
+                    conexion.Open();
+
+                    using (NpgsqlCommand comando =
+                           new NpgsqlCommand(
+                               "SELECT pg_switch_wal()::text;",
+                               conexion))
+                    {
+                        comando.ExecuteScalar();
+                    }
+                }
+
+                // Dar tiempo a PostgreSQL
+                Thread.Sleep(3000);
+
+                if (!Directory.Exists(rutaCarpetaWAL))
+                {
+                    throw new Exception(
+                        "No existe la carpeta WAL:\n" +
+                        rutaCarpetaWAL);
+                }
+
+                string[] archivosWAL =
                     Directory.GetFiles(
-                        rutaCarpetaRespaldos,
-                        "*.sql");
+                        rutaCarpetaWAL,
+                        "*",
+                        SearchOption.TopDirectoryOnly);
 
-                foreach (string archivo in archivos)
+                int cantidad = 0;
+
+                foreach (string archivoWAL in archivosWAL)
                 {
-                    FileInfo informacion =
-                        new FileInfo(archivo);
+                    string nombre =
+                        Path.GetFileName(archivoWAL);
 
-                    DataRow fila =
-                        tabla.NewRow();
+                    string archivoTemporal =
+                        Path.Combine(
+                            carpetaIncremental,
+                            nombre);
 
-                    fila["Nombre"] =
-                        informacion.Name;
+                    string archivoCifrado =
+                        Path.Combine(
+                            carpetaIncremental,
+                            nombre +
+                            ".enc");
 
-                    fila["Ruta"] =
-                        informacion.FullName;
+                    // Copiar temporalmente
+                    File.Copy(
+                        archivoWAL,
+                        archivoTemporal,
+                        true);
 
-                    fila["Fecha"] =
-                        informacion.LastWriteTime;
+                    // Cifrar
+                    CifradoRespaldo.CifrarArchivo(
+                        archivoTemporal,
+                        archivoCifrado);
 
-                    // REEMPLAZA LA LÍNEA: fila["Tamaño"] = informacion.Length; POR ESTAS DOS:
-                    double mb = (double)informacion.Length / 1048576; // Convierte bytes a MB
-                    fila["Tamaño"] = $"{mb:F1} MB"; // Guarda el texto formateado (Ej: "25.8 MB")
+                    // Borrar temporal
+                    if (File.Exists(archivoTemporal))
+                    {
+                        File.Delete(archivoTemporal);
+                    }
 
-
-                    tabla.Rows.Add(fila);
-                }
-            }
-            catch
-            {
-            }
-
-            return tabla;
-        }
-
-        // =====================================================
-        // ELIMINAR RESPALDO
-        // =====================================================
-
-        public bool EliminarRespaldo(
-            string rutaArchivo)
-        {
-            try
-            {
-                if (!File.Exists(rutaArchivo))
-                {
-                    return false;
+                    cantidad++;
                 }
 
-                File.Delete(rutaArchivo);
+                // Crear información temporal
+                string informacionTemporal =
+                    Path.Combine(
+                        carpetaIncremental,
+                        "Informacion_temporal.txt");
+
+                string informacionCifrada =
+                    Path.Combine(
+                        carpetaIncremental,
+                        "Informacion.enc");
+
+                File.WriteAllText(
+                    informacionTemporal,
+                    "RESPALDO INCREMENTAL\r\n" +
+                    "=====================\r\n" +
+                    "Fecha: " +
+                    DateTime.Now.ToString(
+                        "dd/MM/yyyy HH:mm:ss") +
+                    "\r\n" +
+                    "Archivos WAL protegidos: " +
+                    cantidad +
+                    "\r\n" +
+                    "Este respaldo requiere un " +
+                    "respaldo completo para su " +
+                    "recuperación.\r\n");
+
+                // Cifrar información
+                CifradoRespaldo.CifrarArchivo(
+                    informacionTemporal,
+                    informacionCifrada);
+
+                // Eliminar TXT
+                if (File.Exists(
+                    informacionTemporal))
+                {
+                    File.Delete(
+                        informacionTemporal);
+                }
 
                 return true;
             }
             catch
             {
-                return false;
+                carpetaIncremental = "";
+                throw;
             }
         }
 
         // =====================================================
-        // RESTAURAR RESPALDO
+        // MOSTRAR RESPALDOS
         // =====================================================
-            public bool RestaurarRespaldo(string rutaArchivo)
+        public DataTable MostrarRespaldos()
         {
+            DataTable tabla =
+                new DataTable();
+
+            tabla.Columns.Add("Nombre");
+            tabla.Columns.Add("Tipo");
+            tabla.Columns.Add("Ruta");
+            tabla.Columns.Add("Fecha");
+            tabla.Columns.Add("Tamaño");
+
+            AgregarArchivos(
+                tabla,
+                rutaCarpetaCompletos,
+                "Completo");
+
+            AgregarArchivos(
+                tabla,
+                rutaCarpetaDiferenciales,
+                "Diferencial");
+
+            AgregarArchivosRecursivos(
+                tabla,
+                rutaCarpetaIncrementales,
+                "Incremental");
+
+            return tabla;
+        }
+
+        // =====================================================
+        // ARCHIVOS DIRECTOS
+        // =====================================================
+        private void AgregarArchivos(
+            DataTable tabla,
+            string carpeta,
+            string tipo)
+        {
+            if (!Directory.Exists(carpeta))
+                return;
+
+            string[] archivos =
+                Directory.GetFiles(
+                    carpeta,
+                    "*.*",
+                    SearchOption.TopDirectoryOnly);
+
+            foreach (string archivo in archivos)
+            {
+                AgregarFila(
+                    tabla,
+                    archivo,
+                    tipo);
+            }
+        }
+
+        // =====================================================
+        // ARCHIVOS RECURSIVOS
+        // =====================================================
+        private void AgregarArchivosRecursivos(
+            DataTable tabla,
+            string carpeta,
+            string tipo)
+        {
+            if (!Directory.Exists(carpeta))
+                return;
+
+            string[] archivos =
+                Directory.GetFiles(
+                    carpeta,
+                    "*.*",
+                    SearchOption.AllDirectories);
+
+            foreach (string archivo in archivos)
+            {
+                // Solo mostrar archivos cifrados
+                if (archivo.EndsWith(".enc",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    AgregarFila(
+                        tabla,
+                        archivo,
+                        tipo);
+                }
+            }
+        }
+
+        // =====================================================
+        // AGREGAR FILA
+        // =====================================================
+        private void AgregarFila(
+            DataTable tabla,
+            string archivo,
+            string tipo)
+        {
+            FileInfo informacion =
+                new FileInfo(archivo);
+
+            tabla.Rows.Add(
+                informacion.Name,
+                tipo,
+                informacion.FullName,
+                informacion.LastWriteTime.ToString(
+                    "dd/MM/yyyy HH:mm:ss"),
+                ConvertirTamaño(
+                    informacion.Length));
+        }
+
+        // =====================================================
+        // TAMAÑO
+        // =====================================================
+        private string ConvertirTamaño(
+            long bytes)
+        {
+            if (bytes < 1024)
+            {
+                return bytes + " bytes";
+            }
+
+            if (bytes <
+                1024L * 1024L)
+            {
+                return (bytes / 1024.0)
+                    .ToString("F2") +
+                    " KB";
+            }
+
+            if (bytes <
+                1024L * 1024L * 1024L)
+            {
+                return (bytes /
+                    (1024.0 * 1024.0))
+                    .ToString("F2") +
+                    " MB";
+            }
+
+            return (bytes /
+                (1024.0 * 1024.0 * 1024.0))
+                .ToString("F2") +
+                " GB";
+        }
+
+        // =====================================================
+        // RESTAURAR
+        // SOLO RESPALDOS COMPLETOS
+        // =====================================================
+        public bool RestaurarRespaldo(
+            string rutaArchivo)
+        {
+            string archivoTemporal = "";
+
             try
             {
+                if (string.IsNullOrWhiteSpace(
+                    rutaArchivo))
+                {
+                    throw new Exception(
+                        "No se seleccionó ningún respaldo.");
+                }
+
                 if (!File.Exists(rutaArchivo))
                 {
-                    MessageBox.Show(
-                        "El archivo de respaldo no existe.",
-                        "Restauración",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    throw new Exception(
+                        "El respaldo seleccionado no existe.");
+                }
 
-                    return false;
+                string carpetaCompleta =
+                    Path.GetFullPath(
+                        rutaCarpetaCompletos);
+
+                string seleccionado =
+                    Path.GetFullPath(
+                        rutaArchivo);
+
+                if (!seleccionado.StartsWith(
+                    carpetaCompleta +
+                    Path.DirectorySeparatorChar,
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception(
+                        "Solo se pueden restaurar " +
+                        "respaldos completos.");
+                }
+
+                if (!seleccionado.EndsWith(
+                    ".sql",
+                    StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new Exception(
+                        "El archivo seleccionado " +
+                        "no es un respaldo SQL.");
                 }
 
                 if (!File.Exists(rutaPsql))
                 {
-                    MessageBox.Show(
-                        "No se encontró psql.exe en:\n" + rutaPsql,
-                        "Error PostgreSQL",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-                    return false;
+                    throw new Exception(
+                        "No se encontró psql.exe:\n" +
+                        rutaPsql);
                 }
 
-                // =====================================================
-                // OBTENER DATOS DE CONEXIÓN
-                // =====================================================
+                // Crear SQL temporal
+                archivoTemporal =
+                    Path.Combine(
+                        Path.GetTempPath(),
+                        "Restauracion_" +
+                        Guid.NewGuid().ToString("N") +
+                        ".sql");
 
-                string host = conexionBD.ObtenerHost();
-                int puerto = conexionBD.ObtenerPuerto();
-                string baseDatos = conexionBD.ObtenerBaseDatos();
-                string usuario = conexionBD.ObtenerUsuario();
-                string password = conexionBD.ObtenerPassword();
+                // Descifrar
+                CifradoRespaldo.DescifrarArchivo(
+                    rutaArchivo,
+                    archivoTemporal);
 
-                // =====================================================
-                // CERRAR CONEXIÓN ACTUAL
-                // =====================================================
+                string host =
+                    conexionBD.ObtenerHost();
 
-                conexionBD.CerrarConexion();
+                int port =
+                    conexionBD.ObtenerPuerto();
 
-                // =====================================================
-                // ELIMINAR EL ESQUEMA ACTUAL
-                // =====================================================
+                string database =
+                    conexionBD.ObtenerBaseDatos();
 
-                string cadenaConexion =
-                    $"Host={host};" +
-                    $"Port={puerto};" +
-                    $"Database={baseDatos};" +
-                    $"Username={usuario};" +
-                    $"Password={password};";
+                string user =
+                    conexionBD.ObtenerUsuario();
 
-                using (NpgsqlConnection conexionRestauracion =
-                    new NpgsqlConnection(cadenaConexion))
+                string password =
+                    conexionBD.ObtenerPassword();
+
+                // Limpiar conexión de la aplicación
+                try
                 {
-                    conexionRestauracion.Open();
+                    conexionBD.CerrarConexion();
+                }
+                catch
+                {
+                }
 
-                    string sqlLimpiar = @"
-                DROP SCHEMA public CASCADE;
-                CREATE SCHEMA public;
-            ";
+                // Eliminar esquema
+                using (NpgsqlConnection conexion =
+                       new NpgsqlConnection(
+                           ObtenerCadenaConexion()))
+                {
+                    conexion.Open();
 
                     using (NpgsqlCommand comando =
-                        new NpgsqlCommand(
-                            sqlLimpiar,
-                            conexionRestauracion))
+                           new NpgsqlCommand(
+                               "DROP SCHEMA public CASCADE;" +
+                               "CREATE SCHEMA public;",
+                               conexion))
                     {
                         comando.ExecuteNonQuery();
                     }
-
-                    conexionRestauracion.Close();
                 }
 
-                // =====================================================
-                // EJECUTAR PSQl
-                // =====================================================
-
+                // Restaurar
                 ProcessStartInfo proceso =
                     new ProcessStartInfo();
 
-                proceso.FileName = rutaPsql;
+                proceso.FileName =
+                    rutaPsql;
 
                 proceso.Arguments =
-                    $"--host=\"{host}\" " +
-                    $"--port={puerto} " +
-                    $"--username=\"{usuario}\" " +
-                    $"--dbname=\"{baseDatos}\" " +
-                    $"-v ON_ERROR_STOP=1 " +
-                    $"--file=\"{rutaArchivo}\"";
+                    "--host=\"" + host + "\" " +
+                    "--port=\"" + port + "\" " +
+                    "--username=\"" + user + "\" " +
+                    "--dbname=\"" + database + "\" " +
+                    "-v ON_ERROR_STOP=1 " +
+                    "--file=\"" + archivoTemporal + "\"";
 
                 proceso.UseShellExecute = false;
                 proceso.CreateNoWindow = true;
@@ -373,95 +703,107 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Conexion
                 proceso.EnvironmentVariables["PGPASSWORD"] =
                     password;
 
-                using (Process procesoPsql =
-                    new Process())
+                using (Process procesoPSQL =
+                       Process.Start(proceso))
                 {
-                    procesoPsql.StartInfo = proceso;
-
-                    procesoPsql.Start();
-
-                    string salida =
-                        procesoPsql.StandardOutput.ReadToEnd();
-
                     string error =
-                        procesoPsql.StandardError.ReadToEnd();
+                        procesoPSQL.StandardError.ReadToEnd();
 
-                    procesoPsql.WaitForExit();
+                    procesoPSQL.WaitForExit();
 
-                    if (procesoPsql.ExitCode != 0)
+                    if (procesoPSQL.ExitCode != 0)
                     {
-                        MessageBox.Show(
-                            "ERROR AL RESTAURAR:\n\n" +
-                            error +
-                            "\n\nCódigo de salida: " +
-                            procesoPsql.ExitCode,
-                            "Error PostgreSQL",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error);
-
-                        return false;
+                        throw new Exception(
+                            "Error durante la restauración:\n" +
+                            error);
                     }
                 }
 
-
-
-                MessageBox.Show(
-                    "El respaldo se restauró correctamente.",
-                    "Restauración",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
                 return true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "ERROR EN LA RESTAURACIÓN:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                return false;
             }
             finally
             {
-                try
+                // Borrar SQL temporal
+                if (!string.IsNullOrEmpty(
+                    archivoTemporal) &&
+                    File.Exists(archivoTemporal))
                 {
-                    conexionBD.CerrarConexion();
-                }
-                catch
-                {
+                    try
+                    {
+                        File.Delete(
+                            archivoTemporal);
+                    }
+                    catch
+                    {
+                    }
                 }
             }
         }
 
         // =====================================================
-        // DESCARGAR / COPIAR RESPALDO
+        // COPIAR RESPALDO
         // =====================================================
-
         public bool CopiarRespaldo(
-            string rutaOrigen,
-            string rutaDestino)
+            string origen,
+            string destino)
         {
-            try
+            if (!File.Exists(origen))
             {
-                if (!File.Exists(rutaOrigen))
-                {
-                    return false;
-                }
-
-                File.Copy(
-                    rutaOrigen,
-                    rutaDestino,
-                    true);
-
-                return true;
+                throw new Exception(
+                    "El respaldo no existe.");
             }
-            catch
+
+            File.Copy(
+                origen,
+                destino,
+                true);
+
+            return true;
+        }
+
+        // =====================================================
+        // ELIMINAR RESPALDO
+        // =====================================================
+        public bool EliminarRespaldo(
+            string rutaArchivo)
+        {
+            if (!File.Exists(rutaArchivo))
             {
-                return false;
+                throw new Exception(
+                    "El respaldo no existe.");
             }
+
+            File.Delete(rutaArchivo);
+
+            return true;
+        }
+
+        // =====================================================
+        // CADENA DE CONEXIÓN
+        // =====================================================
+        private string ObtenerCadenaConexion()
+        {
+            string host =
+                conexionBD.ObtenerHost();
+
+            int port =
+                conexionBD.ObtenerPuerto();
+
+            string database =
+                conexionBD.ObtenerBaseDatos();
+
+            string user =
+                conexionBD.ObtenerUsuario();
+
+            string password =
+                conexionBD.ObtenerPassword();
+
+            return
+                "Host=" + host + ";" +
+                "Port=" + port + ";" +
+                "Database=" + database + ";" +
+                "Username=" + user + ";" +
+                "Password=" + password + ";";
         }
     }
 }

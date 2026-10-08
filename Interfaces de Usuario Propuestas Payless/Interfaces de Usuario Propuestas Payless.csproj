@@ -268,6 +268,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conexion\CifradoRespaldo.cs" />
+    <Compile Include="Conexion\ReporteVentaDAO.cs" />
     <Compile Include="Datos\ArqueoCajaDAO.cs" />
     <Compile Include="Datos\CajaDAO.cs" />
     <Compile Include="Datos\CierreCajaDAO.cs" />
@@ -291,6 +293,12 @@
     </Compile>
     <Compile Include="Formularios\EgresosCaja.Designer.cs">
       <DependentUpon>EgresosCaja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formularios\NuevaCompra.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formularios\NuevaCompra.Designer.cs">
+      <DependentUpon>NuevaCompra.cs</DependentUpon>
     </Compile>
     <Compile Include="Formularios\NuevaVenta.cs">
       <SubType>Form</SubType>
@@ -430,6 +438,7 @@
       <DependentUpon>SubProductoAgregar.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilidades\ArbolBinarioVentas.cs" />
+    <Compile Include="Utilidades\ArbolCompras.cs" />
     <Compile Include="Utilidades\ClaseSesion.cs" />
     <Compile Include="Entidades\ClaseVenta.cs" />
     <Compile Include="Formularios\Cliente.cs">
@@ -553,11 +562,19 @@
     <Compile Include="Utilidades\GeneradorReporteCajaPDF.cs" />
     <Compile Include="Utilidades\GeneradorReporteProductosPDF.cs" />
     <Compile Include="Utilidades\GeneradorReporteUsuariosPDF.cs" />
+    <Compile Include="Utilidades\GeneradorReporteVentasPDF.cs" />
+    <Compile Include="Utilidades\ListaEnlazadaDetalleCompra.cs" />
     <Compile Include="Utilidades\ListaEnlazadaDetalleVenta.cs" />
+    <Compile Include="Utilidades\NodoCompra.cs" />
+    <Compile Include="Utilidades\NodoDetalleCompra.cs" />
     <Compile Include="Utilidades\NodoDetalleVenta.cs" />
     <Compile Include="Utilidades\NodoVenta.cs" />
+    <Compile Include="Utilidades\RecursividadArqueo.cs" />
     <EmbeddedResource Include="Formularios\EgresosCaja.resx">
       <DependentUpon>EgresosCaja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formularios\NuevaCompra.resx">
+      <DependentUpon>NuevaCompra.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formularios\NuevaVenta.resx">
       <DependentUpon>NuevaVenta.cs</DependentUpon>

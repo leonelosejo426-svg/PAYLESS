@@ -55,6 +55,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =====================================================
         // 2. CARGAR PRODUCTOS
         // =====================================================
+
         public DataTable CargarProductos()
         {
             DataTable tabla = new DataTable();
@@ -64,25 +65,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT 
-                        p.id_producto,
-                        p.nombre,
-                        p.precio_venta,
-                        c.nombre_categoria,
-                        m.nombre_marca
-                    FROM producto p
-                    INNER JOIN categoria c 
-                        ON p.id_categoria = c.id_categoria
-                    INNER JOIN marca m 
-                        ON p.id_marca = m.id_marca
-                    WHERE p.estado_producto = TRUE
-                    ORDER BY p.nombre;";
+            SELECT 
+                p.id_producto,
+                p.nombre,
+                c.nombre_categoria,
+                m.nombre_marca
+            FROM producto p
+            INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+            INNER JOIN marca m ON p.id_marca = m.id_marca
+            WHERE p.estado_producto = TRUE
+            ORDER BY p.nombre;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -108,30 +104,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT 
-                        p.id_producto,
-                        p.nombre,
-                        p.precio_venta,
-                        p.id_categoria,
-                        c.nombre_categoria,
-                        p.id_marca,
-                        m.nombre_marca
-                    FROM producto p
-                    INNER JOIN categoria c 
-                        ON p.id_categoria = c.id_categoria
-                    INNER JOIN marca m 
-                        ON p.id_marca = m.id_marca
-                    WHERE p.id_producto = @idProducto;";
+            SELECT 
+                p.id_producto,
+                p.nombre,
+                p.id_categoria,
+                c.nombre_categoria,
+                p.id_marca,
+                m.nombre_marca
+            FROM producto p
+            INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+            INNER JOIN marca m ON p.id_marca = m.id_marca
+            WHERE p.id_producto = @idProducto;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idProducto",
-                        idProducto);
+                    cmd.Parameters.AddWithValue("@idProducto", idProducto);
 
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -230,30 +219,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 6. OBTENER PRECIO DE VENTA
+        // 6. OBTENER PRECIO DE VENTA POR TALLA
         // =====================================================
-        public decimal? ObtenerPrecioProducto(int idProducto)
+        public decimal? ObtenerPrecioProductoTalla(int idProductoTalla)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT precio_venta
-                    FROM producto
-                    WHERE id_producto = @idProducto;";
+            SELECT precio_venta
+            FROM producto_talla
+            WHERE id_producto_talla = @idProductoTalla;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idProducto",
-                        idProducto);
+                    cmd.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
 
                     object resultado = cmd.ExecuteScalar();
 
-                    if (resultado == null ||
-                        resultado == DBNull.Value)
+                    if (resultado == null || resultado == DBNull.Value)
                     {
                         return null;
                     }
@@ -374,6 +359,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =====================================================
         // 10. REGISTRAR VENTA Y PAGO
         // =====================================================
+        
         public bool RegistrarVentaConPago(
             string codigoVenta,
             int idCliente,
@@ -394,250 +380,135 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             try
             {
                 conexionBD.AbrirConexion();
+                NpgsqlConnection conexion = conexionBD.ObtenerConexion();
 
-                NpgsqlConnection conexion =
-                    conexionBD.ObtenerConexion();
-
-                using (NpgsqlTransaction transaccion =
-                    conexion.BeginTransaction())
+                using (NpgsqlTransaction transaccion = conexion.BeginTransaction())
                 {
                     try
                     {
-                        // =================================================
-                        // A. INSERTAR ENCABEZADO DE LA VENTA
-                        // =================================================
-
+                        // A. Insertar Encabezado de Venta
                         string sqlVenta = @"
-                            INSERT INTO venta
-                            (
-                                codigo_venta,
-                                fecha,
-                                subtotal,
-                                descuento,
-                                iva,
-                                total,
-                                estado,
-                                id_cliente,
-                                id_usuario,
-                                id_caja
-                            )
-                            VALUES
-                            (
-                                @codigoVenta,
-                                CURRENT_TIMESTAMP,
-                                @subtotal,
-                                0,
-                                @iva,
-                                @total,
-                                TRUE,
-                                @idCliente,
-                                @idUsuario,
-                                @idCaja
-                            )
-                            RETURNING id_venta;";
+                    INSERT INTO venta
+                    (
+                        codigo_venta,
+                        fecha,
+                        subtotal,
+                        descuento,
+                        iva,
+                        total,
+                        estado,
+                        id_cliente,
+                        id_usuario,
+                        id_caja
+                    )
+                    VALUES
+                    (
+                        @codigoVenta,
+                        CURRENT_TIMESTAMP,
+                        @subtotal,
+                        0,
+                        @iva,
+                        @total,
+                        TRUE,
+                        @idCliente,
+                        @idUsuario,
+                        @idCaja
+                    )
+                    RETURNING id_venta;";
 
                         int idVenta;
 
-                        using (NpgsqlCommand cmdVenta =
-                            new NpgsqlCommand(
-                                sqlVenta,
-                                conexion,
-                                transaccion))
+                        using (NpgsqlCommand cmdVenta = new NpgsqlCommand(sqlVenta, conexion, transaccion))
                         {
-                            cmdVenta.Parameters.AddWithValue(
-                                "@codigoVenta",
-                                codigoVenta);
+                            cmdVenta.Parameters.AddWithValue("@codigoVenta", codigoVenta);
+                            cmdVenta.Parameters.AddWithValue("@subtotal", subtotal);
+                            cmdVenta.Parameters.AddWithValue("@iva", iva);
+                            cmdVenta.Parameters.AddWithValue("@total", total);
+                            cmdVenta.Parameters.AddWithValue("@idCliente", idCliente > 0 ? (object)idCliente : DBNull.Value);
+                            cmdVenta.Parameters.AddWithValue("@idUsuario", idUsuario);
+                            cmdVenta.Parameters.AddWithValue("@idCaja", idCaja);
 
-                            cmdVenta.Parameters.AddWithValue(
-                                "@subtotal",
-                                subtotal);
-
-                            cmdVenta.Parameters.AddWithValue(
-                                "@iva",
-                                iva);
-
-                            cmdVenta.Parameters.AddWithValue(
-                                "@total",
-                                total);
-
-                            cmdVenta.Parameters.AddWithValue(
-                                "@idCliente",
-                                idCliente > 0
-                                    ? (object)idCliente
-                                    : DBNull.Value);
-
-                            cmdVenta.Parameters.AddWithValue(
-                                "@idUsuario",
-                                idUsuario);
-
-                            cmdVenta.Parameters.AddWithValue(
-                                "@idCaja",
-                                idCaja);
-
-                            idVenta =
-                                Convert.ToInt32(
-                                    cmdVenta.ExecuteScalar());
+                            idVenta = Convert.ToInt32(cmdVenta.ExecuteScalar());
                         }
 
-                        // =================================================
-                        // B. INSERTAR DETALLE DE VENTA
-                        // =================================================
-
+                        // B. Insertar Detalle de Venta
                         foreach (DataRow fila in detalleVenta.Rows)
                         {
-                            int idProductoTalla =
-                                Convert.ToInt32(
-                                    fila["id_producto_talla"]);
-
-                            int cantidad =
-                                Convert.ToInt32(
-                                    fila["cantidad"]);
-
-                            decimal precioUnitario =
-                                Convert.ToDecimal(
-                                    fila["precio_venta"]);
-
-                            decimal subtotalLinea =
-                                Convert.ToDecimal(
-                                    fila["subtotal"]);
+                            int idProductoTalla = Convert.ToInt32(fila["id_producto_talla"]);
+                            int cantidad = Convert.ToInt32(fila["cantidad"]);
+                            decimal precioUnitario = Convert.ToDecimal(fila["precio_venta"]);
+                            decimal subtotalLinea = Convert.ToDecimal(fila["subtotal"]);
 
                             string sqlDetalle = @"
-                                INSERT INTO detalle_venta
-                                (
-                                    id_venta,
-                                    id_producto_talla,
-                                    cantidad,
-                                    precio_unitario,
-                                    subtotal
-                                )
-                                VALUES
-                                (
-                                    @idVenta,
-                                    @idProductoTalla,
-                                    @cantidad,
-                                    @precioUnitario,
-                                    @subtotal
-                                );";
+                        INSERT INTO detalle_venta
+                        (
+                            id_venta,
+                            id_producto_talla,
+                            cantidad,
+                            precio_unitario,
+                            subtotal
+                        )
+                        VALUES
+                        (
+                            @idVenta,
+                            @idProductoTalla,
+                            @cantidad,
+                            @precioUnitario,
+                            @subtotal
+                        );";
 
-                            using (NpgsqlCommand cmdDetalle =
-                                new NpgsqlCommand(
-                                    sqlDetalle,
-                                    conexion,
-                                    transaccion))
+                            using (NpgsqlCommand cmdDetalle = new NpgsqlCommand(sqlDetalle, conexion, transaccion))
                             {
-                                cmdDetalle.Parameters.AddWithValue(
-                                    "@idVenta",
-                                    idVenta);
-
-                                cmdDetalle.Parameters.AddWithValue(
-                                    "@idProductoTalla",
-                                    idProductoTalla);
-
-                                cmdDetalle.Parameters.AddWithValue(
-                                    "@cantidad",
-                                    cantidad);
-
-                                cmdDetalle.Parameters.AddWithValue(
-                                    "@precioUnitario",
-                                    precioUnitario);
-
-                                cmdDetalle.Parameters.AddWithValue(
-                                    "@subtotal",
-                                    subtotalLinea);
+                                cmdDetalle.Parameters.AddWithValue("@idVenta", idVenta);
+                                cmdDetalle.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
+                                cmdDetalle.Parameters.AddWithValue("@cantidad", cantidad);
+                                cmdDetalle.Parameters.AddWithValue("@precioUnitario", precioUnitario);
+                                cmdDetalle.Parameters.AddWithValue("@subtotal", subtotalLinea);
 
                                 cmdDetalle.ExecuteNonQuery();
                             }
-
-                            // =================================================
-                            // C. ACTUALIZAR INVENTARIO
-                            // =================================================
-                            //
-                            // IMPORTANTE:
-                            // Si vas a utilizar el trigger de venta que
-                            // actualiza inventario, NO hagas este UPDATE aquí.
-                            //
-                            // El trigger será el encargado de disminuir
-                            // el stock automáticamente.
-                            //
                         }
 
-                        // =================================================
-                        // D. INSERTAR FORMA DE PAGO
-                        // =================================================
-
+                        // C. Insertar Forma de Pago
                         string sqlPago = @"
-                            INSERT INTO forma_pago
-                            (
-                                tipo_pago,
-                                monto_cordobas,
-                                monto_dolares,
-                                tipo_cambio,
-                                cambio,
-                                tipo_tarjeta,
-                                monto_tarjeta,
-                                id_venta
-                            )
-                            VALUES
-                            (
-                                @tipoPago,
-                                @montoCordobas,
-                                @montoDolares,
-                                @tipoCambio,
-                                @cambio,
-                                @tipoTarjeta,
-                                @montoTarjeta,
-                                @idVenta
-                            );";
+                    INSERT INTO forma_pago
+                    (
+                        tipo_pago,
+                        monto_cordobas,
+                        monto_dolares,
+                        tipo_cambio,
+                        cambio,
+                        tipo_tarjeta,
+                        monto_tarjeta,
+                        id_venta
+                    )
+                    VALUES
+                    (
+                        @tipoPago,
+                        @montoCordobas,
+                        @montoDolares,
+                        @tipoCambio,
+                        @cambio,
+                        @tipoTarjeta,
+                        @montoTarjeta,
+                        @idVenta
+                    );";
 
-                        using (NpgsqlCommand cmdPago =
-                            new NpgsqlCommand(
-                                sqlPago,
-                                conexion,
-                                transaccion))
+                        using (NpgsqlCommand cmdPago = new NpgsqlCommand(sqlPago, conexion, transaccion))
                         {
-                            cmdPago.Parameters.AddWithValue(
-                                "@tipoPago",
-                                tipoPago);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@montoCordobas",
-                                montoCordobas);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@montoDolares",
-                                montoDolares);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@tipoCambio",
-                                tipoCambio);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@cambio",
-                                cambio);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@tipoTarjeta",
-                                string.IsNullOrWhiteSpace(tipoTarjeta)
-                                    ? (object)DBNull.Value
-                                    : tipoTarjeta);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@montoTarjeta",
-                                montoTarjeta);
-
-                            cmdPago.Parameters.AddWithValue(
-                                "@idVenta",
-                                idVenta);
+                            cmdPago.Parameters.AddWithValue("@tipoPago", tipoPago);
+                            cmdPago.Parameters.AddWithValue("@montoCordobas", montoCordobas);
+                            cmdPago.Parameters.AddWithValue("@montoDolares", montoDolares);
+                            cmdPago.Parameters.AddWithValue("@tipoCambio", tipoCambio);
+                            cmdPago.Parameters.AddWithValue("@cambio", cambio);
+                            cmdPago.Parameters.AddWithValue("@tipoTarjeta", string.IsNullOrWhiteSpace(tipoTarjeta) ? (object)DBNull.Value : tipoTarjeta);
+                            cmdPago.Parameters.AddWithValue("@montoTarjeta", montoTarjeta);
+                            cmdPago.Parameters.AddWithValue("@idVenta", idVenta);
 
                             cmdPago.ExecuteNonQuery();
                         }
 
-                        // =================================================
-                        // E. CONFIRMAR TRANSACCIÓN
-                        // =================================================
-
                         transaccion.Commit();
-
                         return true;
                     }
                     catch
@@ -659,38 +530,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // Se utiliza id_producto_talla para obtener:
         // producto + marca + categoria + talla.
         // =====================================================
-        public DataTable ObtenerDetalleParaFactura(
-            DataTable detalleVenta)
+        public DataTable ObtenerDetalleParaFactura(DataTable detalleVenta)
         {
             DataTable dtResultado = new DataTable();
 
-            dtResultado.Columns.Add(
-                "producto",
-                typeof(string));
-
-            dtResultado.Columns.Add(
-                "marca",
-                typeof(string));
-
-            dtResultado.Columns.Add(
-                "categoria",
-                typeof(string));
-
-            dtResultado.Columns.Add(
-                "talla",
-                typeof(string));
-
-            dtResultado.Columns.Add(
-                "cantidad",
-                typeof(int));
-
-            dtResultado.Columns.Add(
-                "precio_venta",
-                typeof(decimal));
-
-            dtResultado.Columns.Add(
-                "subtotal",
-                typeof(decimal));
+            dtResultado.Columns.Add("producto", typeof(string));
+            dtResultado.Columns.Add("marca", typeof(string));
+            dtResultado.Columns.Add("categoria", typeof(string));
+            dtResultado.Columns.Add("talla", typeof(string));
+            dtResultado.Columns.Add("cantidad", typeof(int));
+            dtResultado.Columns.Add("precio_venta", typeof(decimal));
+            dtResultado.Columns.Add("subtotal", typeof(decimal));
 
             try
             {
@@ -698,49 +548,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                 foreach (DataRow fila in detalleVenta.Rows)
                 {
-                    int idProductoTalla =
-                        Convert.ToInt32(
-                            fila["id_producto_talla"]);
-
-                    int cantidad =
-                        Convert.ToInt32(
-                            fila["cantidad"]);
-
-                    decimal precioVenta =
-                        Convert.ToDecimal(
-                            fila["precio_venta"]);
-
-                    decimal subtotal =
-                        Convert.ToDecimal(
-                            fila["subtotal"]);
+                    int idProductoTalla = Convert.ToInt32(fila["id_producto_talla"]);
+                    int cantidad = Convert.ToInt32(fila["cantidad"]);
+                    decimal precioVenta = Convert.ToDecimal(fila["precio_venta"]);
+                    decimal subtotal = Convert.ToDecimal(fila["subtotal"]);
 
                     string sql = @"
-                        SELECT
-                            p.nombre AS producto,
-                            m.nombre_marca AS marca,
-                            c.nombre_categoria AS categoria,
-                            pt.talla
-                        FROM producto_talla pt
-                        INNER JOIN producto p
-                            ON pt.id_producto = p.id_producto
-                        INNER JOIN marca m
-                            ON p.id_marca = m.id_marca
-                        INNER JOIN categoria c
-                            ON p.id_categoria = c.id_categoria
-                        WHERE pt.id_producto_talla =
-                              @idProductoTalla;";
+                SELECT
+                    p.nombre AS producto,
+                    m.nombre_marca AS marca,
+                    c.nombre_categoria AS categoria,
+                    pt.talla
+                FROM producto_talla pt
+                INNER JOIN producto p ON pt.id_producto = p.id_producto
+                INNER JOIN marca m ON p.id_marca = m.id_marca
+                INNER JOIN categoria c ON p.id_categoria = c.id_categoria
+                WHERE pt.id_producto_talla = @idProductoTalla;";
 
-                    using (NpgsqlCommand cmd =
-                        new NpgsqlCommand(
-                            sql,
-                            conexionBD.ObtenerConexion()))
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                     {
-                        cmd.Parameters.AddWithValue(
-                            "@idProductoTalla",
-                            idProductoTalla);
+                        cmd.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
 
-                        using (NpgsqlDataReader reader =
-                            cmd.ExecuteReader())
+                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
@@ -908,37 +737,39 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         public DataTable ObtenerVentaPorId(int idVenta)
         {
             DataTable dt = new DataTable();
-            ConexionBD conexionBD = new ConexionBD();
 
-            // Creamos una nueva conexión local a partir de la conexión existente
-            // para no alterar ni desechar la conexión global del sistema
-            using (NpgsqlConnection con = new NpgsqlConnection(conexionBD.ObtenerConexion().ConnectionString))
+            string query = @"SELECT 
+                        v.id_venta, 
+                        'V' || LPAD(v.id_venta::text, 5, '0') AS codigo_venta, 
+                        v.fecha, 
+                        COALESCE(c.nombre, 'Cliente General') AS cliente, 
+                        u.nombre_completo AS usuario, 
+                        v.subtotal, 
+                        v.descuento, 
+                        v.iva, 
+                        v.total 
+                    FROM venta v 
+                    LEFT JOIN cliente c ON v.id_cliente = c.id_cliente 
+                    INNER JOIN usuario u ON v.id_usuario = u.id_usuario 
+                    WHERE v.id_venta = @id_venta;";
+
+            try
             {
-                string query = @"
-            SELECT 
-                v.id_venta,
-                'V' || LPAD(v.id_venta::text, 5, '0') AS codigo_venta,
-                v.fecha,
-                COALESCE(c.nombre, 'Cliente General') AS cliente,
-                u.nombre_completo AS usuario,
-                v.subtotal,
-                v.descuento,
-                v.iva,
-                v.total
-            FROM venta v
-            LEFT JOIN cliente c ON v.id_cliente = c.id_cliente
-            INNER JOIN usuario u ON v.id_usuario = u.id_usuario
-            WHERE v.id_venta = @id_venta;";
+                var conexion = conexionBD.ObtenerConexion();
+                conexionBD.AbrirConexion();
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
+                using (var cmd = new NpgsqlCommand(query, conexion))
                 {
                     cmd.Parameters.AddWithValue("@id_venta", idVenta);
-                    using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
+                    using (var adapter = new NpgsqlDataAdapter(cmd))
                     {
-                        con.Open();
                         adapter.Fill(dt);
                     }
                 }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
             }
 
             return dt;

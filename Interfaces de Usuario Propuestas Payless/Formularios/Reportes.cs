@@ -1,4 +1,5 @@
-﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+﻿using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
+using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private ReporteCajaDAO reporteCajaDAO = new ReporteCajaDAO();
         private ReporteProductoDAO reporteProductoDAO = new ReporteProductoDAO();
         private ReporteUsuarioDAO reporteUsuarioDAO = new ReporteUsuarioDAO();
+        private ReporteVentaDAO reporteVentaDAO = new ReporteVentaDAO();
 
 
         private DataTable tablaReporte;
@@ -323,29 +325,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             if (cbTipoReporte.SelectedItem == null)
             {
-                MessageBox.Show(
-                    "Seleccione un tipo de reporte.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Seleccione un tipo de reporte.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (tablaReporte == null ||
-                tablaReporte.Rows.Count == 0)
+            if (tablaReporte == null || tablaReporte.Rows.Count == 0)
             {
-                MessageBox.Show(
-                    "No hay información para imprimir.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("No hay información para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            string reporte =
-                cbTipoReporte.SelectedItem.ToString();
+            string reporte = cbTipoReporte.SelectedItem.ToString();
 
             try
             {
@@ -353,52 +343,40 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 {
                     if (DGVtabla1.CurrentRow == null)
                     {
-                        MessageBox.Show(
-                            "Seleccione una caja para imprimir.",
-                            "Aviso",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Warning);
-
+                        MessageBox.Show("Seleccione una caja para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    int idCaja =
-                        Convert.ToInt32(
-                            DGVtabla1.CurrentRow
-                            .Cells["ID Caja"]
-                            .Value);
-
-                    GeneradorReporteCajaPDF.Generar(
-                        tablaReporte,
-                        idCaja);
+                    int idCaja = Convert.ToInt32(DGVtabla1.CurrentRow.Cells["ID Caja"].Value);
+                    GeneradorReporteCajaPDF.Generar(tablaReporte, idCaja);
                 }
                 else if (reporte == "Reporte de Productos")
                 {
-                    GeneradorReporteProductosPDF.Generar(
-                        tablaReporte);
+                    GeneradorReporteProductosPDF.Generar(tablaReporte);
                 }
                 else if (reporte == "Reporte de Usuarios")
                 {
-                    GeneradorReporteUsuariosPDF.Generar(
-                        tablaReporte);
+                    GeneradorReporteUsuariosPDF.Generar(tablaReporte);
                 }
                 else if (reporte == "Reporte de Ventas")
                 {
-                    MessageBox.Show(
-                        "El reporte de ventas todavía no tiene impresión configurada.",
-                        "Aviso",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
+                    bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+                    string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
+                    string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
+
+                    // Llama a la utilitaria que genera el PDF corporativo
+                    GeneradorReporteVentasPDF.Generar(
+                        tablaReporte,
+                        dtpFechaDesde.Value,
+                        dtpFechaHasta.Value,
+                        usarFechas,
+                        usuario,
+                        estado);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al imprimir el reporte:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Error al imprimir el reporte:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -653,7 +631,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
             else if (reporte == "Reporte de Ventas")
             {
-              //  GenerarReporteVentas();
+              GenerarReporteVentas();
             }
         }
 
@@ -706,9 +684,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     .DefaultCellStyle.Format = "C$ #,##0.00";
             }
 
-            if (DGVtabla1.Columns.Contains("Stock Total"))
+            if (DGVtabla1.Columns.Contains("Stock"))
             {
-                DGVtabla1.Columns["Stock Total"]
+                DGVtabla1.Columns["Stock"]
                     .DefaultCellStyle.Format = "N0";
             }
         }
@@ -1008,5 +986,81 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Close();
         }
+
+
+        private void GenerarReporteVentas()
+        {
+            try
+            {
+                bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+
+                if (usarFechas && dtpFechaDesde.Value.Date > dtpFechaHasta.Value.Date)
+                {
+                    MessageBox.Show(
+                        "La fecha desde no puede ser mayor que la fecha hasta.",
+                        "Aviso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
+                string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
+
+                tablaReporte = reporteVentaDAO.ObtenerReporteVentas(
+                    dtpFechaDesde.Value,
+                    dtpFechaHasta.Value,
+                    usarFechas,
+                    usuario,
+                    estado);
+
+                DGVtabla1.DataSource = tablaReporte;
+
+                if (tablaReporte.Rows.Count > 0)
+                {
+                    FormatearReporteVentas();
+                    btnImprimir.Enabled = true;
+                }
+                else
+                {
+                    btnImprimir.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al cargar el reporte de ventas:\n\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                btnImprimir.Enabled = false;
+            }
+        }
+
+        private void FormatearReporteVentas()
+        {
+            if (DGVtabla1.Columns.Contains("ID Venta"))
+                DGVtabla1.Columns["ID Venta"].Width = 70;
+
+            if (DGVtabla1.Columns.Contains("Código"))
+                DGVtabla1.Columns["Código"].Width = 90;
+
+            if (DGVtabla1.Columns.Contains("Fecha"))
+            {
+                DGVtabla1.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            string[] columnasMoneda = { "Subtotal", "IVA", "Total" };
+            foreach (string col in columnasMoneda)
+            {
+                if (DGVtabla1.Columns.Contains(col))
+                {
+                    DGVtabla1.Columns[col].DefaultCellStyle.Format = "C$ #,##0.00";
+                }
+            }
+        }
+
+
     }
 }

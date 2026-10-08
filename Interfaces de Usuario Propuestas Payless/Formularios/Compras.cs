@@ -1,250 +1,31 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
+using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Compras_nuevo : Form
     {
-        CompraDAO compraDAO = new CompraDAO();
-        private DataTable detallesCompra;
+        private CompraDAO compraDAO;
+        private ArbolCompras arbolCompras;
 
         public Compras_nuevo()
         {
             InitializeComponent();
 
-            ConfigurarFormulario();
-            CrearTablaDetalles();
-            ConfigurarDataGridView();
 
-            CargarProveedores();
-            CargarProductos();
-
-            MostrarNumeroCompra();
         }
-
-        private void ConfigurarFormulario()
-        {
-            txtNoCompra.ReadOnly = true;
-
-            txtSubtotal.ReadOnly = true;
-            txtIVA.ReadOnly = true;
-            txtTotalCompra.ReadOnly = true;
-
-            cmbCategoria.Enabled = false;
-            cmbMarca.Enabled = false;
-            cmbTalla.Enabled = false;
-            cmbCantidad.Enabled = false;
-
-            // --------------------------------------------------------
-            // FECHA
-            // --------------------------------------------------------
-
-            cmbFecha.Items.Clear();
-
-            cmbFecha.Items.Add(
-                DateTime.Now.ToString("dd/MM/yyyy"));
-
-            cmbFecha.SelectedIndex = 0;
-
-
-            // --------------------------------------------------------
-            // CANTIDAD
-            // --------------------------------------------------------
-
-            cmbCantidad.Items.Clear();
-
-            for (int i = 1; i <= 100; i++)
-            {
-                cmbCantidad.Items.Add(i);
-            }
-
-            cmbCantidad.SelectedIndex = -1;
-        }
-
-        private void MostrarNumeroCompra()
-        {
-            try
-            {
-                int numeroCompra =
-                    compraDAO.ObtenerSiguienteNumeroCompra();
-
-                txtNoCompra.Text = "N°" +
-                    numeroCompra.ToString() ;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "No se pudo obtener el número de compra:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-
-
-        private void CrearTablaDetalles()
-        {
-            detallesCompra = new DataTable();
-
-            detallesCompra.Columns.Add(
-                "id_producto_talla",
-                typeof(int));
-
-            detallesCompra.Columns.Add(
-                "codigo",
-                typeof(int));
-
-            detallesCompra.Columns.Add(
-                "producto",
-                typeof(string));
-
-            detallesCompra.Columns.Add(
-                "categoria",
-                typeof(string));
-
-            detallesCompra.Columns.Add(
-                "marca",
-                typeof(string));
-
-            detallesCompra.Columns.Add(
-                "talla",
-                typeof(string));
-
-            detallesCompra.Columns.Add(
-                "precio_compra",
-                typeof(decimal));
-
-            // Se conserva internamente.
-            // NO se muestra en el DataGridView.
-            detallesCompra.Columns.Add(
-                "precio_venta",
-                typeof(decimal));
-
-            detallesCompra.Columns.Add(
-                "cantidad",
-                typeof(int));
-
-            detallesCompra.Columns.Add(
-                "subtotal",
-                typeof(decimal));
-        }
-
-        private void ConfigurarDataGridView()
-        {
-            dataGridView1.AllowUserToAddRows = false;
-
-            dataGridView1.ReadOnly = true;
-
-            dataGridView1.SelectionMode =
-                DataGridViewSelectionMode.FullRowSelect;
-
-            dataGridView1.MultiSelect = false;
-
-            dataGridView1.AutoGenerateColumns = false;
-
-            dataGridView1.Columns.Clear();
-
-            dataGridView1.Columns.Add(
-                "Codigo",
-                "Código");
-
-            dataGridView1.Columns.Add(
-                "Productos",
-                "Productos");
-
-            dataGridView1.Columns.Add(
-                "Categoria",
-                "Categoría");
-
-            dataGridView1.Columns.Add(
-                "Marca",
-                "Marca");
-
-            dataGridView1.Columns.Add(
-                "Medida",
-                "Medida");
-
-            dataGridView1.Columns.Add(
-                "PrecioCompra",
-                "Precio compra");
-
-            dataGridView1.Columns.Add(
-                "Cantidad",
-                "Cantidad");
-
-            dataGridView1.Columns.Add(
-                "Total",
-                "Total");
-        }
-
-        private void CargarProveedores()
-        {
-            try
-            {
-                DataTable tabla =
-                    compraDAO.MostrarProveedores();
-
-                cmbProveedor.DataSource = tabla;
-
-                cmbProveedor.DisplayMember =
-                    "nombre";
-
-                cmbProveedor.ValueMember =
-                    "id_proveedor";
-
-                cmbProveedor.SelectedIndex = -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al cargar los proveedores:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-
-        private void CargarProductos()
-        {
-            try
-            {
-                DataTable tabla =
-                    compraDAO.MostrarProductos();
-
-                cmbProducto.DataSource = tabla;
-
-                cmbProducto.DisplayMember =
-                    "nombre";
-
-                cmbProducto.ValueMember =
-                    "id_producto";
-
-                cmbProducto.SelectedIndex = -1;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al cargar los productos:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-
-
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -253,7 +34,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label27_Click(object sender, EventArgs e)
         {
-            Menú_Principal ventana = new Menu_principal();
+            Menú_Principal ventana = new Menú_Principal();
             ventana.Show();
             this.Hide();
         }
@@ -295,8 +76,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label25_Click(object sender, EventArgs e)
         {
-            Compras ventana = new Compras();
-            ventana.show();
+            Compras_nuevo ventana = new Compras_nuevo();
+            ventana.Show();
             this.Hide();
         }
 
@@ -343,492 +124,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // ============================================================
-            // VALIDAR PROVEEDOR
-            // ============================================================
 
-            if (cmbProveedor.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione un proveedor.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbProveedor.Focus();
-
-                return;
-            }
-
-
-            // ============================================================
-            // VALIDAR DETALLES
-            // ============================================================
-
-            if (detallesCompra.Rows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Agregue al menos un producto a la compra.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-
-            // ============================================================
-            // VALIDAR TOTAL
-            // ============================================================
-
-            if (!decimal.TryParse(
-                txtTotalCompra.Text,
-                out decimal total) ||
-                total <= 0)
-            {
-                MessageBox.Show(
-                    "El total de la compra no es válido.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-
-            // ============================================================
-            // OBTENER PROVEEDOR
-            // ============================================================
-
-            int idProveedor =
-                Convert.ToInt32(
-                    cmbProveedor.SelectedValue);
-
-
-            try
-            {
-                // ========================================================
-                // GUARDAR COMPRA
-                // ========================================================
-                //
-                // RegistrarCompra() inserta la compra en PostgreSQL
-                // y devuelve el id_compra generado realmente.
-                //
-                // ========================================================
-
-                int idCompra =
-                    compraDAO.RegistrarCompra(
-                        total,
-                        idProveedor,
-                        detallesCompra);
-
-
-                // ========================================================
-                // MOSTRAR ID REAL DE LA COMPRA
-                // ========================================================
-
-                txtNoCompra.Text =
-                    idCompra.ToString();
-
-
-                // ========================================================
-                // MENSAJE DE CONFIRMACIÓN
-                // ========================================================
-
-                MessageBox.Show(
-                    "Compra guardada correctamente.\n\n" +
-                    "No. de compra: " +
-                    idCompra,
-                    "Compra",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-
-                // ========================================================
-                // AQUÍ IRÁ EL PDF
-                // ========================================================
-                //
-                // Posteriormente podemos colocar:
-                //
-                // GenerarComprobantePDF(idCompra);
-                //
-                // El PDF utilizará este mismo idCompra.
-                //
-                // ========================================================
-
-
-                // ========================================================
-                // LIMPIAR FORMULARIO
-                // ========================================================
-
-                LimpiarFormulario();
-
-
-                // ========================================================
-                // MOSTRAR EL SIGUIENTE NÚMERO
-                // ========================================================
-
-                MostrarNumeroCompra();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al guardar la compra:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
         }
 
 
 
         private void cmbProducto_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbProducto.SelectedIndex == -1)
-                return;
 
-            DataRowView producto =
-                cmbProducto.SelectedItem as DataRowView;
-
-            if (producto == null)
-                return;
-
-            cmbCategoria.Text =
-                producto["nombre_categoria"].ToString();
-
-            cmbMarca.Text =
-                producto["nombre_marca"].ToString();
-
-            int idProducto =
-                Convert.ToInt32(
-                    producto["id_producto"]);
-
-            CargarTallas(idProducto);
-        }
-
-        private void LimpiarFormulario()
-        {
-            detallesCompra.Clear();
-
-            dataGridView1.Rows.Clear();
-
-            cmbProveedor.SelectedIndex = -1;
-
-            cmbProducto.SelectedIndex = -1;
-
-            cmbCategoria.Text = "";
-
-            cmbMarca.Text = "";
-
-            cmbTalla.DataSource = null;
-
-            cmbTalla.Enabled = false;
-
-            cmbCantidad.SelectedIndex = -1;
-
-            cmbCantidad.Enabled = false;
-
-            txtPrecioCompra.Clear();
-
-            txtPrecioVenta.Clear();
-
-            txtSubtotal.Clear();
-
-            txtIVA.Clear();
-
-            txtTotalCompra.Clear();
-
-            txtNoCompra.Clear();
-
-            cmbFecha.Items.Clear();
-
-            cmbFecha.Items.Add(
-                DateTime.Now.ToString("dd/MM/yyyy"));
-
-            cmbFecha.SelectedIndex = 0;
         }
 
 
-
-        private void CargarTallas(int idProducto)
-        {
-            try
-            {
-                cmbTalla.DataSource = null;
-                cmbTalla.Items.Clear();
-
-                // Tallas disponibles para zapatos
-                for (int talla = 15; talla <= 55; talla++)
-                {
-                    cmbTalla.Items.Add(talla);
-                }
-
-                cmbTalla.SelectedIndex = -1;
-                cmbTalla.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Error al cargar las tallas:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
 
         private void cmbTalla_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbTalla.SelectedIndex == -1)
-                return;
 
-            // Las tallas corresponden a zapatos
-            // y se manejan mediante sistema europeo.
-
-            cmbCantidad.Enabled = true;
-
-            cmbCantidad.SelectedIndex = -1;
-        }
-        internal class Compras
-        {
-            internal void show()
-            {
-                throw new NotImplementedException();
-            }
-
-            internal void Show()
-            {
-                throw new NotImplementedException();
-            }
         }
 
-        internal class Menu_principal : Menú_Principal
-        {
-        }
+
+
 
         private void btnAgregarProductos_Click(object sender, EventArgs e)
         {
-            if (cmbProveedor.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione un proveedor.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbProveedor.Focus();
-
-                return;
-            }
-
-            if (cmbProducto.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione un producto.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbProducto.Focus();
-
-                return;
-            }
-
-            if (cmbTalla.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione una talla.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbTalla.Focus();
-
-                return;
-            }
-
-            if (cmbCantidad.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione una cantidad.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbCantidad.Focus();
-
-                return;
-            }
-
-            if (!decimal.TryParse(
-                txtPrecioCompra.Text,
-                out decimal precioCompra) ||
-                precioCompra <= 0)
-            {
-                MessageBox.Show(
-                    "Ingrese un precio de compra válido.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtPrecioCompra.Focus();
-
-                return;
-            }
-
-            if (!decimal.TryParse(
-                txtPrecioVenta.Text,
-                out decimal precioVenta) ||
-                precioVenta <= 0)
-            {
-                MessageBox.Show(
-                    "Ingrese un precio de venta válido.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtPrecioVenta.Focus();
-
-                return;
-            }
-
-            DataRowView producto =
-                cmbProducto.SelectedItem as DataRowView;
-
-            if (producto == null)
-                return;
-
-            int idProducto =
-                Convert.ToInt32(
-                    producto["id_producto"]);
-
-            string nombreProducto =
-                producto["nombre"].ToString();
-
-            string categoria =
-                producto["nombre_categoria"].ToString();
-
-            string marca =
-                producto["nombre_marca"].ToString();
-
-            string talla =
-                cmbTalla.SelectedItem.ToString();
-
-            int cantidad =
-                Convert.ToInt32(
-                    cmbCantidad.SelectedItem);
-
-            decimal subtotal =
-                precioCompra * cantidad;
-
-            // ============================================================
-            // GUARDAR DETALLE INTERNAMENTE
-            // ============================================================
-
-            DataRow fila =
-                detallesCompra.NewRow();
-
-            // Por ahora se deja en 0.
-            // CompraDAO obtendrá/creará el id_producto_talla
-            // al momento de guardar la compra.
-            fila["id_producto_talla"] = 0;
-
-            fila["codigo"] =
-                idProducto;
-
-            fila["producto"] =
-                nombreProducto;
-
-            fila["categoria"] =
-                categoria;
-
-            fila["marca"] =
-                marca;
-
-            fila["talla"] =
-                talla;
-
-            fila["precio_compra"] =
-                precioCompra;
-
-            fila["precio_venta"] =
-                precioVenta;
-
-            fila["cantidad"] =
-                cantidad;
-
-            fila["subtotal"] =
-                subtotal;
-
-            detallesCompra.Rows.Add(fila);
-
-            MostrarDetalles();
-
-            CalcularTotales();
-
-            LimpiarDatosProducto();
         }
-
-        private void MostrarDetalles()
-        {
-            dataGridView1.Rows.Clear();
-
-            foreach (DataRow fila
-                in detallesCompra.Rows)
-            {
-                dataGridView1.Rows.Add(
-                    fila["codigo"],
-                    fila["producto"],
-                    fila["categoria"],
-                    fila["marca"],
-                    fila["talla"],
-                    Convert.ToDecimal(
-                        fila["precio_compra"])
-                        .ToString("0.00"),
-                    fila["cantidad"],
-                    Convert.ToDecimal(
-                        fila["subtotal"])
-                        .ToString("0.00"));
-            }
-        }
-
 
         // ============================================================
         // CALCULAR TOTALES
         // ============================================================
 
-        private void CalcularTotales()
-        {
-            decimal subtotal = 0;
-
-            foreach (DataRow fila
-                in detallesCompra.Rows)
-            {
-                subtotal +=
-                    Convert.ToDecimal(
-                        fila["subtotal"]);
-            }
-
-
-            // IVA 15%
-            decimal iva =
-                subtotal * 0.15m;
-
-
-            decimal total =
-                subtotal + iva;
-
-
-            txtSubtotal.Text =
-                subtotal.ToString("0.00");
-
-            txtIVA.Text =
-                iva.ToString("0.00");
-
-            txtTotalCompra.Text =
-                total.ToString("0.00");
-        }
 
 
         // ============================================================
@@ -839,182 +162,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             object sender,
             EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Seleccione un producto para eliminar.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
 
-                return;
-            }
-
-
-            int indice =
-                dataGridView1.SelectedRows[0].Index;
-
-
-            if (indice >= 0 &&
-                indice < detallesCompra.Rows.Count)
-            {
-                detallesCompra.Rows.RemoveAt(indice);
-            }
-
-
-            MostrarDetalles();
-
-            CalcularTotales();
         }
 
-        private int ObtenerIdProducto(
-            int idProductoTalla)
-        {
-            DataTable productos =
-                compraDAO.MostrarProductos();
 
 
-            foreach (DataRow producto
-                in productos.Rows)
-            {
-                int idProducto =
-                    Convert.ToInt32(
-                        producto["id_producto"]);
-
-
-                DataTable tallas =
-                    compraDAO.MostrarTallas(
-                        idProducto);
-
-
-                foreach (DataRow talla
-                    in tallas.Rows)
-                {
-                    int idTalla =
-                        Convert.ToInt32(
-                            talla["id_producto_talla"]);
-
-
-                    if (idTalla ==
-                        idProductoTalla)
-                    {
-                        return idProducto;
-                    }
-                }
-            }
-
-
-            return 0;
-        }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.SelectedRows.Count == 0)
-            {
-                MessageBox.Show(
-                    "Seleccione un producto para editar.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
 
-                return;
-            }
-
-
-            int indice =
-                dataGridView1.SelectedRows[0].Index;
-
-
-            if (indice < 0 ||
-                indice >= detallesCompra.Rows.Count)
-            {
-                return;
-            }
-
-
-            DataRow fila =
-                detallesCompra.Rows[indice];
-
-
-            int idProductoTalla =
-                Convert.ToInt32(
-                    fila["id_producto_talla"]);
-
-
-            int idProducto =
-                ObtenerIdProducto(
-                    idProductoTalla);
-
-
-            if (idProducto == 0)
-            {
-                MessageBox.Show(
-                    "No se encontró el producto.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
-                return;
-            }
-
-
-            cmbProducto.SelectedValue =
-                idProducto;
-
-
-            CargarTallas(idProducto);
-
-
-            cmbTalla.SelectedValue =
-                idProductoTalla;
-
-
-            cmbCantidad.Enabled = true;
-
-            cmbCantidad.Text =
-                fila["cantidad"].ToString();
-
-
-            txtPrecioCompra.Text =
-                Convert.ToDecimal(
-                    fila["precio_compra"])
-                    .ToString("0.00");
-
-
-            txtPrecioVenta.Text =
-                Convert.ToDecimal(
-                    fila["precio_venta"])
-                    .ToString("0.00");
-
-
-            detallesCompra.Rows.RemoveAt(indice);
-
-
-            MostrarDetalles();
-
-            CalcularTotales();
         }
 
-        private void LimpiarDatosProducto()
-        {
-            cmbProducto.SelectedIndex = -1;
 
-            cmbCategoria.Text = "";
 
-            cmbMarca.Text = "";
-
-            cmbTalla.DataSource = null;
-
-            cmbTalla.Enabled = false;
-
-            cmbCantidad.SelectedIndex = -1;
-
-            cmbCantidad.Enabled = false;
-
-            txtPrecioCompra.Clear();
-
-            txtPrecioVenta.Clear();
-        }
 
         private void txtNoCompra_TextChanged(object sender, EventArgs e)
         {
@@ -1023,94 +183,285 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void label5_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string rutaPDF = @"C:\Users\Lenovo\Desktop\PAYLESS\Interfaces de Usuario Propuestas Payless\Ayuda\Manual_Usuario.pdf";
-
-                if (!File.Exists(rutaPDF))
-                {
-                    MessageBox.Show($"No se encontró el manual en la ruta:\n{rutaPDF}",
-                                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                // 1. Convertir la ruta del disco a formato URI web (maneja espacios y caracteres especiales)
-                string uriPDF = new Uri(rutaPDF).AbsoluteUri;
-
-                // 2. Cambia el número 4 por el número exacto de la página de Caja
-                int numeroPaginaCaja = 4;
-
-                // 3. Crear el argumento en formato file:///C:/...#page=2
-                string argumentos = $"\"{uriPDF}#page={numeroPaginaCaja}\"";
-
-                ProcessStartInfo edgeInfo = new ProcessStartInfo
-                {
-                    FileName = "msedge.exe",
-                    Arguments = argumentos,
-                    UseShellExecute = true
-                };
-
-                Process.Start(edgeInfo);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void Compras_nuevo_Load(object sender, EventArgs e)
         {
+            compraDAO = new CompraDAO();
+            arbolCompras = new ArbolCompras();
 
-            lblCaja.Enabled = false;
-            lblProveedores.Enabled = false;
-            lblProductos.Enabled = false;
-            lblVenta.Enabled = false;
-            lblCompras.Enabled = false;
-            lblUsuarios.Enabled = false;
+            ConfigurarFormulario();
+            CargarCompras();
+        }
 
+        // ==========================================
+        // CONFIGURAR FORMULARIO
+        // ==========================================
+        private void ConfigurarFormulario()
+        {
+            cbBuscarPor.Items.Clear();
 
-            lblCliente.Enabled = false;
-            lblVenta.Enabled = false;
-            lblInventario.Enabled = false;
-            lblMantenimiento.Enabled = false;
-            lblReportes.Enabled = false;
+            cbBuscarPor.Items.Add("N.º Compra");
 
+            cbBuscarPor.SelectedIndex = 0;
 
-            switch (ClaseSesion.RolActual)
+            txtBuscar.Clear();
+
+            ConfigurarDataGridView();
+        }
+
+        // ==========================================
+        // CONFIGURAR DATAGRIDVIEW
+        // ==========================================
+        private void ConfigurarDataGridView()
+        {
+            dgvCompras.AutoGenerateColumns = false;
+
+            colIdCompra.DataPropertyName = "id_compra";
+            colFecha.DataPropertyName = "fecha";
+            colProveedor.DataPropertyName = "proveedor";
+            colTotal.DataPropertyName = "total";
+            colEstado.DataPropertyName = "estado";
+
+            colFecha.DefaultCellStyle.Format =
+                "dd/MM/yyyy HH:mm";
+
+            colTotal.DefaultCellStyle.Format =
+                "C2";
+        }
+
+        // ==========================================
+        // CARGAR COMPRAS
+        // ==========================================
+        private void CargarCompras()
+        {
+            try
             {
-                case "Administrador":
+                DataTable tabla =
+                    compraDAO.MostrarCompras();
 
-                    lblCaja.Enabled = true;
-                    lblCompras.Enabled = true;
-                    lblVenta.Enabled = true;
-                    lblUsuarios.Enabled = true;
-                    lblMantenimiento.Enabled = true;
-                    lblCliente.Enabled = true;
-                    lblVenta.Enabled = true;
-                    lblInventario.Enabled = true;
-                    lblProveedores.Enabled = true;
-                    lblProductos.Enabled = true;
-                    lblReportes.Enabled = true;
+                dgvCompras.DataSource = tabla;
 
+                CargarArbol(tabla);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al cargar las compras:\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
 
-                    break;
+        // ==========================================
+        // CARGAR ÁRBOL
+        // ==========================================
+        private void CargarArbol(DataTable tabla)
+        {
+            arbolCompras.Limpiar();
 
-                case "Gerente":
+            foreach (DataRow fila in tabla.Rows)
+            {
+                int idCompra =
+                    Convert.ToInt32(fila["id_compra"]);
 
-                    lblCaja.Enabled = true;
-                    lblCompras.Enabled = true;
-                    lblVenta.Enabled = true;
+                DateTime fecha =
+                    Convert.ToDateTime(fila["fecha"]);
 
-                    break;
+                string proveedor =
+                    fila["proveedor"].ToString();
 
-                case "Cajero":
+                decimal total =
+                    Convert.ToDecimal(fila["total"]);
 
-                    lblCaja.Enabled = true;
-                    lblVenta.Enabled = true;
+                bool estado =
+                    Convert.ToBoolean(fila["estado"]);
 
-                    break;
+                NodoCompra nodo =
+                    new NodoCompra(
+                        idCompra,
+                        fecha,
+                        proveedor,
+                        total,
+                        estado);
+
+                arbolCompras.Insertar(nodo);
+            }
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            NuevaCompra formulario =
+        new NuevaCompra();
+
+            formulario.ShowDialog();
+
+            CargarCompras();
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            BuscarCompra();
+        }
+
+        private void BuscarCompra()
+        {
+            if (string.IsNullOrWhiteSpace(txtBuscar.Text))
+            {
+                MessageBox.Show(
+                    "Ingrese el número de compra.",
+                    "Buscar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                txtBuscar.Focus();
+
+                return;
+            }
+
+            int idCompra;
+
+            if (!int.TryParse(
+                txtBuscar.Text.Trim(),
+                out idCompra))
+            {
+                MessageBox.Show(
+                    "El número de compra debe ser numérico.",
+                    "Buscar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtBuscar.Focus();
+
+                return;
+            }
+
+            // Buscar primero en el árbol
+            NodoCompra compra =
+                arbolCompras.Buscar(idCompra);
+
+            if (compra == null)
+            {
+                MessageBox.Show(
+                    "No se encontró la compra N.º " +
+                    idCompra + ".",
+                    "Buscar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                dgvCompras.ClearSelection();
+
+                return;
+            }
+
+            // Obtener información actualizada desde BD
+            DataTable resultado =
+                compraDAO.BuscarCompraPorId(idCompra);
+
+            if (resultado.Rows.Count == 0)
+            {
+                MessageBox.Show(
+                    "La compra no se encuentra disponible.",
+                    "Buscar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            dgvCompras.DataSource = resultado;
+
+            dgvCompras.ClearSelection();
+
+            if (dgvCompras.Rows.Count > 0)
+            {
+                dgvCompras.Rows[0].Selected = true;
+            }
+        }
+
+        private void btnEliminar_Click_1(object sender, EventArgs e)
+        {
+            if (dgvCompras.SelectedRows.Count == 0)
+            {
+                MessageBox.Show(
+                    "Seleccione una compra.",
+                    "Eliminar",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
+
+            int idCompra =
+                Convert.ToInt32(
+                    dgvCompras.SelectedRows[0]
+                    .Cells["colIdCompra"]
+                    .Value);
+
+            DialogResult respuesta =
+                MessageBox.Show(
+                    "¿Está seguro de eliminar la compra N.º " +
+                    idCompra + "?",
+                    "Confirmar eliminación",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+            if (respuesta != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                bool eliminado =
+                    compraDAO.EliminarCompra(idCompra);
+
+                if (eliminado)
+                {
+                    // Eliminar también del árbol
+                    arbolCompras.Eliminar(idCompra);
+
+                    MessageBox.Show(
+                        "Compra eliminada correctamente.",
+                        "Eliminar",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    CargarCompras();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "No se pudo eliminar la compra.",
+                        "Eliminar",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al eliminar la compra:\n" +
+                    ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+        // ==========================================
+        // LIMPIAR BÚSQUEDA
+        // ==========================================
+        private void txtBuscar_KeyDown(
+            object sender,
+            KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                BuscarCompra();
+                e.SuppressKeyPress = true;
             }
         }
     }
-
 }
