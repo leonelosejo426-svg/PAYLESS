@@ -27,39 +27,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             try
             {
                 conexionBD.AbrirConexion();
+                var conexion = conexionBD.ObtenerConexion();
 
                 string sql = @"
-                    SELECT
-                        p.id_producto,
-                        p.nombre,
-                        p.precio_venta,
-                        p.estado_producto,
-                        c.nombre_categoria AS categoria,
-                        m.nombre_marca AS marca,
-                        pr.nombre AS proveedor
-                    FROM producto p
+            SELECT
+                p.id_producto,
+                p.nombre,
+              
+                p.estado_producto,
+                COALESCE(c.nombre_categoria, 'Sin Categoría') AS categoria,
+                COALESCE(m.nombre_marca, 'Sin Marca') AS marca,
+                COALESCE(pr.nombre, 'Sin Proveedor') AS proveedor
+            FROM producto p
+            LEFT JOIN categoria c ON p.id_categoria = c.id_categoria
+            LEFT JOIN marca m ON p.id_marca = m.id_marca
+            LEFT JOIN proveedor pr ON p.id_proveedor = pr.id_proveedor
+            WHERE p.estado_producto = TRUE
+            ORDER BY p.nombre;";
 
-                    INNER JOIN categoria c
-                        ON p.id_categoria = c.id_categoria
-
-                    INNER JOIN marca m
-                        ON p.id_marca = m.id_marca
-
-                    INNER JOIN proveedor pr
-                        ON p.id_proveedor = pr.id_proveedor
-
-                    ORDER BY p.nombre";
-
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                da.Fill(tabla);
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexion))
+                {
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return tabla;
+                MessageBox.Show("Error al mostrar productos: " + ex.Message, "Error BD", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -69,7 +65,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
-        
+
 
         // =========================================================
         // CARGAR CATEGORÍAS ACTIVAS
@@ -249,7 +245,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             INSERT INTO producto
             (
                 nombre,
-                precio_venta,
+            
                 estado_producto,
                 id_categoria,
                 id_marca,
@@ -258,7 +254,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             VALUES
             (
                 @nombre,
-                NULL,
+              
                 TRUE,
                 @id_categoria,
                 @id_marca,

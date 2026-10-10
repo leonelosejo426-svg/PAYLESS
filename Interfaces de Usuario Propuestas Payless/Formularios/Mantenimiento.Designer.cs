@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mantenimiento));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lblReportes = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -110,6 +110,7 @@
             this.lblReportes.Size = new System.Drawing.Size(100, 19);
             this.lblReportes.TabIndex = 134;
             this.lblReportes.Text = "📋   Reportes";
+            this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
             // 
             // label13
             // 
@@ -356,8 +357,8 @@
             this.dgvRespaldos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvRespaldos.Location = new System.Drawing.Point(245, 457);
             this.dgvRespaldos.Name = "dgvRespaldos";
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvRespaldos.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvRespaldos.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvRespaldos.Size = new System.Drawing.Size(744, 296);
             this.dgvRespaldos.TabIndex = 88;
             // 

@@ -122,8 +122,47 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
+            // 1. Validar que todos los campos requeridos estén llenos correctamente
+            if (!ValidarCampos())
+            {
+                return;
+            }
 
-            
+            try
+            {
+                // 2. Crear y poblar el objeto con los datos seleccionados en el formulario
+                ClaseProducto nuevoProducto = new ClaseProducto()
+                {
+                    Nombre = txtNombredelProducto.Text.Trim(),
+                    IdCategoria = Convert.ToInt32(cmbCategoria.SelectedValue),
+                    IdMarca = Convert.ToInt32(cmbMarca.SelectedValue),
+                    IdProveedor = Convert.ToInt32(cmbProveedor.SelectedValue)
+                };
+
+                // 3. Ejecutar la inserción mediante la capa de datos (DAO)
+                bool resultado = DAO.AgregarProducto(nuevoProducto);
+
+                if (resultado)
+                {
+                    MessageBox.Show(
+                        "El producto se ha registrado exitosamente.",
+                        "Registro exitoso",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    // Limpiar formulario tras guardar con éxito
+                    LimpiarCampos();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Ocurrió un error al intentar guardar el producto:\n\n" + ex.Message,
+                    "Error de aplicación",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+
         }
         private void LimpiarCampos()
 

@@ -310,5 +310,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
 
         }
+
+        private void lblReportes_Click(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }

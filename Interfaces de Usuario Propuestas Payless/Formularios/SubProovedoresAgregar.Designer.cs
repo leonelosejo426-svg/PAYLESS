@@ -53,7 +53,7 @@
             // 
             this.txtCorreo.BackColor = System.Drawing.Color.White;
             this.txtCorreo.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtCorreo.Location = new System.Drawing.Point(270, 247);
+            this.txtCorreo.Location = new System.Drawing.Point(215, 220);
             this.txtCorreo.Margin = new System.Windows.Forms.Padding(4);
             this.txtCorreo.Name = "txtCorreo";
             this.txtCorreo.Size = new System.Drawing.Size(274, 26);
@@ -65,7 +65,7 @@
             this.LblNumero.BackColor = System.Drawing.Color.White;
             this.LblNumero.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNumero.ForeColor = System.Drawing.Color.Black;
-            this.LblNumero.Location = new System.Drawing.Point(25, 248);
+            this.LblNumero.Location = new System.Drawing.Point(25, 227);
             this.LblNumero.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNumero.Name = "LblNumero";
             this.LblNumero.Size = new System.Drawing.Size(56, 19);
@@ -75,12 +75,13 @@
             // btnCancelar
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.Black;
-            this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(394, 582);
+            this.btnCancelar.Location = new System.Drawing.Point(393, 371);
             this.btnCancelar.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(88, 50);
+            this.btnCancelar.Size = new System.Drawing.Size(108, 38);
             this.btnCancelar.TabIndex = 120;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -89,12 +90,13 @@
             // btnGuardar
             // 
             this.btnGuardar.BackColor = System.Drawing.Color.Black;
-            this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(186, 582);
+            this.btnGuardar.Location = new System.Drawing.Point(94, 371);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(4);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(88, 50);
+            this.btnGuardar.Size = new System.Drawing.Size(108, 38);
             this.btnGuardar.TabIndex = 119;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
@@ -103,7 +105,7 @@
             // txtTelefono
             // 
             this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtTelefono.Location = new System.Drawing.Point(270, 196);
+            this.txtTelefono.Location = new System.Drawing.Point(215, 177);
             this.txtTelefono.Margin = new System.Windows.Forms.Padding(4);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(274, 26);
@@ -113,7 +115,7 @@
             // 
             this.txtNombre.BackColor = System.Drawing.Color.White;
             this.txtNombre.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtNombre.Location = new System.Drawing.Point(270, 149);
+            this.txtNombre.Location = new System.Drawing.Point(215, 133);
             this.txtNombre.Margin = new System.Windows.Forms.Padding(4);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(274, 26);
@@ -125,7 +127,7 @@
             this.LblNombre.BackColor = System.Drawing.Color.White;
             this.LblNombre.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblNombre.ForeColor = System.Drawing.Color.Black;
-            this.LblNombre.Location = new System.Drawing.Point(25, 151);
+            this.LblNombre.Location = new System.Drawing.Point(25, 140);
             this.LblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblNombre.Name = "LblNombre";
             this.LblNombre.Size = new System.Drawing.Size(160, 19);
@@ -138,7 +140,7 @@
             this.Lbltelefono.BackColor = System.Drawing.Color.White;
             this.Lbltelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Lbltelefono.ForeColor = System.Drawing.Color.Black;
-            this.Lbltelefono.Location = new System.Drawing.Point(25, 198);
+            this.Lbltelefono.Location = new System.Drawing.Point(25, 184);
             this.Lbltelefono.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Lbltelefono.Name = "Lbltelefono";
             this.Lbltelefono.Size = new System.Drawing.Size(68, 19);
@@ -151,7 +153,7 @@
             this.LblEstado.BackColor = System.Drawing.Color.White;
             this.LblEstado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblEstado.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.LblEstado.Location = new System.Drawing.Point(25, 363);
+            this.LblEstado.Location = new System.Drawing.Point(25, 322);
             this.LblEstado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblEstado.Name = "LblEstado";
             this.LblEstado.Size = new System.Drawing.Size(94, 19);
@@ -164,7 +166,7 @@
             this.LblBusqueda.BackColor = System.Drawing.Color.White;
             this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
-            this.LblBusqueda.Location = new System.Drawing.Point(25, 304);
+            this.LblBusqueda.Location = new System.Drawing.Point(25, 274);
             this.LblBusqueda.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.LblBusqueda.Name = "LblBusqueda";
             this.LblBusqueda.Size = new System.Drawing.Size(79, 19);
@@ -178,10 +180,10 @@
             this.panel2.Controls.Add(this.pictureBox4);
             this.panel2.Controls.Add(this.label1);
             this.panel2.ForeColor = System.Drawing.Color.White;
-            this.panel2.Location = new System.Drawing.Point(11, 12);
+            this.panel2.Location = new System.Drawing.Point(-14, -20);
             this.panel2.Margin = new System.Windows.Forms.Padding(4);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(662, 81);
+            this.panel2.Size = new System.Drawing.Size(687, 89);
             this.panel2.TabIndex = 111;
             // 
             // label18
@@ -189,7 +191,7 @@
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label18.Location = new System.Drawing.Point(533, 34);
+            this.label18.Location = new System.Drawing.Point(487, 63);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(92, 19);
             this.label18.TabIndex = 11;
@@ -198,10 +200,10 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(3, 2);
+            this.pictureBox4.Location = new System.Drawing.Point(24, 31);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(78, 69);
+            this.pictureBox4.Size = new System.Drawing.Size(71, 54);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 85;
             this.pictureBox4.TabStop = false;
@@ -212,7 +214,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(118, 17);
+            this.label1.Location = new System.Drawing.Point(102, 49);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(300, 36);
@@ -223,7 +225,7 @@
             // 
             this.txtDireccion.BackColor = System.Drawing.Color.White;
             this.txtDireccion.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtDireccion.Location = new System.Drawing.Point(270, 302);
+            this.txtDireccion.Location = new System.Drawing.Point(215, 267);
             this.txtDireccion.Margin = new System.Windows.Forms.Padding(4);
             this.txtDireccion.Name = "txtDireccion";
             this.txtDireccion.Size = new System.Drawing.Size(274, 26);
@@ -233,7 +235,7 @@
             // 
             this.txtRUC.BackColor = System.Drawing.Color.White;
             this.txtRUC.Font = new System.Drawing.Font("Times New Roman", 12F);
-            this.txtRUC.Location = new System.Drawing.Point(270, 361);
+            this.txtRUC.Location = new System.Drawing.Point(215, 315);
             this.txtRUC.Margin = new System.Windows.Forms.Padding(4);
             this.txtRUC.Name = "txtRUC";
             this.txtRUC.Size = new System.Drawing.Size(183, 26);
@@ -244,7 +246,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(689, 683);
+            this.ClientSize = new System.Drawing.Size(577, 473);
             this.Controls.Add(this.txtRUC);
             this.Controls.Add(this.txtDireccion);
             this.Controls.Add(this.txtCorreo);

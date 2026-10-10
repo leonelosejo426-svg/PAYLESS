@@ -702,6 +702,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 $"{bytes / 1024.0 / 1024.0 / 1024.0:F2} GB";
         }
 
-
+        private void lblReportes_Click(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }

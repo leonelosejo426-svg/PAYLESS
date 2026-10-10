@@ -474,6 +474,7 @@
             this.lblReportes.Size = new System.Drawing.Size(100, 19);
             this.lblReportes.TabIndex = 136;
             this.lblReportes.Text = "📋   Reportes";
+            this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
             // 
             // label38
             // 

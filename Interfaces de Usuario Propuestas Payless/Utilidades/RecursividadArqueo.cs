@@ -9,10 +9,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
     internal class RecursividadArqueo
     {
 
-        /// <summary>
+       
         /// Calcula la suma total de un conjunto de billetes/monedas recorriendo
-        /// los arreglos de cantidades y valores de forma RECURSIVA.
-        /// </summary>
+        /// los arreglos de cantidades y valores 
+     
         public static decimal SumarDenominacionesRecursivo(int[] cantidades, decimal[] valores, int indice = 0)
         {
             if (cantidades == null || valores == null || indice >= cantidades.Length || indice >= valores.Length)

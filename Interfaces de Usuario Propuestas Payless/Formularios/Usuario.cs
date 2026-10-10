@@ -666,5 +666,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void lblReportes_Click(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes();
+            ventana.Show();
+            this.Hide();
+        }
     }
 }
