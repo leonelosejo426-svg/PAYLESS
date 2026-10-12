@@ -361,9 +361,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 return;
 
             AgregarDetalle();
-
             CalcularTotales();
-
             LimpiarCampos();
         }
 
@@ -463,40 +461,111 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void AgregarDetalle()
         {
-            int cantidad = Convert.ToInt32(txtCantidad.Text);
+            int cantidadIngresada = Convert.ToInt32(txtCantidad.Text);
+            bool productoExistente = false;
 
-            decimal subtotal =
-                CalcularSubtotalLinea(
-                    precioVentaActual,
-                    cantidad
-                );
+            // 1. Recorrer la grilla para verificar si la combinación de producto y talla ya fue agregada
+            foreach (DataGridViewRow row in dgvDetalleVenta.Rows)
+            {
+                if (row.Cells[0].Value != null && Convert.ToInt32(row.Cells[0].Value) == idProductoTallaSeleccionado)
+                {
+                    int cantidadActualEnGrilla = Convert.ToInt32(row.Cells[6].Value);
+                    int nuevaCantidadTotal = cantidadActualEnGrilla + cantidadIngresada;
 
-            NodoDetalleVenta nuevoNodo =
-                new NodoDetalleVenta(
+                    // Validar que la nueva cantidad acumulada no exceda el stock real en la base de datos
+                    int stockRealBD = ventaDAO.ObtenerStockProductoTalla(idProductoTallaSeleccionado);
+                    if (nuevaCantidadTotal > stockRealBD)
+                    {
+                        MessageBox.Show(
+                            "La cantidad total acumulada supera el stock disponible.\n\n" +
+                            "Stock disponible en inventario: " + stockRealBD,
+                            "Stock insuficiente",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return;
+                    }
+
+                    decimal nuevoSubtotal = precioVentaActual * nuevaCantidadTotal;
+
+                    // Actualizar la fila existente en el DataGridView
+                    row.Cells[6].Value = nuevaCantidadTotal;
+                    row.Cells[7].Value = nuevoSubtotal;
+
+                    productoExistente = true;
+                    break;
+                }
+            }
+
+            // 2. Si no existe previamente en la grilla, agregarlo como una fila nueva
+            if (!productoExistente)
+            {
+                decimal subtotal = CalcularSubtotalLinea(precioVentaActual, cantidadIngresada);
+
+                NodoDetalleVenta nuevoNodo = new NodoDetalleVenta(
                     idProductoTallaSeleccionado,
                     CBproducto.Text,
                     CBcategoria.Text,
                     CBmarca.Text,
                     CBTalla.Text,
                     precioVentaActual,
-                    cantidad,
+                    cantidadIngresada,
                     subtotal
                 );
 
-            // AGREGAR A LA LISTA ENLAZADA
-            listaDetalleVenta.Agregar(nuevoNodo);
+                listaDetalleVenta.Agregar(nuevoNodo);
 
-            // MOSTRAR EN EL DATAGRIDVIEW
-            dgvDetalleVenta.Rows.Add(
-                nuevoNodo.IdProductoTalla,
-                nuevoNodo.Producto,
-                nuevoNodo.Categoria,
-                nuevoNodo.Marca,
-                nuevoNodo.Talla,
-                nuevoNodo.PrecioVenta,
-                nuevoNodo.Cantidad,
-                nuevoNodo.Subtotal
-            );
+                dgvDetalleVenta.Rows.Add(
+                    nuevoNodo.IdProductoTalla,
+                    nuevoNodo.Producto,
+                    nuevoNodo.Categoria,
+                    nuevoNodo.Marca,
+                    nuevoNodo.Talla,
+                    nuevoNodo.PrecioVenta,
+                    nuevoNodo.Cantidad,
+                    nuevoNodo.Subtotal
+                );
+            }
+            else
+            {
+                // Sincronizar los cambios acumulados con la lista enlazada interna
+                SincronizarListaEnlazadaDesdeGrid();
+            }
+
+            // 3. Reflejar la reducción de stock de inmediato en el campo de texto visual
+            ActualizarStockPantallaEnTiempoReal(cantidadIngresada);
+        }
+
+
+
+        private void ActualizarStockPantallaEnTiempoReal(int cantidadAgregada)
+        {
+            if (int.TryParse(txtStockActual.Text, out int stockActual))
+            {
+                int stockRestante = stockActual - cantidadAgregada;
+                txtStockActual.Text = stockRestante.ToString();
+            }
+        }
+
+        private void SincronizarListaEnlazadaDesdeGrid()
+        {
+            listaDetalleVenta.Limpiar();
+            foreach (DataGridViewRow row in dgvDetalleVenta.Rows)
+            {
+                if (row.Cells[0].Value == null) continue;
+
+                NodoDetalleVenta nodo = new NodoDetalleVenta(
+                    Convert.ToInt32(row.Cells[0].Value),
+                    row.Cells[1].Value.ToString(),
+                    row.Cells[2].Value.ToString(),
+                    row.Cells[3].Value.ToString(),
+                    row.Cells[4].Value.ToString(),
+                    Convert.ToDecimal(row.Cells[5].Value),
+                    Convert.ToInt32(row.Cells[6].Value),
+                    Convert.ToDecimal(row.Cells[7].Value)
+                );
+                listaDetalleVenta.Agregar(nodo);
+            }
         }
 
         private decimal CalcularSubtotalLinea(

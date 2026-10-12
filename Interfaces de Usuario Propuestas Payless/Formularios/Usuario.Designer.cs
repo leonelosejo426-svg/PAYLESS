@@ -34,7 +34,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.label8 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.cmbBuscar = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
@@ -76,24 +75,14 @@
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label8.Location = new System.Drawing.Point(181, 124);
+            this.label8.Location = new System.Drawing.Point(182, 93);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 19);
             this.label8.TabIndex = 37;
             this.label8.Text = "Buscar";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label6.Location = new System.Drawing.Point(178, 77);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(123, 36);
-            this.label6.TabIndex = 34;
-            this.label6.Text = "Usuario";
             // 
             // cmbBuscar
             // 
@@ -101,7 +90,7 @@
             this.cmbBuscar.Items.AddRange(new object[] {
             "Activo",
             "Inactivo"});
-            this.cmbBuscar.Location = new System.Drawing.Point(184, 146);
+            this.cmbBuscar.Location = new System.Drawing.Point(185, 115);
             this.cmbBuscar.Name = "cmbBuscar";
             this.cmbBuscar.Size = new System.Drawing.Size(202, 21);
             this.cmbBuscar.TabIndex = 28;
@@ -109,7 +98,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.Controls.Add(this.pictureBox4);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
@@ -136,7 +125,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.White;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label2.Location = new System.Drawing.Point(693, 46);
@@ -148,10 +137,10 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(23, 16);
+            this.label1.Location = new System.Drawing.Point(202, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(123, 36);
             this.label1.TabIndex = 0;
@@ -177,10 +166,10 @@
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.ForeColor = System.Drawing.SystemColors.Control;
-            this.groupBox1.Location = new System.Drawing.Point(-4, 46);
+            this.groupBox1.Location = new System.Drawing.Point(-4, -9);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.groupBox1.Size = new System.Drawing.Size(167, 696);
+            this.groupBox1.Size = new System.Drawing.Size(167, 751);
             this.groupBox1.TabIndex = 25;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -192,7 +181,7 @@
             this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblReportes.ForeColor = System.Drawing.Color.Black;
-            this.lblReportes.Location = new System.Drawing.Point(26, 622);
+            this.lblReportes.Location = new System.Drawing.Point(17, 649);
             this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblReportes.Name = "lblReportes";
             this.lblReportes.Size = new System.Drawing.Size(100, 19);
@@ -216,7 +205,7 @@
             this.lblMantenimiento.AutoSize = true;
             this.lblMantenimiento.BackColor = System.Drawing.Color.White;
             this.lblMantenimiento.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblMantenimiento.Location = new System.Drawing.Point(25, 581);
+            this.lblMantenimiento.Location = new System.Drawing.Point(16, 608);
             this.lblMantenimiento.Name = "lblMantenimiento";
             this.lblMantenimiento.Size = new System.Drawing.Size(136, 19);
             this.lblMantenimiento.TabIndex = 93;
@@ -229,7 +218,7 @@
             this.label11.BackColor = System.Drawing.Color.White;
             this.label11.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label11.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label11.Location = new System.Drawing.Point(25, 664);
+            this.label11.Location = new System.Drawing.Point(16, 691);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(72, 19);
             this.label11.TabIndex = 92;
@@ -242,7 +231,7 @@
             this.lblInventario.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblInventario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInventario.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblInventario.Location = new System.Drawing.Point(26, 535);
+            this.lblInventario.Location = new System.Drawing.Point(17, 562);
             this.lblInventario.Name = "lblInventario";
             this.lblInventario.Size = new System.Drawing.Size(99, 19);
             this.lblInventario.TabIndex = 91;
@@ -255,7 +244,7 @@
             this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCaja.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblCaja.Location = new System.Drawing.Point(25, 152);
+            this.lblCaja.Location = new System.Drawing.Point(16, 179);
             this.lblCaja.Name = "lblCaja";
             this.lblCaja.Size = new System.Drawing.Size(61, 19);
             this.lblCaja.TabIndex = 90;
@@ -268,7 +257,7 @@
             this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCredito.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblCredito.Location = new System.Drawing.Point(25, 485);
+            this.lblCredito.Location = new System.Drawing.Point(16, 512);
             this.lblCredito.Name = "lblCredito";
             this.lblCredito.Size = new System.Drawing.Size(80, 19);
             this.lblCredito.TabIndex = 89;
@@ -281,7 +270,7 @@
             this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVenta.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblVenta.Location = new System.Drawing.Point(25, 437);
+            this.lblVenta.Location = new System.Drawing.Point(16, 464);
             this.lblVenta.Name = "lblVenta";
             this.lblVenta.Size = new System.Drawing.Size(76, 19);
             this.lblVenta.TabIndex = 88;
@@ -294,7 +283,7 @@
             this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCompras.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblCompras.Location = new System.Drawing.Point(25, 389);
+            this.lblCompras.Location = new System.Drawing.Point(16, 416);
             this.lblCompras.Name = "lblCompras";
             this.lblCompras.Size = new System.Drawing.Size(94, 19);
             this.lblCompras.TabIndex = 87;
@@ -307,7 +296,7 @@
             this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblCliente.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblCliente.Location = new System.Drawing.Point(26, 245);
+            this.lblCliente.Location = new System.Drawing.Point(17, 272);
             this.lblCliente.Name = "lblCliente";
             this.lblCliente.Size = new System.Drawing.Size(79, 19);
             this.lblCliente.TabIndex = 6;
@@ -320,7 +309,7 @@
             this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUsuarios.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblUsuarios.Location = new System.Drawing.Point(26, 194);
+            this.lblUsuarios.Location = new System.Drawing.Point(17, 221);
             this.lblUsuarios.Name = "lblUsuarios";
             this.lblUsuarios.Size = new System.Drawing.Size(89, 19);
             this.lblUsuarios.TabIndex = 5;
@@ -333,7 +322,7 @@
             this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProveedores.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblProveedores.Location = new System.Drawing.Point(25, 339);
+            this.lblProveedores.Location = new System.Drawing.Point(16, 366);
             this.lblProveedores.Name = "lblProveedores";
             this.lblProveedores.Size = new System.Drawing.Size(108, 19);
             this.lblProveedores.TabIndex = 4;
@@ -346,7 +335,7 @@
             this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblProductos.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblProductos.Location = new System.Drawing.Point(26, 291);
+            this.lblProductos.Location = new System.Drawing.Point(17, 318);
             this.lblProductos.Name = "lblProductos";
             this.lblProductos.Size = new System.Drawing.Size(96, 19);
             this.lblProductos.TabIndex = 3;
@@ -359,7 +348,7 @@
             this.label14.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label14.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label14.Location = new System.Drawing.Point(25, 106);
+            this.label14.Location = new System.Drawing.Point(16, 133);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(73, 19);
             this.label14.TabIndex = 2;
@@ -397,7 +386,7 @@
             this.dgvUsuarios.EnableHeadersVisualStyles = false;
             this.dgvUsuarios.GridColor = System.Drawing.Color.Silver;
             this.dgvUsuarios.ImeMode = System.Windows.Forms.ImeMode.Off;
-            this.dgvUsuarios.Location = new System.Drawing.Point(184, 240);
+            this.dgvUsuarios.Location = new System.Drawing.Point(185, 209);
             this.dgvUsuarios.Name = "dgvUsuarios";
             this.dgvUsuarios.ReadOnly = true;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -465,7 +454,7 @@
             this.btnBuscarUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnBuscarUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscarUsuarios.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnBuscarUsuarios.Location = new System.Drawing.Point(566, 138);
+            this.btnBuscarUsuarios.Location = new System.Drawing.Point(567, 107);
             this.btnBuscarUsuarios.Name = "btnBuscarUsuarios";
             this.btnBuscarUsuarios.Size = new System.Drawing.Size(82, 29);
             this.btnBuscarUsuarios.TabIndex = 51;
@@ -480,7 +469,7 @@
             this.btnAgregar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnAgregar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnAgregar.Location = new System.Drawing.Point(716, 176);
+            this.btnAgregar.Location = new System.Drawing.Point(709, 107);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(80, 32);
             this.btnAgregar.TabIndex = 52;
@@ -494,7 +483,7 @@
             this.btnEliminarUsuarios.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminarUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminarUsuarios.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminarUsuarios.Location = new System.Drawing.Point(814, 614);
+            this.btnEliminarUsuarios.Location = new System.Drawing.Point(653, 592);
             this.btnEliminarUsuarios.Name = "btnEliminarUsuarios";
             this.btnEliminarUsuarios.Size = new System.Drawing.Size(90, 32);
             this.btnEliminarUsuarios.TabIndex = 53;
@@ -508,9 +497,9 @@
             this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEditar.Location = new System.Drawing.Point(829, 177);
+            this.btnEditar.Location = new System.Drawing.Point(824, 107);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(75, 30);
+            this.btnEditar.Size = new System.Drawing.Size(75, 32);
             this.btnEditar.TabIndex = 55;
             this.btnEditar.Text = "Editar";
             this.btnEditar.UseVisualStyleBackColor = false;
@@ -518,7 +507,7 @@
             // 
             // txtBuscar
             // 
-            this.txtBuscar.Location = new System.Drawing.Point(403, 145);
+            this.txtBuscar.Location = new System.Drawing.Point(404, 114);
             this.txtBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(143, 20);
@@ -529,7 +518,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(930, 741);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnEliminarUsuarios);
@@ -537,10 +529,8 @@
             this.Controls.Add(this.btnBuscarUsuarios);
             this.Controls.Add(this.dgvUsuarios);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label6);
             this.Controls.Add(this.cmbBuscar);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Usuario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -560,7 +550,6 @@
 
         #endregion  
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cmbBuscar;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label2;

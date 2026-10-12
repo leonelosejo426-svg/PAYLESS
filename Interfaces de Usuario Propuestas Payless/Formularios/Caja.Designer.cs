@@ -73,6 +73,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.DGVMovimientosCaja = new System.Windows.Forms.DataGridView();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -84,7 +87,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.BackColor = System.Drawing.Color.White;
+            this.groupBox3.BackColor = System.Drawing.Color.Transparent;
             this.groupBox3.Controls.Add(this.pictureBox4);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label4);
@@ -111,7 +114,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.BackColor = System.Drawing.Color.White;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Black;
             this.label3.Location = new System.Drawing.Point(47, 25);
@@ -124,7 +127,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.White;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
             this.label4.Location = new System.Drawing.Point(653, 42);
@@ -366,6 +369,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.BackColor = System.Drawing.Color.Transparent;
             this.groupBox6.Controls.Add(this.btnImprimir);
             this.groupBox6.Controls.Add(this.btnArqueodecaja);
             this.groupBox6.Controls.Add(this.btnAperturadecaja);
@@ -508,6 +512,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
+            this.groupBox2.Controls.Add(this.textBox3);
+            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.lblSaldoEsperado);
             this.groupBox2.Controls.Add(this.lblTotalEgresos);
             this.groupBox2.Controls.Add(this.lblTotalIngresos);
@@ -658,11 +666,43 @@
             this.DGVMovimientosCaja.Size = new System.Drawing.Size(659, 249);
             this.DGVMovimientosCaja.TabIndex = 138;
             // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Black;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(172, 21);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(2, 68);
+            this.textBox1.TabIndex = 87;
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.Black;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Location = new System.Drawing.Point(328, 19);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(2, 68);
+            this.textBox2.TabIndex = 88;
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.Black;
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox3.Location = new System.Drawing.Point(492, 21);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(2, 68);
+            this.textBox3.TabIndex = 89;
+            // 
             // Caja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1033, 724);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.lblUsuario);
@@ -741,5 +781,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnImprimir;
         private System.Windows.Forms.Label lblReportes;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }

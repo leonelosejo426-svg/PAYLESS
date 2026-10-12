@@ -84,7 +84,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.label18);
@@ -120,7 +120,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.BackColor = System.Drawing.Color.White;
+            this.label18.BackColor = System.Drawing.Color.Transparent;
             this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label18.ForeColor = System.Drawing.Color.Black;
             this.label18.Location = new System.Drawing.Point(616, 34);
@@ -620,23 +620,24 @@
             // 
             // cmbBuscar
             // 
+            this.cmbBuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbBuscar.FormattingEnabled = true;
             this.cmbBuscar.Location = new System.Drawing.Point(186, 105);
             this.cmbBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.cmbBuscar.Name = "cmbBuscar";
-            this.cmbBuscar.Size = new System.Drawing.Size(168, 21);
+            this.cmbBuscar.Size = new System.Drawing.Size(168, 27);
             this.cmbBuscar.TabIndex = 91;
             this.cmbBuscar.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.label3.Location = new System.Drawing.Point(196, 84);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 19);
+            this.label3.Size = new System.Drawing.Size(51, 19);
             this.label3.TabIndex = 92;
             this.label3.Text = "Buscar";
             // 
@@ -650,7 +651,7 @@
             this.btnBuscar.Location = new System.Drawing.Point(388, 99);
             this.btnBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(80, 29);
+            this.btnBuscar.Size = new System.Drawing.Size(86, 29);
             this.btnBuscar.TabIndex = 93;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = false;
@@ -662,7 +663,7 @@
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.btnEliminar.Location = new System.Drawing.Point(786, 568);
+            this.btnEliminar.Location = new System.Drawing.Point(651, 492);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(80, 27);
@@ -676,6 +677,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(912, 641);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnAgregar);

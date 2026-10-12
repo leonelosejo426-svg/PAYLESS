@@ -1,8 +1,9 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using System;
 using System.Data;
-using System.Windows.Forms;
+using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
@@ -114,6 +115,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
+
                 Regex regexUsuario = new Regex(@"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$");
                 if (!regexUsuario.IsMatch(nombreUsuario))
                 {
@@ -160,6 +162,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 if (!regexPassword.IsMatch(password))
                 {
                     MessageBox.Show("La contraseña debe tener al menos 6 caracteres, incluir al menos un número y un carácter especial.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtContraseña.Focus();
+                    return;
+                }
+
+                if (!password.Any(char.IsUpper))
+                {
+                    MessageBox.Show(
+                        "La contraseña debe contener al menos una letra mayúscula.",
+                        "Validación de Contraseña",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
                     txtContraseña.Focus();
                     return;
                 }

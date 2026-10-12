@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Cliente));
             this.CmbBusqueda = new System.Windows.Forms.ComboBox();
             this.DGVtabla1 = new System.Windows.Forms.DataGridView();
             this.LblBusqueda = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblReportes = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.lblMantenimiento = new System.Windows.Forms.Label();
             this.lblInventario = new System.Windows.Forms.Label();
@@ -58,7 +59,6 @@
             this.btnEditar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.txtBuscar = new System.Windows.Forms.TextBox();
-            this.lblReportes = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DGVtabla1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -74,7 +74,7 @@
             "Nombre",
             "Numero de cédula",
             "Código"});
-            this.CmbBusqueda.Location = new System.Drawing.Point(172, 98);
+            this.CmbBusqueda.Location = new System.Drawing.Point(177, 117);
             this.CmbBusqueda.Name = "CmbBusqueda";
             this.CmbBusqueda.Size = new System.Drawing.Size(174, 27);
             this.CmbBusqueda.TabIndex = 27;
@@ -82,28 +82,28 @@
             // 
             // DGVtabla1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.DGVtabla1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.DGVtabla1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DGVtabla1.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.DGVtabla1.DefaultCellStyle = dataGridViewCellStyle4;
             this.DGVtabla1.EnableHeadersVisualStyles = false;
-            this.DGVtabla1.Location = new System.Drawing.Point(172, 153);
+            this.DGVtabla1.Location = new System.Drawing.Point(188, 200);
             this.DGVtabla1.Name = "DGVtabla1";
             this.DGVtabla1.RowHeadersWidth = 62;
-            this.DGVtabla1.Size = new System.Drawing.Size(640, 270);
+            this.DGVtabla1.Size = new System.Drawing.Size(640, 333);
             this.DGVtabla1.TabIndex = 26;
             this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGVtabla1_CellContentClick);
             // 
@@ -111,11 +111,12 @@
             // 
             this.LblBusqueda.AutoSize = true;
             this.LblBusqueda.BackColor = System.Drawing.Color.White;
-            this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblBusqueda.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LblBusqueda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LblBusqueda.ForeColor = System.Drawing.Color.Black;
-            this.LblBusqueda.Location = new System.Drawing.Point(169, 76);
+            this.LblBusqueda.Location = new System.Drawing.Point(184, 89);
             this.LblBusqueda.Name = "LblBusqueda";
-            this.LblBusqueda.Size = new System.Drawing.Size(82, 19);
+            this.LblBusqueda.Size = new System.Drawing.Size(76, 19);
             this.LblBusqueda.TabIndex = 15;
             this.LblBusqueda.Text = "Buscar por";
             // 
@@ -138,13 +139,28 @@
             this.groupBox1.Controls.Add(this.lblProductos);
             this.groupBox1.Controls.Add(this.pictureBox3);
             this.groupBox1.ForeColor = System.Drawing.Color.White;
-            this.groupBox1.Location = new System.Drawing.Point(-4, 36);
+            this.groupBox1.Location = new System.Drawing.Point(-4, -21);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox1.Size = new System.Drawing.Size(166, 700);
+            this.groupBox1.Size = new System.Drawing.Size(166, 757);
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
+            // 
+            // lblReportes
+            // 
+            this.lblReportes.AutoSize = true;
+            this.lblReportes.BackColor = System.Drawing.Color.White;
+            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReportes.ForeColor = System.Drawing.Color.Black;
+            this.lblReportes.Location = new System.Drawing.Point(14, 669);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblReportes.Name = "lblReportes";
+            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.TabIndex = 135;
+            this.lblReportes.Text = "📋   Reportes";
+            this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
             // 
             // label11
             // 
@@ -153,7 +169,7 @@
             this.label11.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(17, 679);
+            this.label11.Location = new System.Drawing.Point(15, 718);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(80, 19);
@@ -347,7 +363,8 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label18);
             this.panel2.Controls.Add(this.pictureBox4);
             this.panel2.Controls.Add(this.label1);
@@ -372,7 +389,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(768, 15);
+            this.pictureBox4.Location = new System.Drawing.Point(801, 18);
             this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(59, 46);
@@ -386,7 +403,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(19, 28);
+            this.label1.Location = new System.Drawing.Point(186, 28);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 36);
             this.label1.TabIndex = 0;
@@ -395,9 +412,10 @@
             // btnbuscar
             // 
             this.btnbuscar.BackColor = System.Drawing.Color.Black;
+            this.btnbuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnbuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnbuscar.ForeColor = System.Drawing.Color.White;
-            this.btnbuscar.Location = new System.Drawing.Point(566, 89);
+            this.btnbuscar.Location = new System.Drawing.Point(555, 109);
             this.btnbuscar.Name = "btnbuscar";
             this.btnbuscar.Size = new System.Drawing.Size(90, 40);
             this.btnbuscar.TabIndex = 89;
@@ -408,12 +426,13 @@
             // btnAgregar
             // 
             this.btnAgregar.BackColor = System.Drawing.Color.Black;
+            this.btnAgregar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAgregar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAgregar.ForeColor = System.Drawing.Color.White;
-            this.btnAgregar.Location = new System.Drawing.Point(719, 89);
+            this.btnAgregar.Location = new System.Drawing.Point(688, 109);
             this.btnAgregar.Margin = new System.Windows.Forms.Padding(2);
             this.btnAgregar.Name = "btnAgregar";
-            this.btnAgregar.Size = new System.Drawing.Size(74, 40);
+            this.btnAgregar.Size = new System.Drawing.Size(93, 40);
             this.btnAgregar.TabIndex = 90;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = false;
@@ -422,12 +441,13 @@
             // btnEditar
             // 
             this.btnEditar.BackColor = System.Drawing.Color.Black;
+            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(811, 89);
+            this.btnEditar.Location = new System.Drawing.Point(816, 108);
             this.btnEditar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(74, 40);
+            this.btnEditar.Size = new System.Drawing.Size(89, 40);
             this.btnEditar.TabIndex = 91;
             this.btnEditar.Text = " Editar";
             this.btnEditar.UseVisualStyleBackColor = false;
@@ -436,12 +456,13 @@
             // btnEliminar
             // 
             this.btnEliminar.BackColor = System.Drawing.Color.Black;
+            this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(777, 462);
+            this.btnEliminar.Location = new System.Drawing.Point(630, 571);
             this.btnEliminar.Margin = new System.Windows.Forms.Padding(2);
             this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(70, 41);
+            this.btnEliminar.Size = new System.Drawing.Size(87, 41);
             this.btnEliminar.TabIndex = 92;
             this.btnEliminar.Text = "Eliminar";
             this.btnEliminar.UseVisualStyleBackColor = false;
@@ -450,40 +471,27 @@
             // txtBuscar
             // 
             this.txtBuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtBuscar.Location = new System.Drawing.Point(362, 98);
+            this.txtBuscar.Location = new System.Drawing.Point(367, 117);
             this.txtBuscar.Margin = new System.Windows.Forms.Padding(2);
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(153, 26);
             this.txtBuscar.TabIndex = 93;
-            // 
-            // lblReportes
-            // 
-            this.lblReportes.AutoSize = true;
-            this.lblReportes.BackColor = System.Drawing.Color.White;
-            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblReportes.ForeColor = System.Drawing.Color.Black;
-            this.lblReportes.Location = new System.Drawing.Point(16, 653);
-            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Size = new System.Drawing.Size(100, 19);
-            this.lblReportes.TabIndex = 135;
-            this.lblReportes.Text = "📋   Reportes";
-            this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
             // 
             // Cliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(916, 734);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnbuscar);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CmbBusqueda);
             this.Controls.Add(this.DGVtabla1);
             this.Controls.Add(this.LblBusqueda);

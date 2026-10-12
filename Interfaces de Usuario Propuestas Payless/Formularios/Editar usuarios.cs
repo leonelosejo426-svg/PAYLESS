@@ -188,6 +188,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            if (!password.Any(char.IsUpper))
+            {
+                MessageBox.Show(
+                    "La contraseña debe contener al menos una letra mayúscula.",
+                    "Validación de Contraseña",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtContraseña.Focus();
+                return;
+            }
+
             // Validar contraseña (Minimo 6, 1 numero, 1 espesial)
             if (string.IsNullOrWhiteSpace(password))
             {

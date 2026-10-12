@@ -203,7 +203,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 string uriPDF = new Uri(rutaPDF).AbsoluteUri;
 
                 // 2. Cambia el número 4 por el número exacto de la página de Caja
-                int numeroPaginaCaja = 4;
+                int numeroPaginaCaja = 1;
 
                 // 3. Crear el argumento en formato file:///C:/...#page=2
                 string argumentos = $"\"{uriPDF}#page={numeroPaginaCaja}\"";

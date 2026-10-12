@@ -95,7 +95,7 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.BackColor = System.Drawing.Color.White;
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.button2);
             this.groupBox1.Controls.Add(this.button1);
@@ -483,7 +483,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.BackColor = System.Drawing.Color.White;
+            this.groupBox4.BackColor = System.Drawing.Color.Transparent;
             this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.pictureBox4);
             this.groupBox4.Controls.Add(this.label6);
@@ -498,8 +498,9 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(1235, 62);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 19);
@@ -510,7 +511,7 @@
             // pictureBox4
             // 
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(1398, 39);
+            this.pictureBox4.Location = new System.Drawing.Point(1378, 30);
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.Size = new System.Drawing.Size(78, 45);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -521,10 +522,10 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.White;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label6.Location = new System.Drawing.Point(46, 39);
+            this.label6.Location = new System.Drawing.Point(214, 39);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(158, 36);
             this.label6.TabIndex = 5;
@@ -547,9 +548,9 @@
             this.groupBox3.Controls.Add(this.lblProductos);
             this.groupBox3.Controls.Add(this.lblUsuarios);
             this.groupBox3.Controls.Add(this.lblCompras);
-            this.groupBox3.Location = new System.Drawing.Point(0, 68);
+            this.groupBox3.Location = new System.Drawing.Point(0, -12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(191, 1014);
+            this.groupBox3.Size = new System.Drawing.Size(162, 1094);
             this.groupBox3.TabIndex = 141;
             this.groupBox3.TabStop = false;
             // 
@@ -572,10 +573,10 @@
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(8, 23);
+            this.pictureBox1.Location = new System.Drawing.Point(17, 17);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(176, 108);
+            this.pictureBox1.Size = new System.Drawing.Size(130, 73);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 133;
             this.pictureBox1.TabStop = false;
@@ -765,8 +766,9 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1525, 825);
-            this.Controls.Add(this.groupBox4);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1525, 752);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button14);
             this.Controls.Add(this.button13);
@@ -784,6 +786,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox4);
             this.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.Black;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

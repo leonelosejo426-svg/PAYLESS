@@ -52,11 +52,16 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblRol = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -75,11 +80,11 @@
             this.groupBox1.Controls.Add(this.lblUsuarios);
             this.groupBox1.Controls.Add(this.lblCliente);
             this.groupBox1.Controls.Add(this.lblProveedores);
-            this.groupBox1.Location = new System.Drawing.Point(1, 49);
+            this.groupBox1.Location = new System.Drawing.Point(1, -25);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
-            this.groupBox1.Size = new System.Drawing.Size(188, 633);
+            this.groupBox1.Size = new System.Drawing.Size(188, 707);
             this.groupBox1.TabIndex = 59;
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
@@ -117,7 +122,7 @@
             this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(7, 589);
+            this.label4.Location = new System.Drawing.Point(14, 647);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(80, 19);
@@ -268,20 +273,22 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Transparent;
+            this.panel2.BackColor = System.Drawing.Color.White;
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.pictureBox5);
             this.panel2.Controls.Add(this.lblAcercaD);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Location = new System.Drawing.Point(-11, -12);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(966, 73);
+            this.panel2.Size = new System.Drawing.Size(1152, 85);
             this.panel2.TabIndex = 61;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
             // 
             // pictureBox5
             // 
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox5.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox5.Image")));
-            this.pictureBox5.Location = new System.Drawing.Point(855, 20);
+            this.pictureBox5.Location = new System.Drawing.Point(1041, 25);
             this.pictureBox5.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(67, 51);
@@ -294,7 +301,7 @@
             this.lblAcercaD.AutoSize = true;
             this.lblAcercaD.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAcercaD.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.lblAcercaD.Location = new System.Drawing.Point(725, 42);
+            this.lblAcercaD.Location = new System.Drawing.Point(887, 54);
             this.lblAcercaD.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblAcercaD.Name = "lblAcercaD";
             this.lblAcercaD.Size = new System.Drawing.Size(92, 19);
@@ -307,7 +314,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(28, 32);
+            this.label1.Location = new System.Drawing.Point(222, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(197, 31);
             this.label1.TabIndex = 0;
@@ -315,12 +322,13 @@
             // 
             // button1
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.button1.BackColor = System.Drawing.Color.Black;
             this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(751, 125);
+            this.button1.Location = new System.Drawing.Point(218, 614);
             this.button1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(130, 27);
@@ -334,10 +342,10 @@
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(799, 77);
+            this.button2.Location = new System.Drawing.Point(218, 564);
             this.button2.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(81, 27);
@@ -350,9 +358,9 @@
             // 
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
-            this.pictureBox3.Location = new System.Drawing.Point(271, 210);
+            this.pictureBox3.Location = new System.Drawing.Point(895, 92);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(583, 369);
+            this.pictureBox3.Size = new System.Drawing.Size(203, 121);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox3.TabIndex = 89;
             this.pictureBox3.TabStop = false;
@@ -364,7 +372,7 @@
             this.lblUsuario.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblUsuario.ForeColor = System.Drawing.Color.Black;
-            this.lblUsuario.Location = new System.Drawing.Point(251, 125);
+            this.lblUsuario.Location = new System.Drawing.Point(214, 127);
             this.lblUsuario.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUsuario.Name = "lblUsuario";
             this.lblUsuario.Size = new System.Drawing.Size(61, 19);
@@ -375,28 +383,87 @@
             // lblRol
             // 
             this.lblRol.AutoSize = true;
+            this.lblRol.BackColor = System.Drawing.Color.Transparent;
             this.lblRol.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblRol.ForeColor = System.Drawing.Color.Black;
-            this.lblRol.Location = new System.Drawing.Point(248, 88);
+            this.lblRol.Location = new System.Drawing.Point(214, 92);
             this.lblRol.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(33, 19);
             this.lblRol.TabIndex = 92;
             this.lblRol.Text = "Rol";
             // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(458, 225);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(316, 109);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox2.TabIndex = 133;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.Black;
+            this.label2.Location = new System.Drawing.Point(358, 346);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(515, 26);
+            this.label2.TabIndex = 134;
+            this.label2.Text = "\"Bienvenido al Sistema de Gestion de PAYLESS\"";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.label3.Location = new System.Drawing.Point(563, 396);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(109, 24);
+            this.label3.TabIndex = 135;
+            this.label3.Text = "PAYLESS!";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Black;
+            this.label5.Location = new System.Drawing.Point(434, 452);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(340, 19);
+            this.label5.TabIndex = 136;
+            this.label5.Text = "Seleccione Una Opcion Del Menú Para Comenzar";
+            // 
             // Menú_Principal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ClientSize = new System.Drawing.Size(948, 666);
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1121, 666);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.pictureBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lblRol);
             this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pictureBox3);
             this.ForeColor = System.Drawing.SystemColors.ActiveCaption;
             this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
@@ -411,6 +478,7 @@
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -441,5 +509,9 @@
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.Label lblRol;
         private System.Windows.Forms.Label lblReportes;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label5;
     }
 }

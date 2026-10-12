@@ -353,6 +353,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            if (string.IsNullOrWhiteSpace(txtMontoCordobas.Text) || string.IsNullOrWhiteSpace(txtMontoDolares.Text))
+            {
+                MessageBox.Show("Por favor, rellene ambos campos de monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMontoCordobas.Focus();
+                return;
+            }
+
+
+            if (montoCordobas <= 0 || montoDolares <= 0)
+            {
+                MessageBox.Show("Ingrese un monto válido mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMontoCordobas.Focus();
+                return;
+            }
+
+
             RegistrarPago(
                 "Efectivo",
                 montoCordobas,

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArqueodeCaja));
             this.label22 = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
@@ -112,10 +113,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblVentasTotales = new System.Windows.Forms.Label();
             this.lblSobranteCordobas = new System.Windows.Forms.Label();
             this.lblFaltanteCordobas = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.lblVentasTotales = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -124,7 +125,7 @@
             this.label22.AutoSize = true;
             this.label22.BackColor = System.Drawing.Color.Transparent;
             this.label22.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label22.Location = new System.Drawing.Point(846, 449);
+            this.label22.Location = new System.Drawing.Point(829, 365);
             this.label22.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(97, 19);
@@ -133,11 +134,12 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.Black;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.btnGuardar.FlatAppearance.BorderSize = 0;
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(664, 572);
+            this.btnGuardar.Location = new System.Drawing.Point(591, 572);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(113, 29);
@@ -152,7 +154,7 @@
             this.label23.BackColor = System.Drawing.Color.Transparent;
             this.label23.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label23.Location = new System.Drawing.Point(8, 6);
+            this.label23.Location = new System.Drawing.Point(136, 9);
             this.label23.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(231, 36);
@@ -175,13 +177,13 @@
             // txtUsuario
             // 
             this.txtUsuario.BackColor = System.Drawing.Color.White;
-            this.txtUsuario.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtUsuario.ForeColor = System.Drawing.Color.Black;
             this.txtUsuario.Location = new System.Drawing.Point(89, 57);
             this.txtUsuario.Margin = new System.Windows.Forms.Padding(2);
             this.txtUsuario.Multiline = true;
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(131, 31);
+            this.txtUsuario.Size = new System.Drawing.Size(131, 27);
             this.txtUsuario.TabIndex = 75;
             // 
             // dateTimePicker2
@@ -492,6 +494,7 @@
             // 
             this.lblTotalEnDolares.AutoSize = true;
             this.lblTotalEnDolares.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalEnDolares.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.lblTotalEnDolares.Location = new System.Drawing.Point(428, 41);
             this.lblTotalEnDolares.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalEnDolares.Name = "lblTotalEnDolares";
@@ -503,6 +506,7 @@
             // 
             this.lblTotalEnCordobas.AutoSize = true;
             this.lblTotalEnCordobas.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalEnCordobas.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.lblTotalEnCordobas.Location = new System.Drawing.Point(176, 71);
             this.lblTotalEnCordobas.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalEnCordobas.Name = "lblTotalEnCordobas";
@@ -514,6 +518,7 @@
             // 
             this.lblTotalEnMonedas.AutoSize = true;
             this.lblTotalEnMonedas.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalEnMonedas.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.lblTotalEnMonedas.Location = new System.Drawing.Point(176, 99);
             this.lblTotalEnMonedas.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblTotalEnMonedas.Name = "lblTotalEnMonedas";
@@ -524,8 +529,10 @@
             // lblMontoTotalArqueado
             // 
             this.lblMontoTotalArqueado.AutoSize = true;
+            this.lblMontoTotalArqueado.BackColor = System.Drawing.Color.Transparent;
             this.lblMontoTotalArqueado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMontoTotalArqueado.Location = new System.Drawing.Point(829, 486);
+            this.lblMontoTotalArqueado.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.lblMontoTotalArqueado.Location = new System.Drawing.Point(829, 398);
             this.lblMontoTotalArqueado.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblMontoTotalArqueado.Name = "lblMontoTotalArqueado";
             this.lblMontoTotalArqueado.Size = new System.Drawing.Size(64, 19);
@@ -557,7 +564,8 @@
             // button2
             // 
             this.button2.BackColor = System.Drawing.Color.Black;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.White;
             this.button2.Location = new System.Drawing.Point(43, 572);
@@ -943,6 +951,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.BackColor = System.Drawing.Color.Transparent;
             this.groupBox1.Controls.Add(this.lblVentasTotales);
             this.groupBox1.Controls.Add(this.lblSobranteCordobas);
             this.groupBox1.Controls.Add(this.lblFaltanteCordobas);
@@ -961,6 +970,7 @@
             this.groupBox1.Controls.Add(this.lblConversionDolares);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.lblTipoCambio);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox1.Location = new System.Drawing.Point(41, 398);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
@@ -968,6 +978,18 @@
             this.groupBox1.Size = new System.Drawing.Size(766, 152);
             this.groupBox1.TabIndex = 214;
             this.groupBox1.TabStop = false;
+            // 
+            // lblVentasTotales
+            // 
+            this.lblVentasTotales.AutoSize = true;
+            this.lblVentasTotales.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVentasTotales.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.lblVentasTotales.Location = new System.Drawing.Point(176, 42);
+            this.lblVentasTotales.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblVentasTotales.Name = "lblVentasTotales";
+            this.lblVentasTotales.Size = new System.Drawing.Size(64, 19);
+            this.lblVentasTotales.TabIndex = 222;
+            this.lblVentasTotales.Text = "C $ 0.00";
             // 
             // lblSobranteCordobas
             // 
@@ -1003,25 +1025,14 @@
             this.label14.TabIndex = 214;
             this.label14.Text = "Sobrante en Cordobas:";
             // 
-            // lblVentasTotales
-            // 
-            this.lblVentasTotales.AutoSize = true;
-            this.lblVentasTotales.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVentasTotales.Location = new System.Drawing.Point(176, 42);
-            this.lblVentasTotales.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblVentasTotales.Name = "lblVentasTotales";
-            this.lblVentasTotales.Size = new System.Drawing.Size(70, 19);
-            this.lblVentasTotales.TabIndex = 222;
-            this.lblVentasTotales.Text = "N°V0000";
-            // 
             // ArqueodeCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(971, 612);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txt25Centavos);
             this.Controls.Add(this.txt50Centavos);
@@ -1091,6 +1102,7 @@
             this.Controls.Add(this.label32);
             this.Controls.Add(this.label33);
             this.Controls.Add(this.label34);
+            this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ArqueodeCaja";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

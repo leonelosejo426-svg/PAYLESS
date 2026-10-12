@@ -304,7 +304,7 @@
             // 
             // panel8
             // 
-            this.panel8.BackColor = System.Drawing.Color.White;
+            this.panel8.BackColor = System.Drawing.Color.Transparent;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel8.Controls.Add(this.label27);
             this.panel8.Controls.Add(this.pictureBox2);
@@ -388,6 +388,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.Transparent;
             this.groupBox2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.btnEliminar);
@@ -493,6 +494,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.BackColor = System.Drawing.Color.Transparent;
             this.groupBox3.Controls.Add(this.btnDiferencial);
             this.groupBox3.Controls.Add(this.btnIncremental);
             this.groupBox3.Controls.Add(this.label5);
@@ -546,6 +548,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1067, 765);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox3);

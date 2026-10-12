@@ -269,7 +269,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion\CifradoRespaldo.cs" />
-    <Compile Include="Conexion\ReporteVentaDAO.cs" />
+    <Compile Include="Datos\ReporteVentaDAO.cs" />
     <Compile Include="Datos\ArqueoCajaDAO.cs" />
     <Compile Include="Datos\CajaDAO.cs" />
     <Compile Include="Datos\CierreCajaDAO.cs" />

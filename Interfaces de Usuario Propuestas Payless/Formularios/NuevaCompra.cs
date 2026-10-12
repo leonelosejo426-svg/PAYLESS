@@ -183,40 +183,79 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             if (cbProveedor.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione primero un proveedor.");
+                MessageBox.Show("Seleccione primero un proveedor.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbProveedor.Focus();
                 return;
             }
 
             if (cbProducto.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione un producto.");
+                MessageBox.Show("Seleccione un producto.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cbProducto.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtTalla.Text))
+            // =====================================================
+            // VALIDACIÓN DE TALLA (Solo números, formato 45 o 45.1)
+            // =====================================================
+            string tallaTexto = txtTalla.Text.Trim().Replace(",", ".");
+            bool formatoTallaValido = System.Text.RegularExpressions.Regex.IsMatch(tallaTexto, @"^\d{1,2}(\.\d)?$");
+
+            if (string.IsNullOrWhiteSpace(tallaTexto) || !formatoTallaValido)
             {
-                MessageBox.Show("Ingrese la talla del producto.");
+                MessageBox.Show(
+                    "Ingrese una talla válida.\nDebe ser un número entero o con un solo decimal (Ejemplo: 42 o 42.5).",
+                    "Validación de Talla",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 txtTalla.Focus();
                 return;
             }
 
-            if (!decimal.TryParse(txtPrecioCompra.Text, out decimal precioCompra) || precioCompra <= 0)
+            // =====================================================
+            // VALIDACIÓN DE PRECIO DE COMPRA
+            // =====================================================
+            string precioCompraTexto = txtPrecioCompra.Text.Trim().Replace(",", ".");
+            if (!decimal.TryParse(precioCompraTexto, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal precioCompra) || precioCompra <= 0)
             {
-                MessageBox.Show("Ingrese un precio de compra válido.");
+                MessageBox.Show(
+                    "Ingrese un precio de compra válido mayor a cero.",
+                    "Validación de Precio",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 txtPrecioCompra.Focus();
                 return;
             }
 
-            if (!decimal.TryParse(txtPrecioVenta.Text, out decimal precioVenta) || precioVenta <= 0)
+            // =====================================================
+            // VALIDACIÓN DE PRECIO DE VENTA
+            // =====================================================
+            string precioVentaTexto = txtPrecioVenta.Text.Trim().Replace(",", ".");
+            if (!decimal.TryParse(precioVentaTexto, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal precioVenta) || precioVenta <= 0)
             {
-                MessageBox.Show("Ingrese un precio de venta válido.");
+                MessageBox.Show(
+                    "Ingrese un precio de venta válido mayor a cero.",
+                    "Validación de Precio",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 txtPrecioVenta.Focus();
                 return;
             }
 
-            if (!int.TryParse(txtCantidad.Text, out int cantidad) || cantidad <= 0)
+            // =====================================================
+            // VALIDACIÓN DE CANTIDAD
+            // =====================================================
+            if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
             {
-                MessageBox.Show("Ingrese una cantidad válida mayor a cero.");
+                MessageBox.Show(
+                    "Ingrese una cantidad válida mayor a cero.",
+                    "Validación de Cantidad",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 txtCantidad.Focus();
                 return;
             }
@@ -232,7 +271,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 Producto = producto["nombre"].ToString(),
                 Categoria = producto["nombre_categoria"].ToString(),
                 Marca = producto["nombre_marca"].ToString(),
-                Talla = txtTalla.Text.Trim(),
+                Talla = tallaTexto, // Mantiene el formato validado
                 PrecioCompra = precioCompra,
                 PrecioVenta = precioVenta,
                 Cantidad = cantidad,
@@ -241,7 +280,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             listaDetalleCompra.Agregar(nuevo);
 
-            // Se insertan las celdas asegurando el orden correcto de columnas de la grilla
             dgvDetalleCompra.Rows.Add(
                 nuevo.IdProducto,
                 nuevo.Producto,

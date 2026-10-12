@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CierredeCaja));
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
@@ -67,11 +68,12 @@
             // 
             // btnGuardar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.Black;
-            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.btnGuardar.FlatAppearance.BorderSize = 0;
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(508, 579);
+            this.btnGuardar.Location = new System.Drawing.Point(335, 579);
             this.btnGuardar.Margin = new System.Windows.Forms.Padding(2);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(109, 31);
@@ -83,7 +85,8 @@
             // btnCancelar
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.Black;
-            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCancelar.FlatAppearance.BorderSize = 0;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
             this.btnCancelar.Location = new System.Drawing.Point(45, 579);
@@ -101,7 +104,7 @@
             this.label2.BackColor = System.Drawing.Color.Transparent;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label2.Location = new System.Drawing.Point(53, 29);
+            this.label2.Location = new System.Drawing.Point(98, 26);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(216, 36);
@@ -152,7 +155,7 @@
             this.textBox8.Margin = new System.Windows.Forms.Padding(2);
             this.textBox8.Multiline = true;
             this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(500, 3);
+            this.textBox8.Size = new System.Drawing.Size(500, 1);
             this.textBox8.TabIndex = 50;
             // 
             // label23
@@ -175,7 +178,7 @@
             this.textBox7.Margin = new System.Windows.Forms.Padding(2);
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(500, 3);
+            this.textBox7.Size = new System.Drawing.Size(500, 1);
             this.textBox7.TabIndex = 48;
             // 
             // lblMontoEsperado
@@ -210,7 +213,7 @@
             this.textBox4.Margin = new System.Windows.Forms.Padding(2);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(500, 3);
+            this.textBox4.Size = new System.Drawing.Size(500, 1);
             this.textBox4.TabIndex = 44;
             // 
             // textBox3
@@ -221,7 +224,7 @@
             this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(500, 3);
+            this.textBox3.Size = new System.Drawing.Size(500, 1);
             this.textBox3.TabIndex = 43;
             // 
             // lblEgresos
@@ -364,7 +367,7 @@
             this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(500, 3);
+            this.textBox1.Size = new System.Drawing.Size(500, 1);
             this.textBox1.TabIndex = 58;
             // 
             // label8
@@ -387,7 +390,7 @@
             this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(500, 3);
+            this.textBox2.Size = new System.Drawing.Size(500, 1);
             this.textBox2.TabIndex = 56;
             // 
             // lblMontoTarjetas
@@ -422,7 +425,7 @@
             this.textBox5.Margin = new System.Windows.Forms.Padding(2);
             this.textBox5.Multiline = true;
             this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(500, 3);
+            this.textBox5.Size = new System.Drawing.Size(500, 1);
             this.textBox5.TabIndex = 62;
             // 
             // lblUsuario
@@ -481,13 +484,14 @@
             this.textBox6.Margin = new System.Windows.Forms.Padding(2);
             this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(500, 3);
+            this.textBox6.Size = new System.Drawing.Size(500, 1);
             this.textBox6.TabIndex = 71;
             // 
             // CierredeCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(646, 635);
             this.Controls.Add(this.textBox6);
