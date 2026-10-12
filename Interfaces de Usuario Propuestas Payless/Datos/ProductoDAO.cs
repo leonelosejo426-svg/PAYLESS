@@ -160,23 +160,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-            SELECT
-                id_proveedor,
-                nombre,
-                estado_proveedor
-            FROM proveedor
-            ORDER BY nombre";
+                    SELECT
+                        id_proveedor,
+                        nombre,
+                        estado_proveedor
+                    FROM proveedor
+                    WHERE estado_proveedor = TRUE
+                    ORDER BY nombre";
 
-                NpgsqlDataAdapter da =
-                    new NpgsqlDataAdapter(
-                        sql,
-                        conexionBD.ObtenerConexion());
-
-                da.Fill(tabla);
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                return tabla;
+                MessageBox.Show("Error al cargar proveedores: " + ex.Message, "Error BD", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {

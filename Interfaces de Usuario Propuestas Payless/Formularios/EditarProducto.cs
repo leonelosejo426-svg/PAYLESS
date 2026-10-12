@@ -36,17 +36,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBnombreP.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
             CBnombreP.AutoCompleteSource = AutoCompleteSource.ListItems;
 
-            // No seleccionar ningún producto al abrir
             CBnombreP.SelectedIndex = -1;
             CBnombreP.Text = "";
 
-            DataTable categorias = productoDAO.CargarCategorias();
+            // Cargar Proveedores en ComboBox
+            DataTable tablaProveedores = productoDAO.CargarProveedores();
+            cmbProveedor.DataSource = tablaProveedores;
+            cmbProveedor.DisplayMember = "nombre";         
+            cmbProveedor.ValueMember = "id_proveedor";    
+            cmbProveedor.SelectedIndex = -1;
 
+            // Cargar Marcas en ComboBox
+            DataTable tablaMarcas = productoDAO.CargarMarcas();
+            cmbMarca.DataSource = tablaMarcas;
+            cmbMarca.DisplayMember = "nombre_marca"; // Ajusta el nombre si en tu BD es distinto
+            cmbMarca.ValueMember = "id_marca";
+            cmbMarca.SelectedIndex = -1;
+
+            // Cargar Categorías en ComboBox
+            DataTable categorias = productoDAO.CargarCategorias();
             CBcategoria.DataSource = categorias;
             CBcategoria.DisplayMember = "nombre_categoria";
             CBcategoria.ValueMember = "id_categoria";
-
-            // No seleccionar ninguna categoría al abrir
             CBcategoria.SelectedIndex = -1;
             CBcategoria.Text = "";
 
@@ -102,46 +113,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // Nombre
             CBnombreP.Text = producto["nombre"]?.ToString() ?? "";
 
-            // Asignar Categoría de forma segura por ID si existe o por Nombre
+            // Asignar Categoría por ID si existe
             if (producto.Table.Columns.Contains("id_categoria") && producto["id_categoria"] != DBNull.Value)
             {
                 CBcategoria.SelectedValue = Convert.ToInt32(producto["id_categoria"]);
             }
-            else
+
+            // Asignar Marca por ID si existe
+            if (producto.Table.Columns.Contains("id_marca") && producto["id_marca"] != DBNull.Value)
             {
-                // Fallback por nombre de columna (soporta tanto "categoria" como "nombre_categoria")
-                string nombreColumnaCat = producto.Table.Columns.Contains("categoria") ? "categoria" : "nombre_categoria";
-
-                if (producto.Table.Columns.Contains(nombreColumnaCat) && producto[nombreColumnaCat] != DBNull.Value)
-                {
-                    string categoriaBuscada = producto[nombreColumnaCat].ToString().Trim();
-
-                    for (int i = 0; i < CBcategoria.Items.Count; i++)
-                    {
-                        if (CBcategoria.Items[i] is DataRowView fila)
-                        {
-                            string nomCat = fila["nombre_categoria"].ToString().Trim();
-                            if (nomCat.Equals(categoriaBuscada, StringComparison.OrdinalIgnoreCase))
-                            {
-                                CBcategoria.SelectedIndex = i;
-                                break;
-                            }
-                        }
-                    }
-                }
+                cmbMarca.SelectedValue = Convert.ToInt32(producto["id_marca"]);
             }
 
-            // Marca
-            if (producto.Table.Columns.Contains("marca"))
-                txtMarca.Text = producto["marca"]?.ToString() ?? "";
-            else if (producto.Table.Columns.Contains("nombre_marca"))
-                txtMarca.Text = producto["nombre_marca"]?.ToString() ?? "";
-
-            // Proveedor
-            if (producto.Table.Columns.Contains("proveedor"))
-                txtProveedor.Text = producto["proveedor"]?.ToString() ?? "";
-            else if (producto.Table.Columns.Contains("nombre_proveedor"))
-                txtProveedor.Text = producto["nombre_proveedor"]?.ToString() ?? "";
+            // Asignar Proveedor por ID si existe
+            if (producto.Table.Columns.Contains("id_proveedor") && producto["id_proveedor"] != DBNull.Value)
+            {
+                cmbProveedor.SelectedValue = Convert.ToInt32(producto["id_proveedor"]);
+            }
 
             // Código / ID Producto
             if (producto.Table.Columns.Contains("codigo"))
@@ -149,6 +137,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             else
                 txtCodigo.Text = idProductoSeleccionado.ToString();
         }
+
+
+
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
@@ -163,7 +154,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // 2. Validar Nombre del Producto
+            // Validar Nombre del Producto
             string nombre = CBnombreP.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(nombre))
@@ -178,7 +169,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // 3. Validar Selección de Categoría
+            // Validar Categoría
             if (CBcategoria.SelectedIndex == -1 || CBcategoria.SelectedValue == null)
             {
                 MessageBox.Show(
@@ -191,84 +182,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            if (!int.TryParse(CBcategoria.SelectedValue.ToString(), out int idCategoria))
-            {
-                MessageBox.Show(
-                    "La categoría seleccionada no es válida.",
-                    "Guardar",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+            int idCategoria = Convert.ToInt32(CBcategoria.SelectedValue);
 
+            // Validar Marca
+            if (cmbMarca.SelectedIndex == -1 || cmbMarca.SelectedValue == null)
+            {
+                MessageBox.Show("Seleccione una marca.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbMarca.Focus();
                 return;
             }
 
-            // 4. Validar y Obtener ID de la Marca escrita
-            string nombreMarca = txtMarca.Text.Trim();
+            int idMarca = Convert.ToInt32(cmbMarca.SelectedValue);
 
-            if (string.IsNullOrWhiteSpace(nombreMarca))
+            // Validar Proveedor
+            if (cmbProveedor.SelectedIndex == -1 || cmbProveedor.SelectedValue == null)
             {
-                MessageBox.Show(
-                    "Debe ingresar el nombre de la marca.",
-                    "Guardar",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtMarca.Focus();
+                MessageBox.Show("Seleccione un proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbProveedor.Focus();
                 return;
             }
 
-            DataTable marcas = productoDAO.CargarMarcas();
-            DataRow filaMarca = marcas.AsEnumerable()
-                .FirstOrDefault(x => x["nombre_marca"].ToString().Trim().Equals(nombreMarca, StringComparison.OrdinalIgnoreCase));
+            int idProveedor = Convert.ToInt32(cmbProveedor.SelectedValue);
 
-            if (filaMarca == null)
-            {
-                MessageBox.Show(
-                    "La marca indicada no existe en el sistema.",
-                    "Guardar",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtMarca.Focus();
-                return;
-            }
-
-            int idMarca = Convert.ToInt32(filaMarca["id_marca"]);
-
-            // 5. Validar y Obtener ID del Proveedor escrito
-            string nombreProveedor = txtProveedor.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(nombreProveedor))
-            {
-                MessageBox.Show(
-                    "Debe ingresar el nombre del proveedor.",
-                    "Guardar",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtProveedor.Focus();
-                return;
-            }
-
-            DataTable proveedores = productoDAO.CargarProveedores();
-            DataRow filaProveedor = proveedores.AsEnumerable()
-                .FirstOrDefault(x => x["nombre"].ToString().Trim().Equals(nombreProveedor, StringComparison.OrdinalIgnoreCase));
-
-            if (filaProveedor == null)
-            {
-                MessageBox.Show(
-                    "El proveedor indicado no existe en el sistema.",
-                    "Guardar",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtProveedor.Focus();
-                return;
-            }
-
-            int idProveedor = Convert.ToInt32(filaProveedor["id_proveedor"]);
-
-            // 6. Construir el objeto Producto
+            // Construir el objeto Producto
             ClaseProducto producto = new ClaseProducto
             {
                 IdProducto = idProductoSeleccionado,
@@ -278,7 +214,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 IdProveedor = idProveedor
             };
 
-            // 7. Guardar cambios en la BD mediante el DAO
+            // Guardar cambios en la BD mediante el DAO
             bool actualizado = productoDAO.EditarProducto(producto);
 
             if (actualizado)
@@ -290,6 +226,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxIcon.Information);
 
                 LimpiarFormulario();
+            }
+            else
+            {
+                MessageBox.Show(
+                    "No se pudo actualizar el producto.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 
@@ -303,8 +247,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CBcategoria.SelectedIndex = -1;
             CBcategoria.Text = "";
 
-            txtMarca.Clear();
-            txtProveedor.Clear();
+            cmbMarca.SelectedIndex = -1;
+            cmbMarca.Text = "";
+            cmbProveedor.SelectedIndex = -1;
+            cmbProveedor.Text = "";
             txtCodigo.Clear();
         }
 

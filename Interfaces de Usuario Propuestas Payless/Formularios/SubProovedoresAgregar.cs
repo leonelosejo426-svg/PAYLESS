@@ -18,6 +18,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         public SubProovedoresAgregar()
         {
             InitializeComponent();
+            txtTelefono.KeyPress += txtTelefono_KeyPress;
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -42,60 +43,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show(
-                    "Ingrese el nombre del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese el nombre del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(telefono))
             {
-                MessageBox.Show(
-                    "Ingrese el teléfono del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese el teléfono del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(correo))
             {
-                MessageBox.Show(
-                    "Ingrese el correo del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese el correo del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCorreo.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(direccion))
             {
-                MessageBox.Show(
-                    "Ingrese la dirección del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese la dirección del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDireccion.Focus();
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(ruc))
             {
-                MessageBox.Show(
-                    "Ingrese el código RUC del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese el código RUC del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtRUC.Focus();
                 return;
             }
@@ -106,28 +82,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             if (nombre.Length < 3)
             {
-                MessageBox.Show(
-                    "El nombre del proveedor debe tener al menos 3 caracteres.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("El nombre del proveedor debe tener al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
             // =====================================================
-            // VALIDAR TELÉFONO
+            // VALIDAR TELÉFONO (Exactamente 8 dígitos)
             // =====================================================
 
-            if (!Regex.IsMatch(telefono, @"^[0-9+\-\s]{8,20}$"))
+            if (telefono.Length != 8)
             {
-                MessageBox.Show(
-                    "Ingrese un número de teléfono válido.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
@@ -136,32 +102,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // VALIDAR CORREO
             // =====================================================
 
-            if (!Regex.IsMatch(
-                correo,
-                @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (!Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                MessageBox.Show(
-                    "Ingrese un correo electrónico válido.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese un correo electrónico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCorreo.Focus();
                 return;
             }
 
             // =====================================================
-            // VALIDAR RUC
+            // VALIDAR RUC DE NICARAGUA (14 caracteres)
             // =====================================================
 
-            if (!Regex.IsMatch(ruc, @"^[0-9\-]{8,20}$"))
+            Regex regexRuc = new Regex(@"^[A-Z0-9\-]{14}$");
+            if (!regexRuc.IsMatch(ruc))
             {
-                MessageBox.Show(
-                    "El código RUC solo debe contener números y, si corresponde, guiones.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("El RUC de Nicaragua debe tener un formato válido de 14 caracteres (ej. J1310000252297).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtRUC.Focus();
                 return;
             }
@@ -177,8 +132,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             proveedor.Correo = correo;
             proveedor.Direccion = direccion;
             proveedor.Ruc = ruc;
-
-            // Todo proveedor nuevo se registra activo.
             proveedor.EstadoProveedor = true;
 
             // =====================================================
@@ -195,10 +148,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
-                // Abrir nuevamente la pantalla principal
                 Proveedores ventana = new Proveedores();
                 ventana.Show();
-
                 this.Close();
             }
             else
@@ -214,6 +165,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private void SubProovedoresAgregar_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (txtTelefono.Text.Length >= 8 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

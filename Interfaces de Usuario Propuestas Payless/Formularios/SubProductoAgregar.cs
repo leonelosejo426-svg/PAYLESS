@@ -184,7 +184,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void cmbCategoria_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
-        
+
+        private void txtNombredelProducto_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNombredelProducto_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Permite letras, números, espacios, retroceso (Backspace), guiones y puntos
+            if (!char.IsControl(e.KeyChar) &&
+                !char.IsLetterOrDigit(e.KeyChar) &&
+                e.KeyChar != ' ' &&
+                e.KeyChar != '-' &&
+                e.KeyChar != '.')
+            {
+                e.Handled = true; // Bloquea cualquier otro carácter no deseado
+            }
+        }
     }
 }
 

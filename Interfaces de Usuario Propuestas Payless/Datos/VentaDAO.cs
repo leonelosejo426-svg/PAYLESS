@@ -813,7 +813,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
 
+        // =====================================================
+        // CALCULAR EFECTIVO DISPONIBLE EN CAJA (Saldo Inicial + Ventas en Efectivo - Egresos)
+        // =====================================================
+        public decimal ObtenerEfectivoDisponibleEnCaja(int idCaja)
+        {
+            decimal efectivoDisponible = 0;
+            try
+            {
+                conexionBD.AbrirConexion();
+                NpgsqlConnection conexion = conexionBD.ObtenerConexion();
 
+                string sqlCaja = "SELECT saldo_inicial FROM caja WHERE id_caja = @idCaja;";
+                using (NpgsqlCommand cmdCaja = new NpgsqlCommand(sqlCaja, conexion))
+                {
+                    cmdCaja.Parameters.AddWithValue("@idCaja", idCaja);
+                    object resCaja = cmdCaja.ExecuteScalar();
+                    if (resCaja != null && resCaja != DBNull.Value)
+                        efectivoDisponible += Convert.ToDecimal(resCaja);
+                }
+
+                string sqlVentas = @"
+            SELECT COALESCE(SUM(fp.monto_cordobas - fp.cambio), 0) 
+            FROM forma_pago fp
+            INNER JOIN venta v ON fp.id_venta = v.id_venta
+            WHERE v.id_caja = @idCaja AND v.estado = TRUE AND fp.tipo_pago = 'Efectivo';";
+
+                using (NpgsqlCommand cmdVentas = new NpgsqlCommand(sqlVentas, conexion))
+                {
+                    cmdVentas.Parameters.AddWithValue("@idCaja", idCaja);
+                    object resVentas = cmdVentas.ExecuteScalar();
+                    if (resVentas != null && resVentas != DBNull.Value)
+                        efectivoDisponible += Convert.ToDecimal(resVentas);
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+            return efectivoDisponible;
+        }
 
 
 

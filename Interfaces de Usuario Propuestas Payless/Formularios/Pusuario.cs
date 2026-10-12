@@ -2,6 +2,7 @@
 using System;
 using System.Data;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
@@ -21,8 +22,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         public Pusuario()
         {
             InitializeComponent();
+            txtTelefono.KeyPress += TxtTelefono_KeyPress;
 
-           // // Cargar eventos
+            // // Cargar eventos
             //btnGuardar.Click += btnGuardar_Click;
             //btnCancelar.Click += btnCancelar_Click;
             //this.Load += Pusuario_Load;
@@ -36,7 +38,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private void Pusuario_Load(object sender, EventArgs e)
         {
             CargarRoles();
-            CargarEstados();
+     
 
             // Contraseñas ocultas
             txtContraseña.PasswordChar = '●';
@@ -76,15 +78,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         // CARGAR ESTADOS
         // =========================================================
 
-        private void CargarEstados()
-        {
-            cmbEstado.Items.Clear();
-
-            cmbEstado.Items.Add("Activo");
-            cmbEstado.Items.Add("Inactivo");
-
-            cmbEstado.SelectedIndex = 0;
-        }
+      
 
 
         // =========================================================
@@ -99,40 +93,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 // OBTENER DATOS
                 // =================================================
 
-                string nombreUsuario =
-                    txtUsuario.Text.Trim();
-
-                string nombreCompleto =
-                    txtCompleto.Text.Trim();
-
-                string password =
-                    txtContraseña.Text;
-
-                string confirmarPassword =
-                    txtConfirmar.Text;
-
-                string telefono =
-                    txtTelefono.Text.Trim();
-
-                string cedula =
-                    txtCedula.Text.Trim();
-
-                string correo =
-                    txtGmail.Text.Trim();
+                string nombreUsuario = txtUsuario.Text.Trim();
+                string nombreCompleto = txtCompleto.Text.Trim();
+                string password = txtContraseña.Text;
+                string confirmarPassword = txtConfirmar.Text;
+                string telefono = txtTelefono.Text.Trim();
+                string cedula = txtCedula.Text.Trim();
+                string correo = txtGmail.Text.Trim();
 
 
                 // =================================================
                 // VALIDAR NOMBRE DE USUARIO
+                // (Maysa a nagan, agrugi iti dakkel a letra)
                 // =================================================
 
                 if (string.IsNullOrWhiteSpace(nombreUsuario))
                 {
-                    MessageBox.Show(
-                        "Ingrese el nombre del usuario.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese el nombre del usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtUsuario.Focus();
+                    return;
+                }
 
+                Regex regexUsuario = new Regex(@"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$");
+                if (!regexUsuario.IsMatch(nombreUsuario))
+                {
+                    MessageBox.Show("El nombre de usuario debe ser una sola palabra y comenzar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtUsuario.Focus();
                     return;
                 }
@@ -140,16 +125,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 // =================================================
                 // VALIDAR NOMBRE COMPLETO
+                // (Maysa a nagan ken apelyido, tunggal balikas dakkel a letra)
                 // =================================================
 
                 if (string.IsNullOrWhiteSpace(nombreCompleto))
                 {
-                    MessageBox.Show(
-                        "Ingrese el nombre completo.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese el nombre completo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCompleto.Focus();
+                    return;
+                }
 
+                Regex regexCompleto = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
+                if (!regexCompleto.IsMatch(nombreCompleto))
+                {
+                    MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtCompleto.Focus();
                     return;
                 }
@@ -157,16 +146,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 // =================================================
                 // VALIDAR CONTRASEÑA
+                // (Minimo 6 caracteres, 1 especial, 1 numero)
                 // =================================================
 
                 if (string.IsNullOrWhiteSpace(password))
                 {
-                    MessageBox.Show(
-                        "Ingrese una contraseña.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    MessageBox.Show("Ingrese una contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtContraseña.Focus();
+                    return;
+                }
 
+                Regex regexPassword = new Regex(@"^(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,}$");
+                if (!regexPassword.IsMatch(password))
+                {
+                    MessageBox.Show("La contraseña debe tener al menos 6 caracteres, incluir al menos un número y un carácter especial.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtContraseña.Focus();
                     return;
                 }
@@ -178,13 +171,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 if (password != confirmarPassword)
                 {
-                    MessageBox.Show(
-                        "Las contraseñas no coinciden.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("Las contraseñas no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtConfirmar.Focus();
+                    return;
+                }
+
+
+                // =================================================
+                // VALIDAR NUMERO DE TELEFONO
+                // =================================================
+
+                if (telefono.Length != 8)
+                {
+                    MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTelefono.Focus();
+                    return;
+                }
+
+
+                // =================================================
+                // VALIDAR CEDULA (Ejemplo: 441-241207-1002B)
+                // =================================================
+
+                Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
+                if (!regexCedula.IsMatch(cedula))
+                {
+                    MessageBox.Show("La cédula debe cumplir con el formato correcto, por ejemplo: 441-241207-1002B", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCedula.Focus();
+                    return;
+                }
+
+
+                // =================================================
+                // VALIDAR GMAIL (@gmail.com)
+                // =================================================
+
+                Regex regexGmail = new Regex(@"^[^@\s]+@gmail\.com$");
+                if (!regexGmail.IsMatch(correo))
+                {
+                    MessageBox.Show("El correo debe ser una dirección válida de Gmail (@gmail.com).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtGmail.Focus();
                     return;
                 }
 
@@ -195,30 +221,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 if (cmbRol.SelectedIndex == -1)
                 {
-                    MessageBox.Show(
-                        "Seleccione un rol.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
+                    MessageBox.Show("Seleccione un rol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbRol.Focus();
-                    return;
-                }
-
-
-                // =================================================
-                // VALIDAR ESTADO
-                // =================================================
-
-                if (cmbEstado.SelectedIndex == -1)
-                {
-                    MessageBox.Show(
-                        "Seleccione un estado.",
-                        "Validación",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
-
-                    cmbEstado.Focus();
                     return;
                 }
 
@@ -227,21 +231,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 // OBTENER ID DEL ROL
                 // =================================================
 
-                int idRol =
-                    Convert.ToInt32(cmbRol.SelectedValue);
+                int idRol = Convert.ToInt32(cmbRol.SelectedValue);
 
 
                 // =================================================
-                // OBTENER ESTADO
+                // GUARDAR MEDIANTE USUARIODAO 
+                // (Naikkaten ti estado, inkabil ti default a true wenno kasapulan)
                 // =================================================
 
-                bool estado =
-                    cmbEstado.SelectedItem.ToString() == "Activo";
-
-
-                // =================================================
-                // GUARDAR MEDIANTE USUARIODAO
-                // =================================================
+                bool estadoDefault = true; // Kas state a naikkaten ti UI, ipatulodtayon ti default
 
                 bool resultado =
                     usuarioDAO.AgregarUsuario(
@@ -252,7 +250,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         correo,
                         telefono,
                         cedula,
-                        estado);
+                        estadoDefault);
 
 
                 // =================================================
@@ -267,11 +265,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    // Indicar a la ventana Usuario
-                    // que se agregó correctamente
-                    this.DialogResult =
-                        DialogResult.OK;
-
+                    this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
@@ -306,6 +300,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void TxtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (txtTelefono.Text.Length >= 8 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

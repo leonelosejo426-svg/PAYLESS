@@ -39,14 +39,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.cmbRol = new System.Windows.Forms.ComboBox();
-            this.cmbEstado = new System.Windows.Forms.ComboBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.txtCompleto = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
@@ -72,6 +70,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             // pictureBox1
             // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
             this.pictureBox1.Location = new System.Drawing.Point(14, 31);
             this.pictureBox1.Name = "pictureBox1";
@@ -86,7 +85,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.label1.BackColor = System.Drawing.Color.White;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(125, 43);
+            this.label1.Location = new System.Drawing.Point(104, 47);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(221, 31);
@@ -148,22 +147,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.label6.TabIndex = 5;
             this.label6.Text = "Rol";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(13, 302);
-            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 19);
-            this.label7.TabIndex = 6;
-            this.label7.Text = "Estado";
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(13, 346);
+            this.label8.Location = new System.Drawing.Point(381, 94);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(145, 19);
@@ -174,7 +162,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(13, 388);
+            this.label9.Location = new System.Drawing.Point(381, 140);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(56, 19);
@@ -185,7 +173,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(13, 434);
+            this.label10.Location = new System.Drawing.Point(381, 182);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(49, 19);
@@ -194,11 +182,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             // btnGuardar
             // 
-            this.btnGuardar.BackColor = System.Drawing.Color.Black;
-            this.btnGuardar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnGuardar.Location = new System.Drawing.Point(153, 469);
+            this.btnGuardar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGuardar.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.btnGuardar.Location = new System.Drawing.Point(158, 324);
             this.btnGuardar.Name = "btnGuardar";
-            this.btnGuardar.Size = new System.Drawing.Size(75, 31);
+            this.btnGuardar.Size = new System.Drawing.Size(111, 31);
             this.btnGuardar.TabIndex = 10;
             this.btnGuardar.Text = "Guardar";
             this.btnGuardar.UseVisualStyleBackColor = false;
@@ -207,10 +196,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // btnCancelar
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.Black;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnCancelar.Location = new System.Drawing.Point(309, 469);
+            this.btnCancelar.Location = new System.Drawing.Point(385, 324);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(80, 31);
+            this.btnCancelar.Size = new System.Drawing.Size(108, 31);
             this.btnCancelar.TabIndex = 11;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
@@ -223,14 +213,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.cmbRol.Name = "cmbRol";
             this.cmbRol.Size = new System.Drawing.Size(140, 27);
             this.cmbRol.TabIndex = 12;
-            // 
-            // cmbEstado
-            // 
-            this.cmbEstado.FormattingEnabled = true;
-            this.cmbEstado.Location = new System.Drawing.Point(173, 302);
-            this.cmbEstado.Name = "cmbEstado";
-            this.cmbEstado.Size = new System.Drawing.Size(140, 27);
-            this.cmbEstado.TabIndex = 13;
             // 
             // txtUsuario
             // 
@@ -262,21 +244,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(173, 343);
+            this.txtTelefono.Location = new System.Drawing.Point(544, 93);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(168, 26);
             this.txtTelefono.TabIndex = 18;
+            this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
+            this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTelefono_KeyPress);
             // 
             // txtCedula
             // 
-            this.txtCedula.Location = new System.Drawing.Point(76, 388);
+            this.txtCedula.Location = new System.Drawing.Point(544, 137);
             this.txtCedula.Name = "txtCedula";
             this.txtCedula.Size = new System.Drawing.Size(168, 26);
             this.txtCedula.TabIndex = 19;
             // 
             // txtGmail
             // 
-            this.txtGmail.Location = new System.Drawing.Point(76, 427);
+            this.txtGmail.Location = new System.Drawing.Point(544, 175);
             this.txtGmail.Name = "txtGmail";
             this.txtGmail.Size = new System.Drawing.Size(168, 26);
             this.txtGmail.TabIndex = 20;
@@ -286,7 +270,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(552, 522);
+            this.ClientSize = new System.Drawing.Size(759, 386);
             this.Controls.Add(this.txtGmail);
             this.Controls.Add(this.txtCedula);
             this.Controls.Add(this.txtTelefono);
@@ -294,14 +278,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.Controls.Add(this.txtContraseña);
             this.Controls.Add(this.txtCompleto);
             this.Controls.Add(this.txtUsuario);
-            this.Controls.Add(this.cmbEstado);
             this.Controls.Add(this.cmbRol);
             this.Controls.Add(this.btnCancelar);
             this.Controls.Add(this.btnGuardar);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -331,7 +313,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
@@ -339,7 +320,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.ComboBox cmbRol;
-        private System.Windows.Forms.ComboBox cmbEstado;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.TextBox txtCompleto;
         private System.Windows.Forms.TextBox txtContraseña;

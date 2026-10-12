@@ -47,7 +47,6 @@
             this.CBclientes = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label18 = new System.Windows.Forms.Label();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
@@ -59,6 +58,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.btnCancelar);
             this.panel1.Controls.Add(this.btnActualizar);
             this.panel1.Controls.Add(this.CBestado);
@@ -73,14 +73,16 @@
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
             this.panel1.Controls.Add(this.label3);
-            this.panel1.Location = new System.Drawing.Point(8, 112);
+            this.panel1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panel1.Location = new System.Drawing.Point(33, 133);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(589, 340);
+            this.panel1.Size = new System.Drawing.Size(727, 346);
             this.panel1.TabIndex = 101;
             // 
             // btnCancelar
             // 
-            this.btnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.btnCancelar.BackColor = System.Drawing.Color.Black;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
             this.btnCancelar.Location = new System.Drawing.Point(201, 291);
@@ -93,7 +95,8 @@
             // 
             // btnActualizar
             // 
-            this.btnActualizar.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnActualizar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.btnActualizar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnActualizar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnActualizar.ForeColor = System.Drawing.Color.White;
             this.btnActualizar.Location = new System.Drawing.Point(17, 291);
@@ -112,7 +115,7 @@
             "Inactivo"});
             this.CBestado.Location = new System.Drawing.Point(76, 243);
             this.CBestado.Name = "CBestado";
-            this.CBestado.Size = new System.Drawing.Size(140, 21);
+            this.CBestado.Size = new System.Drawing.Size(140, 27);
             this.CBestado.TabIndex = 101;
             // 
             // txtDireccion
@@ -128,7 +131,7 @@
             // 
             this.txtTelefono.Location = new System.Drawing.Point(94, 128);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(171, 20);
+            this.txtTelefono.Size = new System.Drawing.Size(171, 26);
             this.txtTelefono.TabIndex = 99;
             this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTelefono_KeyPress);
             // 
@@ -136,14 +139,14 @@
             // 
             this.txtCedula.Location = new System.Drawing.Point(143, 87);
             this.txtCedula.Name = "txtCedula";
-            this.txtCedula.Size = new System.Drawing.Size(280, 20);
+            this.txtCedula.Size = new System.Drawing.Size(280, 26);
             this.txtCedula.TabIndex = 98;
             // 
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(146, 50);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(323, 20);
+            this.txtNombre.Size = new System.Drawing.Size(323, 26);
             this.txtNombre.TabIndex = 97;
             this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
@@ -151,7 +154,7 @@
             // 
             this.txtCodigo.Location = new System.Drawing.Point(76, 14);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(252, 20);
+            this.txtCodigo.Size = new System.Drawing.Size(252, 26);
             this.txtCodigo.TabIndex = 96;
             this.txtCodigo.TextChanged += new System.EventHandler(this.txtCodigo_TextChanged);
             this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
@@ -218,10 +221,11 @@
             // 
             // CBclientes
             // 
+            this.CBclientes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CBclientes.FormattingEnabled = true;
-            this.CBclientes.Location = new System.Drawing.Point(143, 76);
+            this.CBclientes.Location = new System.Drawing.Point(150, 83);
             this.CBclientes.Name = "CBclientes";
-            this.CBclientes.Size = new System.Drawing.Size(419, 21);
+            this.CBclientes.Size = new System.Drawing.Size(419, 27);
             this.CBclientes.TabIndex = 100;
             this.CBclientes.SelectedIndexChanged += new System.EventHandler(this.CBclientes_SelectedIndexChanged);
             // 
@@ -229,7 +233,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(4, 75);
+            this.label2.Location = new System.Drawing.Point(7, 90);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(137, 19);
             this.label2.TabIndex = 99;
@@ -238,34 +242,23 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.White;
-            this.panel2.Controls.Add(this.label18);
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.pictureBox4);
             this.panel2.Controls.Add(this.label1);
             this.panel2.ForeColor = System.Drawing.Color.White;
             this.panel2.Location = new System.Drawing.Point(-4, -19);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(808, 70);
+            this.panel2.Size = new System.Drawing.Size(808, 87);
             this.panel2.TabIndex = 98;
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label18.Location = new System.Drawing.Point(697, 49);
-            this.label18.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(92, 19);
-            this.label18.TabIndex = 11;
-            this.label18.Text = "Acerca De...";
             // 
             // pictureBox4
             // 
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox4.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox4.Image")));
-            this.pictureBox4.Location = new System.Drawing.Point(1, 17);
-            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2);
+            this.pictureBox4.Location = new System.Drawing.Point(27, 29);
+            this.pictureBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.Size = new System.Drawing.Size(67, 53);
+            this.pictureBox4.Size = new System.Drawing.Size(63, 47);
             this.pictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox4.TabIndex = 86;
             this.pictureBox4.TabStop = false;
@@ -276,7 +269,7 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(73, 32);
+            this.label1.Location = new System.Drawing.Point(128, 32);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(221, 36);
             this.label1.TabIndex = 88;
@@ -284,10 +277,11 @@
             // 
             // btnBuscar
             // 
-            this.btnBuscar.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnBuscar.BackColor = System.Drawing.Color.Black;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBuscar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBuscar.ForeColor = System.Drawing.Color.White;
-            this.btnBuscar.Location = new System.Drawing.Point(594, 67);
+            this.btnBuscar.Location = new System.Drawing.Point(601, 74);
             this.btnBuscar.Name = "btnBuscar";
             this.btnBuscar.Size = new System.Drawing.Size(127, 35);
             this.btnBuscar.TabIndex = 108;
@@ -300,7 +294,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(800, 464);
+            this.ClientSize = new System.Drawing.Size(800, 491);
             this.Controls.Add(this.btnBuscar);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.CBclientes);
@@ -339,7 +333,6 @@
         private System.Windows.Forms.ComboBox CBclientes;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnBuscar;

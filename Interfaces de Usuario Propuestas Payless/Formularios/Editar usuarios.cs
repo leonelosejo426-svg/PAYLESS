@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -147,121 +148,119 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // Validar nombre de usuario
-            if (txtNombreUsuario.Text.Trim() == "")
-            {
-                MessageBox.Show(
-                    "Ingrese el nombre de usuario.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+            string nombreUsuario = txtNombreUsuario.Text.Trim();
+            string nombreCompleto = txtNombreCompleto.Text.Trim();
+            string password = txtContraseña.Text;
+            string confirmarPassword = txtConfirmar.Text;
+            string telefono = txtTelefono.Text.Trim();
+            string cedula = txtCedula.Text.Trim();
+            string correo = txtGmail.Text.Trim();
 
+            // Validar nombre de usuario (Maysa a balikas, agrugi iti dakkel a letra)
+            if (string.IsNullOrWhiteSpace(nombreUsuario))
+            {
+                MessageBox.Show("Ingrese el nombre del usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreUsuario.Focus();
                 return;
             }
 
-            // Validar nombre completo
-            if (txtNombreCompleto.Text.Trim() == "")
+            Regex regexUsuario = new Regex(@"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$");
+            if (!regexUsuario.IsMatch(nombreUsuario))
             {
-                MessageBox.Show(
-                    "Ingrese el nombre completo.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre de usuario debe ser una sola palabra y comenzar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreUsuario.Focus();
+                return;
+            }
 
+            // Validar nombre completo (Nagan ken apelyido, tunggal balikas agrugi iti dakkel)
+            if (string.IsNullOrWhiteSpace(nombreCompleto))
+            {
+                MessageBox.Show("Ingrese el nombre completo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreCompleto.Focus();
                 return;
             }
 
-            // Validar contraseña
-            if (txtContraseña.Text.Trim() == "")
+            Regex regexCompleto = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
+            if (!regexCompleto.IsMatch(nombreCompleto))
             {
-                MessageBox.Show(
-                    "Ingrese la contraseña.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreCompleto.Focus();
+                return;
+            }
 
+            // Validar contraseña (Minimo 6, 1 numero, 1 espesial)
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Ingrese una contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtContraseña.Focus();
                 return;
             }
 
-            // Validar confirmación de contraseña
-            if (txtConfirmar.Text.Trim() == "")
+            Regex regexPassword = new Regex(@"^(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,}$");
+            if (!regexPassword.IsMatch(password))
             {
-                MessageBox.Show(
-                    "Confirme la contraseña.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("La contraseña debe tener al menos 6 caracteres, incluir al menos un número y un carácter especial.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtContraseña.Focus();
+                return;
+            }
 
+            // Confirmar contraseña
+            if (password != confirmarPassword)
+            {
+                MessageBox.Show("Las contraseñas no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtConfirmar.Focus();
                 return;
             }
 
-            // Comprobar que las contraseñas coincidan
-            if (txtContraseña.Text != txtConfirmar.Text)
+            // Validar Teléfono (Exactamente 8 dígitos)
+            if (telefono.Length != 8)
             {
-                MessageBox.Show(
-                    "Las contraseñas no coinciden.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                return;
+            }
 
-                txtConfirmar.Focus();
+            // Validar Cédula (Ejemplo: 441-241207-1002B)
+            Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
+            if (!regexCedula.IsMatch(cedula))
+            {
+                MessageBox.Show("La cédula debe cumplir con el formato correcto, por ejemplo: 441-241207-1002B", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCedula.Focus();
+                return;
+            }
+
+            // Validar Gmail
+            Regex regexGmail = new Regex(@"^[^@\s]+@gmail\.com$");
+            if (!regexGmail.IsMatch(correo))
+            {
+                MessageBox.Show("El correo debe ser una dirección válida de Gmail (@gmail.com).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGmail.Focus();
                 return;
             }
 
             // Validar rol
             if (cmbRol.SelectedIndex == -1)
             {
-                MessageBox.Show(
-                    "Seleccione un rol.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Seleccione un rol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbRol.Focus();
-                return;
-            }
-
-            // Validar estado
-            if (cmbEstado.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione un estado.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbEstado.Focus();
                 return;
             }
 
             try
             {
-                int idRol =
-                    Convert.ToInt32(cmbRol.SelectedValue);
-
-                bool estado =
-                    cmbEstado.SelectedIndex == 0;
-
-
-
-                // =================================================
-                // LLAMADA AL MÉTODO EditarUsuario DEL DAO
-                // =================================================
+                int idRol = Convert.ToInt32(cmbRol.SelectedValue);
+                bool estadoDefault = true; // Naikkat ti cmbEstado, naipatulod ti default estado
 
                 bool resultado = usuarioDAO.EditarUsuario(
                     idUsuarioSeleccionado,
-                    txtNombreUsuario.Text.Trim(),
-                    txtNombreCompleto.Text.Trim(),
-                    txtContraseña.Text,
+                    nombreUsuario,
+                    nombreCompleto,
+                    password,
                     idRol,
-                    txtGmail.Text.Trim(),
-                    txtTelefono.Text.Trim(),
-                    txtCedula.Text.Trim(),
-                    estado
+                    correo,
+                    telefono,
+                    cedula,
+                    estadoDefault
                 );
 
                 if (resultado)
@@ -355,6 +354,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (txtTelefono.Text.Length >= 8 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

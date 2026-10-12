@@ -23,14 +23,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"SELECT u.id_usuario,
-                              u.nombre_usuario,
-                              u.nombre_completo,
-                              r.nombre_rol
-                       FROM usuario u
-                       INNER JOIN rol r ON u.id_rol = r.id_rol
-                       WHERE u.nombre_usuario = @usuario
-                           AND u.password = @password
-                           AND u.estado = TRUE";
+                                     u.nombre_usuario,
+                                     u.nombre_completo,
+                                     TRIM(r.nombre_rol) AS nombre_rol
+                              FROM usuario u
+                              INNER JOIN rol r ON u.id_rol = r.id_rol
+                              WHERE u.nombre_usuario = @usuario
+                                  AND u.password = @password
+                                  AND u.estado = TRUE";
 
                 NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion());
                 cmd.Parameters.AddWithValue("@usuario", usuario);
@@ -48,20 +48,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                     ClaseSesion.TieneCajaActiva = false;
 
-                    // Evaluamos el rol del usuario de forma segura
-                    if (ClaseSesion.RolActual.Trim().ToLower() == "cajero")
+                    // Si es cajero, evaluamos de forma global si hay alguna caja abierta en todo el sistema
+                    if (ClaseSesion.RolActual.Equals("cajero", StringComparison.OrdinalIgnoreCase))
                     {
                         string sqlCaja = @"SELECT COUNT(*) 
-                                   FROM caja 
-                                   WHERE id_usuario = @idUsuario 
-                                     AND estado_caja = 'Abierta';";
+                                           FROM caja 
+                                           WHERE estado_caja = 'Abierta';";
 
                         using (NpgsqlCommand cmdCaja = new NpgsqlCommand(sqlCaja, conexionBD.ObtenerConexion()))
                         {
-                            cmdCaja.Parameters.AddWithValue("@idUsuario", ClaseSesion.IdUsuario);
                             int conteo = Convert.ToInt32(cmdCaja.ExecuteScalar());
 
-                            // Aquí ya NO hay mensajes de diagnóstico, asigna el valor directo
+                            // Si el conteo es mayor a 0, significa que ya hay una caja abierta (por quien sea)
                             ClaseSesion.TieneCajaActiva = (conteo > 0);
                         }
                     }
@@ -81,7 +79,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.CerrarConexion();
             }
         }
-
 
 
 
@@ -266,34 +263,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // EDITAR USUARIO
         // =========================================================
 
+       
         public bool EditarUsuario(
-    int idUsuario,
-    string nombreUsuario,
-    string nombreCompleto,
-    string password,
-    int idRol,
-    string correo,
-    string telefono,
-    string cedula,
-    bool estado)
+            int idUsuario,
+            string nombreUsuario,
+            string nombreCompleto,
+            string password,
+            int idRol,
+            string correo,
+            string telefono,
+            string cedula,
+            bool estado)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-    SELECT
-        u.id_usuario,
-        u.nombre_usuario,
-        u.nombre_completo,
-        u.id_rol,
-        COALESCE(u.correo, '') AS correo,
-        COALESCE(u.telefono, '') AS telefono,
-        COALESCE(u.cedula, '') AS cedula,
-        u.estado,
-        u.password
-    FROM usuario u
-    WHERE u.id_usuario = @id_usuario";
+                    UPDATE usuario
+                    SET 
+                        nombre_usuario = @nombre_usuario,
+                        nombre_completo = @nombre_completo,
+                        password = @password,
+                        id_rol = @id_rol,
+                        correo = @correo,
+                        telefono = @telefono,
+                        cedula = @cedula,
+                        estado = @estado
+                    WHERE id_usuario = @id_usuario";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
@@ -473,21 +470,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-            SELECT
-                u.id_usuario,
-                u.nombre_usuario,
-                u.nombre_completo,
-                u.id_rol,
-                u.correo,
-                u.telefono,
-                u.cedula,
-                u.estado,
-                u.password
-            FROM usuario u
-            WHERE u.id_usuario = @id_usuario";
+                    SELECT
+                        u.id_usuario,
+                        u.nombre_usuario,
+                        u.nombre_completo,
+                        u.id_rol,
+                        u.correo,
+                        u.telefono,
+                        u.cedula,
+                        u.estado,
+                        u.password
+                    FROM usuario u
+                    WHERE u.id_usuario = @id_usuario";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@id_usuario", idUsuario);
 
@@ -509,34 +505,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
-        public bool TieneCajaAbierta(int idUsuario)
-        {
-            try
-            {
-                conexionBD.AbrirConexion();
-
-                string sql = @"SELECT COUNT(*) 
-                           FROM caja 
-                           WHERE id_usuario = @idUsuario 
-                             AND estado_caja = 'Abierta';";
-
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
-                {
-                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
-                    int conteo = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    return conteo > 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show($"Error al validar estado de caja en UsuarioDAO: {ex.Message}", "Error Técnico");
-                return false;
-            }
-            finally
-            {
-                conexionBD.CerrarConexion();
-            }
-        }
     }
 }

@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,6 +17,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         public SubProveedorEditar()
         {
             InitializeComponent();
+            txtTelefono.KeyPress += txtTelefono_KeyPress;
         }
 
         private void SubProveedorEditar_Load(object sender, EventArgs e)
@@ -199,23 +201,72 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             // Actualizar
             // ---------------------------------------------
 
-            if (proveedorDAO.EditarProveedor(proveedor))
+            // ---------------------------------------------
+            // Validar nombre
+            // ---------------------------------------------
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show(
-                    "Proveedor actualizado correctamente.",
-                    "Correcto",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-                this.Close();
+                MessageBox.Show("Ingrese el nombre del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
             }
-            else
+
+            if (txtNombre.Text.Length < 3)
             {
-                MessageBox.Show(
-                    "No se pudo actualizar el proveedor.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("El nombre del proveedor debe tener al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            // ---------------------------------------------
+            // Validar teléfono (Exactamente 8 dígitos)
+            // ---------------------------------------------
+            if (txtTelefono.Text.Length != 8)
+            {
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                return;
+            }
+
+            // ---------------------------------------------
+            // Validar correo electrónico
+            // ---------------------------------------------
+            if (string.IsNullOrWhiteSpace(txtCorreo.Text) || !Regex.IsMatch(txtCorreo.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                MessageBox.Show("Ingrese un correo electrónico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
+            // ---------------------------------------------
+            // Validar dirección
+            // ---------------------------------------------
+            if (string.IsNullOrWhiteSpace(txtDireccion.Text))
+            {
+                MessageBox.Show("Ingrese la dirección del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDireccion.Focus();
+                return;
+            }
+
+            // ---------------------------------------------
+            // Validar RUC de Nicaragua (14 caracteres)
+            // ---------------------------------------------
+            Regex regexRuc = new Regex(@"^[A-Z0-9\-]{14}$");
+            if (!regexRuc.IsMatch(txtRuc.Text))
+            {
+                MessageBox.Show("El RUC de Nicaragua debe tener un formato válido de 14 caracteres (ej. J1310000252297).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtRuc.Focus();
+                return;
+            }
+
+            // ---------------------------------------------
+            // Validar estado
+            // ---------------------------------------------
+            if (cmbEstado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione el estado del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEstado.Focus();
+                return;
             }
         }
 
@@ -223,6 +274,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         {
 
             this.Close();
+        }
+
+        private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+
+            if (txtTelefono.Text.Length >= 8 && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

@@ -315,34 +315,43 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void ConfirmarPagoEfectivo()
         {
-            decimal montoCordobas =
-                ObtenerDecimal(txtMontoCordobas.Text);
+            decimal montoCordobas = ObtenerDecimal(txtMontoCordobas.Text);
+            decimal montoDolares = ObtenerDecimal(txtMontoDolares.Text);
 
-            decimal montoDolares =
-                ObtenerDecimal(txtMontoDolares.Text);
-
-            decimal totalEntregado =
-                montoCordobas +
-                (montoDolares * tipoCambioActual);
+            decimal totalEntregado = montoCordobas + (montoDolares * tipoCambioActual);
 
             if (totalEntregado < total)
             {
                 MessageBox.Show(
                     "El monto entregado es insuficiente.\n\n" +
-                    "Total a pagar: C$ " +
-                    total.ToString("N2") +
-                    "\nTotal entregado: C$ " +
-                    totalEntregado.ToString("N2"),
+                    "Total a pagar: C$ " + total.ToString("N2") +
+                    "\nTotal entregado: C$ " + totalEntregado.ToString("N2"),
                     "Pago insuficiente",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
 
-            decimal cambio =
-                totalEntregado - total;
+            decimal cambio = totalEntregado - total;
+
+            // =====================================================
+            // VALIDACIÓN DE EFECTIVO / CAMBIO EN CAJA
+            // =====================================================
+            decimal efectivoEnCaja = ventaDAO.ObtenerEfectivoDisponibleEnCaja(idCaja);
+
+            if (cambio > efectivoEnCaja)
+            {
+                MessageBox.Show(
+                    "No hay suficiente efectivo en la caja para dar el cambio requerido.\n\n" +
+                    "Efectivo disponible en caja: C$ " + efectivoEnCaja.ToString("N2") + "\n" +
+                    "Cambio a devolver: C$ " + cambio.ToString("N2"),
+                    "Cambio Insuficiente",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                return;
+            }
 
             RegistrarPago(
                 "Efectivo",

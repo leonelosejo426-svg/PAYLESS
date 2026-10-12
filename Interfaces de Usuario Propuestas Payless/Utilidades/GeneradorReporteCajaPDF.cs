@@ -16,8 +16,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
     {
 
         public static void Generar(
-            DataTable datos,
-            int idCaja)
+                    DataTable datos,
+                    int idCaja)
         {
             if (datos == null ||
                 datos.Rows.Count == 0)
@@ -142,8 +142,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
 
                 AgregarFila(
                     tabla,
-                    "Usuario",
-                    fila["Usuario"].ToString());
+                    "Usuario Apertura",
+                    fila["Usuario Apertura"].ToString());
+
+                AgregarFila(
+                    tabla,
+                    "Usuario Cierre",
+                    fila["Usuario Cierre"].ToString());
 
                 AgregarFila(
                     tabla,
@@ -301,6 +306,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
             return "C$ " +
                    numero.ToString("N2");
         }
-
     }
 }
+

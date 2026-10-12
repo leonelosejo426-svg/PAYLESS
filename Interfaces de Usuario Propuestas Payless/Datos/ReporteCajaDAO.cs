@@ -30,7 +30,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 string sql = @"
                     SELECT
                         c.id_caja AS ""ID Caja"",
-                        u.nombre_usuario AS ""Usuario"",
+                        u.nombre_usuario AS ""Usuario Apertura"",
+                        CASE 
+                            WHEN c.estado_caja = 'Abierta' THEN 'Caja Abierta'
+                            ELSE u.nombre_usuario 
+                        END AS ""Usuario Cierre"",
                         c.fecha_apertura AS ""Fecha Apertura"",
                         c.fecha_cierre AS ""Fecha Cierre"",
                         c.saldo_inicial AS ""Saldo Inicial"",
@@ -39,8 +43,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             SELECT SUM(
                                 COALESCE(fp.monto_cordobas, 0) +
                                 (
-                                    COALESCE(fp.monto_dolares, 0)
-                                    * COALESCE(fp.tipo_cambio, 0)
+                                    COALESCE(fp.monto_dolares, 0) *
+                                    COALESCE(fp.tipo_cambio, 1)
                                 )
                             )
                             FROM venta v
@@ -90,33 +94,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     ORDER BY c.fecha_apertura DESC;
                 ";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@usarFechas",
-                        usarFechas);
+                    cmd.Parameters.AddWithValue("@usarFechas", usarFechas);
+                    cmd.Parameters.AddWithValue("@fechaDesde", fechaDesde.Date);
+                    cmd.Parameters.AddWithValue("@fechaHasta", fechaHasta.Date);
+                    cmd.Parameters.AddWithValue("@usuario", usuario);
+                    cmd.Parameters.AddWithValue("@estado", estado);
 
-                    cmd.Parameters.AddWithValue(
-                        "@fechaDesde",
-                        fechaDesde.Date);
-
-                    cmd.Parameters.AddWithValue(
-                        "@fechaHasta",
-                        fechaHasta.Date);
-
-                    cmd.Parameters.AddWithValue(
-                        "@usuario",
-                        usuario);
-
-                    cmd.Parameters.AddWithValue(
-                        "@estado",
-                        estado);
-
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -145,13 +131,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     ORDER BY nombre_usuario;
                 ";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -164,6 +146,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return tabla;
         }
-
     }
 }
+
