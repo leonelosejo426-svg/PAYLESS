@@ -269,6 +269,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conexion\CifradoRespaldo.cs" />
+    <Compile Include="Datos\ReporteCompraDAO.cs" />
     <Compile Include="Datos\ReporteVentaDAO.cs" />
     <Compile Include="Datos\ArqueoCajaDAO.cs" />
     <Compile Include="Datos\CajaDAO.cs" />
@@ -560,6 +561,7 @@
       <DependentUpon>Ventas.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilidades\GeneradorReporteCajaPDF.cs" />
+    <Compile Include="Utilidades\GeneradorReporteCompraPDF.cs" />
     <Compile Include="Utilidades\GeneradorReporteProductosPDF.cs" />
     <Compile Include="Utilidades\GeneradorReporteUsuariosPDF.cs" />
     <Compile Include="Utilidades\GeneradorReporteVentasPDF.cs" />

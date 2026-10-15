@@ -19,6 +19,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private ReporteProductoDAO reporteProductoDAO = new ReporteProductoDAO();
         private ReporteUsuarioDAO reporteUsuarioDAO = new ReporteUsuarioDAO();
         private ReporteVentaDAO reporteVentaDAO = new ReporteVentaDAO();
+        private ReporteCompraDAO reporteCompraDAO = new ReporteCompraDAO();
 
 
         private DataTable tablaReporte;
@@ -111,6 +112,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             cbTipoReporte.Items.Add("Reporte de Productos");
             cbTipoReporte.Items.Add("Reporte de Usuarios");
             cbTipoReporte.Items.Add("Reporte de Ventas");
+            cbTipoReporte.Items.Add("Reporte de Compras"); 
 
             cbTipoReporte.SelectedIndex = -1;
             cbTipoReporte.Text = "Seleccione un reporte...";
@@ -373,6 +375,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         usuario,
                         estado);
                 }
+                else if (reporte == "Reporte de Compras")
+                {
+                    bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+                    string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
+                    string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
+
+                    GeneradorReporteCompraPDF.Generar(
+                        tablaReporte,
+                        dtpFechaDesde.Value,
+                        dtpFechaHasta.Value,
+                        usarFechas,
+                        usuario,
+                        estado);
+                }
             }
             catch (Exception ex)
             {
@@ -547,6 +563,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 CargarEstadosVentas();
             }
+            else if (reporte == "Reporte de Compras")
+            {
+                cbCriterio.Enabled = true;
+                cbUsuario.Enabled = true;
+                cbRol.Enabled = false;
+                cbEstado.Enabled = true;
+
+                dtpFechaDesde.Enabled = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+                dtpFechaHasta.Enabled = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+
+                CargarEstadosCompras();
+            }
+        }
+        private void CargarEstadosCompras()
+        {
+            cbEstado.Items.Clear();
+            cbEstado.Items.Add("Todos");
+            cbEstado.Items.Add("Activo");
+            cbEstado.Items.Add("Anulado");
+            cbEstado.SelectedIndex = 0;
         }
 
         private void CargarEstadosProductos()
@@ -631,7 +667,71 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
             else if (reporte == "Reporte de Ventas")
             {
-              GenerarReporteVentas();
+                GenerarReporteVentas();
+            }
+            else if (reporte == "Reporte de Compras") // <-- NUEVO
+            {
+                GenerarReporteCompras();
+            }
+        }
+
+        private void GenerarReporteCompras()
+        {
+            try
+            {
+                bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+
+                if (usarFechas && dtpFechaDesde.Value.Date > dtpFechaHasta.Value.Date)
+                {
+                    MessageBox.Show("La fecha desde no puede ser mayor que la fecha hasta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
+                string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
+
+                tablaReporte = reporteCompraDAO.ObtenerReporteCompras(
+                    dtpFechaDesde.Value,
+                    dtpFechaHasta.Value,
+                    usarFechas,
+                    usuario,
+                    estado);
+
+                DGVtabla1.DataSource = tablaReporte;
+
+                if (tablaReporte.Rows.Count > 0)
+                {
+                    FormatearReporteCompras();
+                    btnImprimir.Enabled = true;
+                }
+                else
+                {
+                    btnImprimir.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el reporte de compras:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                btnImprimir.Enabled = false;
+            }
+        }
+
+        private void FormatearReporteCompras()
+        {
+            if (DGVtabla1.Columns.Contains("ID Compra"))
+                DGVtabla1.Columns["ID Compra"].Width = 70;
+
+            if (DGVtabla1.Columns.Contains("Código"))
+                DGVtabla1.Columns["Código"].Width = 90;
+
+            if (DGVtabla1.Columns.Contains("Fecha"))
+            {
+                DGVtabla1.Columns["Fecha"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+            }
+
+            if (DGVtabla1.Columns.Contains("Total"))
+            {
+                DGVtabla1.Columns["Total"].DefaultCellStyle.Format = "C$ #,##0.00";
             }
         }
 

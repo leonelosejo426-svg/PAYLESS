@@ -357,9 +357,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 10. REGISTRAR VENTA Y PAGO
+        // 10. REGISTRAR VENTA Y PAGO (Blindado con validación de caja abierta)
         // =====================================================
-        
         public bool RegistrarVentaConPago(
             string codigoVenta,
             int idCliente,
@@ -382,39 +381,51 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
                 NpgsqlConnection conexion = conexionBD.ObtenerConexion();
 
+                // Doble validación de seguridad: verificar que la caja siga abierta
+                string sqlVerificarCaja = "SELECT estado_caja FROM caja WHERE id_caja = @idCaja;";
+                using (NpgsqlCommand cmdCheck = new NpgsqlCommand(sqlVerificarCaja, conexion))
+                {
+                    cmdCheck.Parameters.AddWithValue("@idCaja", idCaja);
+                    object estadoCaja = cmdCheck.ExecuteScalar();
+                    if (estadoCaja == null || estadoCaja.ToString() != "Abierta")
+                    {
+                        throw new Exception("La caja se encuentra cerrada. No se pueden procesar más ventas en este turno.");
+                    }
+                }
+
                 using (NpgsqlTransaction transaccion = conexion.BeginTransaction())
                 {
                     try
                     {
-                        // A. Insertar Encabezado de Venta
+                        // A. Insertar Encabezado de Venta asociando la caja actual
                         string sqlVenta = @"
-                    INSERT INTO venta
-                    (
-                        codigo_venta,
-                        fecha,
-                        subtotal,
-                        descuento,
-                        iva,
-                        total,
-                        estado,
-                        id_cliente,
-                        id_usuario,
-                        id_caja
-                    )
-                    VALUES
-                    (
-                        @codigoVenta,
-                        CURRENT_TIMESTAMP,
-                        @subtotal,
-                        0,
-                        @iva,
-                        @total,
-                        TRUE,
-                        @idCliente,
-                        @idUsuario,
-                        @idCaja
-                    )
-                    RETURNING id_venta;";
+                        INSERT INTO venta
+                        (
+                            codigo_venta,
+                            fecha,
+                            subtotal,
+                            descuento,
+                            iva,
+                            total,
+                            estado,
+                            id_cliente,
+                            id_usuario,
+                            id_caja
+                        )
+                        VALUES
+                        (
+                            @codigoVenta,
+                            CURRENT_TIMESTAMP,
+                            @subtotal,
+                            0,
+                            @iva,
+                            @total,
+                            TRUE,
+                            @idCliente,
+                            @idUsuario,
+                            @idCaja
+                        )
+                        RETURNING id_venta;";
 
                         int idVenta;
 
@@ -440,22 +451,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             decimal subtotalLinea = Convert.ToDecimal(fila["subtotal"]);
 
                             string sqlDetalle = @"
-                        INSERT INTO detalle_venta
-                        (
-                            id_venta,
-                            id_producto_talla,
-                            cantidad,
-                            precio_unitario,
-                            subtotal
-                        )
-                        VALUES
-                        (
-                            @idVenta,
-                            @idProductoTalla,
-                            @cantidad,
-                            @precioUnitario,
-                            @subtotal
-                        );";
+                            INSERT INTO detalle_venta
+                            (
+                                id_venta,
+                                id_producto_talla,
+                                cantidad,
+                                precio_unitario,
+                                subtotal
+                            )
+                            VALUES
+                            (
+                                @idVenta,
+                                @idProductoTalla,
+                                @cantidad,
+                                @precioUnitario,
+                                @subtotal
+                            );";
 
                             using (NpgsqlCommand cmdDetalle = new NpgsqlCommand(sqlDetalle, conexion, transaccion))
                             {
@@ -471,28 +482,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                         // C. Insertar Forma de Pago
                         string sqlPago = @"
-                    INSERT INTO forma_pago
-                    (
-                        tipo_pago,
-                        monto_cordobas,
-                        monto_dolares,
-                        tipo_cambio,
-                        cambio,
-                        tipo_tarjeta,
-                        monto_tarjeta,
-                        id_venta
-                    )
-                    VALUES
-                    (
-                        @tipoPago,
-                        @montoCordobas,
-                        @montoDolares,
-                        @tipoCambio,
-                        @cambio,
-                        @tipoTarjeta,
-                        @montoTarjeta,
-                        @idVenta
-                    );";
+                        INSERT INTO forma_pago
+                        (
+                            tipo_pago,
+                            monto_cordobas,
+                            monto_dolares,
+                            tipo_cambio,
+                            cambio,
+                            tipo_tarjeta,
+                            monto_tarjeta,
+                            id_venta
+                        )
+                        VALUES
+                        (
+                            @tipoPago,
+                            @montoCordobas,
+                            @montoDolares,
+                            @tipoCambio,
+                            @cambio,
+                            @tipoTarjeta,
+                            @montoTarjeta,
+                            @idVenta
+                        );";
 
                         using (NpgsqlCommand cmdPago = new NpgsqlCommand(sqlPago, conexion, transaccion))
                         {

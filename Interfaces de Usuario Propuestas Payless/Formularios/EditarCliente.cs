@@ -107,6 +107,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
+            // 1. Validar longitud exacta (por ejemplo, exactamente 200 caracteres)
+            if (txtDireccion.Text.Trim().Length != 200)
+            {
+                MessageBox.Show(
+                    "El campo debe contener exactamente 200 caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtDireccion.Focus();
+                return;
+            }
+
+            // 1. Validar longitud exacta (por ejemplo, exactamente 100 caracteres)
+            if (txtNombre.Text.Trim().Length != 100)
+            {
+                MessageBox.Show(
+                    "El campo debe contener exactamente 100 caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtNombre.Focus();
+                return;
+            }
+
             // Validar cédula (Formato ejemplo: 441-241207-1002B)
             if (string.IsNullOrWhiteSpace(cedula))
             {

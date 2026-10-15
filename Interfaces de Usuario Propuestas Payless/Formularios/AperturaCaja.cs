@@ -98,6 +98,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
+                // 1. Validar longitud exacta (por ejemplo, exactamente 5 caracteres)
+                if (txtCambioDolar.Text.Trim().Length != 5)
+                {
+                    MessageBox.Show(
+                        "El campo debe contener exactamente 5 caracteres.",
+                        "Validación de Longitud",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    txtCambioDolar.Focus();
+                    return;
+                }
+
+                // 1. Validar longitud exacta (por ejemplo, exactamente 10 caracteres)
+                if (txtMontoInicial.Text.Trim().Length != 10)
+                {
+                    MessageBox.Show(
+                        "El campo debe contener exactamente 10 caracteres.",
+                        "Validación de Longitud",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    txtMontoInicial.Focus();
+                    return;
+                }
+
                 if (cambioDolar <= 0)
                 {
                     MessageBox.Show("El cambio de dólar debe ser mayor que cero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);

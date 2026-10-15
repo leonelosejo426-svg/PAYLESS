@@ -35,6 +35,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // 1. Validar longitud exacta (por ejemplo, exactamente 150 caracteres)
+            if (richtxtDirreccion.Text.Trim().Length != 150)
+            {
+                MessageBox.Show(
+                    "El campo debe contener exactamente 150 caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                richtxtDirreccion.Focus();
+                return;
+            }
+
+            // 1. Validar longitud exacta (por ejemplo, exactamente 100 caracteres)
+            if (nombreCliente.Length != 100)
+            {
+                MessageBox.Show(
+                    "El campo debe contener exactamente 100 caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                q.Focus();
+                return;
+            }
+
+
             Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
             if (!regexNombre.IsMatch(nombreCliente))
             {

@@ -246,6 +246,47 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             // =====================================================
+            // VALIDACIÓN: PRECIO DE COMPRA MENOR AL DE VENTA
+            // =====================================================
+            if (precioCompra >= precioVenta)
+            {
+                MessageBox.Show(
+                    "El precio de compra debe ser menor que el precio de venta.",
+                    "Validación de Precios",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtPrecioVenta.Focus();
+                return;
+            }
+
+            // =====================================================
+            // RECOMENDACIÓN DE MARGEN (Mínimo 20% expresado en C$)
+            // =====================================================
+            decimal precioRecomendado = precioCompra * 1.20m; // Se le suma el 20% al precio de compra
+
+            if (precioVenta < precioRecomendado)
+            {
+                DialogResult confirmacion = MessageBox.Show(
+                    $"SUGERENCIA DE PRECIO DE VENTA:\n\n" +
+                    $"• Precio de Compra: C$ {precioCompra:N2}\n" +
+                    $"• Precio de Venta Ingresado: C$ {precioVenta:N2}\n" +
+                    $"• Precio Recomendado (+20%): C$ {precioRecomendado:N2}\n\n" +
+                    $"El precio ingresado es menor a la recomendación de C$ {precioRecomendado:N2}.\n" +
+                    $"¿Desea continuar e ingresar este precio de todas formas?",
+                    "Recomendación de Margen",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (confirmacion == DialogResult.No)
+                {
+                    txtPrecioVenta.Focus();
+                    return;
+                }
+            }
+
+            // =====================================================
             // VALIDACIÓN DE CANTIDAD
             // =====================================================
             if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
@@ -263,34 +304,65 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             DataRowView producto = cbProducto.SelectedItem as DataRowView;
             if (producto == null) return;
 
-            decimal subtotal = precioCompra * cantidad;
+            int idProducto = Convert.ToInt32(producto["id_producto"]);
 
-            NodoDetalleCompra nuevo = new NodoDetalleCompra
+            // 1. VERIFICAR SI YA EXISTE EL PRODUCTO CON LA MISMA TALLA EN LA LISTA
+            NodoDetalleCompra nodoExistente = listaDetalleCompra.BuscarPorProductoYTalla(idProducto, tallaTexto);
+
+            if (nodoExistente != null)
             {
-                IdProducto = Convert.ToInt32(producto["id_producto"]),
-                Producto = producto["nombre"].ToString(),
-                Categoria = producto["nombre_categoria"].ToString(),
-                Marca = producto["nombre_marca"].ToString(),
-                Talla = tallaTexto, // Mantiene el formato validado
-                PrecioCompra = precioCompra,
-                PrecioVenta = precioVenta,
-                Cantidad = cantidad,
-                Subtotal = subtotal
-            };
+                // CASO A: Misma talla y MISMOS precios -> Se suman las cantidades
+                if (nodoExistente.PrecioCompra == precioCompra && nodoExistente.PrecioVenta == precioVenta)
+                {
+                    nodoExistente.Cantidad += cantidad;
+                    nodoExistente.Subtotal = nodoExistente.PrecioCompra * nodoExistente.Cantidad;
 
-            listaDetalleCompra.Agregar(nuevo);
+                    MessageBox.Show(
+                        "El producto ya se encontraba en el detalle con la misma talla y precios. Se ha actualizado sumando la cantidad.",
+                        "Cantidad Actualizada",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                // CASO B: Misma talla pero DIFERENTES precios -> BLOQUEO y mensaje de advertencia
+                else
+                {
+                    MessageBox.Show(
+                        $"Ya existe el producto '{nodoExistente.Producto}' con la talla {tallaTexto}, pero con precios diferentes:\n\n" +
+                        $"• Registrado en lista -> Compra: C$ {nodoExistente.PrecioCompra:N2} | Venta: C$ {nodoExistente.PrecioVenta:N2}\n" +
+                        $"• Intentando agregar -> Compra: C$ {precioCompra:N2} | Venta: C$ {precioVenta:N2}\n\n" +
+                        $"No se puede agregar el mismo producto/talla con precios distintos. Debe eliminar el registro anterior o cambiar los precios.",
+                        "Conflicto de Precios",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    txtPrecioCompra.Focus();
+                    return;
+                }
+            }
+            else
+            {
+                // CASO C: Es completamente nuevo o tiene otra talla -> Se crea una fila nueva
+                decimal subtotal = precioCompra * cantidad;
 
-            dgvDetalleCompra.Rows.Add(
-                nuevo.IdProducto,
-                nuevo.Producto,
-                nuevo.Categoria,
-                nuevo.Marca,
-                nuevo.Talla,
-                nuevo.PrecioCompra,
-                nuevo.Cantidad,
-                nuevo.Subtotal
-            );
+                NodoDetalleCompra nuevo = new NodoDetalleCompra
+                {
+                    IdProducto = idProducto,
+                    Producto = producto["nombre"].ToString(),
+                    Categoria = producto["nombre_categoria"].ToString(),
+                    Marca = producto["nombre_marca"].ToString(),
+                    Talla = tallaTexto,
+                    PrecioCompra = precioCompra,
+                    PrecioVenta = precioVenta,
+                    Cantidad = cantidad,
+                    Subtotal = subtotal
+                };
 
+                listaDetalleCompra.Agregar(nuevo);
+            }
+
+            // 2. Refrescar la grilla y recalcular totales
+            ActualizarGridDetalle();
             CalcularTotales();
             LimpiarCamposProducto();
         }
@@ -299,18 +371,42 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             if (listaDetalleCompra.EstaVacia())
             {
-                MessageBox.Show("No hay productos para eliminar.");
+                MessageBox.Show("No hay productos en el detalle para eliminar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
+            // 1. Eliminamos de nuestra estructura de Lista Enlazada personalizada
             listaDetalleCompra.EliminarUltimo();
 
-            if (dgvDetalleCompra.Rows.Count > 0)
-            {
-                dgvDetalleCompra.Rows.RemoveAt(dgvDetalleCompra.Rows.Count - 1);
-            }
+            // 2. Refrescamos visualmente el DataGridView de forma limpia
+            // En lugar de RemoveAt(), volvemos a cargar los elementos actuales de la lista enlazada a la grilla
+            ActualizarGridDetalle();
 
+            // 3. Recalculamos subtotales y totales
             CalcularTotales();
+        }
+        private void ActualizarGridDetalle()
+        {
+            // 1. Limpiar las filas existentes del DataGridView de forma segura
+            dgvDetalleCompra.Rows.Clear();
+
+            NodoDetalleCompra actual = listaDetalleCompra.ObtenerPrimero();
+
+            while (actual != null)
+            {
+                dgvDetalleCompra.Rows.Add(
+                    actual.IdProducto,     // Columna 0: ID
+                    actual.Producto,       // Columna 1: Producto
+                    actual.Categoria,      // Columna 2: Categoría
+                    actual.Marca,          // Columna 3: Marca
+                    actual.Talla,          // Columna 4: Talla
+                    actual.PrecioCompra,   // Columna 5: P. Compra
+                    actual.Cantidad,       // Columna 6: Cantidad
+                    actual.Subtotal        // Columna 7: SubTotal
+                );
+
+                actual = actual.Siguiente;
+            }
         }
 
         private void btnEditar_Click(object sender, EventArgs e)

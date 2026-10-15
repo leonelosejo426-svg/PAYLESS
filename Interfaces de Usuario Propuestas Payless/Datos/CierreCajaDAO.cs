@@ -11,17 +11,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 {
     internal class CierreCajaDAO
     {
-
-        private ConexionBD conexionBD =
-          new ConexionBD();
+        private ConexionBD conexionBD = new ConexionBD();
 
         // =====================================================
         // 1. OBTENER INFORMACIÓN DE LA CAJA
         // =====================================================
         public DataTable ObtenerCaja(int idCaja)
         {
-            DataTable tabla =
-                new DataTable();
+            DataTable tabla = new DataTable();
 
             try
             {
@@ -41,17 +38,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     FROM caja
                     WHERE id_caja = @idCaja;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -66,7 +57,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 2. INGRESOS DE EFECTIVO
+        // 2. INGRESOS TOTALES EN EFECTIVO (Córdobas + Dólares convertidos - Cambio)
         // =====================================================
         public decimal ObtenerIngresos(int idCaja)
         {
@@ -78,46 +69,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     SELECT
                         COALESCE(
                             SUM(
-                                COALESCE(
-                                    fp.monto_cordobas,
-                                    0
-                                )
-                                +
-                                (
-                                    COALESCE(
-                                        fp.monto_dolares,
-                                        0
-                                    )
-                                    *
-                                    COALESCE(
-                                        fp.tipo_cambio,
-                                        0
-                                    )
-                                )
+                                (COALESCE(fp.monto_cordobas, 0) - COALESCE(fp.cambio, 0)) +
+                                (COALESCE(fp.monto_dolares, 0) * COALESCE(fp.tipo_cambio, 0))
                             ),
                             0
                         )
                     FROM venta v
-                    INNER JOIN forma_pago fp
-                        ON v.id_venta = fp.id_venta
+                    INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta
                     WHERE v.id_caja = @idCaja
-                      AND v.estado = TRUE
-                      AND fp.tipo_pago <> 'Tarjeta';";
+                      AND v.estado = TRUE;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object resultado = cmd.ExecuteScalar();
 
-                    object resultado =
-                        cmd.ExecuteScalar();
-
-                    if (resultado != null &&
-                        resultado != DBNull.Value)
+                    if (resultado != null && resultado != DBNull.Value)
                     {
                         return Convert.ToDecimal(resultado);
                     }
@@ -132,7 +99,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 3. EGRESOS
+        // 3. EGRESOS TOTALES
         // =====================================================
         public decimal ObtenerEgresos(int idCaja)
         {
@@ -141,22 +108,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        COALESCE(SUM(monto), 0)
+                    SELECT COALESCE(SUM(monto), 0)
                     FROM egreso_caja
                     WHERE id_caja = @idCaja;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
-
-                    return Convert.ToDecimal(
-                        cmd.ExecuteScalar());
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
                 }
             }
             finally
@@ -166,10 +125,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 4. EFECTIVO CÓRDOBAS
+        // 4. EFECTIVO CÓRDOBAS NETO (Monto Córdobas - Cambio)
         // =====================================================
-        public decimal ObtenerEfectivoCordobas(
-            int idCaja)
+        public decimal ObtenerEfectivoCordobas(int idCaja)
         {
             try
             {
@@ -178,32 +136,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 string sql = @"
                     SELECT
                         COALESCE(
-                            SUM(
-                                COALESCE(
-                                    fp.monto_cordobas,
-                                    0
-                                )
-                            ),
+                            SUM(COALESCE(fp.monto_cordobas, 0) - COALESCE(fp.cambio, 0)),
                             0
                         )
                     FROM venta v
-                    INNER JOIN forma_pago fp
-                        ON v.id_venta = fp.id_venta
+                    INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta
                     WHERE v.id_caja = @idCaja
-                      AND v.estado = TRUE
-                      AND fp.tipo_pago <> 'Tarjeta';";
+                      AND v.estado = TRUE;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
-
-                    return Convert.ToDecimal(
-                        cmd.ExecuteScalar());
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
                 }
             }
             finally
@@ -213,10 +157,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 5. EFECTIVO DÓLARES CONVERTIDO
+        // 5. EFECTIVO DÓLARES
         // =====================================================
-        public decimal ObtenerEfectivoDolares(
-            int idCaja)
+        public decimal ObtenerEfectivoDolares(int idCaja)
         {
             try
             {
@@ -224,33 +167,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                 string sql = @"
                     SELECT
-                        COALESCE(
-                            SUM(
-                                COALESCE(
-                                    fp.monto_dolares,
-                                    0
-                                )
-                            ),
-                            0
-                        )
+                        COALESCE(SUM(COALESCE(fp.monto_dolares, 0)), 0)
                     FROM venta v
-                    INNER JOIN forma_pago fp
-                        ON v.id_venta = fp.id_venta
+                    INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta
                     WHERE v.id_caja = @idCaja
-                      AND v.estado = TRUE
-                      AND fp.tipo_pago <> 'Tarjeta';";
+                      AND v.estado = TRUE;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
-
-                    return Convert.ToDecimal(
-                        cmd.ExecuteScalar());
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
                 }
             }
             finally
@@ -260,7 +186,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 6. TOTAL TARJETAS
+        // 6. TOTAL TARJETAS (Suma monto_tarjeta en Pagos por Tarjeta o Mixtos)
         // =====================================================
         public decimal ObtenerTarjetas(int idCaja)
         {
@@ -270,33 +196,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                 string sql = @"
                     SELECT
-                        COALESCE(
-                            SUM(
-                                COALESCE(
-                                    fp.monto_tarjeta,
-                                    0
-                                )
-                            ),
-                            0
-                        )
+                        COALESCE(SUM(COALESCE(fp.monto_tarjeta, 0)), 0)
                     FROM venta v
-                    INNER JOIN forma_pago fp
-                        ON v.id_venta = fp.id_venta
+                    INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta
                     WHERE v.id_caja = @idCaja
-                      AND v.estado = TRUE
-                      AND fp.tipo_pago = 'Tarjeta';";
+                      AND v.estado = TRUE;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
-
-                    return Convert.ToDecimal(
-                        cmd.ExecuteScalar());
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
                 }
             }
             finally
@@ -306,7 +215,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 7. GUARDAR CIERRE
+        // 7. GUARDAR CIERRE DE CAJA
         // =====================================================
         public bool GuardarCierre(
             int idCaja,
@@ -331,30 +240,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     WHERE id_caja = @idCaja
                       AND estado_caja = 'Abierta';";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@montoEsperado",
-                        montoEsperado);
-
-                    cmd.Parameters.AddWithValue(
-                        "@montoArqueo",
-                        montoArqueo);
-
-                    cmd.Parameters.AddWithValue(
-                        "@diferencia",
-                        diferencia);
-
-                    cmd.Parameters.AddWithValue(
-                        "@saldoFinal",
-                        saldoFinal);
-
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@montoEsperado", montoEsperado);
+                    cmd.Parameters.AddWithValue("@montoArqueo", montoArqueo);
+                    cmd.Parameters.AddWithValue("@diferencia", diferencia);
+                    cmd.Parameters.AddWithValue("@saldoFinal", saldoFinal);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -364,6 +256,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.CerrarConexion();
             }
         }
-
     }
 }

@@ -100,6 +100,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
             primero = null;
             ultimo = null;
         }
+
+        public NodoDetalleCompra BuscarPorProductoYTalla(int idProducto, string talla)
+        {
+            NodoDetalleCompra actual = primero; // o el nombre que uses para tu primer nodo
+            while (actual != null)
+            {
+                if (actual.IdProducto == idProducto && actual.Talla == talla)
+                {
+                    return actual; // ¡Lo encontró!
+                }
+                actual = actual.Siguiente;
+            }
+            return null; // No existe
+        }
     }
 }
 
