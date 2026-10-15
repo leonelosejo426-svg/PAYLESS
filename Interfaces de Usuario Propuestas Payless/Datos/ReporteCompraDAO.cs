@@ -22,31 +22,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"
-                    SELECT 
-                        id_compra AS ""ID Compra"",
-                        codigo_compra AS ""Código"",
-                        fecha AS ""Fecha"",
-                        proveedor AS ""Proveedor"",
-                        usuario AS ""Usuario"",
-                        total AS ""Total"",
-                        estado_texto AS ""Estado""
-                    FROM vw_reporte_compras
-                    WHERE 1 = 1";
+                // Seleccionamos directamente todas las columnas que ya formatea la vista
+                string sql = @"SELECT * FROM vw_reporte_compras WHERE 1 = 1";
 
                 if (usarFechas)
                 {
-                    sql += " AND fecha::date >= @fechaDesde AND fecha::date <= @fechaHasta";
+                    sql += " AND \"Fecha\"::date >= @fechaDesde AND \"Fecha\"::date <= @fechaHasta";
                 }
 
                 if (usuario != "Todos" && !string.IsNullOrEmpty(usuario))
                 {
-                    sql += " AND usuario = @usuario";
+                    sql += " AND \"Usuario\" = @usuario";
                 }
 
                 if (estado != "Todos" && !string.IsNullOrEmpty(estado))
                 {
-                    sql += " AND estado_texto = @estado";
+                    sql += " AND \"Estado\" = @estado";
                 }
 
                 sql += " ORDER BY id_compra DESC;";
@@ -81,7 +72,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
 
             return tabla;
-        }   
+        }
 
     }
 }
