@@ -124,11 +124,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-                // 1. Validar longitud exacta (por ejemplo, exactamente 100 caracteres)
-                if (txtCompleto.Text.Trim().Length != 100)
+                if (txtCompleto.Text.Trim().Length > 100)
                 {
                     MessageBox.Show(
-                        "El campo debe contener exactamente 100 caracteres.",
+                        "El campo [nombre completo] no puede superar los [100] caracteres.",
                         "Validación de Longitud",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
@@ -137,29 +136,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-                // 1. Validar longitud exacta (por ejemplo, exactamente 50 caracteres)
-                if (txtGmail.Text.Trim().Length != 50)
+                if (txtContraseña.Text.Trim().Length > 20)
                 {
                     MessageBox.Show(
-                        "El campo debe contener exactamente 50 caracteres.",
+                        "El campo [contraseña] no puede superar los [20] caracteres.",
+                        "Validación de Longitud",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    txtContraseña.Focus();
+                    return;
+                }
+
+                if (txtGmail.Text.Trim().Length > 50)
+                {
+                    MessageBox.Show(
+                        "El campo [gmail] no puede superar los [50] caracteres.",
                         "Validación de Longitud",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
                     );
                     txtGmail.Focus();
-                    return;
-                }
-
-                // 1. Validar longitud exacta (por ejemplo, exactamente 50 caracteres)
-                if (txtUsuario.Text.Trim().Length != 50)
-                {
-                    MessageBox.Show(
-                        "El campo debe contener exactamente 50 caracteres.",
-                        "Validación de Longitud",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                    txtUsuario.Focus();
                     return;
                 }
 

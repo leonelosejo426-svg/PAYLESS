@@ -180,6 +180,42 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            if (password.Trim().Length > 20)
+            {
+                MessageBox.Show(
+                    "El campo [contraseña] no puede superar los [20] caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtContraseña.Focus();
+                return;
+            }
+
+            if (txtNombreUsuario.Text.Trim().Length > 50)
+            {
+                MessageBox.Show(
+                    "El campo [nombre de usuario] no puede superar los [50] caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtNombreUsuario.Focus();
+                return;
+            }
+
+            if (txtNombreCompleto.Text.Trim().Length > 100)
+            {
+                MessageBox.Show(
+                    "El campo [nombre completo] no puede superar los [100] caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtNombreCompleto.Focus();
+                return;
+            }
+
             Regex regexCompleto = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
             if (!regexCompleto.IsMatch(nombreCompleto))
             {

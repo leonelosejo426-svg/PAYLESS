@@ -35,11 +35,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // 1. Validar longitud exacta (por ejemplo, exactamente 150 caracteres)
-            if (richtxtDirreccion.Text.Trim().Length != 150)
+            // Validar que el texto NO supere el máximo de 150 caracteres
+            if (richtxtDirreccion.Text.Trim().Length > 150)
             {
                 MessageBox.Show(
-                    "El campo debe contener exactamente 150 caracteres.",
+                    "El campo dirección no puede superar los 150 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -48,15 +48,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // 1. Validar longitud exacta (por ejemplo, exactamente 100 caracteres)
-            if (nombreCliente.Length != 100)
+            if (nombreCliente.Length > 100)
             {
                 MessageBox.Show(
-                    "El campo debe contener exactamente 100 caracteres.",
+                    "El nombre del cliente no puede superar los 100 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+                // Cambia 'q' por el nombre real de tu TextBox (por ejemplo: txtNombre.Focus();)
                 q.Focus();
                 return;
             }

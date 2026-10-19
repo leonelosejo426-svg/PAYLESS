@@ -248,9 +248,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             CargarVentas();
         }
 
+
+
+
+
+
         private void CargarVentas()
         {
-            tablaVentas = ventaDAO.MostrarVentas();
+            // Cargar únicamente las ventas de la caja abierta
+            tablaVentas = ventaDAO.MostrarVentasDeCajaAbierta();
 
             arbolVentas = new ArbolBinarioVentas();
 
@@ -262,6 +268,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             MostrarVentasEnGrid(
                 arbolVentas.RecorridoInOrden());
         }
+
 
 
         private void MostrarVentasEnGrid(List<DataRow> ventas)

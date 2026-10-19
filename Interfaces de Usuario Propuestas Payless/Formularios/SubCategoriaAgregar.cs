@@ -34,29 +34,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 txtDescripcion.Focus();
                 return;
             }
-            // 1. Validar longitud exacta (por ejemplo, exactamente 100 caracteres)
-            if (txtDescripcion.Text.Trim().Length != 100)
+            if (txtNombre.Text.Trim().Length > 100)
             {
                 MessageBox.Show(
-                    "El campo debe contener exactamente 100 caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtDescripcion.Focus();
-                return;
-            }
-
-            // 1. Validar longitud exacta (por ejemplo, exactamente 50 caracteres)
-            if (txtNombre.Text.Trim().Length != 50)
-            {
-                MessageBox.Show(
-                    "El campo debe contener exactamente 50 caracteres.",
+                    "El campo [nombre] no puede superar los [100] caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
                 txtNombre.Focus();
+                return;
+            }
+
+            if (txtDescripcion.Text.Trim().Length > 200)
+            {
+                MessageBox.Show(
+                    "El campo [descripción] no puede superar los [200] caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtDescripcion.Focus();
                 return;
             }
 

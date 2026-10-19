@@ -55,8 +55,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblTipoCambio", true).Length > 0)
                 lblTipoCambio.Text = "C$ " + tipoCambio.ToString("N2");
 
-            // Carga de ventas esperadas en Córdobas
+ 
+            // Carga de ventas esperadas en Córdobas y Dólares
             ventasEsperadasCordobas = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
+            ventasEsperadasDolares = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
 
             if (Controls.Find("lblVentasTotales", true).Length > 0)
                 lblVentasTotales.Text = "C$ " + ventasEsperadasCordobas.ToString("N2");
@@ -174,7 +176,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblTotalMonedas", true).Length > 0)
                 lblTotalEnMonedas.Text = "C$ " + totalMonedas.ToString("N2");
 
-            // 4. TOTAL ACUMULADO ARQUEADO EN CÓRDOBAS
+
+            // 4. TOTAL ACUMULADO ARQUEADO EN CÓRDOBAS (Para el monto general de caja)
             List<decimal> subtotales = new List<decimal> { totalBilletesCordobas, totalMonedas, conversionDolares };
             decimal montoTotalArqueado = RecursividadArqueo.SumarListaRecursivo(subtotales);
 
@@ -194,14 +197,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblConversionDolares", true).Length > 0)
                 lblConversionDolares.Text = "C$ " + conversionDolares.ToString("N2");
 
-            // CÁLCULO DE DIFERENCIAS (Efectivo real en C$ vs Ventas Esperadas)
-            var (faltanteCor, sobranteCor) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasCordobas, montoTotalArqueado);
+            // --- CÁLCULO DE DIFERENCIAS INDEPENDIENTES (CÓRDOBAS) ---
+            decimal totalCordobasReal = totalBilletesCordobas + totalMonedas;
+            var (faltanteCor, sobranteCor) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasCordobas, totalCordobasReal);
 
             if (Controls.Find("lblFaltanteCordobas", true).Length > 0)
                 lblFaltanteCordobas.Text = "C$ " + faltanteCor.ToString("N2");
 
             if (Controls.Find("lblSobranteCordobas", true).Length > 0)
                 lblSobranteCordobas.Text = "C$ " + sobranteCor.ToString("N2");
+
+            // --- CÁLCULO DE DIFERENCIAS INDEPENDIENTES (DÓLARES) ---
+            var (faltanteDol, sobranteDol) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasDolares, totalDolares);
+
+            if (Controls.Find("lblFaltanteDolares", true).Length > 0)
+                lblFaltanteDolares.Text = "$ " + faltanteDol.ToString("N2");
+
+            if (Controls.Find("lblSobranteDolares", true).Length > 0)
+                lblSobranteDolares.Text = "$ " + sobranteDol.ToString("N2");
         }
 
 

@@ -65,7 +65,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                             // Si ya se había aperturado previamente, entra directo a vender
                             MessageBox.Show("Detectamos una caja activa. Abriendo módulo de ventas...", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            Caja ventanaVenta = new Caja();
+                            Ventas ventanaVenta = new Ventas();
                             ventanaVenta.FormClosed += (s, args) => this.Close();
                             ventanaVenta.Show();
                         }
@@ -183,7 +183,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Login_Load(object sender, EventArgs e)
         {
-
+            txtContraseña.MaxLength = 20;
+            txtUsuario.MaxLength = 20;
         }
 
         private void label38_Click(object sender, EventArgs e)

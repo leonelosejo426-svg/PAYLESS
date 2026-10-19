@@ -69,11 +69,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return false;
             }
 
-            // 1. Validar longitud exacta (por ejemplo, exactamente 100 caracteres)
-            if (txtNombredelProducto.Text.Trim().Length != 100)
+            if (txtNombredelProducto.Text.Trim().Length > 100)
             {
                 MessageBox.Show(
-                    "El campo debe contener exactamente 100 caracteres.",
+                    "El campo [nombre] no puede superar los [100] caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning

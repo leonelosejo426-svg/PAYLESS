@@ -353,12 +353,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtMontoCordobas.Text) || string.IsNullOrWhiteSpace(txtMontoDolares.Text))
+            if (string.IsNullOrWhiteSpace(txtMontoCordobas.Text) && string.IsNullOrWhiteSpace(txtMontoDolares.Text))
             {
-                MessageBox.Show("Por favor, rellene ambos campos de monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Por favor, rellene al menos uno de los campos de monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMontoCordobas.Focus();
                 return;
             }
+
 
 
             if (montoCordobas <= 0 || montoDolares <= 0)
@@ -563,103 +564,229 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             DataTable detalleFactura = ventaDAO.ObtenerDetalleParaFactura(detalleVenta);
 
-            using (iTextDocument documento = new iTextDocument(iTextSharp.text.PageSize.A4, 40, 40, 40, 40))
+            // Márgenes profesionales de 30f
+            using (iTextDocument documento = new iTextDocument(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f))
             {
-                PdfWriter.GetInstance(
-                    documento,
-                    new FileStream(ruta, FileMode.Create)
-                );
-
+                PdfWriter.GetInstance(documento, new FileStream(ruta, FileMode.Create));
                 documento.Open();
 
-                // Estilos de fuente
-                iTextFont titulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 18);
-                iTextFont normal = FontFactory.GetFont(FontFactory.HELVETICA, 10);
-                iTextFont negrita = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10);
-                iTextFont piePaginaFont = FontFactory.GetFont(FontFactory.HELVETICA_OBLIQUE, 9, iTextSharp.text.BaseColor.GRAY);
+                // =====================================================
+                // PALETA DE COLORES CORPORATIVA PAYLESS (#F26522 y Grises)
+                // =====================================================
+                iTextSharp.text.BaseColor colorNaranjaPayless = new iTextSharp.text.BaseColor(242, 101, 34);
+                iTextSharp.text.BaseColor colorTexto = new iTextSharp.text.BaseColor(40, 40, 40);
+                iTextSharp.text.BaseColor colorGrisClaro = new iTextSharp.text.BaseColor(248, 249, 250);
+                iTextSharp.text.BaseColor colorBorde = new iTextSharp.text.BaseColor(220, 220, 220);
 
                 // =====================================================
-                // AGREGAR LOGO
+                // ESTILOS DE FUENTE
                 // =====================================================
-                string rutaLogo = System.IO.Path.Combine(Application.StartupPath, "Imagenes", "logo.png"); // Ajusta la ruta/nombre de tu imagen
+                iTextFont fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 15f, colorNaranjaPayless);
+                iTextFont fuenteSubtitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9f, iTextSharp.text.BaseColor.GRAY);
+                iTextFont fuenteEtiqueta = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8.5f, colorTexto);
+                iTextFont fuenteTexto = FontFactory.GetFont(FontFactory.HELVETICA, 8.5f, colorTexto);
+                iTextFont fuenteCabeceraTabla = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8.5f, iTextSharp.text.BaseColor.WHITE);
+                iTextFont fuenteTotalBold = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f, colorNaranjaPayless);
+
+                // =====================================================
+                // ENCABEZADO Y LOGO (Diseño Dos Columnas)
+                // =====================================================
+                PdfPTable headerTable = new PdfPTable(2)
+                {
+                    WidthPercentage = 100f
+                };
+                headerTable.SetWidths(new float[] { 50f, 50f });
+
+                // Columna Izquierda: Logo o Nombre Comercial
+                PdfPCell cellLeft = new PdfPCell
+                {
+                    Border = iTextSharp.text.Rectangle.NO_BORDER
+                };
+
+                string rutaBase = Path.Combine(Application.StartupPath, "Respaldos", "WhatsApp Image 2026-06-17 at 11.49.19 AM");
+                string rutaLogo = File.Exists(rutaBase + ".jpeg") ? rutaBase + ".jpeg" :
+                                 (File.Exists(rutaBase + ".jpg") ? rutaBase + ".jpg" :
+                                 Path.Combine(Application.StartupPath, "Imagenes", "logo.png"));
+
                 if (File.Exists(rutaLogo))
                 {
                     iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(rutaLogo);
-                    logo.Alignment = iTextElement.ALIGN_CENTER;
-                    logo.ScaleToFit(120f, 60f); // Redimensiona la imagen (ancho, alto)
-                    documento.Add(logo);
+                    logo.ScaleToFit(140f, 60f);
+                    cellLeft.AddElement(logo);
+                }
+                else
+                {
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("PAYLESS SHOESOURCE", fuenteTitulo));
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("Calzado y Accesorios", fuenteSubtitulo));
                 }
 
-                // Encabezados
-                iTextSharp.text.Paragraph encabezado = new iTextSharp.text.Paragraph("PAYLESS SHOESOURCE", titulo)
-                {
-                    Alignment = iTextElement.ALIGN_CENTER
-                };
-                documento.Add(encabezado);
+                headerTable.AddCell(cellLeft);
 
-                iTextSharp.text.Paragraph factura = new iTextSharp.text.Paragraph("FACTURA DE VENTA\n\n", negrita)
+                // Columna Derecha: Título Factura y Fecha
+                PdfPCell cellRight = new PdfPCell
                 {
-                    Alignment = iTextElement.ALIGN_CENTER
-                };
-                documento.Add(factura);
-
-                // Datos Generales
-                documento.Add(new iTextSharp.text.Paragraph("Código de venta: " + codigoVenta, normal));
-                documento.Add(new iTextSharp.text.Paragraph("Fecha: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm"), normal));
-                documento.Add(new iTextSharp.text.Paragraph("\n"));
-
-               
-                PdfPTable tabla = new PdfPTable(7)
-                {
-                    WidthPercentage = 100
+                    Border = iTextSharp.text.Rectangle.NO_BORDER
                 };
 
-                // Encabezados
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Producto", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Marca", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Categoría", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Talla", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Cant.", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Precio", negrita)));
-                tabla.AddCell(new PdfPCell(new iTextSharp.text.Phrase("Subtotal", negrita)));
+                iTextSharp.text.Paragraph pTitulo = new iTextSharp.text.Paragraph("FACTURA DE VENTA", fuenteTitulo)
+                {
+                    Alignment = iTextElement.ALIGN_RIGHT
+                };
+                cellRight.AddElement(pTitulo);
 
-                // Recorrido de los datos traídos desde VentaDAO
+                iTextSharp.text.Paragraph pFechaEmision = new iTextSharp.text.Paragraph($"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}", fuenteTexto)
+                {
+                    Alignment = iTextElement.ALIGN_RIGHT
+                };
+                cellRight.AddElement(pFechaEmision);
+
+                headerTable.AddCell(cellRight);
+                documento.Add(headerTable);
+
+                // Línea divisora Naranja Corporativa
+                documento.Add(new iTextSharp.text.Paragraph(" "));
+                PdfPTable line = new PdfPTable(1) { WidthPercentage = 100f };
+                PdfPCell lineCell = new PdfPCell(new iTextSharp.text.Phrase(""))
+                {
+                    BorderWidthBottom = 2f,
+                    BorderColorBottom = colorNaranjaPayless,
+                    Border = iTextSharp.text.Rectangle.BOTTOM_BORDER
+                };
+                line.AddCell(lineCell);
+                documento.Add(line);
+
+                documento.Add(new iTextSharp.text.Paragraph(" ", FontFactory.GetFont(FontFactory.HELVETICA, 4f)));
+
+                // =====================================================
+                // INFORMACIÓN GENERAL
+                // =====================================================
+                PdfPTable infoTable = new PdfPTable(2) { WidthPercentage = 100f };
+                infoTable.SetWidths(new float[] { 60f, 40f });
+
+                PdfPCell cellInfoLeft = new PdfPCell { Border = iTextSharp.text.Rectangle.NO_BORDER };
+                cellInfoLeft.AddElement(new iTextSharp.text.Phrase($"Código de Venta: {codigoVenta}", fuenteEtiqueta));
+                infoTable.AddCell(cellInfoLeft);
+
+                PdfPCell cellInfoRight = new PdfPCell { Border = iTextSharp.text.Rectangle.NO_BORDER };
+                iTextSharp.text.Paragraph pInfoCli = new iTextSharp.text.Paragraph("Moneda: Córdobas (C$)", fuenteEtiqueta)
+                {
+                    Alignment = iTextElement.ALIGN_RIGHT
+                };
+                cellInfoRight.AddElement(pInfoCli);
+                infoTable.AddCell(cellInfoRight);
+
+                documento.Add(infoTable);
+                documento.Add(new iTextSharp.text.Paragraph(" \n"));
+
+                // =====================================================
+                // TABLA DE DETALLE DE PRODUCTOS (7 COLUMNAS)
+                // =====================================================
+                PdfPTable tabla = new PdfPTable(7) { WidthPercentage = 100f };
+                tabla.SetWidths(new float[] { 25f, 15f, 15f, 10f, 8f, 13f, 14f });
+
+                string[] encabezados = { "Producto", "Marca", "Categoría", "Talla", "Cant.", "Precio", "Subtotal" };
+                foreach (string enc in encabezados)
+                {
+                    PdfPCell cellHeader = new PdfPCell(new iTextSharp.text.Phrase(enc, fuenteCabeceraTabla))
+                    {
+                        BackgroundColor = colorNaranjaPayless,
+                        HorizontalAlignment = (enc == "Precio" || enc == "Subtotal") ? iTextElement.ALIGN_RIGHT :
+                                             ((enc == "Talla" || enc == "Cant.") ? iTextElement.ALIGN_CENTER : iTextElement.ALIGN_LEFT),
+                        Padding = 5f,
+                        BorderColor = colorNaranjaPayless
+                    };
+                    tabla.AddCell(cellHeader);
+                }
+
+                bool esGris = false;
                 foreach (DataRow fila in detalleFactura.Rows)
                 {
-                    tabla.AddCell(fila["producto"].ToString());
-                    tabla.AddCell(fila["marca"].ToString());
-                    tabla.AddCell(fila["categoria"].ToString());
-                    tabla.AddCell(fila["talla"].ToString());
-                    tabla.AddCell(fila["cantidad"].ToString());
-                    tabla.AddCell("C$ " + Convert.ToDecimal(fila["precio_venta"]).ToString("N2"));
-                    tabla.AddCell("C$ " + Convert.ToDecimal(fila["subtotal"]).ToString("N2"));
+                    iTextSharp.text.BaseColor bgFila = esGris ? colorGrisClaro : iTextSharp.text.BaseColor.WHITE;
+
+                    AgregarCeldaTabla(tabla, fila["producto"].ToString(), fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_LEFT);
+                    AgregarCeldaTabla(tabla, fila["marca"].ToString(), fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_LEFT);
+                    AgregarCeldaTabla(tabla, fila["categoria"].ToString(), fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_LEFT);
+                    AgregarCeldaTabla(tabla, fila["talla"].ToString(), fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_CENTER);
+                    AgregarCeldaTabla(tabla, fila["cantidad"].ToString(), fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_CENTER);
+
+                    decimal pVenta = Convert.ToDecimal(fila["precio_venta"]);
+                    decimal sTotal = Convert.ToDecimal(fila["subtotal"]);
+
+                    AgregarCeldaTabla(tabla, $"C$ {pVenta:N2}", fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_RIGHT);
+                    AgregarCeldaTabla(tabla, $"C$ {sTotal:N2}", fuenteTexto, bgFila, colorBorde, iTextElement.ALIGN_RIGHT);
+
+                    esGris = !esGris;
                 }
 
                 documento.Add(tabla);
-                documento.Add(new iTextSharp.text.Paragraph("\n"));
-
-                // Totales
-                documento.Add(new iTextSharp.text.Paragraph("Subtotal: C$ " + subtotal.ToString("N2"), normal));
-                documento.Add(new iTextSharp.text.Paragraph("IVA (15%): C$ " + iva.ToString("N2"), normal));
-                documento.Add(new iTextSharp.text.Paragraph("TOTAL: C$ " + total.ToString("N2"), negrita));
-                documento.Add(new iTextSharp.text.Paragraph("\n\n"));
+                documento.Add(new iTextSharp.text.Paragraph(" "));
 
                 // =====================================================
-                // LEYENDA INFERIOR (PIE DE PÁGINA / DATOS EMPRESA)
+                // TABLA DE TOTALES (Alineada a la Derecha)
+                // =====================================================
+                PdfPTable tablaTotales = new PdfPTable(2)
+                {
+                    WidthPercentage = 45f,
+                    HorizontalAlignment = iTextElement.ALIGN_RIGHT
+                };
+                tablaTotales.SetWidths(new float[] { 45f, 55f });
+
+                AgregarFilaTotal(tablaTotales, "Subtotal:", $"C$ {subtotal:N2}", fuenteEtiqueta, colorTexto, colorBorde);
+                AgregarFilaTotal(tablaTotales, "IVA (15%):", $"C$ {iva:N2}", fuenteEtiqueta, colorTexto, colorBorde);
+                AgregarFilaTotal(tablaTotales, "TOTAL:", $"C$ {total:N2}", fuenteTotalBold, colorNaranjaPayless, colorBorde);
+
+                documento.Add(tablaTotales);
+                documento.Add(new iTextSharp.text.Paragraph(" \n\n"));
+
+                // =====================================================
+                // LEYENDA / PIE DE PÁGINA CORPORATIVO
                 // =====================================================
                 iTextSharp.text.Paragraph leyenda = new iTextSharp.text.Paragraph(
                     "Payless ShoeSource Nicaragua\n" +
-                    "Dirección: Managua, Nicaragua\n" +
-                    "Teléfono: +505 2222-0000\n" +
-                    "¡Gracias por su compra!", piePaginaFont)
+                    "Dirección: Managua, Nicaragua | Teléfono: +505 2222-0000\n" +
+                    "¡Gracias por su compra!", fuenteSubtitulo)
                 {
                     Alignment = iTextElement.ALIGN_CENTER
                 };
 
                 documento.Add(leyenda);
-
                 documento.Close();
             }
+        }
+
+        // =====================================================
+        // MÉTODOS AUXILIARES REUTILIZABLES
+        // =====================================================
+        private static void AgregarCeldaTabla(PdfPTable tabla, string texto, iTextSharp.text.Font fuente, iTextSharp.text.BaseColor backgroundColor, iTextSharp.text.BaseColor borderColor, int alignment)
+        {
+            PdfPCell cell = new PdfPCell(new iTextSharp.text.Phrase(texto, fuente))
+            {
+                BackgroundColor = backgroundColor,
+                HorizontalAlignment = alignment,
+                VerticalAlignment = iTextElement.ALIGN_MIDDLE,
+                Padding = 5f,
+                BorderColor = borderColor
+            };
+            tabla.AddCell(cell);
+        }
+
+        private static void AgregarFilaTotal(PdfPTable tabla, string etiqueta, string valor, iTextSharp.text.Font fuente, iTextSharp.text.BaseColor textColor, iTextSharp.text.BaseColor borderColor)
+        {
+            PdfPCell cell1 = new PdfPCell(new iTextSharp.text.Phrase(etiqueta, fuente))
+            {
+                BorderColor = borderColor,
+                Padding = 4f,
+                HorizontalAlignment = iTextElement.ALIGN_RIGHT
+            };
+            tabla.AddCell(cell1);
+
+            PdfPCell cell2 = new PdfPCell(new iTextSharp.text.Phrase(valor, fuente))
+            {
+                BorderColor = borderColor,
+                Padding = 4f,
+                HorizontalAlignment = iTextElement.ALIGN_RIGHT
+            };
+            tabla.AddCell(cell2);
         }
 
         private void btnImprimirFactura_Click(object sender, EventArgs e)

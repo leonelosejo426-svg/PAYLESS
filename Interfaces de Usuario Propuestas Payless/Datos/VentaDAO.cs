@@ -867,5 +867,66 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
 
 
+        
+
+        public DataTable MostrarVentasDeCajaAbierta()
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT
+                v.id_venta,
+                v.codigo_venta,
+                v.fecha,
+                COALESCE(c.nombre, 'Consumidor final') AS cliente,
+                v.subtotal,
+                v.iva,
+                v.total,
+                CASE
+                    WHEN v.estado = TRUE THEN 'Activo'
+                    ELSE 'Anulado'
+                END AS estado
+            FROM venta v
+            INNER JOIN caja cj
+                ON cj.id_caja = v.id_caja
+            LEFT JOIN cliente c
+                ON c.id_cliente = v.id_cliente
+            WHERE cj.estado_caja = 'Abierta'
+              AND cj.id_caja = (
+                  SELECT MAX(id_caja)
+                  FROM caja
+                  WHERE estado_caja = 'Abierta'
+              )
+            ORDER BY v.id_venta ASC;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(
+                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                {
+                    da.Fill(tabla);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al consultar las ventas de la caja abierta: "
+                    + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
+
+
     }
 }

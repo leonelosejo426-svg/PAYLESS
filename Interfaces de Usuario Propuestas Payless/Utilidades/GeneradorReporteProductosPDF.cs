@@ -216,6 +216,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
             tabla.AddCell(celda);
         }
 
+
+
+
         private static string FormatoMoneda(object valor)
         {
             if (valor == null || valor == DBNull.Value)

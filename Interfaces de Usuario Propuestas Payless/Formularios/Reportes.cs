@@ -496,39 +496,40 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (cbTipoReporte.SelectedItem == null)
                 return;
 
-            string reporte =
-                cbTipoReporte.SelectedItem.ToString();
+            string reporte = cbTipoReporte.SelectedItem.ToString();
+
+            // Resetear etiquetas por defecto
+            lblRol.Text = "Rol:";
+            lblUsuario.Text = "Usuario:";
 
             if (reporte == "Reporte de Caja")
             {
                 cbCriterio.Enabled = true;
                 cbUsuario.Enabled = true;
                 cbEstado.Enabled = true;
-
                 cbRol.Enabled = false;
 
-                dtpFechaDesde.Enabled =
-                    cbCriterio.SelectedItem != null &&
-                    cbCriterio.SelectedItem.ToString() == "Por período";
-
-                dtpFechaHasta.Enabled =
-                    cbCriterio.SelectedItem != null &&
-                    cbCriterio.SelectedItem.ToString() == "Por período";
+                dtpFechaDesde.Enabled = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+                dtpFechaHasta.Enabled = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
 
                 CargarEstadosCaja();
             }
             else if (reporte == "Reporte de Productos")
             {
+                // Cambiar etiquetas dinámicamente para Productos
+                lblRol.Text = "Categoría:";
+                lblUsuario.Text = "Producto:";
+
                 cbCriterio.SelectedIndex = 0;
                 cbCriterio.Enabled = false;
 
-                cbUsuario.SelectedIndex = 0;
-                cbUsuario.Enabled = false;
+                cbUsuario.Enabled = true;
+                CargarProductosReporteProductos(); // Carga de productos
 
-                cbRol.Enabled = false;
+                cbRol.Enabled = true;
+                CargarCategoriasReporteProductos(); // Carga de categorías desde la BD
 
                 cbEstado.Enabled = true;
-
                 dtpFechaDesde.Enabled = false;
                 dtpFechaHasta.Enabled = false;
 
@@ -540,9 +541,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 cbCriterio.Enabled = false;
 
                 cbUsuario.Enabled = true;
-
                 cbRol.Enabled = true;
-
                 cbEstado.Enabled = true;
 
                 dtpFechaDesde.Enabled = false;
@@ -556,9 +555,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 cbCriterio.Enabled = true;
                 cbUsuario.Enabled = true;
-
                 cbRol.Enabled = false;
-
                 cbEstado.Enabled = true;
 
                 CargarEstadosVentas();
@@ -576,6 +573,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 CargarEstadosCompras();
             }
         }
+
+
+
+
+
+
+
+
+
+
         private void CargarEstadosCompras()
         {
             cbEstado.Items.Clear();
@@ -620,8 +627,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void cbUsuario_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GenerarReporteSeleccionado();
+            if (cbTipoReporte.SelectedItem != null && cbTipoReporte.SelectedItem.ToString() == "Reporte de Productos")
+            {
+                GenerarReporteSeleccionado();
+            }
         }
+        
 
         private void cbEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -735,22 +746,106 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
+        // Cargar Categorías desde la Base de Datos para el ComboBox cbRol (Reutilizado como Categoría)
+        private void CargarCategoriasReporteProductos()
+        {
+            cbRol.Items.Clear();
+            cbRol.Items.Add("Todas");
+
+            ProductoDAO productoDAO = new ProductoDAO();
+            DataTable categorias = productoDAO.CargarCategorias(); // Método DAO existente
+
+            foreach (DataRow fila in categorias.Rows)
+            {
+                if (fila["nombre_categoria"] != DBNull.Value)
+                {
+                    cbRol.Items.Add(fila["nombre_categoria"].ToString());
+                }
+            }
+
+            cbRol.SelectedIndex = 0;
+        }
+
+        // Cargar Productos desde la Base de Datos para el ComboBox cbUsuario (Reutilizado como Producto)
+        private void CargarProductosReporteProductos()
+        {
+            cbUsuario.Items.Clear();
+            cbUsuario.Items.Add("Todos");
+
+            ProductoDAO productoDAO = new ProductoDAO();
+            DataTable dtProductos = productoDAO.MostrarProductos();
+
+            foreach (DataRow row in dtProductos.Rows)
+            {
+                string nombreProd = row["nombre"].ToString();
+                if (!cbUsuario.Items.Contains(nombreProd))
+                {
+                    cbUsuario.Items.Add(nombreProd);
+                }
+            }
+
+            cbUsuario.SelectedIndex = 0;
+
+            // Configurar autocompletado para facilitar la búsqueda
+            cbUsuario.DropDownStyle = ComboBoxStyle.DropDown;
+            cbUsuario.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cbUsuario.AutoCompleteSource = AutoCompleteSource.ListItems;
+        }
+
+
         private void GenerarReporteProductos()
         {
             try
             {
-                string estado =
-                    cbEstado.SelectedItem == null
-                    ? "Todos"
-                    : cbEstado.SelectedItem.ToString();
+                string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
+                string categoriaFiltro = cbRol.Enabled && cbRol.SelectedItem != null ? cbRol.SelectedItem.ToString() : "Todas";
 
-                tablaReporte =
-                    reporteProductoDAO.ObtenerReporteProductos(
-                        estado);
+                string productoFiltro = "Todos";
+                if (cbUsuario.Enabled && !string.IsNullOrWhiteSpace(cbUsuario.Text))
+                {
+                    productoFiltro = cbUsuario.Text.Trim();
+                }
+
+                // Obtener la tabla base desde la base de datos
+                tablaReporte = reporteProductoDAO.ObtenerReporteProductos(estado);
+
+                if (tablaReporte != null && tablaReporte.Rows.Count > 0)
+                {
+                    var query = tablaReporte.AsEnumerable();
+
+                    // 1. Filtrar por Categoría (soporta tanto 'categoria' como 'nombre_categoria' o 'Categoría')
+                    if (categoriaFiltro != "Todas")
+                    {
+                        string colCat = tablaReporte.Columns.Contains("categoria") ? "categoria" :
+                                       (tablaReporte.Columns.Contains("nombre_categoria") ? "nombre_categoria" :
+                                       (tablaReporte.Columns.Contains("Categoría") ? "Categoría" : ""));
+
+                        if (!string.IsNullOrEmpty(colCat))
+                        {
+                            query = query.Where(row => row[colCat] != DBNull.Value &&
+                                row[colCat].ToString().Trim().Equals(categoriaFiltro, StringComparison.OrdinalIgnoreCase));
+                        }
+                    }
+
+                    // 2. Filtrar por Nombre de Producto (Búsqueda parcial en 'nombre' o 'Producto')
+                    if (productoFiltro != "Todos" && !string.IsNullOrEmpty(productoFiltro))
+                    {
+                        string colNombre = tablaReporte.Columns.Contains("nombre") ? "nombre" :
+                                          (tablaReporte.Columns.Contains("Producto") ? "Producto" : "");
+
+                        if (!string.IsNullOrEmpty(colNombre))
+                        {
+                            query = query.Where(row => row[colNombre] != DBNull.Value &&
+                                row[colNombre].ToString().IndexOf(productoFiltro, StringComparison.OrdinalIgnoreCase) >= 0);
+                        }
+                    }
+
+                    tablaReporte = query.Any() ? query.CopyToDataTable() : tablaReporte.Clone();
+                }
 
                 DGVtabla1.DataSource = tablaReporte;
 
-                if (tablaReporte.Rows.Count > 0)
+                if (tablaReporte != null && tablaReporte.Rows.Count > 0)
                 {
                     FormatearReporteProductos();
                     btnImprimir.Enabled = true;
@@ -762,13 +857,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al cargar el reporte de productos:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
+                MessageBox.Show("Error al cargar el reporte de productos:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnImprimir.Enabled = false;
             }
         }
@@ -1161,6 +1250,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
         }
 
+        private void cbUsuario_TextChanged(object sender, EventArgs e)
+        {
+            if (cbTipoReporte.SelectedItem != null && cbTipoReporte.SelectedItem.ToString() == "Reporte de Productos")
+            {
+                GenerarReporteSeleccionado();
+            }
+        }
 
+        private void cbUsuario_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.Handled = true;
+                e.SuppressKeyPress = true; // Evita el pitido de Windows
+
+                if (cbTipoReporte.SelectedItem != null && cbTipoReporte.SelectedItem.ToString() == "Reporte de Productos")
+                {
+                    GenerarReporteSeleccionado();
+                }
+            }
+        }
     }
 }

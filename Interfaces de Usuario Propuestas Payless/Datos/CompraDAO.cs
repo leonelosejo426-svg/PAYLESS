@@ -285,6 +285,53 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.CerrarConexion();
             }
         }
+
+
+        public DataTable MostrarComprasDeCajaAbierta()
+        {
+            DataTable tabla = new DataTable();
+
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT
+                c.id_compra,
+                'C' || LPAD(c.id_compra::text, 5, '0') AS codigo_compra,
+                c.fecha,
+                p.nombre AS proveedor,
+                c.total,
+                c.estado
+            FROM compra c
+            INNER JOIN proveedor p
+                ON c.id_proveedor = p.id_proveedor
+            WHERE c.estado = TRUE
+              AND c.id_caja = (
+                  SELECT id_caja
+                  FROM caja
+                  WHERE estado_caja = 'Abierta'
+                  ORDER BY id_caja DESC
+                  LIMIT 1
+              )
+            ORDER BY c.id_compra DESC;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(
+                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                {
+                    da.Fill(tabla);
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
+
+
     }
 }
 

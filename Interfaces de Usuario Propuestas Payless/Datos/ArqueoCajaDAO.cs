@@ -186,7 +186,37 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         public decimal ObtenerVentasDolaresCaja(int idCaja)
         {
-            return 0m;
+            decimal totalDolares = 0m;
+            // Asumiendo que la tabla forma_pago o venta almacena el equivalente en dólares de las ventas en moneda extranjera
+            string query = @"SELECT COALESCE(SUM(fp.monto_dolares), 0) 
+                     FROM forma_pago fp 
+                     INNER JOIN venta v ON fp.id_venta = v.id_venta 
+                     WHERE v.id_caja = @idCaja AND v.estado = true;";
+
+            try
+            {
+                var conexion = conexionBD.ObtenerConexion();
+                conexionBD.AbrirConexion();
+
+                using (var cmd = new NpgsqlCommand(query, conexion))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        totalDolares = Convert.ToDecimal(result);
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return totalDolares;
         }
+
+
+
     }
 }

@@ -238,7 +238,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             try
             {
                 DataTable tabla =
-                    compraDAO.MostrarCompras();
+                    compraDAO.MostrarComprasDeCajaAbierta();
 
                 dgvCompras.DataSource = tabla;
 

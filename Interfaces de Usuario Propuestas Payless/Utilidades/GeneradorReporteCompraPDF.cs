@@ -114,12 +114,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 doc.Add(infoTable);
                 doc.Add(new Paragraph(" \n"));
 
-                // 6. TABLA DE DATOS DE COMPRAS (6 COLUMNAS)
-                PdfPTable tabla = new PdfPTable(6);
+                // 6. TABLA DE DATOS DE COMPRAS (7 COLUMNAS)
+                PdfPTable tabla = new PdfPTable(7);
                 tabla.WidthPercentage = 100f;
-                tabla.SetWidths(new float[] { 14f, 20f, 26f, 20f, 12f, 8f });
+                tabla.SetWidths(new float[] { 10f, 18f, 24f, 18f, 11f, 12f, 8f }); // 7 anchos que suman 100%
 
-                string[] encabezados = { "Código", "Fecha", "Proveedor", "Registrado por", "Total", "Estado" };
+                string[] encabezados = { "Código", "Fecha", "Proveedor", "Registrado por", "Rol", "Total", "Estado" };
                 foreach (string enc in encabezados)
                 {
                     PdfPCell cellHeader = new PdfPCell(new Phrase(enc, fuenteCabeceraTabla));

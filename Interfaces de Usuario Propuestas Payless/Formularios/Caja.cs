@@ -1,31 +1,32 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
 using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Collections.Specialized.BitVector32;
-using System.Diagnostics;
-using iTextDocument = iTextSharp.text.Document;
-using iTextParagraph = iTextSharp.text.Paragraph;
-using iTextFont = iTextSharp.text.Font;
-using iTextElement = iTextSharp.text.Element;
 using iTextBaseColor = iTextSharp.text.BaseColor;
+using iTextDocument = iTextSharp.text.Document;
+using iTextElement = iTextSharp.text.Element;
+using iTextFont = iTextSharp.text.Font;
 using iTextImage = iTextSharp.text.Image;
-using iTextPdfPTable = iTextSharp.text.pdf.PdfPTable;
-using iTextPdfPCell = iTextSharp.text.pdf.PdfPCell;
-using iTextPdfWriter = iTextSharp.text.pdf.PdfWriter;
+using iTextParagraph = iTextSharp.text.Paragraph;
 using iTextPdfContentByte = iTextSharp.text.pdf.PdfContentByte;
+using iTextPdfPCell = iTextSharp.text.pdf.PdfPCell;
+using iTextPdfPTable = iTextSharp.text.pdf.PdfPTable;
+using iTextPdfWriter = iTextSharp.text.pdf.PdfWriter;
 using iTextPhrase = iTextSharp.text.Phrase;
-
-using System.IO;
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Caja : Form
@@ -442,381 +443,220 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 // =====================================================
                 // CREAR CARPETA DE REPORTES
                 // =====================================================
-
-                string carpeta =
-                    Path.Combine(
-                        Application.StartupPath,
-                        "Reportes");
-
+                string carpeta = Path.Combine(Application.StartupPath, "Reportes");
                 if (!Directory.Exists(carpeta))
                 {
                     Directory.CreateDirectory(carpeta);
                 }
 
                 // =====================================================
-                // NOMBRE DEL ARCHIVO
+                // NOMBRE Y RUTA DEL ARCHIVO
                 // =====================================================
-
-                string nombreArchivo =
-                    "Reporte_Caja_" +
-                    idCajaActual +
-                    "_" +
-                    DateTime.Now.ToString("yyyyMMdd_HHmmss") +
-                    ".pdf";
-
-                string ruta =
-                    Path.Combine(
-                        carpeta,
-                        nombreArchivo);
+                string nombreArchivo = "Reporte_Caja_" + idCajaActual + "_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+                string ruta = Path.Combine(carpeta, nombreArchivo);
 
                 // =====================================================
-                // CREAR DOCUMENTO
+                // CONFIGURAR DOCUMENTO PDF (Márgenes profesionales)
                 // =====================================================
-
-                iTextDocument documento =
-                    new iTextDocument(
-                        iTextSharp.text.PageSize.A4,
-                        40,
-                        40,
-                        50,
-                        50);
-
-                iTextPdfWriter writer =
-                    iTextPdfWriter.GetInstance(
-                        documento,
-                        new FileStream(
-                            ruta,
-                            FileMode.Create));
-
+                iTextSharp.text.Document documento = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
+                iTextSharp.text.pdf.PdfWriter.GetInstance(documento, new FileStream(ruta, FileMode.Create));
                 documento.Open();
 
                 // =====================================================
-                // FUENTES
+                // PALETA DE COLORES CORPORATIVA PAYLESS
                 // =====================================================
+                iTextSharp.text.BaseColor colorNaranjaPayless = new iTextSharp.text.BaseColor(242, 101, 34);
+                iTextSharp.text.BaseColor colorTexto = new iTextSharp.text.BaseColor(40, 40, 40);
+                iTextSharp.text.BaseColor colorGrisClaro = new iTextSharp.text.BaseColor(248, 249, 250);
+                iTextSharp.text.BaseColor colorBorde = new iTextSharp.text.BaseColor(220, 220, 220);
 
-                iTextFont titulo =
-                    iTextSharp.text.FontFactory.GetFont(
-                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
-                        20);
-
-                iTextFont subtitulo =
-                    iTextSharp.text.FontFactory.GetFont(
-                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
-                        13);
-
-                iTextFont normal =
-                    iTextSharp.text.FontFactory.GetFont(
-                        iTextSharp.text.FontFactory.HELVETICA,
-                        10);
-
-                iTextFont negrita =
-                    iTextSharp.text.FontFactory.GetFont(
-                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
-                        10);
-
-                iTextFont pie =
-                    iTextSharp.text.FontFactory.GetFont(
-                        iTextSharp.text.FontFactory.HELVETICA_OBLIQUE,
-                        9,
-                        iTextBaseColor.GRAY);
+                iTextSharp.text.Font fuenteTitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 15f, colorNaranjaPayless);
+                iTextSharp.text.Font fuenteSubtitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f, iTextSharp.text.BaseColor.GRAY);
+                iTextSharp.text.Font fuenteEtiqueta = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 8.5f, colorTexto);
+                iTextSharp.text.Font fuenteTexto = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 8.5f, colorTexto);
+                iTextSharp.text.Font fuenteCabeceraTabla = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 8.5f, iTextSharp.text.BaseColor.WHITE);
 
                 // =====================================================
-                // MARCA DE AGUA
+                // ENCABEZADO Y LOGO (Diseño Dos Columnas)
                 // =====================================================
+                iTextSharp.text.pdf.PdfPTable headerTable = new iTextSharp.text.pdf.PdfPTable(2);
+                headerTable.WidthPercentage = 100f;
+                headerTable.SetWidths(new float[] { 50f, 50f });
 
-                iTextPdfContentByte canvas =
-                    writer.DirectContentUnder;
+                iTextSharp.text.pdf.PdfPCell cellLeft = new iTextSharp.text.pdf.PdfPCell();
+                cellLeft.Border = iTextSharp.text.Rectangle.NO_BORDER;
 
-                iTextFont fuenteMarcaAgua =
-                    iTextSharp.text.FontFactory.GetFont(
-                        iTextSharp.text.FontFactory.HELVETICA_BOLD,
-                        55,
-                        iTextBaseColor.LIGHT_GRAY);
-
-                iTextPhrase fraseMarcaAgua =
-                    new iTextPhrase(
-                        "PAYLESS",
-                        fuenteMarcaAgua);
-
-                iTextSharp.text.pdf.ColumnText.ShowTextAligned(
-                    canvas,
-                    iTextElement.ALIGN_CENTER,
-                    fraseMarcaAgua,
-                    300,
-                    400,
-                    45);
-
-                // =====================================================
-                // LOGO
-                // =====================================================
-
-                string rutaLogo =
-                    Path.Combine(
-                        Application.StartupPath,
-                        "Imagenes",
-                        "logo.png");
+                string rutaBase = Path.Combine(Application.StartupPath, "Respaldos", "WhatsApp Image 2026-06-17 at 11.49.19 AM");
+                string rutaLogo = File.Exists(rutaBase + ".jpeg") ? rutaBase + ".jpeg" : (File.Exists(rutaBase + ".jpg") ? rutaBase + ".jpg" : Path.Combine(Application.StartupPath, "Imagenes", "logo.png"));
 
                 if (File.Exists(rutaLogo))
                 {
-                    iTextImage logo =
-                        iTextImage.GetInstance(
-                            rutaLogo);
-
-                    logo.Alignment =
-                        iTextElement.ALIGN_CENTER;
-
-                    logo.ScaleToFit(
-                        120f,
-                        60f);
-
-                    documento.Add(logo);
+                    iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(rutaLogo);
+                    logo.ScaleToFit(140f, 60f);
+                    cellLeft.AddElement(logo);
                 }
-
-                // =====================================================
-                // ENCABEZADO
-                // =====================================================
-
-                iTextParagraph encabezado =
-                    new iTextParagraph(
-                        "PAYLESS SHOESOURCE",
-                        titulo);
-
-                encabezado.Alignment =
-                    iTextElement.ALIGN_CENTER;
-
-                documento.Add(encabezado);
-
-                iTextParagraph reporte =
-                    new iTextParagraph(
-                        "REPORTE DE CAJA",
-                        subtitulo);
-
-                reporte.Alignment =
-                    iTextElement.ALIGN_CENTER;
-
-                documento.Add(reporte);
-
-                documento.Add(
-                    new iTextParagraph("\n"));
-
-                // =====================================================
-                // INFORMACIÓN GENERAL
-                // =====================================================
-
-                documento.Add(
-                    new iTextParagraph(
-                        "Número de caja: " +
-                        idCajaActual,
-                        normal));
-
-                documento.Add(
-                    new iTextParagraph(
-                        "Usuario: " +
-                        lblUsuario.Text,
-                        normal));
-
-                documento.Add(
-                    new iTextParagraph(
-                        "Fecha del reporte: " +
-                        DateTime.Now.ToString(
-                            "dd/MM/yyyy HH:mm:ss"),
-                        normal));
-
-                documento.Add(
-                    new iTextParagraph("\n"));
-
-                // =====================================================
-                // RESUMEN DE CAJA
-                // =====================================================
-
-                documento.Add(
-                    new iTextParagraph(
-                        "RESUMEN DE CAJA",
-                        subtitulo));
-
-                iTextPdfPTable tablaResumen =
-                    new iTextPdfPTable(2);
-
-                tablaResumen.WidthPercentage = 100;
-
-                tablaResumen.AddCell(
-                    new iTextPdfPCell(
-                        new iTextPhrase(
-                            "Concepto",
-                            negrita)));
-
-                tablaResumen.AddCell(
-                    new iTextPdfPCell(
-                        new iTextPhrase(
-                            "Monto",
-                            negrita)));
-
-                tablaResumen.AddCell(
-                    "Saldo inicial");
-
-                tablaResumen.AddCell(
-                    lblSaldoInicial.Text);
-
-                tablaResumen.AddCell(
-                    "Total ingresos");
-
-                tablaResumen.AddCell(
-                    lblTotalIngresos.Text);
-
-                tablaResumen.AddCell(
-                    "Total egresos");
-
-                tablaResumen.AddCell(
-                    lblTotalEgresos.Text);
-
-                tablaResumen.AddCell(
-                    "Saldo esperado");
-
-                tablaResumen.AddCell(
-                    lblSaldoEsperado.Text);
-
-                documento.Add(
-                    tablaResumen);
-
-                documento.Add(
-                    new iTextParagraph("\n"));
-
-                // =====================================================
-                // MOVIMIENTOS
-                // =====================================================
-
-                documento.Add(
-                    new iTextParagraph(
-                        "MOVIMIENTOS DE CAJA",
-                        subtitulo));
-
-                iTextPdfPTable tablaMovimientos =
-                    new iTextPdfPTable(4);
-
-                tablaMovimientos.WidthPercentage = 100;
-
-                tablaMovimientos.SetWidths(
-                    new float[]
-                    {
-                1.2f,
-                2.5f,
-                1.5f,
-                2.2f
-                    });
-
-                tablaMovimientos.AddCell(
-                    new iTextPdfPCell(
-                        new iTextPhrase(
-                            "Tipo",
-                            negrita)));
-
-                tablaMovimientos.AddCell(
-                    new iTextPdfPCell(
-                        new iTextPhrase(
-                            "Concepto",
-                            negrita)));
-
-                tablaMovimientos.AddCell(
-                    new iTextPdfPCell(
-                        new iTextPhrase(
-                            "Monto",
-                            negrita)));
-
-                tablaMovimientos.AddCell(
-                    new iTextPdfPCell(
-                        new iTextPhrase(
-                            "Fecha y Hora",
-                            negrita)));
-
-                // =====================================================
-                // RECORRER MOVIMIENTOS
-                // =====================================================
-
-                foreach (
-                    DataGridViewRow fila
-                    in DGVMovimientosCaja.Rows)
+                else
                 {
-                    if (fila.IsNewRow)
-                        continue;
-
-                    string tipo =
-                        fila.Cells["tipo"].Value == null
-                        ? ""
-                        : fila.Cells["tipo"].Value.ToString();
-
-                    string concepto =
-                        fila.Cells["concepto"].Value == null
-                        ? ""
-                        : fila.Cells["concepto"].Value.ToString();
-
-                    string monto = "C$ 0.00";
-
-                    if (fila.Cells["monto"].Value != null &&
-                        fila.Cells["monto"].Value != DBNull.Value)
-                    {
-                        decimal valor =
-                            Convert.ToDecimal(
-                                fila.Cells["monto"].Value);
-
-                        monto =
-                            "C$ " +
-                            valor.ToString("N2");
-                    }
-
-                    string fecha = "";
-
-                    if (fila.Cells["fecha_hora"].Value != null &&
-                        fila.Cells["fecha_hora"].Value != DBNull.Value)
-                    {
-                        fecha =
-                            Convert.ToDateTime(
-                                fila.Cells["fecha_hora"].Value)
-                            .ToString(
-                                "dd/MM/yyyy HH:mm");
-                    }
-
-                    tablaMovimientos.AddCell(tipo);
-                    tablaMovimientos.AddCell(concepto);
-                    tablaMovimientos.AddCell(monto);
-                    tablaMovimientos.AddCell(fecha);
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("PAYLESS SHOESOURCE", fuenteTitulo));
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("Calzado y Accesorios", fuenteSubtitulo));
                 }
 
-                documento.Add(
-                    tablaMovimientos);
+                headerTable.AddCell(cellLeft);
 
-                documento.Add(
-                    new iTextParagraph("\n"));
+                iTextSharp.text.pdf.PdfPCell cellRight = new iTextSharp.text.pdf.PdfPCell();
+                cellRight.Border = iTextSharp.text.Rectangle.NO_BORDER;
+
+                iTextSharp.text.Paragraph pTitulo = new iTextSharp.text.Paragraph("REPORTE DE CAJA", fuenteTitulo);
+                pTitulo.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pTitulo);
+
+                iTextSharp.text.Paragraph pFechaEmision = new iTextSharp.text.Paragraph($"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}", fuenteTexto);
+                pFechaEmision.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pFechaEmision);
+
+                headerTable.AddCell(cellRight);
+                documento.Add(headerTable);
+
+                // Línea divisora Naranja Corporativa
+                documento.Add(new iTextSharp.text.Paragraph(" "));
+                iTextSharp.text.pdf.PdfPTable line = new iTextSharp.text.pdf.PdfPTable(1);
+                line.WidthPercentage = 100f;
+                iTextSharp.text.pdf.PdfPCell lineCell = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(""));
+                lineCell.BorderWidthBottom = 2f;
+                lineCell.BorderColorBottom = colorNaranjaPayless;
+                lineCell.Border = iTextSharp.text.Rectangle.BOTTOM_BORDER;
+                line.AddCell(lineCell);
+                documento.Add(line);
+
+                documento.Add(new iTextSharp.text.Paragraph(" ", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 4f)));
 
                 // =====================================================
-                // INFORMACIÓN DE PAYLESS
+                // INFORMACIÓN GENERAL DE LA CAJA
                 // =====================================================
+                iTextSharp.text.pdf.PdfPTable infoTable = new iTextSharp.text.pdf.PdfPTable(2);
+                infoTable.WidthPercentage = 100f;
+                infoTable.SetWidths(new float[] { 60f, 40f });
 
-                iTextParagraph informacionEmpresa =
-                    new iTextParagraph(
-                        "Payless ShoeSource Nicaragua\n" +
-                        "Dirección: Managua, Nicaragua\n" +
-                        "Teléfono: +505 2222-0000\n" +
-                        "Documento generado por el sistema Payless\n" +
-                        "¡Gracias por su trabajo!",
-                        pie);
+                iTextSharp.text.pdf.PdfPCell cellInfoCaja = new iTextSharp.text.pdf.PdfPCell();
+                cellInfoCaja.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                cellInfoCaja.AddElement(new iTextSharp.text.Phrase($"Número de Caja: {idCajaActual}", fuenteEtiqueta));
+                cellInfoCaja.AddElement(new iTextSharp.text.Phrase($"Cajero / Usuario: {lblUsuario.Text}", fuenteTexto));
+                infoTable.AddCell(cellInfoCaja);
 
-                informacionEmpresa.Alignment =
-                    iTextElement.ALIGN_CENTER;
+                iTextSharp.text.pdf.PdfPCell cellInfoFecha = new iTextSharp.text.pdf.PdfPCell();
+                cellInfoFecha.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                iTextSharp.text.Paragraph pReg = new iTextSharp.text.Paragraph($"Fecha y Hora: {DateTime.Now:dd/MM/yyyy HH:mm:ss}", fuenteEtiqueta);
+                pReg.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellInfoFecha.AddElement(pReg);
+                infoTable.AddCell(cellInfoFecha);
 
-                documento.Add(
-                    informacionEmpresa);
+                documento.Add(infoTable);
+                documento.Add(new iTextSharp.text.Paragraph(" \n"));
 
                 // =====================================================
-                // CERRAR DOCUMENTO
+                // RESUMEN FINANCIERO DE CAJA (Tabla Estilizada)
                 // =====================================================
+                iTextSharp.text.Paragraph pSubResumen = new iTextSharp.text.Paragraph("RESUMEN FINANCIERO", fuenteTitulo);
+                pSubResumen.Font.Size = 11f;
+                documento.Add(pSubResumen);
+                documento.Add(new iTextSharp.text.Paragraph(" ", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 4f)));
 
+                iTextSharp.text.pdf.PdfPTable tablaResumen = new iTextSharp.text.pdf.PdfPTable(2);
+                tablaResumen.WidthPercentage = 100f;
+                tablaResumen.SetWidths(new float[] { 60f, 40f });
+
+                string[,] datosResumen = {
+            { "Saldo Inicial", lblSaldoInicial.Text },
+            { "Total Ingresos", lblTotalIngresos.Text },
+            { "Total Egresos", lblTotalEgresos.Text },
+            { "Saldo Esperado", lblSaldoEsperado.Text }
+        };
+
+                for (int i = 0; i < datosResumen.GetLength(0); i++)
+                {
+                    iTextSharp.text.BaseColor bg = (i % 2 == 0) ? colorGrisClaro : iTextSharp.text.BaseColor.WHITE;
+
+                    AgregarCeldaTabla(tablaResumen, datosResumen[i, 0], fuenteTexto, bg, colorBorde, iTextSharp.text.Element.ALIGN_LEFT);
+                    AgregarCeldaTabla(tablaResumen, datosResumen[i, 1], fuenteTexto, bg, colorBorde, iTextSharp.text.Element.ALIGN_RIGHT);
+                }
+
+                documento.Add(tablaResumen);
+                documento.Add(new iTextSharp.text.Paragraph(" \n"));
+
+                // =====================================================
+                // TABLA DE MOVIMIENTOS DE CAJA (4 Columnas)
+                // =====================================================
+                iTextSharp.text.Paragraph pSubMov = new iTextSharp.text.Paragraph("MOVIMIENTOS REGISTRADOS", fuenteTitulo);
+                pSubMov.Font.Size = 11f;
+                documento.Add(pSubMov);
+                documento.Add(new iTextSharp.text.Paragraph(" ", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 4f)));
+
+                iTextSharp.text.pdf.PdfPTable tablaMovimientos = new iTextSharp.text.pdf.PdfPTable(4);
+                tablaMovimientos.WidthPercentage = 100f;
+                tablaMovimientos.SetWidths(new float[] { 15f, 35f, 25f, 25f });
+
+                string[] encabezadosMov = { "Tipo", "Concepto", "Monto", "Fecha y Hora" };
+                foreach (string enc in encabezadosMov)
+                {
+                    iTextSharp.text.pdf.PdfPCell cellHeader = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(enc, fuenteCabeceraTabla));
+                    cellHeader.BackgroundColor = colorNaranjaPayless;
+                    cellHeader.HorizontalAlignment = (enc == "Monto") ? iTextSharp.text.Element.ALIGN_RIGHT : iTextSharp.text.Element.ALIGN_CENTER;
+                    cellHeader.Padding = 5f;
+                    cellHeader.BorderColor = colorNaranjaPayless;
+                    tablaMovimientos.AddCell(cellHeader);
+                }
+
+                bool esGrisMov = false;
+                foreach (DataGridViewRow fila in DGVMovimientosCaja.Rows)
+                {
+                    if (fila.IsNewRow) continue;
+
+                    iTextSharp.text.BaseColor bgFila = esGrisMov ? colorGrisClaro : iTextSharp.text.BaseColor.WHITE;
+
+                    string tipo = fila.Cells["tipo"].Value?.ToString() ?? "";
+                    string concepto = fila.Cells["concepto"].Value?.ToString() ?? "";
+
+                    string montoStr = "C$ 0.00";
+                    if (fila.Cells["monto"].Value != null && fila.Cells["monto"].Value != DBNull.Value)
+                    {
+                        decimal valor = Convert.ToDecimal(fila.Cells["monto"].Value);
+                        montoStr = "C$ " + valor.ToString("N2");
+                    }
+
+                    string fechaStr = "";
+                    if (fila.Cells["fecha_hora"].Value != null && fila.Cells["fecha_hora"].Value != DBNull.Value)
+                    {
+                        fechaStr = Convert.ToDateTime(fila.Cells["fecha_hora"].Value).ToString("dd/MM/yyyy HH:mm");
+                    }
+
+                    AgregarCeldaTabla(tablaMovimientos, tipo, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+                    AgregarCeldaTabla(tablaMovimientos, concepto, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_LEFT);
+                    AgregarCeldaTabla(tablaMovimientos, montoStr, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_RIGHT);
+                    AgregarCeldaTabla(tablaMovimientos, fechaStr, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+
+                    esGrisMov = !esGrisMov;
+                }
+
+                documento.Add(tablaMovimientos);
+                documento.Add(new iTextSharp.text.Paragraph(" \n"));
+
+                // =====================================================
+                // PIE DE PÁGINA CORPORATIVO
+                // =====================================================
+                iTextSharp.text.Paragraph leyenda = new iTextSharp.text.Paragraph(
+                    "Payless ShoeSource Nicaragua - Control de Caja e Ingresos\n" +
+                    "Este reporte es un comprobante informativo de auditoría interna.", fuenteSubtitulo)
+                {
+                    Alignment = iTextSharp.text.Element.ALIGN_CENTER
+                };
+
+                documento.Add(leyenda);
                 documento.Close();
 
                 // =====================================================
-                // ABRIR PDF
+                // ABRIR PDF AUTOMÁTICAMENTE
                 // =====================================================
-
-                Process.Start(ruta);
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(ruta) { UseShellExecute = true });
 
                 MessageBox.Show(
                     "Reporte de caja generado correctamente.",
@@ -827,22 +667,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "No se pudo generar el reporte de caja.\n\n" +
-                    ex.Message,
+                    "No se pudo generar el reporte de caja.\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        // Método auxiliar reutilizable
+        private static void AgregarCeldaTabla(iTextSharp.text.pdf.PdfPTable tabla, string texto, iTextSharp.text.Font fuente, iTextSharp.text.BaseColor backgroundColor, iTextSharp.text.BaseColor borderColor, int alignment)
         {
-            EgresosCaja formulario =
-               new EgresosCaja();
-
-            formulario.ShowDialog();
-
-            CargarCaja();
+            iTextSharp.text.pdf.PdfPCell cell = new iTextSharp.text.pdf.PdfPCell(new iTextSharp.text.Phrase(texto, fuente))
+            {
+                BackgroundColor = backgroundColor,
+                HorizontalAlignment = alignment,
+                VerticalAlignment = iTextSharp.text.Element.ALIGN_MIDDLE,
+                Padding = 5f,
+                BorderColor = borderColor
+            };
+            tabla.AddCell(cell);
         }
 
         private void label27_Click(object sender, EventArgs e)

@@ -18,6 +18,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // Usuario que inició sesión
         private int idUsuario;
         private string nombreUsuario;
+        private Login _loginOriginal;
 
         public AperturaCaja(int idUsuario, string nombreUsuario)
         {
@@ -84,9 +85,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                if (montoInicial < 0)
+                if (montoInicial < 500)
                 {
-                    MessageBox.Show("El monto inicial no puede ser negativo.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El monto inicial no puede ser menor a 500.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtMontoInicial.Focus();
                     return;
                 }
@@ -98,11 +99,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                // 1. Validar longitud exacta (por ejemplo, exactamente 5 caracteres)
-                if (txtCambioDolar.Text.Trim().Length != 5)
+                if (txtCambioDolar.Text.Trim().Length > 5)
                 {
                     MessageBox.Show(
-                        "El campo debe contener exactamente 5 caracteres.",
+                        "El campo [cambio de dólar] no puede superar los [5] caracteres.",
                         "Validación de Longitud",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
@@ -111,11 +111,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                // 1. Validar longitud exacta (por ejemplo, exactamente 10 caracteres)
-                if (txtMontoInicial.Text.Trim().Length != 10)
+                if (txtMontoInicial.Text.Trim().Length > 5)
                 {
                     MessageBox.Show(
-                        "El campo debe contener exactamente 10 caracteres.",
+                        "El campo [monto inicial] no puede superar los [5] caracteres.",
                         "Validación de Longitud",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
@@ -171,9 +170,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-
-
-        
             if (aperturaCajaDAO.ExisteCajaAbierta())
             {
                 Caja ventana = new Caja();
@@ -182,8 +178,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
             else
             {
-                Login ventana = new Login();
-                ventana.Show();
+                // SEGURIDAD: Si la caja está cerrada y decide regresar al Login:
+
+                // 1. Limpiamos las variables globales de sesión para que no queden datos expuestos
+                ClaseSesion.IdUsuario = 0;
+                ClaseSesion.UsuarioActual = string.Empty;
+                ClaseSesion.RolActual = string.Empty;
+                ClaseSesion.TieneCajaActiva = false;
+
+                // 2. Volvemos a mostrar la pantalla de Login que ya estaba oculta en memoria
+                if (_loginOriginal != null)
+                {
+                    _loginOriginal.Show();
+                }
+                else
+                {
+                    // Respaldo por si acaso se perdió la referencia por alguna razón
+                    Login nuevoLogin = new Login();
+                    nuevoLogin.Show();
+                }
+
+                // 3. Cerramos definitivamente esta ventana de Apertura
                 this.Close();
             }
         }
