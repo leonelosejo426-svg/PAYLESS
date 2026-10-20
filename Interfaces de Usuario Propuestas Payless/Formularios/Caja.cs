@@ -40,6 +40,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private decimal totalEgresos = 0;
         private decimal saldoEsperado = 0;
 
+        private ArqueoCajaDAO arqueoDAO = new ArqueoCajaDAO();
+
 
         public Caja()
         {
@@ -108,7 +110,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void CargarCaja()
         {
             DataTable tabla =
-                cajaDAO.ObtenerCajaAbierta();
+                cajaDAO.ObtenerCajaAbierta(ClaseSesion.IdUsuario);
 
             if (tabla.Rows.Count == 0)
             {
@@ -366,7 +368,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (idCajaActual == 0)
             {
                 MessageBox.Show(
-                    "No hay una caja abierta.",
+                    "No hay una caja abierta para realizar el arqueo.",
                     "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -374,9 +376,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            ArqueodeCaja formulario =
-                new ArqueodeCaja();
+            // Verificar si ya existe un arqueo guardado
+            bool yaTieneArqueo = arqueoDAO.TieneArqueoRegistrado(idCajaActual);
 
+            if (yaTieneArqueo)
+            {
+                DialogResult respuesta = MessageBox.Show(
+                    "Esta caja ya cuenta con un arqueo registrado.\n\n" +
+                    "¿Desea reevaluar o modificar el arqueo guardado?",
+                    "Arqueo existente",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (respuesta != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
+
+            ArqueodeCaja formulario = new ArqueodeCaja();
             formulario.ShowDialog();
 
             CargarCaja();
@@ -384,12 +402,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnCierredecaja_Click(object sender, EventArgs e)
         {
-
-
+            // 1. Validar que exista una caja abierta
             if (idCajaActual == 0)
             {
                 MessageBox.Show(
-                    "No hay una caja abierta.",
+                    "No hay ninguna caja abierta para realizar el cierre.",
                     "Aviso",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
@@ -397,11 +414,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            CierredeCaja formulario =
-                new CierredeCaja();
+            // 2. Validar que la caja actual PRIMERO haya realizado el arqueo
+            bool yaTieneArqueo = arqueoDAO.TieneArqueoRegistrado(idCajaActual);
 
+            if (!yaTieneArqueo)
+            {
+                MessageBox.Show(
+                    "Debe realizar el Arqueo de Caja antes de proceder al Cierre definitivo.",
+                    "Arqueo Requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Exclamation);
+
+                return;
+            }
+
+            // 3. Abrir el formulario de Cierre de Caja
+            CierredeCaja formulario = new CierredeCaja();
             formulario.ShowDialog();
 
+            // 4. Recargar el estado de la caja en el formulario principal
+            // (Al cerrar la caja en la BD con estado_caja = 'Cerrada', CargarCaja() detectará idCajaActual = 0 y deshabilitará las acciones)
             CargarCaja();
         }
 
@@ -730,6 +762,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Reportes ventana = new Reportes();
             ventana.Show();
             this.Hide();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            // 1. Validar si hay una caja abierta
+            if (idCajaActual == 0)
+            {
+                MessageBox.Show(
+                    "No hay ninguna caja abierta para registrar egresos.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            // 2. Abrir la pantalla de Egresos
+            EgresosCaja formulario = new EgresosCaja();
+            formulario.ShowDialog();
+
+            // 3. Recargar los datos de la caja por si se registró un nuevo egreso
+            CargarCaja();
         }
     }
 }

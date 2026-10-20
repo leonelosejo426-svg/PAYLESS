@@ -18,7 +18,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         private ConexionBD conexionBD = new ConexionBD();
 
         // =====================================================
-        // 1. CARGAR CLIENTES
+        // 1. CARGAR CLIENTES (Actualizado para mostrar todos los activos o generales)
         // =====================================================
         public DataTable CargarClientes()
         {
@@ -28,17 +28,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
+                // O puedes remover el WHERE estado = TRUE si necesitas listar absolutamente todos, 
+                // o usar COALESCE para evitar perder registros.
                 string sql = @"
-                    SELECT id_cliente, nombre
-                    FROM cliente
-                    WHERE estado = TRUE
-                    ORDER BY nombre;";
+            SELECT id_cliente, nombre 
+            FROM cliente 
+            ORDER BY nombre;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -518,6 +517,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                             cmdPago.ExecuteNonQuery();
                         }
+                        // D. Descontar stock del inventario por cada producto vendido
+                        foreach (DataRow fila in detalleVenta.Rows)
+                        {
+                            int idProductoTalla = Convert.ToInt32(fila["id_producto_talla"]);
+                            int cantidad = Convert.ToInt32(fila["cantidad"]);
+
+                            string sqlInventario = @"
+        UPDATE inventario
+        SET stock_actual = stock_actual - @cantidad,
+            fecha_actualizacion = CURRENT_TIMESTAMP
+        WHERE id_producto_talla = @idProductoTalla;";
+
+                            using (NpgsqlCommand cmdInv = new NpgsqlCommand(sqlInventario, conexion, transaccion))
+                            {
+                                cmdInv.Parameters.AddWithValue("@cantidad", cantidad);
+                                cmdInv.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
+                                cmdInv.ExecuteNonQuery();
+                            }
+                        }
 
                         transaccion.Commit();
                         return true;
@@ -750,19 +768,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             DataTable dt = new DataTable();
 
             string query = @"SELECT 
-                        v.id_venta, 
-                        'V' || LPAD(v.id_venta::text, 5, '0') AS codigo_venta, 
-                        v.fecha, 
-                        COALESCE(c.nombre, 'Cliente General') AS cliente, 
-                        u.nombre_completo AS usuario, 
-                        v.subtotal, 
-                        v.descuento, 
-                        v.iva, 
-                        v.total 
-                    FROM venta v 
-                    LEFT JOIN cliente c ON v.id_cliente = c.id_cliente 
-                    INNER JOIN usuario u ON v.id_usuario = u.id_usuario 
-                    WHERE v.id_venta = @id_venta;";
+            v.id_venta, 
+            'V' || LPAD(v.id_venta::text, 5, '0') AS codigo_venta, 
+            v.fecha, 
+            COALESCE(c.nombre, 'Cliente General') AS cliente, 
+            u.nombre_completo AS usuario, 
+            v.subtotal, 
+            v.descuento, 
+            v.iva, 
+            v.total,
+            COALESCE(fp.cambio, 0) AS cambio,
+            COALESCE(fp.monto_tarjeta, 0) AS monto_tarjeta
+        FROM venta v 
+        LEFT JOIN cliente c ON v.id_cliente = c.id_cliente 
+        INNER JOIN usuario u ON v.id_usuario = u.id_usuario 
+        LEFT JOIN forma_pago fp ON v.id_venta = fp.id_venta
+        WHERE v.id_venta = @id_venta;";
 
             try
             {
@@ -927,6 +948,47 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
+        // =====================================================
+        // OBTENER PRODUCTOS CON STOCK BAJO (Para Alertas / Reportes)
+        // =====================================================
+        public DataTable ObtenerProductosStockBajo()
+        {
+            DataTable tabla = new DataTable();
 
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT 
+                p.nombre AS producto,
+                pt.talla,
+                i.stock_actual,
+                i.stock_minimo,
+                CASE 
+                    WHEN i.stock_actual <= i.stock_minimo THEN '⚠️ STOCK BAJO'
+                    ELSE 'Normal'
+                END AS alerta
+            FROM inventario i
+            INNER JOIN producto_talla pt ON i.id_producto_talla = pt.id_producto_talla
+            INNER JOIN producto p ON pt.id_producto = p.id_producto
+            WHERE i.stock_actual <= i.stock_minimo
+            ORDER BY i.stock_actual ASC;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return tabla;
+        }
     }
 }

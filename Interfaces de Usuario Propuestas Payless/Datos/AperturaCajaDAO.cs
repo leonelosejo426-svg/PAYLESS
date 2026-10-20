@@ -18,8 +18,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             conexionBD = new ConexionBD();
         }
 
-        // Verificar si ya existe una caja abierta
-        public bool ExisteCajaAbierta()
+        // =====================================================
+        // Verificar si ya existe una caja abierta para el usuario
+        // =====================================================
+        public bool ExisteCajaAbierta(int idUsuario)
         {
             try
             {
@@ -28,11 +30,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 string sql = @"
                     SELECT COUNT(*)
                     FROM caja
-                    WHERE estado_caja = 'Abierta'";
+                    WHERE estado_caja = 'Abierta'
+                      AND id_usuario = @idUsuario";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
                     int cantidad = Convert.ToInt32(cmd.ExecuteScalar());
 
                     return cantidad > 0;
@@ -44,7 +47,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
         }
 
-        // Guardar la apertura de caja
+        // =====================================================
+        // Guardar la apertura de caja filtrando por usuario
+        // =====================================================
         public bool GuardarApertura(
             decimal saldoInicial,
             decimal tipoCambioDolar,
@@ -54,15 +59,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             {
                 conexionBD.AbrirConexion();
 
-                // No permitir abrir otra caja si ya existe una abierta
+                // No permitir abrir otra caja si este usuario ya tiene una abierta
                 string verificar = @"
                     SELECT COUNT(*)
                     FROM caja
-                    WHERE estado_caja = 'Abierta'";
+                    WHERE estado_caja = 'Abierta'
+                      AND id_usuario = @idUsuario";
 
-                using (NpgsqlCommand cmdVerificar = new NpgsqlCommand(
-                    verificar, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmdVerificar = new NpgsqlCommand(verificar, conexionBD.ObtenerConexion()))
                 {
+                    cmdVerificar.Parameters.AddWithValue("@idUsuario", idUsuario);
                     int cantidad = Convert.ToInt32(cmdVerificar.ExecuteScalar());
 
                     if (cantidad > 0)
@@ -70,7 +76,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         return false;
                     }
                 }
-
 
                 string sql = @"
                     INSERT INTO caja
@@ -94,20 +99,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         @idUsuario
                     )";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                   sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@saldoInicial", saldoInicial);
-
-                    cmd.Parameters.AddWithValue(
-                        "@montoEsperado", saldoInicial);
-
-                    cmd.Parameters.AddWithValue(
-                        "@tipoCambioDolar", tipoCambioDolar);
-
-                    cmd.Parameters.AddWithValue(
-                        "@idUsuario", idUsuario);
+                    cmd.Parameters.AddWithValue("@saldoInicial", saldoInicial);
+                    cmd.Parameters.AddWithValue("@montoEsperado", saldoInicial);
+                    cmd.Parameters.AddWithValue("@tipoCambioDolar", tipoCambioDolar);
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
 
                     int filas = cmd.ExecuteNonQuery();
 
@@ -120,8 +117,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
         }
 
-        // Obtener la caja que está abierta
-        public DataTable ObtenerCajaAbierta()
+        // =====================================================
+        // Obtener la caja abierta del usuario actual
+        // =====================================================
+        public DataTable ObtenerCajaAbierta(int idUsuario)
         {
             DataTable tabla = new DataTable();
 
@@ -146,14 +145,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     INNER JOIN usuario u
                         ON c.id_usuario = u.id_usuario
                     WHERE c.estado_caja = 'Abierta'
+                      AND c.id_usuario = @idUsuario
                     ORDER BY c.id_caja DESC
                     LIMIT 1";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    using (NpgsqlDataAdapter adapter =
-                           new NpgsqlDataAdapter(cmd))
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+
+                    using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(cmd))
                     {
                         adapter.Fill(tabla);
                     }
@@ -167,8 +167,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
         }
 
-        // Obtener el ID de la caja abierta
-        public int ObtenerIdCajaAbierta()
+        // =====================================================
+        // Obtener el ID de la caja abierta del usuario actual
+        // =====================================================
+        public int ObtenerIdCajaAbierta(int idUsuario)
         {
             try
             {
@@ -178,12 +180,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     SELECT id_caja
                     FROM caja
                     WHERE estado_caja = 'Abierta'
+                      AND id_usuario = @idUsuario
                     ORDER BY id_caja DESC
                     LIMIT 1";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
                     object resultado = cmd.ExecuteScalar();
 
                     if (resultado == null)
@@ -199,4 +202,3 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         }
     }
 }
-

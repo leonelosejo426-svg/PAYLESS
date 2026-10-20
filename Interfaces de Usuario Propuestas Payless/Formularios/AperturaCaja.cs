@@ -23,7 +23,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public AperturaCaja(int idUsuario, string nombreUsuario)
         {
             InitializeComponent();
-          
+
             aperturaCajaDAO = new AperturaCajaDAO();
 
             dtpFecha.Value = DateTime.Now;
@@ -68,7 +68,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 btnAperturarCaja.Enabled = true;
                 btnAperturarCaja.Text = "Aperturar Caja";
             }
-        }   
+        }
 
         private void btnAperturarCaja_Click(object sender, EventArgs e)
         {
@@ -130,8 +130,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                // 2. Candado en base de datos (Tu método del DAO)
-                if (aperturaCajaDAO.ExisteCajaAbierta())
+                // 2. Candado en base de datos 
+                if (aperturaCajaDAO.ExisteCajaAbierta(ClaseSesion.IdUsuario))
                 {
                     MessageBox.Show("Ya existe una caja abierta en el sistema.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
@@ -170,37 +170,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            if (aperturaCajaDAO.ExisteCajaAbierta())
+            // 1. Limpiamos las variables globales de sesión por seguridad
+            ClaseSesion.IdUsuario = 0;
+            ClaseSesion.UsuarioActual = string.Empty;
+            ClaseSesion.RolActual = string.Empty;
+            ClaseSesion.TieneCajaActiva = false;
+
+            // 2. Mostramos de regreso la pantalla de Login
+            if (_loginOriginal != null && !_loginOriginal.IsDisposed)
             {
-                Caja ventana = new Caja();
-                ventana.Show();
-                this.Close();
+                _loginOriginal.Show();
             }
             else
             {
-                // SEGURIDAD: Si la caja está cerrada y decide regresar al Login:
-
-                // 1. Limpiamos las variables globales de sesión para que no queden datos expuestos
-                ClaseSesion.IdUsuario = 0;
-                ClaseSesion.UsuarioActual = string.Empty;
-                ClaseSesion.RolActual = string.Empty;
-                ClaseSesion.TieneCajaActiva = false;
-
-                // 2. Volvemos a mostrar la pantalla de Login que ya estaba oculta en memoria
-                if (_loginOriginal != null)
-                {
-                    _loginOriginal.Show();
-                }
-                else
-                {
-                    // Respaldo por si acaso se perdió la referencia por alguna razón
-                    Login nuevoLogin = new Login();
-                    nuevoLogin.Show();
-                }
-
-                // 3. Cerramos definitivamente esta ventana de Apertura
-                this.Close();
+                Login nuevoLogin = new Login();
+                nuevoLogin.Show();
             }
+
+            // 3. Ocultamos la ventana actual de apertura de caja sin cerrar el programa
+            this.Hide();
         }
     }
 }

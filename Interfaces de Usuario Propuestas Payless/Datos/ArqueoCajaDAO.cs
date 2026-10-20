@@ -216,7 +216,136 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return totalDolares;
         }
 
+        // =====================================================
+        // VERIFICAR SI LA CAJA TIENE ARQUEO REGISTRADO
+        // =====================================================
+        public bool TieneArqueoRegistrado(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
 
+                // Verificamos si ya existe un monto_arqueo registrado para esta caja
+                string sql = @"
+            SELECT COUNT(*) 
+            FROM caja 
+            WHERE id_caja = @idCaja AND monto_arqueo > 0;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        return Convert.ToInt32(resultado) > 0;
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return false;
+        }
+
+
+        // =====================================================
+        // OBTENER ARQUEO REGISTRADO PREVIAMENTE
+        // =====================================================
+        public decimal ObtenerMontoArqueoGuardado(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT COALESCE(monto_arqueo, 0)
+            FROM caja
+            WHERE id_caja = @idCaja;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        return Convert.ToDecimal(resultado);
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return 0m;
+        }
+
+        // =====================================================
+        // OBTENER VENTAS POR TARJETA PARA EL ARQUEO (Visualización)
+        // =====================================================
+        public decimal ObtenerVentasTarjetaCaja(int idCaja)
+        {
+            decimal totalTarjeta = 0m;
+            string query = @"
+        SELECT COALESCE(SUM(fp.monto_tarjeta), 0) 
+        FROM forma_pago fp 
+        INNER JOIN venta v ON fp.id_venta = v.id_venta 
+        WHERE v.id_caja = @idCaja AND v.estado = true;";
+
+            try
+            {
+                conexionBD.AbrirConexion();
+                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        totalTarjeta = Convert.ToDecimal(result);
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return totalTarjeta;
+        }
+
+        public decimal ObtenerVentasEfectivoCaja(int idCaja)
+        {
+            decimal totalEfectivo = 0m;
+            string query = @"
+        SELECT COALESCE(SUM(v.total), 0) 
+        FROM venta v 
+        INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta 
+        WHERE v.id_caja = @idCaja AND v.estado = true AND fp.tipo_pago = 'Efectivo';";
+
+            try
+            {
+                conexionBD.AbrirConexion();
+                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        totalEfectivo = Convert.ToDecimal(result);
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return totalEfectivo;
+        }
 
     }
 }

@@ -869,15 +869,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             if (DGVtabla1.Columns.Contains("Precio Venta"))
             {
-                DGVtabla1.Columns["Precio Venta"]
-                    .DefaultCellStyle.Format = "C$ #,##0.00";
+                DGVtabla1.Columns["Precio Venta"].DefaultCellStyle.Format = "C$ #,##0.00";
+                DGVtabla1.Columns["Precio Venta"].DefaultCellStyle.NullValue = "C$ 0.00";
             }
 
             if (DGVtabla1.Columns.Contains("Stock"))
             {
-                DGVtabla1.Columns["Stock"]
-                    .DefaultCellStyle.Format = "N0";
+                DGVtabla1.Columns["Stock"].DefaultCellStyle.Format = "N0";
             }
+
+            if (DGVtabla1.Columns.Contains("Stock Minimo"))
+            {
+                DGVtabla1.Columns["Stock Minimo"].DefaultCellStyle.Format = "N0";
+            }
+
+            if (DGVtabla1.Columns.Contains("Alerta"))
+                DGVtabla1.Columns["Alerta"].Width = 110;
         }
 
         private void GenerarReporteCaja()
@@ -1268,6 +1275,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (cbTipoReporte.SelectedItem != null && cbTipoReporte.SelectedItem.ToString() == "Reporte de Productos")
                 {
                     GenerarReporteSeleccionado();
+                }
+            }
+        }
+
+        private void DGVtabla1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Verificamos que la columna actual sea la de "Alerta"
+            if (DGVtabla1.Columns[e.ColumnIndex].Name == "Alerta")
+            {
+                if (e.Value != null && e.Value.ToString().Contains("STOCK BAJO"))
+                {
+                    // Pintamos la fila completa de rojo claro de alerta
+                    DGVtabla1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightCoral;
+                    DGVtabla1.Rows[e.RowIndex].DefaultCellStyle.ForeColor = Color.DarkRed;
                 }
             }
         }

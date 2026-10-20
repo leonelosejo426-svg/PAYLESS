@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextElement = iTextSharp.text.Element;
 //using static System.Net.WebRequestMethods;
 
 
@@ -471,15 +472,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
 
         private void GenerarFacturaPDF(
-     string rutaPDF,
-     string codigoVenta,
-     DateTime fecha,
-     string cliente,
-     string usuario,
-     decimal subtotal,
-     decimal iva,
-     decimal total,
-     DataTable detalle)
+    string rutaPDF,
+    string codigoVenta,
+    DateTime fecha,
+    string cliente,
+    string usuario,
+    decimal subtotal,
+    decimal iva,
+    decimal total,
+    decimal cambio, // <-- Nuevo parámetro añadido
+    DataTable detalle)
         {
             iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
 
@@ -488,7 +490,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 iTextSharp.text.pdf.PdfWriter writer = iTextSharp.text.pdf.PdfWriter.GetInstance(doc, fs);
                 doc.Open();
 
-                // 1. PALETA DE COLORES CORPORATIVA PAYLESS (Naranja #F26522 y Gris Oscuro)
+                // PALETA DE COLORES
                 iTextSharp.text.BaseColor colorNaranjaPayless = new iTextSharp.text.BaseColor(242, 101, 34);
                 iTextSharp.text.BaseColor colorTexto = new iTextSharp.text.BaseColor(40, 40, 40);
                 iTextSharp.text.BaseColor colorGrisClaro = new iTextSharp.text.BaseColor(248, 249, 250);
@@ -501,7 +503,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 iTextSharp.text.Font fuenteCabeceraTabla = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 8.5f, iTextSharp.text.BaseColor.WHITE);
                 iTextSharp.text.Font fuenteTotalBold = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 10f, colorNaranjaPayless);
 
-                // 2. ENCABEZADO Y CARGA DEL LOGO
+                // ENCABEZADO Y LOGO
                 iTextSharp.text.pdf.PdfPTable headerTable = new iTextSharp.text.pdf.PdfPTable(2);
                 headerTable.WidthPercentage = 100f;
                 headerTable.SetWidths(new float[] { 50f, 50f });
@@ -509,7 +511,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 iTextSharp.text.pdf.PdfPCell cellLeft = new iTextSharp.text.pdf.PdfPCell();
                 cellLeft.Border = iTextSharp.text.Rectangle.NO_BORDER;
 
-                // Nombre de la imagen exacto especificado en Respaldos
                 string rutaBase = Path.Combine(Application.StartupPath, "Respaldos", "WhatsApp Image 2026-06-17 at 11.49.19 AM");
                 string rutaLogo = File.Exists(rutaBase + ".jpeg") ? rutaBase + ".jpeg" : (File.Exists(rutaBase + ".jpg") ? rutaBase + ".jpg" : rutaBase);
 
@@ -545,7 +546,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 headerTable.AddCell(cellRight);
                 doc.Add(headerTable);
 
-                // Línea divisora en color Naranja
+                // Línea divisora
                 doc.Add(new iTextSharp.text.Paragraph(" "));
                 iTextSharp.text.pdf.PdfPTable line = new iTextSharp.text.pdf.PdfPTable(1);
                 line.WidthPercentage = 100f;
@@ -558,7 +559,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 doc.Add(new iTextSharp.text.Paragraph(" ", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 4f)));
 
-                // 3. DATOS DE CLIENTE Y CAJERO
+                // DATOS DE CLIENTE Y CAJERO
                 iTextSharp.text.pdf.PdfPTable infoTable = new iTextSharp.text.pdf.PdfPTable(2);
                 infoTable.WidthPercentage = 100f;
                 infoTable.SetWidths(new float[] { 50f, 50f });
@@ -578,7 +579,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 doc.Add(infoTable);
                 doc.Add(new iTextSharp.text.Paragraph(" \n"));
 
-                // 4. TABLA DE PRODUCTOS (7 COLUMNAS) CON ENCABEZADO NARANJA
+                // TABLA DE PRODUCTOS
                 iTextSharp.text.pdf.PdfPTable tabla = new iTextSharp.text.pdf.PdfPTable(7);
                 tabla.WidthPercentage = 100f;
                 tabla.SetWidths(new float[] { 28f, 14f, 14f, 10f, 8f, 13f, 13f });
@@ -620,18 +621,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 doc.Add(new iTextSharp.text.Paragraph(" "));
 
                 // 5. RESUMEN DE TOTALES
-                iTextSharp.text.pdf.PdfPTable tablaTotales = new iTextSharp.text.pdf.PdfPTable(2);
+                PdfPTable tablaTotales = new PdfPTable(2);
                 tablaTotales.WidthPercentage = 45f;
-                tablaTotales.HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                tablaTotales.HorizontalAlignment = iTextElement.ALIGN_RIGHT;
                 tablaTotales.SetWidths(new float[] { 45f, 55f });
 
                 AgregarFilaTotal(tablaTotales, "Subtotal:", $"C$ {subtotal:N2}", fuenteTexto, false, colorBorde);
                 AgregarFilaTotal(tablaTotales, "IVA (15%):", $"C$ {iva:N2}", fuenteTexto, false, colorBorde);
                 AgregarFilaTotal(tablaTotales, "TOTAL:", $"C$ {total:N2}", fuenteTotalBold, true, colorNaranjaPayless);
 
+                // Validamos si hubo cambio en efectivo o si fue tarjeta
+                if (cambio > 0)
+                {
+                    AgregarFilaTotal(tablaTotales, "Cambio:", $"C$ {cambio:N2}", fuenteTexto, false, colorBorde);
+                }
+                else
+                {
+                    // Si no hay cambio, indicamos que fue pago por tarjeta (o puedes omitir esta línea si prefieres)
+                    AgregarFilaTotal(tablaTotales, "Forma de Pago:", "Tarjeta / POS", fuenteTexto, false, colorBorde);
+                }
+
                 doc.Add(tablaTotales);
 
-                // 6. PIE DE PÁGINA
+                // PIE DE PÁGINA
                 doc.Add(new iTextSharp.text.Paragraph(" \n"));
                 iTextSharp.text.Paragraph leyenda = new iTextSharp.text.Paragraph(
                     "Payless ShoeSource Nicaragua\n" +
@@ -648,7 +660,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         public void ImprimirFacturaPorId(int idVenta)
         {
-            // 1. Obtener datos mediante tu DAO
             DataTable venta = ventaDAO.ObtenerVentaPorId(idVenta);
             DataTable detalle = ventaDAO.ObtenerDetalleVentaPorId(idVenta);
 
@@ -658,25 +669,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // 2. Extraer los datos necesarios
             DataRow f = venta.Rows[0];
             string codigo = f["codigo_venta"].ToString();
             string ruta = System.IO.Path.Combine(Application.StartupPath, $"Factura_{codigo}.pdf");
 
-            // 3. Generar PDF (usando el método iTextSharp que ya tienes)
+            // Extraemos el cambio de la fila obtenida de la base de datos
+            decimal cambioVenta = Convert.ToDecimal(f["cambio"]);
+
             GenerarFacturaPDF(
                 ruta,
                 codigo,
                 Convert.ToDateTime(f["fecha"]),
                 f["cliente"].ToString(),
-                "N/A",
+                f["usuario"].ToString(),
                 Convert.ToDecimal(f["subtotal"]),
                 Convert.ToDecimal(f["iva"]),
                 Convert.ToDecimal(f["total"]),
+                cambioVenta, // <-- Aquí va el cambio correcto
                 detalle
             );
 
-            // 4. Abrir el PDF automáticamente
             System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(ruta) { UseShellExecute = true });
         }
 

@@ -62,6 +62,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.dtpFecha = new System.Windows.Forms.DateTimePicker();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.lblSaldoEsperado = new System.Windows.Forms.Label();
             this.lblTotalEgresos = new System.Windows.Forms.Label();
             this.lblTotalIngresos = new System.Windows.Forms.Label();
@@ -73,9 +76,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.DGVMovimientosCaja = new System.Windows.Forms.DataGridView();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -120,7 +120,7 @@
             this.label3.Location = new System.Drawing.Point(47, 25);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 36);
+            this.label3.Size = new System.Drawing.Size(123, 55);
             this.label3.TabIndex = 0;
             this.label3.Text = "Caja";
             // 
@@ -133,7 +133,7 @@
             this.label4.Location = new System.Drawing.Point(653, 42);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(92, 19);
+            this.label4.Size = new System.Drawing.Size(137, 26);
             this.label4.TabIndex = 2;
             this.label4.Text = "Acerca De...";
             this.label4.Click += new System.EventHandler(this.label4_Click);
@@ -171,7 +171,7 @@
             this.lblReportes.Location = new System.Drawing.Point(30, 672);
             this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.Size = new System.Drawing.Size(148, 26);
             this.lblReportes.TabIndex = 135;
             this.lblReportes.Text = "📋   Reportes";
             this.lblReportes.Click += new System.EventHandler(this.lblReportes_Click);
@@ -186,7 +186,7 @@
             this.label27.Location = new System.Drawing.Point(30, 721);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(80, 19);
+            this.label27.Size = new System.Drawing.Size(121, 26);
             this.label27.TabIndex = 128;
             this.label27.Text = "🆘   Ayuda";
             this.label27.Click += new System.EventHandler(this.label27_Click);
@@ -201,7 +201,7 @@
             this.lblMantenimiento.Location = new System.Drawing.Point(30, 625);
             this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMantenimiento.Name = "lblMantenimiento";
-            this.lblMantenimiento.Size = new System.Drawing.Size(140, 19);
+            this.lblMantenimiento.Size = new System.Drawing.Size(213, 26);
             this.lblMantenimiento.TabIndex = 127;
             this.lblMantenimiento.Text = "🛠️   Mantenimiento";
             this.lblMantenimiento.Click += new System.EventHandler(this.label25_Click);
@@ -216,7 +216,7 @@
             this.lblCaja.Location = new System.Drawing.Point(29, 228);
             this.lblCaja.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCaja.Name = "lblCaja";
-            this.lblCaja.Size = new System.Drawing.Size(69, 19);
+            this.lblCaja.Size = new System.Drawing.Size(105, 26);
             this.lblCaja.TabIndex = 126;
             this.lblCaja.Text = "💰   Caja";
             this.lblCaja.Click += new System.EventHandler(this.label20_Click);
@@ -231,7 +231,7 @@
             this.lblCredito.Location = new System.Drawing.Point(29, 527);
             this.lblCredito.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCredito.Name = "lblCredito";
-            this.lblCredito.Size = new System.Drawing.Size(88, 19);
+            this.lblCredito.Size = new System.Drawing.Size(135, 26);
             this.lblCredito.TabIndex = 125;
             this.lblCredito.Text = "🧾   Credito";
             this.lblCredito.Click += new System.EventHandler(this.label21_Click);
@@ -246,7 +246,7 @@
             this.lblInventario.Location = new System.Drawing.Point(30, 574);
             this.lblInventario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInventario.Name = "lblInventario";
-            this.lblInventario.Size = new System.Drawing.Size(107, 19);
+            this.lblInventario.Size = new System.Drawing.Size(163, 26);
             this.lblInventario.TabIndex = 124;
             this.lblInventario.Text = "📦   Inventario";
             this.lblInventario.Click += new System.EventHandler(this.label22_Click);
@@ -261,7 +261,7 @@
             this.lblVenta.Location = new System.Drawing.Point(30, 487);
             this.lblVenta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVenta.Name = "lblVenta";
-            this.lblVenta.Size = new System.Drawing.Size(84, 19);
+            this.lblVenta.Size = new System.Drawing.Size(124, 26);
             this.lblVenta.TabIndex = 123;
             this.lblVenta.Text = "🛒   Ventas";
             this.lblVenta.Click += new System.EventHandler(this.label18_Click);
@@ -276,7 +276,7 @@
             this.lblCompras.Location = new System.Drawing.Point(31, 439);
             this.lblCompras.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCompras.Name = "lblCompras";
-            this.lblCompras.Size = new System.Drawing.Size(98, 19);
+            this.lblCompras.Size = new System.Drawing.Size(149, 26);
             this.lblCompras.TabIndex = 122;
             this.lblCompras.Text = "💳   Compras";
             this.lblCompras.Click += new System.EventHandler(this.label17_Click);
@@ -291,7 +291,7 @@
             this.lblUsuarios.Location = new System.Drawing.Point(30, 270);
             this.lblUsuarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuarios.Name = "lblUsuarios";
-            this.lblUsuarios.Size = new System.Drawing.Size(97, 19);
+            this.lblUsuarios.Size = new System.Drawing.Size(146, 26);
             this.lblUsuarios.TabIndex = 121;
             this.lblUsuarios.Text = "👥   Usuarios";
             this.lblUsuarios.Click += new System.EventHandler(this.label16_Click);
@@ -306,7 +306,7 @@
             this.lblCliente.Location = new System.Drawing.Point(31, 314);
             this.lblCliente.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(94, 19);
+            this.lblCliente.Size = new System.Drawing.Size(140, 26);
             this.lblCliente.TabIndex = 120;
             this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
             this.lblCliente.Click += new System.EventHandler(this.label15_Click);
@@ -332,7 +332,7 @@
             this.label26.Location = new System.Drawing.Point(31, 178);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(73, 19);
+            this.label26.Size = new System.Drawing.Size(107, 26);
             this.label26.TabIndex = 116;
             this.label26.Text = "☰   Menú";
             this.label26.Click += new System.EventHandler(this.label26_Click);
@@ -347,7 +347,7 @@
             this.lblProveedores.Location = new System.Drawing.Point(30, 396);
             this.lblProveedores.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblProveedores.Name = "lblProveedores";
-            this.lblProveedores.Size = new System.Drawing.Size(122, 19);
+            this.lblProveedores.Size = new System.Drawing.Size(183, 26);
             this.lblProveedores.TabIndex = 119;
             this.lblProveedores.Text = "🚚   Proveedores";
             this.lblProveedores.Click += new System.EventHandler(this.label14_Click);
@@ -362,7 +362,7 @@
             this.lblProductos.Location = new System.Drawing.Point(31, 356);
             this.lblProductos.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblProductos.Name = "lblProductos";
-            this.lblProductos.Size = new System.Drawing.Size(104, 19);
+            this.lblProductos.Size = new System.Drawing.Size(160, 26);
             this.lblProductos.TabIndex = 118;
             this.lblProductos.Text = "🛍️   Productos";
             this.lblProductos.Click += new System.EventHandler(this.label13_Click);
@@ -438,7 +438,7 @@
             this.button1.TabIndex = 87;
             this.button1.Text = "Egresos";
             this.button1.UseVisualStyleBackColor = false;
-            //this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // btnCierredecaja
             // 
@@ -462,7 +462,7 @@
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
             this.label6.Location = new System.Drawing.Point(436, 132);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(189, 23);
+            this.label6.Size = new System.Drawing.Size(284, 35);
             this.label6.TabIndex = 147;
             this.label6.Text = "Movimientos de Caja";
             // 
@@ -474,7 +474,7 @@
             this.lblUsuario.ForeColor = System.Drawing.Color.Black;
             this.lblUsuario.Location = new System.Drawing.Point(298, 86);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(61, 19);
+            this.lblUsuario.Size = new System.Drawing.Size(93, 26);
             this.lblUsuario.TabIndex = 146;
             this.lblUsuario.Text = "Usuario";
             // 
@@ -485,7 +485,7 @@
             this.dtpHora.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.dtpHora.Location = new System.Drawing.Point(801, 80);
             this.dtpHora.Name = "dtpHora";
-            this.dtpHora.Size = new System.Drawing.Size(173, 26);
+            this.dtpHora.Size = new System.Drawing.Size(173, 35);
             this.dtpHora.TabIndex = 145;
             // 
             // label7
@@ -496,7 +496,7 @@
             this.label7.ForeColor = System.Drawing.Color.Black;
             this.label7.Location = new System.Drawing.Point(724, 86);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(48, 19);
+            this.label7.Size = new System.Drawing.Size(74, 26);
             this.label7.TabIndex = 144;
             this.label7.Text = "Hora:";
             // 
@@ -507,7 +507,7 @@
             this.dtpFecha.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFecha.Location = new System.Drawing.Point(510, 80);
             this.dtpFecha.Name = "dtpFecha";
-            this.dtpFecha.Size = new System.Drawing.Size(173, 26);
+            this.dtpFecha.Size = new System.Drawing.Size(173, 35);
             this.dtpFecha.TabIndex = 143;
             // 
             // groupBox2
@@ -533,13 +533,43 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resumen de Caja";
             // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.Black;
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox3.Location = new System.Drawing.Point(492, 21);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(2, 68);
+            this.textBox3.TabIndex = 89;
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.Black;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Location = new System.Drawing.Point(328, 19);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(2, 68);
+            this.textBox2.TabIndex = 88;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.Color.Black;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(172, 21);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(2, 68);
+            this.textBox1.TabIndex = 87;
+            // 
             // lblSaldoEsperado
             // 
             this.lblSaldoEsperado.AutoSize = true;
             this.lblSaldoEsperado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaldoEsperado.Location = new System.Drawing.Point(528, 64);
             this.lblSaldoEsperado.Name = "lblSaldoEsperado";
-            this.lblSaldoEsperado.Size = new System.Drawing.Size(64, 19);
+            this.lblSaldoEsperado.Size = new System.Drawing.Size(94, 27);
             this.lblSaldoEsperado.TabIndex = 86;
             this.lblSaldoEsperado.Text = "C $ 0.00";
             // 
@@ -549,7 +579,7 @@
             this.lblTotalEgresos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalEgresos.Location = new System.Drawing.Point(378, 64);
             this.lblTotalEgresos.Name = "lblTotalEgresos";
-            this.lblTotalEgresos.Size = new System.Drawing.Size(64, 19);
+            this.lblTotalEgresos.Size = new System.Drawing.Size(94, 27);
             this.lblTotalEgresos.TabIndex = 85;
             this.lblTotalEgresos.Text = "C $ 0.00";
             // 
@@ -559,7 +589,7 @@
             this.lblTotalIngresos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalIngresos.Location = new System.Drawing.Point(226, 64);
             this.lblTotalIngresos.Name = "lblTotalIngresos";
-            this.lblTotalIngresos.Size = new System.Drawing.Size(64, 19);
+            this.lblTotalIngresos.Size = new System.Drawing.Size(94, 27);
             this.lblTotalIngresos.TabIndex = 84;
             this.lblTotalIngresos.Text = "C $ 0.00";
             // 
@@ -569,7 +599,7 @@
             this.lblSaldoInicial.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaldoInicial.Location = new System.Drawing.Point(72, 64);
             this.lblSaldoInicial.Name = "lblSaldoInicial";
-            this.lblSaldoInicial.Size = new System.Drawing.Size(64, 19);
+            this.lblSaldoInicial.Size = new System.Drawing.Size(94, 27);
             this.lblSaldoInicial.TabIndex = 83;
             this.lblSaldoInicial.Text = "C $ 0.00";
             // 
@@ -581,7 +611,7 @@
             this.ingresos.ForeColor = System.Drawing.Color.Black;
             this.ingresos.Location = new System.Drawing.Point(210, 36);
             this.ingresos.Name = "ingresos";
-            this.ingresos.Size = new System.Drawing.Size(103, 19);
+            this.ingresos.Size = new System.Drawing.Size(154, 26);
             this.ingresos.TabIndex = 76;
             this.ingresos.Text = "Total ingresos";
             // 
@@ -593,7 +623,7 @@
             this.egresos.ForeColor = System.Drawing.Color.Black;
             this.egresos.Location = new System.Drawing.Point(365, 36);
             this.egresos.Name = "egresos";
-            this.egresos.Size = new System.Drawing.Size(101, 19);
+            this.egresos.Size = new System.Drawing.Size(150, 26);
             this.egresos.TabIndex = 78;
             this.egresos.Text = "Total Egresos";
             // 
@@ -605,7 +635,7 @@
             this.saldofinal.ForeColor = System.Drawing.Color.Black;
             this.saldofinal.Location = new System.Drawing.Point(524, 36);
             this.saldofinal.Name = "saldofinal";
-            this.saldofinal.Size = new System.Drawing.Size(83, 19);
+            this.saldofinal.Size = new System.Drawing.Size(129, 26);
             this.saldofinal.TabIndex = 80;
             this.saldofinal.Text = "Saldo Final";
             // 
@@ -617,7 +647,7 @@
             this.saldo.ForeColor = System.Drawing.Color.Black;
             this.saldo.Location = new System.Drawing.Point(52, 36);
             this.saldo.Name = "saldo";
-            this.saldo.Size = new System.Drawing.Size(89, 19);
+            this.saldo.Size = new System.Drawing.Size(139, 26);
             this.saldo.TabIndex = 82;
             this.saldo.Text = "Saldo inicial";
             // 
@@ -629,7 +659,7 @@
             this.label5.ForeColor = System.Drawing.Color.Black;
             this.label5.Location = new System.Drawing.Point(436, 86);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(54, 19);
+            this.label5.Size = new System.Drawing.Size(82, 26);
             this.label5.TabIndex = 139;
             this.label5.Text = "Fecha:";
             // 
@@ -641,7 +671,7 @@
             this.label2.ForeColor = System.Drawing.Color.Black;
             this.label2.Location = new System.Drawing.Point(200, 86);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 19);
+            this.label2.Size = new System.Drawing.Size(101, 26);
             this.label2.TabIndex = 137;
             this.label2.Text = "Usuario:";
             // 
@@ -666,39 +696,9 @@
             this.DGVMovimientosCaja.Size = new System.Drawing.Size(659, 249);
             this.DGVMovimientosCaja.TabIndex = 138;
             // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.Black;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(172, 21);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(2, 68);
-            this.textBox1.TabIndex = 87;
-            // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.Color.Black;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.Location = new System.Drawing.Point(328, 19);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(2, 68);
-            this.textBox2.TabIndex = 88;
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.Black;
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.Location = new System.Drawing.Point(492, 21);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(2, 68);
-            this.textBox3.TabIndex = 89;
-            // 
             // Caja
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(5F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));

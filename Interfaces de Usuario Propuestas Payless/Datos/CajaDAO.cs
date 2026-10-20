@@ -15,9 +15,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         private ConexionBD conexionBD = new ConexionBD();
 
         // =====================================================
-        // 1. OBTENER CAJA ABIERTA
+        // 1. OBTENER CAJA ABIERTA POR USUARIO
         // =====================================================
-        public DataTable ObtenerCajaAbierta()
+        public DataTable ObtenerCajaAbierta(int idUsuario)
         {
             DataTable tabla = new DataTable();
 
@@ -40,16 +40,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                         id_usuario
                     FROM caja
                     WHERE estado_caja = 'Abierta'
+                      AND id_usuario = @idUsuario
                     ORDER BY id_caja DESC
                     LIMIT 1;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -122,17 +121,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                     ORDER BY fecha_hora ASC;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
-                    using (NpgsqlDataAdapter da =
-                        new NpgsqlDataAdapter(cmd))
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
                     {
                         da.Fill(tabla);
                     }
@@ -160,20 +153,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     FROM caja
                     WHERE id_caja = @idCaja;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
-                    object resultado =
-                        cmd.ExecuteScalar();
+                    object resultado = cmd.ExecuteScalar();
 
-                    if (resultado != null &&
-                        resultado != DBNull.Value)
+                    if (resultado != null && resultado != DBNull.Value)
                     {
                         return Convert.ToDecimal(resultado);
                     }
@@ -197,49 +183,42 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-            SELECT
-                COALESCE(
-                    SUM(
+                    SELECT
                         COALESCE(
-                            fp.monto_cordobas,
+                            SUM(
+                                COALESCE(
+                                    fp.monto_cordobas,
+                                    0
+                                )
+                                +
+                                (
+                                    COALESCE(
+                                        fp.monto_dolares,
+                                        0
+                                    )
+                                    *
+                                    COALESCE(
+                                        fp.tipo_cambio,
+                                        0
+                                    )
+                                )
+                            ),
                             0
                         )
-                        +
-                        (
-                            COALESCE(
-                                fp.monto_dolares,
-                                0
-                            )
-                            *
-                            COALESCE(
-                                fp.tipo_cambio,
-                                0
-                            )
-                        )
-                    ),
-                    0
-                )
-            FROM venta v
-            INNER JOIN forma_pago fp
-                ON v.id_venta = fp.id_venta
-            WHERE v.id_caja = @idCaja
-              AND v.estado = TRUE
-              AND fp.tipo_pago <> 'Tarjeta';";
+                    FROM venta v
+                    INNER JOIN forma_pago fp
+                        ON v.id_venta = fp.id_venta
+                    WHERE v.id_caja = @idCaja
+                      AND v.estado = TRUE
+                      AND fp.tipo_pago <> 'Tarjeta';";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
-                    object resultado =
-                        cmd.ExecuteScalar();
+                    object resultado = cmd.ExecuteScalar();
 
-                    if (resultado != null &&
-                        resultado != DBNull.Value)
+                    if (resultado != null && resultado != DBNull.Value)
                     {
                         return Convert.ToDecimal(resultado);
                     }
@@ -271,20 +250,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     FROM egreso_caja
                     WHERE id_caja = @idCaja;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
-                    object resultado =
-                        cmd.ExecuteScalar();
+                    object resultado = cmd.ExecuteScalar();
 
-                    if (resultado != null &&
-                        resultado != DBNull.Value)
+                    if (resultado != null && resultado != DBNull.Value)
                     {
                         return Convert.ToDecimal(resultado);
                     }
@@ -297,6 +269,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return 0;
         }
-
     }
 }

@@ -113,14 +113,16 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblSobranteDolares = new System.Windows.Forms.Label();
+            this.lblFaltanteDolares = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.lblVentasTotales = new System.Windows.Forms.Label();
             this.lblSobranteCordobas = new System.Windows.Forms.Label();
             this.lblFaltanteCordobas = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.lblFaltanteDolares = new System.Windows.Forms.Label();
-            this.lblSobranteDolares = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.lblTotalTarjeta = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -974,6 +976,48 @@
             this.groupBox1.TabIndex = 214;
             this.groupBox1.TabStop = false;
             // 
+            // lblSobranteDolares
+            // 
+            this.lblSobranteDolares.AutoSize = true;
+            this.lblSobranteDolares.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSobranteDolares.Location = new System.Drawing.Point(1008, 195);
+            this.lblSobranteDolares.Name = "lblSobranteDolares";
+            this.lblSobranteDolares.Size = new System.Drawing.Size(94, 27);
+            this.lblSobranteDolares.TabIndex = 226;
+            this.lblSobranteDolares.Text = "C $ 0.00";
+            // 
+            // lblFaltanteDolares
+            // 
+            this.lblFaltanteDolares.AutoSize = true;
+            this.lblFaltanteDolares.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFaltanteDolares.Location = new System.Drawing.Point(1008, 152);
+            this.lblFaltanteDolares.Name = "lblFaltanteDolares";
+            this.lblFaltanteDolares.Size = new System.Drawing.Size(94, 27);
+            this.lblFaltanteDolares.TabIndex = 225;
+            this.lblFaltanteDolares.Text = "C $ 0.00";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(788, 195);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(212, 27);
+            this.label2.TabIndex = 224;
+            this.label2.Text = "Sobrante en Dolares:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(788, 152);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(205, 27);
+            this.label1.TabIndex = 223;
+            this.label1.Text = "Faltante en Dolares:";
+            // 
             // lblVentasTotales
             // 
             this.lblVentasTotales.AutoSize = true;
@@ -1016,47 +1060,29 @@
             this.label14.TabIndex = 214;
             this.label14.Text = "Sobrante en Cordobas:";
             // 
-            // label1
+            // label15
             // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(788, 152);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(205, 27);
-            this.label1.TabIndex = 223;
-            this.label1.Text = "Faltante en Dolares:";
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(1187, 481);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(216, 26);
+            this.label15.TabIndex = 215;
+            this.label15.Text = "Monto Total Tajeta:";
+            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
-            // label2
+            // lblTotalTarjeta
             // 
-            this.label2.AutoSize = true;
-            this.label2.BackColor = System.Drawing.Color.Transparent;
-            this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(788, 195);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(212, 27);
-            this.label2.TabIndex = 224;
-            this.label2.Text = "Sobrante en Dolares:";
-            // 
-            // lblFaltanteDolares
-            // 
-            this.lblFaltanteDolares.AutoSize = true;
-            this.lblFaltanteDolares.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFaltanteDolares.Location = new System.Drawing.Point(1008, 152);
-            this.lblFaltanteDolares.Name = "lblFaltanteDolares";
-            this.lblFaltanteDolares.Size = new System.Drawing.Size(94, 27);
-            this.lblFaltanteDolares.TabIndex = 225;
-            this.lblFaltanteDolares.Text = "C $ 0.00";
-            // 
-            // lblSobranteDolares
-            // 
-            this.lblSobranteDolares.AutoSize = true;
-            this.lblSobranteDolares.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSobranteDolares.Location = new System.Drawing.Point(1008, 195);
-            this.lblSobranteDolares.Name = "lblSobranteDolares";
-            this.lblSobranteDolares.Size = new System.Drawing.Size(94, 27);
-            this.lblSobranteDolares.TabIndex = 226;
-            this.lblSobranteDolares.Text = "C $ 0.00";
+            this.lblTotalTarjeta.AutoSize = true;
+            this.lblTotalTarjeta.BackColor = System.Drawing.Color.Transparent;
+            this.lblTotalTarjeta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalTarjeta.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(106)))), ((int)(((byte)(0)))));
+            this.lblTotalTarjeta.Location = new System.Drawing.Point(1244, 515);
+            this.lblTotalTarjeta.Name = "lblTotalTarjeta";
+            this.lblTotalTarjeta.Size = new System.Drawing.Size(94, 27);
+            this.lblTotalTarjeta.TabIndex = 216;
+            this.lblTotalTarjeta.Text = "C $ 0.00";
             // 
             // ArqueodeCaja
             // 
@@ -1066,6 +1092,8 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1456, 942);
+            this.Controls.Add(this.lblTotalTarjeta);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txt25Centavos);
             this.Controls.Add(this.txt50Centavos);
@@ -1240,5 +1268,7 @@
         private System.Windows.Forms.Label lblFaltanteDolares;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label lblTotalTarjeta;
     }
 }

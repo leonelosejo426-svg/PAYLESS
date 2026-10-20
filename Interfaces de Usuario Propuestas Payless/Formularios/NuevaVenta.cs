@@ -106,7 +106,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             lblUsuario.Text = ClaseSesion.UsuarioActual;
         }
 
-       
+
 
         private void GenerarCodigoVenta()
         {
@@ -272,7 +272,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 tipoCambioActual = 0;
             }
         }
-       
+
 
         private void cmbTalla_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -327,17 +327,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         {
             try
             {
-                int stock =
-                    ventaDAO.ObtenerStockProductoTalla(
-                        idProductoTallaSeleccionado
-                    );
+                // 1. Obtener el stock real de la base de datos
+                int stockBD = ventaDAO.ObtenerStockProductoTalla(idProductoTallaSeleccionado);
 
-                txtStockActual.Text = stock.ToString();
+                // 2. Calcular cuánto de este producto ya tenemos agregado en el carrito actual (grilla)
+                int cantidadEnCarrito = 0;
+                foreach (DataGridViewRow row in dgvDetalleVenta.Rows)
+                {
+                    if (row.Cells[0].Value != null && Convert.ToInt32(row.Cells[0].Value) == idProductoTallaSeleccionado)
+                    {
+                        // Asumiendo que la celda 6 es la cantidad en tu DataGridView
+                        cantidadEnCarrito += Convert.ToInt32(row.Cells[6].Value);
+                    }
+                }
 
-                if (stock <= 0)
+                // 3. El stock disponible real para esta venta es el de la BD menos lo que ya apartamos en pantalla
+                int stockDisponible = stockBD - cantidadEnCarrito;
+                txtStockActual.Text = stockDisponible.ToString();
+
+                if (stockDisponible <= 0)
                 {
                     MessageBox.Show(
-                        "Esta talla no tiene stock disponible.",
+                        "No hay stock disponible para esta talla.",
                         "Sin stock",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
@@ -783,6 +794,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         private void groupBox3_Enter(object sender, EventArgs e)
         {
 
+        }
+
+        private void CBproducto_KeyDown(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }

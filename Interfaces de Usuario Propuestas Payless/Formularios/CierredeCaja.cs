@@ -69,7 +69,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void CargarCierre()
         {
             DataTable tabla =
-                cajaDAO.ObtenerCajaAbierta();
+                cajaDAO.ObtenerCajaAbierta(ClaseSesion.IdUsuario);
 
             if (tabla.Rows.Count == 0)
             {

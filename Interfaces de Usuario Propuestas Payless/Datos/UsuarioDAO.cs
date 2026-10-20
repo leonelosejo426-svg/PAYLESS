@@ -52,16 +52,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     if (ClaseSesion.RolActual.Equals("cajero", StringComparison.OrdinalIgnoreCase))
                     {
                         string sqlCaja = @"SELECT COUNT(*) 
-                                           FROM caja 
-                                           WHERE estado_caja = 'Abierta';";
+                        FROM caja 
+                        WHERE estado_caja = 'Abierta' 
+                          AND id_usuario = @idUsuario;";
 
                         using (NpgsqlCommand cmdCaja = new NpgsqlCommand(sqlCaja, conexionBD.ObtenerConexion()))
                         {
+                            cmdCaja.Parameters.AddWithValue("@idUsuario", ClaseSesion.IdUsuario);
                             int conteo = Convert.ToInt32(cmdCaja.ExecuteScalar());
 
-                            // Si el conteo es mayor a 0, significa que ya hay una caja abierta (por quien sea)
+                            // Si el conteo es mayor a 0, este cajero específico ya tiene su caja abierta
                             ClaseSesion.TieneCajaActiva = (conteo > 0);
                         }
+                    
                     }
 
                     return true;

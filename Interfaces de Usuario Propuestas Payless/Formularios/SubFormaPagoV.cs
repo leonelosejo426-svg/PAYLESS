@@ -92,6 +92,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 ConfigurarFormulario();
 
                 rbEfectivo.Checked = true;
+
+                // ==========================================
+                // FORZAR LA CONEXIÓN DE LOS EVENTOS DE TEXTO
+                // ==========================================
+                txtMontoCordobas.TextChanged -= txtMontoCordobas_TextChanged;
+                txtMontoCordobas.TextChanged += txtMontoCordobas_TextChanged;
+
+                txtMontoDolares.TextChanged -= txtMontoDolares_TextChanged;
+                txtMontoDolares.TextChanged += txtMontoDolares_TextChanged;
             }
             catch (Exception ex)
             {
@@ -234,30 +243,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (!rbEfectivo.Checked)
                 return;
 
-            decimal cordobas = ObtenerDecimal(
-                txtMontoCordobas.Text
-            );
+            decimal cordobas = ObtenerDecimal(txtMontoCordobas.Text);
+            decimal dolares = ObtenerDecimal(txtMontoDolares.Text);
 
-            decimal dolares = ObtenerDecimal(
-                txtMontoDolares.Text
-            );
+            decimal totalEntregado = cordobas + (dolares * tipoCambioActual);
+            decimal cambio = totalEntregado - total;
 
-            decimal equivalenteDolares =
-                dolares * tipoCambioActual;
+            // Mostrar el total entregado en su etiqueta
+            lblTotalEntregado.Text = "C$ " + totalEntregado.ToString("N2");
 
-            decimal totalEntregado =
-                cordobas + equivalenteDolares;
-
-            decimal cambio =
-                totalEntregado - total;
-
-            lblTotalEntregado.Text =
-                "C$ " + totalEntregado.ToString("N2");
-
-            if (cambio > 0)
+            // Mostrar el cambio en la etiqueta lblCambio
+            if (cambio >= 0)
             {
-                lblCambio.Text =
-                    "C$ " + cambio.ToString("N2");
+                lblCambio.Text = "C$ " + cambio.ToString("N2");
             }
             else
             {
@@ -335,9 +333,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             decimal cambio = totalEntregado - total;
 
-            // =====================================================
-            // VALIDACIÓN DE EFECTIVO / CAMBIO EN CAJA
-            // =====================================================
+            // Validación de efectivo en caja para el cambio
             decimal efectivoEnCaja = ventaDAO.ObtenerEfectivoDisponibleEnCaja(idCaja);
 
             if (cambio > efectivoEnCaja)
@@ -353,23 +349,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtMontoCordobas.Text) && string.IsNullOrWhiteSpace(txtMontoDolares.Text))
-            {
-                MessageBox.Show("Por favor, rellene al menos uno de los campos de monto.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtMontoCordobas.Focus();
-                return;
-            }
-
-
-
-            if (montoCordobas <= 0 || montoDolares <= 0)
+            if (montoCordobas <= 0 && montoDolares <= 0)
             {
                 MessageBox.Show("Ingrese un monto válido mayor a cero.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMontoCordobas.Focus();
                 return;
             }
 
-
+            // Registramos el pago en efectivo pasando correctamente el cambio calculado
             RegistrarPago(
                 "Efectivo",
                 montoCordobas,
@@ -377,87 +364,67 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 cambio,
                 "",
                 0
+                 
             );
+           
         }
 
         private void ConfirmarPagoTarjeta()
         {
-            // 1. Validar tipo de tarjeta
             if (cbTipoTarjeta.SelectedIndex == -1)
             {
-                MessageBox.Show(
-                    "Seleccione el tipo de tarjeta.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione el tipo de tarjeta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cbTipoTarjeta.Focus();
                 return;
             }
 
-            // 2. Validar últimos 4 dígitos
             string digitos = txtDigitosTarjeta.Text.Trim();
 
+            // 1. Validación de longitud: Exactamente 4 dígitos numéricos
             if (string.IsNullOrWhiteSpace(digitos) || digitos.Length != 4 || !digitos.All(char.IsDigit))
             {
-                MessageBox.Show(
-                    "Debe ingresar exactamente los últimos 4 dígitos numéricos de la tarjeta.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("Debe ingresar exactamente los 4 dígitos de la tarjeta.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDigitosTarjeta.Focus();
                 return;
             }
 
-            // 3. Validar Fecha de Expiración (MM/YY)
             string fechaExp = txtVencimiento.Text.Trim();
-            bool formatoFechaValido = System.Text.RegularExpressions.Regex.IsMatch(fechaExp, @"^(0[1-9]|1[0-2])\/\d{2}$");
 
-            if (!formatoFechaValido)
+            // 2. Validación de formato MM/YY
+            if (!System.Text.RegularExpressions.Regex.IsMatch(fechaExp, @"^(0[1-9]|1[0-2])\/\d{2}$"))
             {
-                MessageBox.Show(
-                    "Ingrese una fecha de expiración válida en formato MM/YY (Ejemplo: 04/27).",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese una fecha de expiración válida en formato MM/YY (Ejemplo: 04/27).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtVencimiento.Focus();
                 return;
             }
 
-            // 4. Validar Código de Seguridad (CVV/CVC)
-            string cvv = txtDigitosTarjeta.Text.Trim();
+            // 3. Validación de fecha no vencida
+            string[] partes = fechaExp.Split('/');
+            int mes = int.Parse(partes[0]);
+            int anio = 2000 + int.Parse(partes[1]);
 
-            if (string.IsNullOrWhiteSpace(cvv) || (cvv.Length != 3 && cvv.Length != 4) || !cvv.All(char.IsDigit))
+            DateTime ultimoDiaMes = new DateTime(anio, mes, 1).AddMonths(1).AddDays(-1);
+            if (ultimoDiaMes < DateTime.Today)
             {
-                MessageBox.Show(
-                    "Ingrese un código de seguridad (CVV) válido de 3 o 4 dígitos.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-                txtDigitosTarjeta.Focus();
+                MessageBox.Show("La tarjeta ingresada está vencida. Ingrese una fecha de expiración vigente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtVencimiento.Focus();
                 return;
             }
 
-            // 5. Procesar Pago
+            string tipoTarjetaSeleccionada = cbTipoTarjeta.SelectedItem.ToString();
             decimal montoTarjeta = total;
 
-            // Registrar el pago pasando el tipo de tarjeta y el monto
+            // Esto registrará el pago y activará el botón de imprimir factura correctamente
             RegistrarPago(
                 "Tarjeta",
-                0,              // Efectivo recibido
-                0,              // Cambio
-                0,              // Transferencia
-                cbTipoTarjeta.Text,
+                0,
+                0,
+                0,
+                tipoTarjetaSeleccionada,
                 montoTarjeta
             );
 
-            MessageBox.Show(
-                "Pago con tarjeta procesado correctamente.",
-                "Éxito",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information);
-
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+           
         }
 
         // =====================================================
@@ -465,12 +432,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         // =====================================================
 
         private void RegistrarPago(
-            string tipoPago,
-            decimal montoCordobas,
-            decimal montoDolares,
-            decimal cambio,
-            string tipoTarjeta,
-            decimal montoTarjeta)
+    string tipoPago,
+    decimal montoCordobas,
+    decimal montoDolares,
+    decimal cambio,
+    string tipoTarjeta,
+    decimal montoTarjeta)
         {
             bool resultado =
                 ventaDAO.RegistrarVentaConPago(
@@ -499,7 +466,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
                 );
-
                 return;
             }
 
@@ -508,18 +474,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             btnConfirmarPago.Enabled = false;
             btnImprimirFactura.Enabled = true;
 
+            // Mostramos el cambio de forma dinámica en el mensaje si fue pago en efectivo
+            string mensajeCambio = tipoPago == "Efectivo" ? "\nCambio a devolver: C$ " + cambio.ToString("N2") : "\nMétodo: Pago con Tarjeta (" + tipoTarjeta + ")";
+
             MessageBox.Show(
                 "Pago confirmado correctamente.\n\n" +
                 "Venta: " + codigoVenta +
                 "\nTotal: C$ " + total.ToString("N2") +
+                mensajeCambio +
                 "\n\nAhora puede imprimir la factura.",
                 "Pago confirmado",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
+                
             );
-
-
-
+          
         }
 
         // =====================================================
@@ -731,9 +700,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 };
                 tablaTotales.SetWidths(new float[] { 45f, 55f });
 
+                // Calculamos el cambio de forma segura según el tipo de pago seleccionado
+                decimal cambioPdf = 0;
+                if (rbEfectivo.Checked)
+                {
+                    decimal cordobas = ObtenerDecimal(txtMontoCordobas.Text);
+                    decimal dolares = ObtenerDecimal(txtMontoDolares.Text);
+                    decimal totalEntregado = cordobas + (dolares * tipoCambioActual);
+                    cambioPdf = totalEntregado - total;
+                    if (cambioPdf < 0) cambioPdf = 0;
+                }
+
                 AgregarFilaTotal(tablaTotales, "Subtotal:", $"C$ {subtotal:N2}", fuenteEtiqueta, colorTexto, colorBorde);
                 AgregarFilaTotal(tablaTotales, "IVA (15%):", $"C$ {iva:N2}", fuenteEtiqueta, colorTexto, colorBorde);
                 AgregarFilaTotal(tablaTotales, "TOTAL:", $"C$ {total:N2}", fuenteTotalBold, colorNaranjaPayless, colorBorde);
+
+                // Si es efectivo mostramos el cambio, si es tarjeta mostramos que se pagó con tarjeta
+                if (rbEfectivo.Checked)
+                {
+                    AgregarFilaTotal(tablaTotales, "Cambio:", $"C$ {cambioPdf:N2}", fuenteEtiqueta, colorTexto, colorBorde);
+                }
+                else
+                {
+                    string tarjetaNombre = cbTipoTarjeta.SelectedItem != null ? cbTipoTarjeta.SelectedItem.ToString() : "Tarjeta";
+                    AgregarFilaTotal(tablaTotales, "Método:", tarjetaNombre, fuenteEtiqueta, colorTexto, colorBorde);
+                }
 
                 documento.Add(tablaTotales);
                 documento.Add(new iTextSharp.text.Paragraph(" \n\n"));

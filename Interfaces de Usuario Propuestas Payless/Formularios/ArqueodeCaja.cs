@@ -55,13 +55,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblTipoCambio", true).Length > 0)
                 lblTipoCambio.Text = "C$ " + tipoCambio.ToString("N2");
 
- 
-            // Carga de ventas esperadas en Córdobas y Dólares
+            // 1. Cargar ventas esperadas en Córdobas (Efectivo)
             ventasEsperadasCordobas = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
-            ventasEsperadasDolares = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
 
-            if (Controls.Find("lblVentasTotales", true).Length > 0)
-                lblVentasTotales.Text = "C$ " + ventasEsperadasCordobas.ToString("N2");
+            // =====================================================
+            // 2. CARGAR Y MOSTRAR LAS VENTAS POR TARJETA EN LA ETIQUETA
+            // =====================================================
+            decimal ventasTarjeta = arqueoDAO.ObtenerVentasTarjetaCaja(idCajaActual);
+
+            if (lblTotalTarjeta != null) // O usa Controls.Find si es necesario
+            {
+                lblTotalTarjeta.Text = "C$ " + ventasTarjeta.ToString("N2");
+            }
+
+            // 3. Cargar ventas esperadas en Dólares
+            ventasEsperadasDolares = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
 
             ConfigurarEventos();
             CalcularArqueo();
@@ -156,9 +164,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             decimal totalBilletesCordobas = RecursividadArqueo.SumarDenominacionesRecursivo(cantBilletesCor, denomBilletesCor);
 
-            if (Controls.Find("lblTotalBilletesCordobas", true).Length > 0)
-                lblTotalEnCordobas.Text = "C$ " + totalBilletesCordobas.ToString("N2");
-
             // 3. MONEDAS CÓRDOBAS (RECURSIVO)
             int[] cantMonedas = {
                 Cantidad(txt5Moneda), Cantidad(txt1Moneda), Cantidad(txt50Centavos), Cantidad(txt25Centavos)
@@ -172,10 +177,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblTotal25Centavos.Text = "C$ " + (cantMonedas[3] * 0.25m).ToString("N2");
 
             decimal totalMonedas = RecursividadArqueo.SumarDenominacionesRecursivo(cantMonedas, denomMonedas);
-
-            if (Controls.Find("lblTotalMonedas", true).Length > 0)
-                lblTotalEnMonedas.Text = "C$ " + totalMonedas.ToString("N2");
-
 
             // 4. TOTAL ACUMULADO ARQUEADO EN CÓRDOBAS (Para el monto general de caja)
             List<decimal> subtotales = new List<decimal> { totalBilletesCordobas, totalMonedas, conversionDolares };
@@ -330,6 +331,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
             return 0;
+        }
+
+        private void label15_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -406,6 +406,7 @@
             this.DGVtabla1.RowHeadersWidth = 62;
             this.DGVtabla1.Size = new System.Drawing.Size(957, 419);
             this.DGVtabla1.TabIndex = 126;
+            this.DGVtabla1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DGVtabla1_CellFormatting);
             // 
             // btnImprimir
             // 
