@@ -22,6 +22,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         private void SubProveedorEditar_Load(object sender, EventArgs e)
         {
+            txtCorreo.MaxLength = 50;
+            txtNombre.MaxLength = 50;
+            txtTelefono.MaxLength = 8;
+            txtDireccion.MaxLength = 200;
+            txtRuc.MaxLength = 14;
+
             CargarProveedores();
 
             cmbEstado.Items.Clear();
@@ -119,128 +125,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-                
-            // ---------------------------------------------
-            // Verificar que primero se haya buscado
-            // ---------------------------------------------
 
+            // 1. Verificar que se haya seleccionado y buscado un proveedor
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
             {
-                MessageBox.Show(
-                    "Primero busque un proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Primero busque un proveedor para editar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (txtNombre.Text.Trim().Length > 100)
-            {
-                MessageBox.Show(
-                    "El campo [NOMBRE] no puede superar los [100] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtNombre.Focus();
-                return;
-            }
+            int idProveedorActual = Convert.ToInt32(txtCodigo.Text);
 
-            if (txtDireccion.Text.Trim().Length > 200)
-            {
-                MessageBox.Show(
-                    "El campo [DIRECCIÓN] no puede superar los [200] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtDireccion.Focus();
-                return;
-            }
-
-            if (txtCorreo.Text.Trim().Length > 50)
-            {
-                MessageBox.Show(
-                    "El campo [CORREO] no puede superar los [50] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtCorreo.Focus();
-                return;
-            }
-
-
-            // ---------------------------------------------
-            // Validar nombre
-            // ---------------------------------------------
-
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
-            {
-                MessageBox.Show(
-                    "Ingrese el nombre del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtNombre.Focus();
-                return;
-            }
-
-            // ---------------------------------------------
-            // Validar estado
-            // ---------------------------------------------
-
-            if (cmbEstado.SelectedIndex == -1)
-            {
-                MessageBox.Show(
-                    "Seleccione el estado del proveedor.",
-                    "Validación",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                cmbEstado.Focus();
-                return;
-            }
-
-            // ---------------------------------------------
-            // Crear objeto proveedor
-            // ---------------------------------------------
-
-            ClaseProveedor proveedor =
-                new ClaseProveedor();
-
-            proveedor.IdProveedor =
-                Convert.ToInt32(
-                    txtCodigo.Text);
-
-            proveedor.Nombre =
-                txtNombre.Text.Trim();
-
-            proveedor.Telefono =
-                txtTelefono.Text.Trim();
-
-            proveedor.Correo =
-                txtCorreo.Text.Trim();
-
-            proveedor.Direccion =
-                txtDireccion.Text.Trim();
-
-            proveedor.Ruc =
-                txtRuc.Text.Trim();
-
-            proveedor.EstadoProveedor =
-                cmbEstado.SelectedItem.ToString()
-                == "Activo";
-
-            // ---------------------------------------------
-            // Actualizar
-            // ---------------------------------------------
-
-            // ---------------------------------------------
-            // Validar nombre
-            // ---------------------------------------------
+            // 2. Validaciones de campos vacíos y longitud
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
                 MessageBox.Show("Ingrese el nombre del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -248,16 +143,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
-            if (txtNombre.Text.Length < 3)
+            if (txtNombre.Text.Trim().Length < 3)
             {
                 MessageBox.Show("El nombre del proveedor debe tener al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            // ---------------------------------------------
-            // Validar teléfono (Exactamente 8 dígitos)
-            // ---------------------------------------------
+            if (txtNombre.Text.Trim().Length > 100)
+            {
+                MessageBox.Show("El campo [NOMBRE] no puede superar los 100 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
             if (txtTelefono.Text.Length != 8)
             {
                 MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -265,9 +164,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
-            // ---------------------------------------------
-            // Validar correo electrónico
-            // ---------------------------------------------
             if (string.IsNullOrWhiteSpace(txtCorreo.Text) || !Regex.IsMatch(txtCorreo.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
                 MessageBox.Show("Ingrese un correo electrónico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -275,9 +171,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
-            // ---------------------------------------------
-            // Validar dirección
-            // ---------------------------------------------
+            if (txtCorreo.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El campo [CORREO] no puede superar los 50 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtDireccion.Text))
             {
                 MessageBox.Show("Ingrese la dirección del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -285,25 +185,89 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
-            // ---------------------------------------------
-            // Validar RUC de Nicaragua (14 caracteres)
-            // ---------------------------------------------
+            if (txtDireccion.Text.Trim().Length > 200)
+            {
+                MessageBox.Show("El campo [DIRECCIÓN] no puede superar los 200 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDireccion.Focus();
+                return;
+            }
+
             Regex regexRuc = new Regex(@"^[A-Z0-9\-]{14}$");
-            if (!regexRuc.IsMatch(txtRuc.Text))
+            if (!regexRuc.IsMatch(txtRuc.Text.Trim()))
             {
                 MessageBox.Show("El RUC de Nicaragua debe tener un formato válido de 14 caracteres (ej. J1310000252297).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtRuc.Focus();
                 return;
             }
 
-            // ---------------------------------------------
-            // Validar estado
-            // ---------------------------------------------
             if (cmbEstado.SelectedIndex == -1)
             {
                 MessageBox.Show("Seleccione el estado del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbEstado.Focus();
                 return;
+            }
+
+            // =========================================================
+            // 3. VALIDAR DUPLICADOS EN LA BASE DE DATOS (EXCLUYENDO ESTE ID)
+            // =========================================================
+            string nombre = txtNombre.Text.Trim();
+            string telefono = txtTelefono.Text.Trim();
+            string correo = txtCorreo.Text.Trim();
+            string ruc = txtRuc.Text.Trim();
+
+            if (proveedorDAO.ExisteNombreEditar(nombre, idProveedorActual))
+            {
+                MessageBox.Show("Ya existe otro proveedor registrado con este mismo nombre. Ingrese uno diferente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            if (proveedorDAO.ExisteTelefonoEditar(telefono, idProveedorActual))
+            {
+                MessageBox.Show("El número de teléfono ingresado ya pertenece a otro proveedor registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                return;
+            }
+
+            if (proveedorDAO.ExisteCorreoEditar(correo, idProveedorActual))
+            {
+                MessageBox.Show("El correo electrónico ingresado ya se encuentra registrado con otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
+            if (proveedorDAO.ExisteRucEditar(ruc, idProveedorActual))
+            {
+                MessageBox.Show("El número de RUC ingresado ya está asignado a otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtRuc.Focus();
+                return;
+            }
+
+            // =========================================================
+            // 4. CREAR OBJETO Y ACTUALIZAR EN BD
+            // =========================================================
+            ClaseProveedor proveedor = new ClaseProveedor
+            {
+                IdProveedor = idProveedorActual,
+                Nombre = nombre,
+                Telefono = telefono,
+                Correo = correo,
+                Direccion = txtDireccion.Text.Trim(),
+                Ruc = ruc,
+                EstadoProveedor = cmbEstado.SelectedItem.ToString() == "Activo"
+            };
+
+            bool actualizado = proveedorDAO.ActualizarProveedor(proveedor);
+
+            if (actualizado)
+            {
+                MessageBox.Show("Proveedor actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarProveedores();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

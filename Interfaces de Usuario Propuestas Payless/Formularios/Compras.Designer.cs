@@ -495,10 +495,11 @@
             this.btnImprimir.Location = new System.Drawing.Point(238, 619);
             this.btnImprimir.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnImprimir.Name = "btnImprimir";
-            this.btnImprimir.Size = new System.Drawing.Size(197, 38);
+            this.btnImprimir.Size = new System.Drawing.Size(177, 38);
             this.btnImprimir.TabIndex = 115;
             this.btnImprimir.Text = "🖨️Imprrimir Factura";
             this.btnImprimir.UseVisualStyleBackColor = false;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
             // 
             // Compras_nuevo
             // 

@@ -39,7 +39,6 @@
             this.cbMarca = new System.Windows.Forms.ComboBox();
             this.cbCategoria = new System.Windows.Forms.ComboBox();
             this.cbProveedor = new System.Windows.Forms.ComboBox();
-            this.btnEditar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
             this.txtPrecioCompra = new System.Windows.Forms.TextBox();
             this.btnAgregarProductos = new System.Windows.Forms.Button();
@@ -57,14 +56,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.txtCantidad = new System.Windows.Forms.TextBox();
             this.dgvDetalleCompra = new System.Windows.Forms.DataGridView();
-            this.colIdProductoTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrecioCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblSubtotal = new System.Windows.Forms.Label();
             this.lblIVA = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
@@ -76,6 +67,15 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.colIdProductoTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecioCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleCompra)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -157,27 +157,13 @@
             this.cbProveedor.TabIndex = 27;
             this.cbProveedor.SelectedIndexChanged += new System.EventHandler(this.cbProveedor_SelectedIndexChanged);
             // 
-            // btnEditar
-            // 
-            this.btnEditar.BackColor = System.Drawing.Color.Black;
-            this.btnEditar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnEditar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditar.ForeColor = System.Drawing.Color.White;
-            this.btnEditar.Location = new System.Drawing.Point(559, 278);
-            this.btnEditar.Name = "btnEditar";
-            this.btnEditar.Size = new System.Drawing.Size(98, 32);
-            this.btnEditar.TabIndex = 26;
-            this.btnEditar.Text = "Editar";
-            this.btnEditar.UseVisualStyleBackColor = false;
-            this.btnEditar.Click += new System.EventHandler(this.btnEditar_Click);
-            // 
             // btnEliminar
             // 
             this.btnEliminar.BackColor = System.Drawing.Color.Black;
             this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEliminar.ForeColor = System.Drawing.SystemColors.Control;
-            this.btnEliminar.Location = new System.Drawing.Point(695, 278);
+            this.btnEliminar.Location = new System.Drawing.Point(593, 278);
             this.btnEliminar.Name = "btnEliminar";
             this.btnEliminar.Size = new System.Drawing.Size(82, 32);
             this.btnEliminar.TabIndex = 21;
@@ -368,6 +354,7 @@
             this.colMarca,
             this.colTalla,
             this.colPrecioCompra,
+            this.colPrecioVenta,
             this.colCantidad,
             this.colSubtotal});
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -383,46 +370,7 @@
             this.dgvDetalleCompra.Name = "dgvDetalleCompra";
             this.dgvDetalleCompra.Size = new System.Drawing.Size(841, 165);
             this.dgvDetalleCompra.TabIndex = 50;
-            // 
-            // colIdProductoTalla
-            // 
-            this.colIdProductoTalla.HeaderText = "ID";
-            this.colIdProductoTalla.Name = "colIdProductoTalla";
-            // 
-            // colProducto
-            // 
-            this.colProducto.HeaderText = "Producto";
-            this.colProducto.Name = "colProducto";
-            // 
-            // colCategoria
-            // 
-            this.colCategoria.HeaderText = "Categoria";
-            this.colCategoria.Name = "colCategoria";
-            // 
-            // colMarca
-            // 
-            this.colMarca.HeaderText = "Marca";
-            this.colMarca.Name = "colMarca";
-            // 
-            // colTalla
-            // 
-            this.colTalla.HeaderText = "Talla";
-            this.colTalla.Name = "colTalla";
-            // 
-            // colPrecioCompra
-            // 
-            this.colPrecioCompra.HeaderText = "P. Compra";
-            this.colPrecioCompra.Name = "colPrecioCompra";
-            // 
-            // colCantidad
-            // 
-            this.colCantidad.HeaderText = "Cantidad";
-            this.colCantidad.Name = "colCantidad";
-            // 
-            // colSubtotal
-            // 
-            this.colSubtotal.HeaderText = "SubTotal";
-            this.colSubtotal.Name = "colSubtotal";
+            this.dgvDetalleCompra.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalleCompra_CellDoubleClick);
             // 
             // lblSubtotal
             // 
@@ -553,6 +501,51 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "Acerca De...";
             // 
+            // colIdProductoTalla
+            // 
+            this.colIdProductoTalla.HeaderText = "ID";
+            this.colIdProductoTalla.Name = "colIdProductoTalla";
+            // 
+            // colProducto
+            // 
+            this.colProducto.HeaderText = "Producto";
+            this.colProducto.Name = "colProducto";
+            // 
+            // colCategoria
+            // 
+            this.colCategoria.HeaderText = "Categoria";
+            this.colCategoria.Name = "colCategoria";
+            // 
+            // colMarca
+            // 
+            this.colMarca.HeaderText = "Marca";
+            this.colMarca.Name = "colMarca";
+            // 
+            // colTalla
+            // 
+            this.colTalla.HeaderText = "Talla";
+            this.colTalla.Name = "colTalla";
+            // 
+            // colPrecioCompra
+            // 
+            this.colPrecioCompra.HeaderText = "P. Compra";
+            this.colPrecioCompra.Name = "colPrecioCompra";
+            // 
+            // colPrecioVenta
+            // 
+            this.colPrecioVenta.HeaderText = "P. Venta";
+            this.colPrecioVenta.Name = "colPrecioVenta";
+            // 
+            // colCantidad
+            // 
+            this.colCantidad.HeaderText = "Cantidad";
+            this.colCantidad.Name = "colCantidad";
+            // 
+            // colSubtotal
+            // 
+            this.colSubtotal.HeaderText = "SubTotal";
+            this.colSubtotal.Name = "colSubtotal";
+            // 
             // NuevaCompra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -568,7 +561,6 @@
             this.Controls.Add(this.lblIVA);
             this.Controls.Add(this.lblSubtotal);
             this.Controls.Add(this.dgvDetalleCompra);
-            this.Controls.Add(this.btnEditar);
             this.Controls.Add(this.txtCantidad);
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.label3);
@@ -616,7 +608,6 @@
         private System.Windows.Forms.ComboBox cbMarca;
         private System.Windows.Forms.ComboBox cbCategoria;
         private System.Windows.Forms.ComboBox cbProveedor;
-        private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.TextBox txtPrecioCompra;
         private System.Windows.Forms.Button btnAgregarProductos;
@@ -638,14 +629,6 @@
         private System.Windows.Forms.Label lblIVA;
         private System.Windows.Forms.Label lblTotal;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIdProductoTalla;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colMarca;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colTalla;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colPrecioCompra;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCantidad;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colSubtotal;
         private System.Windows.Forms.Label lblFecha;
         private System.Windows.Forms.Label lblNoCompra;
         private System.Windows.Forms.TextBox txtTalla;
@@ -653,5 +636,14 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colIdProductoTalla;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMarca;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colTalla;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPrecioCompra;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colPrecioVenta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCantidad;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSubtotal;
     }
 }

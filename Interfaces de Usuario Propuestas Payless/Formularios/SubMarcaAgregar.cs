@@ -21,12 +21,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubMarcaAgregar_Load(object sender, EventArgs e)
         {
-            cmbEstado.Items.Clear();
-
-            cmbEstado.Items.Add("Activo");
-            cmbEstado.Items.Add("Inactivo");
-
-            cmbEstado.SelectedIndex = 0;
+            txtNombre.MaxLength = 50;
+            txtDescripcion.MaxLength = 100;
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -72,8 +68,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             marca.Descripcion =
                 txtDescripcion.Text.Trim();
 
-            marca.Estado =
-                cmbEstado.SelectedItem.ToString() == "Activo";
+            
 
             if (marcaDAO.AgregarMarca(marca))
             {
@@ -100,7 +95,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             txtNombre.Clear();
             txtDescripcion.Clear();
 
-            cmbEstado.SelectedIndex = 0;
+         
 
             txtNombre.Focus();
         }

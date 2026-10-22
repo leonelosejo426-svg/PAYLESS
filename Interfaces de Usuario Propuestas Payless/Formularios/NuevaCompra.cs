@@ -73,6 +73,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (dgvDetalleCompra.Columns.Contains("colPrecioCompra"))
                 dgvDetalleCompra.Columns["colPrecioCompra"].DataPropertyName = "PrecioCompra";
 
+            // NUEVO: Enlazar la columna del Precio de Venta (Asegúrate de que tu columna en el diseñador se llame colPrecioVenta)
+            if (dgvDetalleCompra.Columns.Contains("colPrecioVenta"))
+                dgvDetalleCompra.Columns["colPrecioVenta"].DataPropertyName = "PrecioVenta";
+
             if (dgvDetalleCompra.Columns.Contains("colCantidad"))
                 dgvDetalleCompra.Columns["colCantidad"].DataPropertyName = "Cantidad";
 
@@ -117,6 +121,39 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void NuevaCompra_Load(object sender, EventArgs e)
         {
+            txtCantidad.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos y control (como backspace)
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar))
+                {
+                    ev.Handled = true;
+                }
+            };
+            txtPrecioCompra.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos, punto y control
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true;
+                }
+            };
+            txtPrecioVenta.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos, punto y control
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true;
+                }
+            };
+            txtTalla.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos, punto y control
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true;
+                }
+            };
+
             try
             {
                 // Generar el correlativo en el Label (Asegúrate de reemplazar 'lblNoCompra' por el Name de tu Label)
@@ -251,7 +288,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (precioCompra >= precioVenta)
             {
                 MessageBox.Show(
-                    "El precio de compra debe ser menor que el precio de venta.",
+                    "El precio de venta debe de ser mayor a precio compra.",
                     "Validación de Precios",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -401,8 +438,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     actual.Marca,          // Columna 3: Marca
                     actual.Talla,          // Columna 4: Talla
                     actual.PrecioCompra,   // Columna 5: P. Compra
-                    actual.Cantidad,       // Columna 6: Cantidad
-                    actual.Subtotal        // Columna 7: SubTotal
+                    actual.PrecioVenta,    // Columna 6: P. Venta (NUEVO)
+                    actual.Cantidad,       // Columna 7: Cantidad
+                    actual.Subtotal        // Columna 8: SubTotal
                 );
 
                 actual = actual.Siguiente;
@@ -568,6 +606,83 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             finally
             {
                 cargandoDatos = false;
+            }
+        }
+
+        private void SincronizarListaEnlazadaDesdeGrid()
+        {
+            // 1. Limpiamos la lista enlazada actual
+            listaDetalleCompra.Limpiar();
+
+            // 2. Recorremos todas las filas del DataGridView para volver a poblarla
+            foreach (DataGridViewRow row in dgvDetalleCompra.Rows)
+            {
+                if (row.Cells[0].Value == null) continue;
+
+                NodoDetalleCompra nodo = new NodoDetalleCompra
+                {
+                    IdProducto = Convert.ToInt32(row.Cells[0].Value),
+                    Producto = row.Cells[1].Value.ToString(),
+                    Categoria = row.Cells[2].Value.ToString(),
+                    Marca = row.Cells[3].Value.ToString(),
+                    Talla = row.Cells[4].Value.ToString(),
+                    PrecioCompra = Convert.ToDecimal(row.Cells[5].Value),
+                    PrecioVenta = Convert.ToDecimal(row.Cells[6].Value),
+                    Cantidad = Convert.ToInt32(row.Cells[7].Value),
+                    Subtotal = Convert.ToDecimal(row.Cells[8].Value)
+                };
+
+                listaDetalleCompra.Agregar(nodo);
+            }
+        }
+
+        private void dgvDetalleCompra_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDetalleCompra.Rows.Count)
+                return;
+
+            DataGridViewRow row = dgvDetalleCompra.Rows[e.RowIndex];
+
+            if (row.Cells[0].Value == null)
+                return;
+
+            try
+            {
+                // 1. Extraer los datos de la fila seleccionada
+                int idProducto = Convert.ToInt32(row.Cells[0].Value);
+                string talla = row.Cells[4].Value.ToString();
+                decimal precioCompra = Convert.ToDecimal(row.Cells[5].Value);
+                decimal precioVenta = Convert.ToDecimal(row.Cells[6].Value); // Ajusta el índice si la columna está en otra posición
+                int cantidad = Convert.ToInt32(row.Cells[7].Value);
+
+                // 2. Seleccionar el producto en el ComboBox
+                cargandoDatos = true;
+                cbProducto.SelectedValue = idProducto;
+                cargandoDatos = false;
+
+                // Disparar o asignar manualmente categoría y marca según el producto seleccionado
+                if (cbProducto.SelectedItem is DataRowView filaProducto)
+                {
+                    cbCategoria.Text = filaProducto["nombre_categoria"]?.ToString() ?? "";
+                    cbMarca.Text = filaProducto["nombre_marca"]?.ToString() ?? "";
+                }
+
+                // 3. Devolver los valores a los TextBox
+                txtTalla.Text = talla;
+                txtPrecioCompra.Text = precioCompra.ToString("0.00");
+                txtPrecioVenta.Text = precioVenta.ToString("0.00");
+                txtCantidad.Text = cantidad.ToString();
+
+                // 4. Eliminar la fila de la grilla temporalmente
+                dgvDetalleCompra.Rows.RemoveAt(e.RowIndex);
+
+                // 5. Sincronizar la lista enlazada y recalcular totales
+                SincronizarListaEnlazadaDesdeGrid();
+                CalcularTotales();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar el producto para editar:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

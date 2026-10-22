@@ -38,6 +38,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void Pusuario_Load(object sender, EventArgs e)
         {
+            txtUsuario.MaxLength = 50;
+            txtCompleto.MaxLength = 100;
+            txtTelefono.MaxLength = 8;
+            txtCedula.MaxLength = 16;
+            txtGmail.MaxLength = 50;
+            txtContraseña.MaxLength = 20;
+            txtConfirmar.MaxLength = 20;
+
             CargarRoles();
      
 

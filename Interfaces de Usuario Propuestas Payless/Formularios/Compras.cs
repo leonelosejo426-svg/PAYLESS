@@ -1,6 +1,8 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,6 +14,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using iTextFont = iTextSharp.text.Font;
+using iTextImg = iTextSharp.text.Image;
+using iTextRect = iTextSharp.text.Rectangle;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
@@ -469,6 +474,205 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Reportes ventana = new Reportes();
             ventana.Show();
             this.Hide();
+        }
+
+        public static void Generar(DataTable tablaCompras)
+        {
+            try
+            {
+                string nombreArchivo = "Compras_Caja_Actual_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+                string rutaArchivo = Path.Combine(Path.GetTempPath(), nombreArchivo);
+
+                iTextSharp.text.Document doc = new iTextSharp.text.Document(iTextSharp.text.PageSize.A4, 30f, 30f, 30f, 30f);
+                PdfWriter.GetInstance(doc, new FileStream(rutaArchivo, FileMode.Create));
+                doc.Open();
+
+                iTextSharp.text.BaseColor colorNaranjaPayless = new iTextSharp.text.BaseColor(242, 101, 34);
+                iTextSharp.text.BaseColor colorTexto = new iTextSharp.text.BaseColor(40, 40, 40);
+                iTextSharp.text.BaseColor colorGrisClaro = new iTextSharp.text.BaseColor(248, 249, 250);
+                iTextSharp.text.BaseColor colorBorde = new iTextSharp.text.BaseColor(220, 220, 220);
+
+                // Fuentes corregidas usando FontFactory
+                iTextFont fuenteTitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 15f, colorNaranjaPayless);
+                iTextFont fuenteSubtitulo = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f, iTextSharp.text.BaseColor.GRAY);
+                iTextFont fuenteEtiqueta = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f, colorTexto);
+                iTextFont fuenteTexto = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 9f, colorTexto);
+                iTextFont fuenteCabeceraTabla = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 9f, iTextSharp.text.BaseColor.WHITE);
+                iTextFont fuenteTotalBold = iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA_BOLD, 10f, colorNaranjaPayless);
+
+                PdfPTable headerTable = new PdfPTable(2);
+                headerTable.WidthPercentage = 100f;
+                headerTable.SetWidths(new float[] { 50f, 50f });
+
+                PdfPCell cellLeft = new PdfPCell();
+                cellLeft.Border = iTextRect.NO_BORDER;
+
+                string rutaBase = Path.Combine(Application.StartupPath, "Respaldos", "WhatsApp Image 2026-06-17 at 11.49.19 AM");
+                string rutaLogo = File.Exists(rutaBase + ".jpeg") ? rutaBase + ".jpeg" : (File.Exists(rutaBase + ".jpg") ? rutaBase + ".jpg" : rutaBase);
+
+                if (File.Exists(rutaLogo))
+                {
+                    iTextImg logo = iTextImg.GetInstance(rutaLogo);
+                    logo.ScaleToFit(140f, 60f);
+                    cellLeft.AddElement(logo);
+                }
+                else
+                {
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("PAYLESS SHOESOURCE", fuenteTitulo));
+                    cellLeft.AddElement(new iTextSharp.text.Paragraph("Calzado y Accesorios", fuenteSubtitulo));
+                }
+
+                headerTable.AddCell(cellLeft);
+
+                PdfPCell cellRight = new PdfPCell();
+                cellRight.Border = iTextRect.NO_BORDER;
+
+                iTextSharp.text.Paragraph pTitulo = new iTextSharp.text.Paragraph("COMPRAS - CAJA ACTUAL", fuenteTitulo);
+                pTitulo.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pTitulo);
+
+                iTextSharp.text.Paragraph pFechaEmision = new iTextSharp.text.Paragraph($"Generado: {DateTime.Now:dd/MM/yyyy HH:mm}", fuenteTexto);
+                pFechaEmision.Alignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                cellRight.AddElement(pFechaEmision);
+
+                headerTable.AddCell(cellRight);
+                doc.Add(headerTable);
+
+                doc.Add(new iTextSharp.text.Paragraph(" "));
+                PdfPTable line = new PdfPTable(1);
+                line.WidthPercentage = 100f;
+                PdfPCell lineCell = new PdfPCell(new iTextSharp.text.Phrase(""));
+                lineCell.BorderWidthBottom = 2f;
+                lineCell.BorderColorBottom = colorNaranjaPayless;
+                lineCell.Border = iTextRect.BOTTOM_BORDER;
+                line.AddCell(lineCell);
+                doc.Add(line);
+
+                doc.Add(new iTextSharp.text.Paragraph(" ", iTextSharp.text.FontFactory.GetFont(iTextSharp.text.FontFactory.HELVETICA, 4f)));
+
+                PdfPTable infoTable = new PdfPTable(1);
+                infoTable.WidthPercentage = 100f;
+                PdfPCell cellInfo = new PdfPCell();
+                cellInfo.Border = iTextRect.NO_BORDER;
+                cellInfo.AddElement(new iTextSharp.text.Paragraph($"Total de Compras Registradas en Caja: {tablaCompras.Rows.Count}", fuenteEtiqueta));
+                infoTable.AddCell(cellInfo);
+                doc.Add(infoTable);
+                doc.Add(new iTextSharp.text.Paragraph(" \n"));
+
+                PdfPTable tabla = new PdfPTable(5);
+                tabla.WidthPercentage = 100f;
+                tabla.SetWidths(new float[] { 15f, 25f, 35f, 15f, 10f });
+
+                string[] encabezados = { "N.º Compra", "Fecha y Hora", "Proveedor", "Total", "Estado" };
+                foreach (string enc in encabezados)
+                {
+                    PdfPCell cellHeader = new PdfPCell(new iTextSharp.text.Phrase(enc, fuenteCabeceraTabla));
+                    cellHeader.BackgroundColor = colorNaranjaPayless;
+                    cellHeader.HorizontalAlignment = (enc == "Proveedor") ? iTextSharp.text.Element.ALIGN_LEFT : iTextSharp.text.Element.ALIGN_CENTER;
+                    cellHeader.Padding = 6f;
+                    cellHeader.BorderColor = colorNaranjaPayless;
+                    tabla.AddCell(cellHeader);
+                }
+
+                bool esGris = false;
+                decimal sumaTotal = 0;
+
+                foreach (DataRow fila in tablaCompras.Rows)
+                {
+                    iTextSharp.text.BaseColor bgFila = esGris ? colorGrisClaro : iTextSharp.text.BaseColor.WHITE;
+
+                    string idCompra = $"C{Convert.ToInt32(fila["id_compra"]):D5}";
+                    string fecha = Convert.ToDateTime(fila["fecha"]).ToString("dd/MM/yyyy HH:mm");
+                    string proveedor = fila["proveedor"].ToString();
+                    decimal total = Convert.ToDecimal(fila["total"]);
+                    sumaTotal += total;
+                    string estado = Convert.ToBoolean(fila["estado"]) ? "Activa" : "Anulada";
+
+                    AgregarCelda(tabla, idCompra, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+                    AgregarCelda(tabla, fecha, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+                    AgregarCelda(tabla, proveedor, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_LEFT);
+                    AgregarCelda(tabla, $"C$ {total:N2}", fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_RIGHT);
+                    AgregarCelda(tabla, estado, fuenteTexto, bgFila, colorBorde, iTextSharp.text.Element.ALIGN_CENTER);
+
+                    esGris = !esGris;
+                }
+
+                doc.Add(tabla);
+                doc.Add(new iTextSharp.text.Paragraph(" "));
+
+                PdfPTable tablaTotales = new PdfPTable(2);
+                tablaTotales.WidthPercentage = 40f;
+                tablaTotales.HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT;
+                tablaTotales.SetWidths(new float[] { 50f, 50f });
+
+                PdfPCell cellTot1 = new PdfPCell(new iTextSharp.text.Phrase("TOTAL CAJA:", fuenteTotalBold)) { BorderColor = colorBorde, Padding = 5f, HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT };
+                PdfPCell cellTot2 = new PdfPCell(new iTextSharp.text.Phrase($"C$ {sumaTotal:N2}", fuenteTotalBold)) { BorderColor = colorBorde, Padding = 5f, HorizontalAlignment = iTextSharp.text.Element.ALIGN_RIGHT };
+                tablaTotales.AddCell(cellTot1);
+                tablaTotales.AddCell(cellTot2);
+
+                doc.Add(tablaTotales);
+
+                doc.Add(new iTextSharp.text.Paragraph(" \n"));
+                iTextSharp.text.Paragraph leyenda = new iTextSharp.text.Paragraph(
+                    "Payless ShoeSource Nicaragua - Control de Compras\n" +
+                    "Reporte generado automáticamente desde la sesión de caja activa.", fuenteSubtitulo)
+                {
+                    Alignment = iTextSharp.text.Element.ALIGN_CENTER
+                };
+
+                doc.Add(leyenda);
+                doc.Close();
+
+                Process.Start(new ProcessStartInfo(rutaArchivo) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al generar el PDF de compras de caja: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private static void AgregarCelda(PdfPTable tabla, string texto, iTextFont fuente, iTextSharp.text.BaseColor backgroundColor, iTextSharp.text.BaseColor borderColor, int alignment)
+        {
+            PdfPCell cell = new PdfPCell(new iTextSharp.text.Phrase(texto, fuente))
+            {
+                BackgroundColor = backgroundColor,
+                HorizontalAlignment = alignment,
+                VerticalAlignment = iTextSharp.text.Element.ALIGN_MIDDLE,
+                Padding = 5f,
+                BorderColor = borderColor
+            };
+            tabla.AddCell(cell);
+        }
+
+
+
+        private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // 1. Validar que el DataGridView tenga datos para imprimir
+                if (dgvCompras.Rows.Count == 0)
+                {
+                    MessageBox.Show("No hay registros de compras para imprimir.", "Imprimir Reporte", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 2. Extraer el DataTable directamente del DataSource del DataGridView
+                DataTable tablaCompras = dgvCompras.DataSource as DataTable;
+
+                if (tablaCompras == null || tablaCompras.Rows.Count == 0)
+                {
+                    MessageBox.Show("No se pudo obtener la información de las compras.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // 3. Llamar al generador de PDF para la caja/sesión actual
+                Generar(tablaCompras);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al intentar generar el reporte de compras: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

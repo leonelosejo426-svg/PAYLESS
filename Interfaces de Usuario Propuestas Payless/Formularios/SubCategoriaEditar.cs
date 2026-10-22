@@ -22,6 +22,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubCategoriaEditar_Load(object sender, EventArgs e)
         {
+            txtNombre.MaxLength = 50;
+            txtDescripcion.MaxLength = 100;
             CargarCategorias();
 
             cmbEstado.Items.Clear();

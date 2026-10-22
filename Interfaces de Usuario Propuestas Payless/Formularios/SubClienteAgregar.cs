@@ -104,6 +104,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // =====================================================
+            // VALIDAR DUPLICADOS EN LA BASE DE DATOS
+            // =====================================================
+            ClienteDAO daoVerificar = new ClienteDAO();
+
+            if (daoVerificar.ExisteNombre(nombreCliente))
+            {
+                MessageBox.Show("Ya existe un cliente registrado con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                q.Focus();
+                return;
+            }
+
+            if (daoVerificar.ExisteCedula(cedula))
+            {
+                MessageBox.Show("El número de cédula ingresado ya pertenece a otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcedula.Focus();
+                return;
+            }
+
+            if (daoVerificar.ExisteTelefono(telefono))
+            {
+                MessageBox.Show("El número de teléfono ingresado ya se encuentra registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                return;
+            }
+
             // Crear objeto cliente
             ClaseCliente cliente = new ClaseCliente();
 
@@ -152,7 +178,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubClienteAgregar_Load(object sender, EventArgs e)
         {
-
+            txtTelefono.MaxLength = 8; // Limitar el número de caracteres a 8
+            txtcedula.MaxLength = 16; // Limitar el número de caracteres a 16
+            richtxtDirreccion.MaxLength = 150; // Limitar el número de caracteres a 150
         }
 
         private void txtTelefono_KeyPress(object sender, KeyPressEventArgs e)

@@ -580,6 +580,158 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
+        // Verificar si el nombre ya existe en otro proveedor
+        public bool ExisteNombreEditar(string nombre, int idProveedor)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE LOWER(nombre) = LOWER(@nombre) AND id_proveedor <> @idProveedor;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    cmd.Parameters.AddWithValue("@idProveedor", idProveedor);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        // Verificar si el teléfono ya existe en otro proveedor
+        public bool ExisteTelefonoEditar(string telefono, int idProveedor)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE telefono = @telefono AND id_proveedor <> @idProveedor;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+                    cmd.Parameters.AddWithValue("@idProveedor", idProveedor);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        // Verificar si el correo ya existe en otro proveedor
+        public bool ExisteCorreoEditar(string correo, int idProveedor)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE LOWER(correo) = LOWER(@correo) AND id_proveedor <> @idProveedor;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@correo", correo);
+                    cmd.Parameters.AddWithValue("@idProveedor", idProveedor);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        // Verificar si el RUC ya existe en otro proveedor
+        public bool ExisteRucEditar(string ruc, int idProveedor)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE UPPER(ruc) = UPPER(@ruc) AND id_proveedor <> @idProveedor;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@ruc", ruc);
+                    cmd.Parameters.AddWithValue("@idProveedor", idProveedor);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        // Método para actualizar en la base de datos (asegúrate de tenerlo o adáptalo a tu consulta)
+        public bool ActualizarProveedor(ClaseProveedor p)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = @"UPDATE proveedor 
+                       SET nombre = @nombre, telefono = @telefono, correo = @correo, direccion = @direccion, ruc = @ruc, estado = @estado 
+                       WHERE id_proveedor = @id;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", p.Nombre);
+                    cmd.Parameters.AddWithValue("@telefono", p.Telefono);
+                    cmd.Parameters.AddWithValue("@correo", p.Correo);
+                    cmd.Parameters.AddWithValue("@direccion", p.Direccion);
+                    cmd.Parameters.AddWithValue("@ruc", p.Ruc);
+                    cmd.Parameters.AddWithValue("@estado", p.EstadoProveedor);
+                    cmd.Parameters.AddWithValue("@id", p.IdProveedor);
+
+                    return cmd.ExecuteNonQuery() > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        public bool ExisteNombre(string nombre)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE LOWER(nombre) = LOWER(@nombre);";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        public bool ExisteTelefono(string telefono)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE telefono = @telefono;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        public bool ExisteCorreo(string correo)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE LOWER(correo) = LOWER(@correo);";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@correo", correo);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        public bool ExisteRuc(string ruc)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM proveedor WHERE UPPER(ruc) = UPPER(@ruc);";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@ruc", ruc);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
     }
     
 }

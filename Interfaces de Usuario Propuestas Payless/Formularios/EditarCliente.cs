@@ -28,6 +28,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         //Cargar formulario
         private void EditarCliente_Load(object sender, EventArgs e)
         {
+            txtCedula.MaxLength = 16;
+            txtNombre.MaxLength = 50;
+            txtTelefono.MaxLength = 8;
+            txtDireccion.MaxLength = 200;
+
+
             // Cargar clientes guardados
             DataTable tabla = clienteDAO.MostrarClientes();
 
@@ -168,6 +174,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("Ingrese la dirección.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDireccion.Focus();
+                return;
+            }
+
+            // =====================================================
+            // VALIDAR DUPLICADOS EN LA BASE DE DATOS
+            // =====================================================
+            ClienteDAO daoVerificar = new ClienteDAO();
+
+            if (daoVerificar.ExisteNombre(nombreCliente))
+            {
+                MessageBox.Show("Ya existe un cliente registrado con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            if (daoVerificar.ExisteCedula(cedula))
+            {
+                MessageBox.Show("El número de cédula ingresado ya pertenece a otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCedula.Focus();
+                return;
+            }
+
+            if (daoVerificar.ExisteTelefono(telefono))
+            {
+                MessageBox.Show("El número de teléfono ingresado ya se encuentra registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
                 return;
             }
 

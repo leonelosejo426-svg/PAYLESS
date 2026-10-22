@@ -88,6 +88,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubCategoriaAgregar_Load(object sender, EventArgs e)
         {
+            txtNombre.MaxLength = 50;
+            txtDescripcion.MaxLength = 100;
             cmbEstado.Items.Clear();
 
             cmbEstado.Items.Add("Activo");

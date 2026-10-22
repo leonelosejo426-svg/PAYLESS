@@ -17,6 +17,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
     public partial class NuevaVenta : Form
     {
         private VentaDAO ventaDAO;
+        private ClaseSesion clasesesion  = new ClaseSesion();
 
         private int idProductoSeleccionado = 0;
         private int idProductoTallaSeleccionado = 0;
@@ -35,6 +36,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void NuevaVenta_Load(object sender, EventArgs e)
         {
+            lblUsuario.Text = ClaseSesion.UsuarioActual;
+
+            txtCantidad.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos y control (como backspace)
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar))
+                {
+                    ev.Handled = true;
+                }
+            };
+
             try
             {
                 ConfigurarFormulario();
@@ -799,6 +811,74 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         private void CBproducto_KeyDown(object sender, KeyEventArgs e)
         {
             
+        }
+
+        private void dgvDetalleVenta_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void dgvDetalleVenta_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Validar que no sea la cabecera y que sea una fila válida
+            if (e.RowIndex < 0 || e.RowIndex >= dgvDetalleVenta.Rows.Count)
+                return;
+
+            DataGridViewRow row = dgvDetalleVenta.Rows[e.RowIndex];
+
+            if (row.Cells[0].Value == null)
+                return;
+
+            try
+            {
+                // 1. Obtener los valores de la fila seleccionada
+                int idProductoTalla = Convert.ToInt32(row.Cells[0].Value);
+                string nombreProducto = row.Cells[1].Value.ToString();
+                string talla = row.Cells[4].Value.ToString();
+                int cantidadActual = Convert.ToInt32(row.Cells[6].Value);
+
+                // 2. Seleccionar el producto en el ComboBox buscando por texto o valor
+                CBproducto.Text = nombreProducto;
+
+                // Esto disparará el evento SelectedIndexChanged del producto y cargará sus tallas automáticamente
+                idProductoSeleccionado = Convert.ToInt32(CBproducto.SelectedValue);
+                CargarInformacionProducto();
+                CargarTallas();
+
+                // 3. Seleccionar la talla correspondiente en el ComboBox de tallas
+                CBTalla.Text = talla;
+                idProductoTallaSeleccionado = idProductoTalla;
+
+                // 4. Cargar precio y stock actual en pantalla
+                CargarPrecio();
+                CargarStock();
+
+                // IMPORTANTE: Devolvemos la cantidad que tenía en la línea al stock visual temporalmente 
+                // para que no afecte la validación al sobreescribir o sumar.
+                if (int.TryParse(txtStockActual.Text, out int stockActual))
+                {
+                    txtStockActual.Text = (stockActual + cantidadActual).ToString();
+                }
+
+                // 5. Cargar la cantidad en el TextBox para editarla
+                txtCantidad.Text = cantidadActual.ToString();
+
+                // 6. Eliminar temporalmente la fila de la grilla (para que al darle "Agregar" de nuevo se actualice limpia)
+                dgvDetalleVenta.Rows.RemoveAt(e.RowIndex);
+
+                // 7. Sincronizar la lista enlazada interna y recalcular totales
+                SincronizarListaEnlazadaDesdeGrid();
+                CalcularTotales();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Error al cargar el producto para editar:\n" + ex.Message,
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
         }
     }
 }

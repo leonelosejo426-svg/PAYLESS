@@ -1,4 +1,5 @@
-﻿using iTextSharp.text;
+﻿using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
         {
             try
             {
-                // 1. Crear una ruta temporal automática para el PDF
-                string nombreArchivo = "Reporte_De_Compras_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
+                // 1. Ruta temporal automática para el PDF
+                string nombreArchivo = "Reporte_De_Compras_Detallado_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".pdf";
                 string rutaArchivo = Path.Combine(Path.GetTempPath(), nombreArchivo);
 
                 // 2. Configurar documento PDF (Tamaño A4, márgenes de 30 puntos)
@@ -27,17 +28,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 PdfWriter.GetInstance(doc, new FileStream(rutaArchivo, FileMode.Create));
                 doc.Open();
 
-                // 3. PALETA DE COLORES CORPORATIVA PAYLESS (Naranja #F26522 y Gris)
+                // 3. PALETA DE COLORES PAYLESS
                 BaseColor colorNaranjaPayless = new BaseColor(242, 101, 34);
                 BaseColor colorTexto = new BaseColor(40, 40, 40);
                 BaseColor colorGrisClaro = new BaseColor(248, 249, 250);
                 BaseColor colorBorde = new BaseColor(220, 220, 220);
+                BaseColor colorFondoCompra = new BaseColor(255, 243, 230); // Naranja muy suave para cabecera de compra
 
                 Font fuenteTitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 15f, colorNaranjaPayless);
                 Font fuenteSubtitulo = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 9f, BaseColor.GRAY);
                 Font fuenteEtiqueta = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8.5f, colorTexto);
                 Font fuenteTexto = FontFactory.GetFont(FontFactory.HELVETICA, 8.5f, colorTexto);
-                Font fuenteCabeceraTabla = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8.5f, BaseColor.WHITE);
+                Font fuenteCabeceraTabla = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 8f, BaseColor.WHITE);
+                Font fuenteDetalle = FontFactory.GetFont(FontFactory.HELVETICA, 7.5f, colorTexto);
                 Font fuenteTotalBold = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 10f, colorNaranjaPayless);
 
                 // 4. ENCABEZADO Y LOGO
@@ -68,7 +71,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 PdfPCell cellRight = new PdfPCell();
                 cellRight.Border = Rectangle.NO_BORDER;
 
-                Paragraph pTitulo = new Paragraph("REPORTE DE COMPRAS", fuenteTitulo);
+                Paragraph pTitulo = new Paragraph("REPORTE DETALLADO DE COMPRAS", fuenteTitulo);
                 pTitulo.Alignment = Element.ALIGN_RIGHT;
                 cellRight.AddElement(pTitulo);
 
@@ -106,7 +109,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
 
                 PdfPCell cellTotalRegistros = new PdfPCell();
                 cellTotalRegistros.Border = Rectangle.NO_BORDER;
-                Paragraph pReg = new Paragraph($"Total Registros: {tablaReporte.Rows.Count}", fuenteEtiqueta);
+                Paragraph pReg = new Paragraph($"Total Compras: {tablaReporte.Rows.Count}", fuenteEtiqueta);
                 pReg.Alignment = Element.ALIGN_RIGHT;
                 cellTotalRegistros.AddElement(pReg);
                 infoTable.AddCell(cellTotalRegistros);
@@ -114,48 +117,91 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 doc.Add(infoTable);
                 doc.Add(new Paragraph(" \n"));
 
-                // 6. TABLA DE DATOS DE COMPRAS (7 COLUMNAS)
-                PdfPTable tabla = new PdfPTable(7);
-                tabla.WidthPercentage = 100f;
-                tabla.SetWidths(new float[] { 10f, 18f, 24f, 18f, 11f, 12f, 8f }); // 7 anchos que suman 100%
-
-                string[] encabezados = { "Código", "Fecha", "Proveedor", "Registrado por", "Rol", "Total", "Estado" };
-                foreach (string enc in encabezados)
-                {
-                    PdfPCell cellHeader = new PdfPCell(new Phrase(enc, fuenteCabeceraTabla));
-                    cellHeader.BackgroundColor = colorNaranjaPayless;
-                    cellHeader.HorizontalAlignment = (enc == "Proveedor" || enc == "Registrado por") ? Element.ALIGN_LEFT : Element.ALIGN_CENTER;
-                    cellHeader.Padding = 5f;
-                    cellHeader.BorderColor = colorNaranjaPayless;
-                    tabla.AddCell(cellHeader);
-                }
-
-                bool esGris = false;
+                ReporteCompraDAO reporteDao = new ReporteCompraDAO();
                 decimal sumaTotalGeneral = 0;
 
-                foreach (DataRow fila in tablaReporte.Rows)
+                // 6. RECORRER CADA COMPRA Y SU DETALLE DE PRODUCTOS
+                foreach (DataRow filaCompra in tablaReporte.Rows)
                 {
-                    BaseColor bgFila = esGris ? colorGrisClaro : BaseColor.WHITE;
+                    int idCompra = Convert.ToInt32(filaCompra["id_compra"]);
+                    string codigo = filaCompra["Código"].ToString();
+                    string fecha = Convert.ToDateTime(filaCompra["Fecha"]).ToString("dd/MM/yyyy HH:mm");
+                    string proveedor = filaCompra["Proveedor"].ToString();
+                    string usuario = filaCompra["Usuario"].ToString();
+                    string rol = filaCompra["Rol"].ToString();
+                    decimal totalCompra = Convert.ToDecimal(filaCompra["Total"]);
+                    string estado = filaCompra["Estado"].ToString();
 
-                    AgregarCeldaTabla(tabla, fila["Código"].ToString(), fuenteTexto, bgFila, colorBorde, Element.ALIGN_CENTER);
+                    sumaTotalGeneral += totalCompra;
 
-                    string fechaFormateada = Convert.ToDateTime(fila["Fecha"]).ToString("dd/MM/yyyy HH:mm");
-                    AgregarCeldaTabla(tabla, fechaFormateada, fuenteTexto, bgFila, colorBorde, Element.ALIGN_CENTER);
+                    // Tarjeta / Encabezado de la Compra
+                    PdfPTable tablaEncabezadoCompra = new PdfPTable(4);
+                    tablaEncabezadoCompra.WidthPercentage = 100f;
+                    tablaEncabezadoCompra.SetWidths(new float[] { 20f, 40f, 25f, 15f });
 
-                    AgregarCeldaTabla(tabla, fila["Proveedor"].ToString(), fuenteTexto, bgFila, colorBorde, Element.ALIGN_LEFT);
-                    AgregarCeldaTabla(tabla, fila["Usuario"].ToString(), fuenteTexto, bgFila, colorBorde, Element.ALIGN_LEFT);
-                    AgregarCeldaTabla(tabla, fila["Rol"].ToString(), fuenteTexto, bgFila, colorBorde, Element.ALIGN_LEFT);
+                    AgregarCeldaCabeceraCompra(tablaEncabezadoCompra, $"Compra: {codigo}", fuenteEtiqueta, colorFondoCompra, colorBorde, Element.ALIGN_LEFT);
+                    AgregarCeldaCabeceraCompra(tablaEncabezadoCompra, $"Proveedor: {proveedor}", fuenteTexto, colorFondoCompra, colorBorde, Element.ALIGN_LEFT);
+                    AgregarCeldaCabeceraCompra(tablaEncabezadoCompra, $"Fecha: {fecha}", fuenteTexto, colorFondoCompra, colorBorde, Element.ALIGN_CENTER);
+                    AgregarCeldaCabeceraCompra(tablaEncabezadoCompra, $"Estado: {estado}", fuenteTexto, colorFondoCompra, colorBorde, Element.ALIGN_CENTER);
 
-                    decimal totalFila = Convert.ToDecimal(fila["Total"]);
-                    sumaTotalGeneral += totalFila;
-                    AgregarCeldaTabla(tabla, $"C$ {totalFila:N2}", fuenteTexto, bgFila, colorBorde, Element.ALIGN_RIGHT);
+                    doc.Add(tablaEncabezadoCompra);
 
-                    AgregarCeldaTabla(tabla, fila["Estado"].ToString(), fuenteTexto, bgFila, colorBorde, Element.ALIGN_CENTER);
+                    // Subtabla con los productos de esta compra
+                    DataTable dtDetalle = reporteDao.ObtenerDetallesPorCompra(idCompra);
 
-                    esGris = !esGris;
+                    if (dtDetalle.Rows.Count > 0)
+                    {
+                        PdfPTable tablaDetalle = new PdfPTable(6);
+                        tablaDetalle.WidthPercentage = 95f;
+                        tablaDetalle.HorizontalAlignment = Element.ALIGN_RIGHT;
+                        tablaDetalle.SetWidths(new float[] { 32f, 14f, 13f, 13f, 10f, 18f });
+
+                        string[] headersDetalle = { "Producto / Cat. / Marca", "Talla", "P. Compra", "P. Venta", "Cant", "Subtotal" };
+                        foreach (string h in headersDetalle)
+                        {
+                            PdfPCell cellH = new PdfPCell(new Phrase(h, fuenteCabeceraTabla))
+                            {
+                                BackgroundColor = colorNaranjaPayless,
+                                HorizontalAlignment = (h.Contains("Producto")) ? Element.ALIGN_LEFT : Element.ALIGN_CENTER,
+                                Padding = 4f,
+                                BorderColor = colorNaranjaPayless
+                            };
+                            tablaDetalle.AddCell(cellH);
+                        }
+
+                        foreach (DataRow filaDet in dtDetalle.Rows)
+                        {
+                            string infoProd = $"{filaDet["producto"]} ({filaDet["categoria"]} - {filaDet["marca"]})";
+                            string talla = filaDet["talla"].ToString();
+                            decimal pCompra = Convert.ToDecimal(filaDet["precio_compra"]);
+                            decimal pVenta = Convert.ToDecimal(filaDet["precio_venta"]);
+                            int cantidad = Convert.ToInt32(filaDet["cantidad"]);
+                            decimal subtotal = Convert.ToDecimal(filaDet["subtotal"]);
+
+                            AgregarCeldaTabla(tablaDetalle, infoProd, fuenteDetalle, BaseColor.WHITE, colorBorde, Element.ALIGN_LEFT);
+                            AgregarCeldaTabla(tablaDetalle, talla, fuenteDetalle, BaseColor.WHITE, colorBorde, Element.ALIGN_CENTER);
+                            AgregarCeldaTabla(tablaDetalle, $"C$ {pCompra:N2}", fuenteDetalle, BaseColor.WHITE, colorBorde, Element.ALIGN_RIGHT);
+                            AgregarCeldaTabla(tablaDetalle, $"C$ {pVenta:N2}", fuenteDetalle, BaseColor.WHITE, colorBorde, Element.ALIGN_RIGHT);
+                            AgregarCeldaTabla(tablaDetalle, cantidad.ToString(), fuenteDetalle, BaseColor.WHITE, colorBorde, Element.ALIGN_CENTER);
+                            AgregarCeldaTabla(tablaDetalle, $"C$ {subtotal:N2}", fuenteDetalle, BaseColor.WHITE, colorBorde, Element.ALIGN_RIGHT);
+                        }
+
+                        doc.Add(tablaDetalle);
+                    }
+
+                    // Fila de total de la compra actual
+                    PdfPTable tablaSubtotalCompra = new PdfPTable(2);
+                    tablaSubtotalCompra.WidthPercentage = 95f;
+                    tablaSubtotalCompra.HorizontalAlignment = Element.ALIGN_RIGHT;
+                    tablaSubtotalCompra.SetWidths(new float[] { 80f, 20f });
+
+                    AgregarCeldaTabla(tablaSubtotalCompra, $"Registrado por: {usuario} ({rol}) | Total Compra:", fuenteEtiqueta, colorGrisClaro, colorBorde, Element.ALIGN_RIGHT);
+                    AgregarCeldaTabla(tablaSubtotalCompra, $"C$ {totalCompra:N2}", fuenteEtiqueta, colorGrisClaro, colorBorde, Element.ALIGN_RIGHT);
+
+                    doc.Add(tablaSubtotalCompra);
+                    doc.Add(new Paragraph(" ", FontFactory.GetFont(FontFactory.HELVETICA, 6f))); // Espacio separador entre compras
                 }
 
-                doc.Add(tabla);
                 doc.Add(new Paragraph(" "));
 
                 // 7. TOTAL GENERAL ACUMULADO
@@ -164,15 +210,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 tablaTotales.HorizontalAlignment = Element.ALIGN_RIGHT;
                 tablaTotales.SetWidths(new float[] { 45f, 55f });
 
-                AgregarFilaTotal(tablaTotales, "TOTAL COMPRAS:", $"C$ {sumaTotalGeneral:N2}", fuenteTotalBold, colorNaranjaPayless, colorBorde);
-
+                AgregarFilaTotal(tablaTotales, "TOTAL GENERAL COMPRAS:", $"C$ {sumaTotalGeneral:N2}", fuenteTotalBold, colorNaranjaPayless, colorBorde);
                 doc.Add(tablaTotales);
 
                 // 8. PIE DE PÁGINA
                 doc.Add(new Paragraph(" \n"));
                 Paragraph leyenda = new Paragraph(
                     "Payless ShoeSource Nicaragua - Control de Compras e Inventario\n" +
-                    "Este reporte es un comprobante informativo de auditoría interna.", fuenteSubtitulo)
+                    "Este reporte detallado es un comprobante informativo de auditoría interna.", fuenteSubtitulo)
                 {
                     Alignment = Element.ALIGN_CENTER
                 };
@@ -180,13 +225,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 doc.Add(leyenda);
                 doc.Close();
 
-                // Abrir automáticamente el PDF generado en el visor/navegador web por defecto
+                // Abrir PDF automáticamente
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(rutaArchivo) { UseShellExecute = true });
             }
-            catch (Exception ex) // Corregido el error tipográfico "async catch"
+            catch (Exception ex)
             {
-                MessageBox.Show("Error al generar el PDF de compras: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Error al generar el PDF detallado de compras: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private static void AgregarCeldaCabeceraCompra(PdfPTable tabla, string texto, Font fuente, BaseColor backgroundColor, BaseColor borderColor, int alignment)
+        {
+            PdfPCell cell = new PdfPCell(new Phrase(texto, fuente))
+            {
+                BackgroundColor = backgroundColor,
+                HorizontalAlignment = alignment,
+                VerticalAlignment = Element.ALIGN_MIDDLE,
+                Padding = 5f,
+                BorderColor = borderColor
+            };
+            tabla.AddCell(cell);
         }
 
         private static void AgregarCeldaTabla(PdfPTable tabla, string texto, Font fuente, BaseColor backgroundColor, BaseColor borderColor, int alignment)
@@ -196,7 +254,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                 BackgroundColor = backgroundColor,
                 HorizontalAlignment = alignment,
                 VerticalAlignment = Element.ALIGN_MIDDLE,
-                Padding = 5f,
+                Padding = 4f,
                 BorderColor = borderColor
             };
             tabla.AddCell(cell);
@@ -220,6 +278,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
             };
             tabla.AddCell(cell2);
         }
-
     }
 }
