@@ -26,6 +26,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             aperturaCajaDAO = new AperturaCajaDAO();
 
+            this.idUsuario = idUsuario;
+            this.nombreUsuario = nombreUsuario;
+
             dtpFecha.Value = DateTime.Now;
             dtpHora.Value = DateTime.Now;
 

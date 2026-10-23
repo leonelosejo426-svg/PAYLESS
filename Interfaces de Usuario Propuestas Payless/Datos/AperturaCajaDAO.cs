@@ -27,18 +27,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             {
                 conexionBD.AbrirConexion();
 
-                string sql = @"
-                    SELECT COUNT(*)
-                    FROM caja
-                    WHERE estado_caja = 'Abierta'
-                      AND id_usuario = @idUsuario";
+                // IMPORTANTE: Validamos que sea específicamente del usuario Y que su estado sea 'Abierta'
+                string sql = "SELECT COUNT(*) FROM caja WHERE id_usuario = @idUsuario AND estado_caja = 'Abierta';";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
-                    int cantidad = Convert.ToInt32(cmd.ExecuteScalar());
+                    int conteo = Convert.ToInt32(cmd.ExecuteScalar());
 
-                    return cantidad > 0;
+                    return conteo > 0; // Si es mayor a 0, significa que este cajero ya tiene una caja abierta ahorita
                 }
             }
             finally

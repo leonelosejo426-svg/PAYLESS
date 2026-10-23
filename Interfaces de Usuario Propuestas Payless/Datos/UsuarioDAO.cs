@@ -84,6 +84,85 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
 
+        public string ValidarCredenciales(string usuario, string contraseña)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                // 1. Verificamos si el usuario existe
+                bool existeUsuario = false;
+                bool estadoUsuario = true;
+                string passUsuario = string.Empty;
+
+                string sqlUsuario = "SELECT password, estado FROM usuario WHERE nombre_usuario = @usuario;";
+                using (NpgsqlCommand cmdU = new NpgsqlCommand(sqlUsuario, conexionBD.ObtenerConexion()))
+                {
+                    cmdU.Parameters.AddWithValue("@usuario", usuario);
+                    using (var reader = cmdU.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            existeUsuario = true;
+                            passUsuario = reader.GetString(0);
+                            estadoUsuario = reader.GetBoolean(1);
+                        }
+                    }
+                }
+
+                // 2. Verificamos si la contraseña ingresada existe en el sistema
+                bool existePassword = false;
+                string sqlPass = "SELECT COUNT(*) FROM usuario WHERE password = @password;";
+                using (NpgsqlCommand cmdP = new NpgsqlCommand(sqlPass, conexionBD.ObtenerConexion()))
+                {
+                    cmdP.Parameters.AddWithValue("@password", contraseña);
+                    int countPass = Convert.ToInt32(cmdP.ExecuteScalar());
+                    if (countPass > 0)
+                    {
+                        existePassword = true;
+                    }
+                }
+
+                // 3. Evaluamos combinaciones de fallo
+                if (existeUsuario)
+                {
+                    if (!estadoUsuario)
+                    {
+                        return "USUARIO_INACTIVO";
+                    }
+
+                    if (passUsuario == contraseña)
+                    {
+                        return "OK"; // Usuario bien y Contraseña bien
+                    }
+                    else
+                    {
+                        return "PASSWORD_INCORRECTO"; // Usuario bien y Contraseña mal
+                    }
+                }
+                else
+                {
+                    if (existePassword)
+                    {
+                        return "USUARIO_INCORRECTO"; // Usuario mal y Contraseña bien (existente en BD)
+                    }
+                    else
+                    {
+                        return "AMBOS_INCORRECTOS"; // Usuario mal y Contraseña mal
+                    }
+                }
+            }
+            catch
+            {
+                return "ERROR_BD";
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+
 
         // =========================================================
         // MOSTRAR TODOS LOS USUARIOS

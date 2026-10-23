@@ -16,7 +16,7 @@ using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
-    public partial class Login: Form
+    public partial class Login : Form
     {
         private bool passwordVisible = false;
         private ConexionBD conexionBD = new ConexionBD();
@@ -34,7 +34,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             bool usuarioVacio = string.IsNullOrWhiteSpace(usuario);
             bool contrasenaVacia = string.IsNullOrWhiteSpace(contraseña);
 
-            // Validación de campos vacíos
+            // 1. Validaciones de campos vacíos
             if (usuarioVacio && contrasenaVacia)
             {
                 MessageBox.Show("El usuario y la contraseña no pueden estar vacíos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -58,18 +58,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             try
             {
-                // 1. Guardamos el historial de log
+                // 2. Historial de log
                 ReporteUsuarioDAO reporteDAO = new ReporteUsuarioDAO();
                 reporteDAO.IniciarSesion(usuario, contraseña);
 
-                // 2. Ejecutamos la sesión operativa en tu UsuarioDAO
                 UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-                if (usuarioDAO.IniciarSesion(usuario, contraseña))
+                // 3. Evaluamos los escenarios específicos
+                string resultadoValidacion = usuarioDAO.ValidarCredenciales(usuario, contraseña);
+
+                if (resultadoValidacion == "OK")
                 {
+                    // Iniciamos la sesión global
+                    usuarioDAO.IniciarSesion(usuario, contraseña);
+
                     MessageBox.Show("Bienvenido " + ClaseSesion.RolActual + " " + ClaseSesion.UsuarioActual, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // 3. CONTROL DE ROLES
+                    // CONTROL DE ROLES
                     if (ClaseSesion.RolActual.Trim().ToLower() == "cajero")
                     {
                         if (ClaseSesion.TieneCajaActiva)
@@ -98,12 +103,37 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     this.Hide();
                 }
-                else
+                else if (resultadoValidacion == "USUARIO_INCORRECTO")
                 {
-                    // Mensaje unificado y profesional para cuando las credenciales son incorrectas
-                    MessageBox.Show("Usuario y contraseña incorrectos.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Usuario mal pero contraseña bien
+                    MessageBox.Show("El usuario ingresado no existe.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtUsuario.Focus();
+                    txtUsuario.SelectAll();
+                }
+                else if (resultadoValidacion == "PASSWORD_INCORRECTO")
+                {
+                    // Usuario bien pero contraseña mal
+                    MessageBox.Show("La contraseña ingresada es incorrecta.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtContraseña.Clear();
                     txtContraseña.Focus();
+                }
+                else if (resultadoValidacion == "AMBOS_INCORRECTOS")
+                {
+                    // Ambos datos están mal
+                    MessageBox.Show("Usuario y contraseña incorrectos.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtUsuario.Focus();
+                    txtUsuario.SelectAll();
+                }
+                else if (resultadoValidacion == "USUARIO_INACTIVO")
+                {
+                    MessageBox.Show("Esta cuenta de usuario se encuentra inactiva.", "Cuenta Inactiva", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtUsuario.Focus();
+                    txtUsuario.SelectAll();
+                }
+                else
+                {
+                    MessageBox.Show("Error al validar credenciales en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtUsuario.Focus();
                 }
             }
             catch (Exception ex)
@@ -111,6 +141,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("Error al conectar con la base de datos: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
 
 
 

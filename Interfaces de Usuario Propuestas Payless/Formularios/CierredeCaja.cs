@@ -216,6 +216,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             if (resultado)
             {
+                // ¡IMPORTANTE! Liberamos el candado global de la caja activa
+                ClaseSesion.TieneCajaActiva = false;
+
                 MessageBox.Show(
                     "Caja cerrada correctamente.",
                     "Información",
