@@ -18,6 +18,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private ArqueoCajaDAO arqueoDAO = new ArqueoCajaDAO();
         private int idCajaActual = 0;
+
+        private ClaseSesion clasesesion = new ClaseSesion();
         private decimal tipoCambio = 36.50m;
 
         // Ventas esperadas del turno por moneda
@@ -41,6 +43,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void ArqueodeCaja_Load(object sender, EventArgs e)
         {
+            lblUsuario.Text = ClaseSesion.UsuarioActual;
             idCajaActual = arqueoDAO.ObtenerCajaAbierta();
 
             if (idCajaActual == 0)
@@ -55,20 +58,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblTipoCambio", true).Length > 0)
                 lblTipoCambio.Text = "C$ " + tipoCambio.ToString("N2");
 
-            // 1. Cargar ventas esperadas en Córdobas (Efectivo)
-            ventasEsperadasCordobas = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
+            // 1. Obtener el total de ventas en córdobas registradas en la caja
+            decimal ventasTotalesCordobas = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
 
             // =====================================================
-            // 2. CARGAR Y MOSTRAR LAS VENTAS POR TARJETA EN LA ETIQUETA
+            // 2. CARGAR Y MOSTRAR LAS VENTAS POR TARJETA (SOLO REFLEJO)
             // =====================================================
             decimal ventasTarjeta = arqueoDAO.ObtenerVentasTarjetaCaja(idCajaActual);
 
-            if (lblTotalTarjeta != null) // O usa Controls.Find si es necesario
+            if (lblTotalTarjeta != null)
             {
                 lblTotalTarjeta.Text = "C$ " + ventasTarjeta.ToString("N2");
             }
 
-            // 3. Cargar ventas esperadas en Dólares
+            // 3. Ajustar las ventas esperadas en córdobas (Efectivo real)
+            // Se restan las tarjetas para que el efectivo físico esperado no las exija en la gaveta
+            ventasEsperadasCordobas = ventasTotalesCordobas - ventasTarjeta;
+            if (ventasEsperadasCordobas < 0) ventasEsperadasCordobas = 0m;
+
+            // 4. Cargar ventas esperadas en Dólares
             ventasEsperadasDolares = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
 
             ConfigurarEventos();
@@ -323,14 +331,20 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private decimal ObtenerMontoArqueado()
         {
-            string texto = lblMontoTotalArqueado.Text.Replace("C$", "").Replace("C $", "").Trim();
+            // Limpiamos los símbolos de moneda, espacios y las comas de los miles
+            string texto = lblMontoTotalArqueado.Text
+                .Replace("C$", "")
+                .Replace("C $", "")
+                .Replace(",", "")
+                .Trim();
 
-            if (decimal.TryParse(texto, NumberStyles.Number, CultureInfo.CurrentCulture, out decimal monto))
+            // Usamos InvariantCulture para que reconozca el punto decimal sin importar la configuración regional
+            if (decimal.TryParse(texto, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal monto))
             {
                 return monto;
             }
 
-            return 0;
+            return 0m;
         }
 
         private void label15_Click(object sender, EventArgs e)

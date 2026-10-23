@@ -24,6 +24,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private decimal precioVentaActual = 0;
         private decimal tipoCambioActual = 0;
+        private DataTable dtProductosOriginal = null;
+        private bool isFiltering = false;
 
         // LISTA ENLAZADA DE LOS PRODUCTOS DE LA VENTA
         private ListaEnlazadaDetalleVenta listaDetalleVenta =
@@ -95,9 +97,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
         {
             try
             {
-                DataTable productos = ventaDAO.CargarProductos();
+                dtProductosOriginal = ventaDAO.ObtenerProductosConStockYPreciosValidos();
 
-                CBproducto.DataSource = productos;
+
+                CBproducto.DataSource = dtProductosOriginal;
                 CBproducto.DisplayMember = "nombre";
                 CBproducto.ValueMember = "id_producto";
                 CBproducto.SelectedIndex = -1;
@@ -366,6 +369,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                         MessageBoxIcon.Warning
                     );
                 }
+
             }
             catch (Exception ex)
             {
@@ -429,7 +433,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 return false;
             }
 
-
             if (!int.TryParse(txtCantidad.Text, out int cantidad) || cantidad <= 0)
             {
                 MessageBox.Show(
@@ -440,9 +443,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 );
                 return false;
             }
-            if (!int.TryParse(
-                txtStockActual.Text,
-                out int stock))
+
+            if (!int.TryParse(txtStockActual.Text, out int stock))
             {
                 MessageBox.Show(
                     "No se pudo obtener el stock disponible.",
@@ -465,6 +467,57 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
                 return false;
             }
+
+            // =========================================================================
+            // NUEVA VALIDACIÓN DE STOCK MÍNIMO CON ALERTA OK/CANCEL
+            // =========================================================================
+
+            // Supongamos que tienes una variable global o la obtienes de tu BD: int stockMinimoBD = ...; (ej. 5)
+            // Si aún no tienes la variable de stock mínimo en tu formulario, puedes declararla arriba, 
+            // por ejemplo: private int stockMinimoBD = 5; (o traerla desde el DAO junto con el stock).
+            int stockMinimoBD = 5; // <--- Cambia esto por la variable real que traigas de tu BD para este producto
+
+            // Calculamos cuánto es lo máximo que se puede vender respetando el stock mínimo
+            int cantidadMaximaPermitida = stock - stockMinimoBD;
+
+            // Si la cantidad que quiere vender supera lo permitido por el stock mínimo:
+            if (cantidad > cantidadMaximaPermitida)
+            {
+                if (cantidadMaximaPermitida <= 0)
+                {
+                    MessageBox.Show(
+                        "No se puede realizar la venta. El producto se encuentra en su límite de stock mínimo.",
+                        "Stock Insuficiente",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
+                    return false;
+                }
+
+                // Mostramos la alerta con OK / Cancel
+                DialogResult respuesta = MessageBox.Show(
+                    $"¡Alerta de Stock Mínimo!\n\n" +
+                    $"Si vende {cantidad} unidades, se quedará sin stock o por debajo del mínimo permitido ({stockMinimoBD}).\n\n" +
+                    $"La cantidad máxima que puede vender respetando el stock mínimo es de: {cantidadMaximaPermitida} unidades.\n\n" +
+                    $"¿Desea agregar únicamente los {cantidadMaximaPermitida} productos permitidos?",
+                    "Advertencia de Stock Mínimo",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Question
+                );
+
+                if (respuesta == DialogResult.OK)
+                {
+                    // Forzamos el TextBox de cantidad a que tome solo lo permitido automáticamente
+                    txtCantidad.Text = cantidadMaximaPermitida.ToString();
+                    return true; // Permite continuar y agregar los productos ajustados
+                }
+                else
+                {
+                    // Si le da en Cancelar, frena el proceso
+                    return false;
+                }
+            }
+            // =========================================================================
 
             if (cantidad > stock)
             {
@@ -810,7 +863,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void CBproducto_KeyDown(object sender, KeyEventArgs e)
         {
-            
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evita el sonido de alerta
+
+                if (CBproducto.SelectedIndex != -1 || CBproducto.SelectedValue != null)
+                {
+                    // Oculta el desplegable y pasa el foco a la talla o cantidad
+                    CBproducto.DroppedDown = false;
+                    CBTalla.Focus(); // O la siguiente caja que uses
+                }
+            }
         }
 
         private void dgvDetalleVenta_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -879,6 +942,63 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxIcon.Error
                 );
             }
+        }
+
+        private void dgvDetalleVenta_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Asegúrate de cambiar "colPrecioVenta" y "colSubtotal" por los nombres reales de tus columnas en el DataGridView
+            if (dgvDetalleVenta.Columns[e.ColumnIndex].Name == "colPrecioVenta" ||
+                dgvDetalleVenta
+                .Columns[e.ColumnIndex].Name == "colSubtotal")
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    if (decimal.TryParse(e.Value.ToString(), out decimal valor))
+                    {
+                        // Formato con comas para los miles y puntos para los decimales (ej. 2,000.50)
+                        // Si el número es entero (ej. 2000), se mostrará como 2,000 sin decimales sobrantes.
+                        // Si tiene decimales, respetará los que tenga (ej. 2,000.75).
+                        e.Value = valor.ToString("#,##0.##");
+                        e.FormattingApplied = true;
+                    }
+                }
+            }
+        }
+
+        private void CBproducto_TextUpdate(object sender, EventArgs e)
+        {
+            if (isFiltering || dtProductosOriginal == null) return;
+
+            isFiltering = true;
+
+            string textoBusqueda = CBproducto.Text;
+            int cursorPos = CBproducto.SelectionStart; // Guardamos dónde está el cursor
+
+            if (string.IsNullOrWhiteSpace(textoBusqueda))
+            {
+                CBproducto.DataSource = dtProductosOriginal;
+            }
+            else
+            {
+                DataView dv = new DataView(dtProductosOriginal);
+                // Filtra coincidencias parciales en cualquier parte del nombre
+                dv.RowFilter = $"nombre LIKE '%{textoBusqueda}%'";
+                CBproducto.DataSource = dv;
+            }
+
+            // Restauramos el texto y la posición del cursor para que te deje borrar sin trabarse
+            // Restauramos el texto y la posición del cursor para que te deje borrar sin trabarse
+            CBproducto.Text = textoBusqueda;
+            CBproducto.SelectionStart = cursorPos;
+            CBproducto.SelectionLength = 0;
+
+            // Corrección aquí: Se eliminó el texto extra y la flecha, dejando un IF limpio
+            if (CBproducto.Items.Count > 0)
+            {
+                CBproducto.DroppedDown = true;
+            }
+
+            isFiltering = false;
         }
     }
 }

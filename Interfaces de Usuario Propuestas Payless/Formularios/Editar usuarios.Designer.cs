@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Editar_usuarios));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -57,7 +58,8 @@
             this.label14 = new System.Windows.Forms.Label();
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtCedula = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.btnVerPassword = new System.Windows.Forms.Button();
+            this.btnVerPasswordC = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -74,6 +76,17 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(14, 28);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(61, 49);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
             // 
             // label1
             // 
@@ -143,7 +156,7 @@
             // 
             this.txtCodigo.BackColor = System.Drawing.Color.White;
             this.txtCodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCodigo.Location = new System.Drawing.Point(214, 138);
+            this.txtCodigo.Location = new System.Drawing.Point(223, 142);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(100, 26);
             this.txtCodigo.TabIndex = 5;
@@ -214,15 +227,15 @@
             this.label11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(36, 443);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(180, 19);
+            this.label11.Size = new System.Drawing.Size(184, 19);
             this.label11.TabIndex = 12;
-            this.label11.Text = "Confirmacion contraseña:";
+            this.label11.Text = "Confirmacion Contraseña:";
             // 
             // txtNombreUsuario
             // 
             this.txtNombreUsuario.BackColor = System.Drawing.Color.White;
             this.txtNombreUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombreUsuario.Location = new System.Drawing.Point(214, 170);
+            this.txtNombreUsuario.Location = new System.Drawing.Point(223, 174);
             this.txtNombreUsuario.Name = "txtNombreUsuario";
             this.txtNombreUsuario.Size = new System.Drawing.Size(200, 26);
             this.txtNombreUsuario.TabIndex = 13;
@@ -231,7 +244,7 @@
             // 
             this.txtNombreCompleto.BackColor = System.Drawing.Color.White;
             this.txtNombreCompleto.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombreCompleto.Location = new System.Drawing.Point(214, 202);
+            this.txtNombreCompleto.Location = new System.Drawing.Point(223, 206);
             this.txtNombreCompleto.Name = "txtNombreCompleto";
             this.txtNombreCompleto.Size = new System.Drawing.Size(200, 26);
             this.txtNombreCompleto.TabIndex = 14;
@@ -240,7 +253,7 @@
             // 
             this.txtGmail.BackColor = System.Drawing.Color.White;
             this.txtGmail.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtGmail.Location = new System.Drawing.Point(214, 234);
+            this.txtGmail.Location = new System.Drawing.Point(223, 238);
             this.txtGmail.Name = "txtGmail";
             this.txtGmail.Size = new System.Drawing.Size(200, 26);
             this.txtGmail.TabIndex = 15;
@@ -249,7 +262,7 @@
             // 
             this.txtContraseña.BackColor = System.Drawing.Color.White;
             this.txtContraseña.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContraseña.Location = new System.Drawing.Point(214, 404);
+            this.txtContraseña.Location = new System.Drawing.Point(223, 408);
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.Size = new System.Drawing.Size(200, 26);
             this.txtContraseña.TabIndex = 16;
@@ -258,7 +271,7 @@
             // 
             this.txtConfirmar.BackColor = System.Drawing.Color.White;
             this.txtConfirmar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConfirmar.Location = new System.Drawing.Point(214, 436);
+            this.txtConfirmar.Location = new System.Drawing.Point(223, 440);
             this.txtConfirmar.Name = "txtConfirmar";
             this.txtConfirmar.Size = new System.Drawing.Size(200, 26);
             this.txtConfirmar.TabIndex = 17;
@@ -268,7 +281,7 @@
             this.cmbRol.BackColor = System.Drawing.Color.White;
             this.cmbRol.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbRol.FormattingEnabled = true;
-            this.cmbRol.Location = new System.Drawing.Point(214, 268);
+            this.cmbRol.Location = new System.Drawing.Point(223, 272);
             this.cmbRol.Name = "cmbRol";
             this.cmbRol.Size = new System.Drawing.Size(121, 27);
             this.cmbRol.TabIndex = 18;
@@ -278,7 +291,7 @@
             this.cmbEstado.BackColor = System.Drawing.Color.White;
             this.cmbEstado.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbEstado.FormattingEnabled = true;
-            this.cmbEstado.Location = new System.Drawing.Point(214, 371);
+            this.cmbEstado.Location = new System.Drawing.Point(223, 375);
             this.cmbEstado.Name = "cmbEstado";
             this.cmbEstado.Size = new System.Drawing.Size(121, 27);
             this.cmbEstado.TabIndex = 19;
@@ -329,13 +342,13 @@
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(61, 19);
             this.label14.TabIndex = 26;
-            this.label14.Text = "Cedula:";
+            this.label14.Text = "Cédula:";
             // 
             // txtTelefono
             // 
             this.txtTelefono.BackColor = System.Drawing.Color.White;
             this.txtTelefono.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTelefono.Location = new System.Drawing.Point(214, 307);
+            this.txtTelefono.Location = new System.Drawing.Point(223, 311);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(200, 26);
             this.txtTelefono.TabIndex = 27;
@@ -345,22 +358,41 @@
             // 
             this.txtCedula.BackColor = System.Drawing.Color.White;
             this.txtCedula.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCedula.Location = new System.Drawing.Point(214, 339);
+            this.txtCedula.Location = new System.Drawing.Point(223, 343);
             this.txtCedula.Name = "txtCedula";
             this.txtCedula.Size = new System.Drawing.Size(200, 26);
             this.txtCedula.TabIndex = 28;
             this.txtCedula.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // pictureBox1
+            // btnVerPassword
             // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(14, 28);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(61, 49);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.btnVerPassword.BackColor = System.Drawing.Color.Transparent;
+            this.btnVerPassword.FlatAppearance.BorderSize = 0;
+            this.btnVerPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerPassword.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerPassword.ForeColor = System.Drawing.Color.Black;
+            this.btnVerPassword.Location = new System.Drawing.Point(429, 408);
+            this.btnVerPassword.Name = "btnVerPassword";
+            this.btnVerPassword.Size = new System.Drawing.Size(41, 26);
+            this.btnVerPassword.TabIndex = 29;
+            this.btnVerPassword.Text = "👁️";
+            this.btnVerPassword.UseVisualStyleBackColor = false;
+            this.btnVerPassword.Click += new System.EventHandler(this.btnVerPassword_Click);
+            // 
+            // btnVerPasswordC
+            // 
+            this.btnVerPasswordC.BackColor = System.Drawing.Color.Transparent;
+            this.btnVerPasswordC.FlatAppearance.BorderSize = 0;
+            this.btnVerPasswordC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerPasswordC.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerPasswordC.ForeColor = System.Drawing.Color.Black;
+            this.btnVerPasswordC.Location = new System.Drawing.Point(429, 440);
+            this.btnVerPasswordC.Name = "btnVerPasswordC";
+            this.btnVerPasswordC.Size = new System.Drawing.Size(41, 26);
+            this.btnVerPasswordC.TabIndex = 30;
+            this.btnVerPasswordC.Text = "👁️";
+            this.btnVerPasswordC.UseVisualStyleBackColor = false;
+            this.btnVerPasswordC.Click += new System.EventHandler(this.btnVerPasswordC_Click);
             // 
             // Editar_usuarios
             // 
@@ -368,6 +400,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(531, 555);
+            this.Controls.Add(this.btnVerPasswordC);
+            this.Controls.Add(this.btnVerPassword);
             this.Controls.Add(this.txtCedula);
             this.Controls.Add(this.txtTelefono);
             this.Controls.Add(this.label14);
@@ -439,5 +473,7 @@
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.TextBox txtCedula;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btnVerPassword;
+        private System.Windows.Forms.Button btnVerPasswordC;
     }
 }

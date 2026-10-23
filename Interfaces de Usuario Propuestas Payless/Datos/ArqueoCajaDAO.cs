@@ -225,20 +225,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
-                // Verificamos si ya existe un monto_arqueo registrado para esta caja
+                // Verificamos si la caja existe y tiene un valor asignado en monto_arqueo (permitiendo 0 o más)
                 string sql = @"
-            SELECT COUNT(*) 
+            SELECT monto_arqueo 
             FROM caja 
-            WHERE id_caja = @idCaja AND monto_arqueo > 0;";
+            WHERE id_caja = @idCaja;";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idCaja", idCaja);
                     object resultado = cmd.ExecuteScalar();
 
+                    // Si el resultado no es nulo, significa que la caja existe y el arqueo fue procesado/guardado
                     if (resultado != null && resultado != DBNull.Value)
                     {
-                        return Convert.ToInt32(resultado) > 0;
+                        return true;
                     }
                 }
             }

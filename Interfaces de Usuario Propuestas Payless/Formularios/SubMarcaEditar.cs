@@ -120,88 +120,105 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
+            // 1. Verificar que se haya seleccionado y buscado una marca previamente
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
             {
                 MessageBox.Show(
-                    "Primero busque una marca.",
-                    "Aviso",
+                    "Primero debe seleccionar y buscar una marca para poder editarla.",
+                    "Aviso de Validación",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
                 return;
             }
-            if (txtNombre.Text.Trim().Length > 100)
+
+            int idMarcaActual = Convert.ToInt32(txtCodigo.Text);
+            string nombre = txtNombre.Text.Trim();
+            string descripcion = txtDescripcion.Text.Trim();
+
+            // 2. Validar campo nombre vacío
+            if (string.IsNullOrWhiteSpace(nombre))
             {
                 MessageBox.Show(
-                    "El campo [nombre] no puede superar los [100] caracteres.",
+                    "El campo 'Nombre de la marca' es obligatorio. Por favor, ingréselo.",
+                    "Campo Requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtNombre.Focus();
+                return;
+            }
+
+            // 3. Validar longitudes máximas
+            if (nombre.Length > 100)
+            {
+                MessageBox.Show(
+                    "El nombre de la marca no puede superar los 100 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
                 txtNombre.Focus();
+                txtNombre.SelectAll();
                 return;
             }
 
-            if (txtDescripcion.Text.Trim().Length > 200)
+            if (descripcion.Length > 200)
             {
                 MessageBox.Show(
-                    "El campo [descripción] no puede superar los [200] caracteres.",
+                    "La descripción no puede superar los 200 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
                 txtDescripcion.Focus();
+                txtDescripcion.SelectAll();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
-            {
-                MessageBox.Show(
-                    "Ingrese el nombre de la marca.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                txtNombre.Focus();
-
-                return;
-            }
-
+            // 4. Validar Estado seleccionado
             if (cmbEstado.SelectedIndex == -1)
             {
                 MessageBox.Show(
-                    "Seleccione el estado de la marca.",
-                    "Aviso",
+                    "Debe seleccionar el estado de la marca (Activo o Inactivo).",
+                    "Campo Requerido",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
                 cmbEstado.Focus();
-
                 return;
             }
 
-            ClaseMarca marca =
-                new ClaseMarca();
+            // =========================================================
+            // 5. VALIDAR DUPLICADOS EN LA BASE DE DATOS (EXCLUYENDO ESTE ID)
+            // =========================================================
+            if (marcaDAO.ExisteNombre(nombre, idMarcaActual))
+            {
+                MessageBox.Show(
+                    "Ya existe otra marca registrada con este mismo nombre. Ingrese uno diferente.",
+                    "Registro Duplicado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
-            marca.IdMarca =
-                Convert.ToInt32(
-                    txtCodigo.Text);
+                txtNombre.Focus();
+                txtNombre.SelectAll();
+                return;
+            }
 
-            marca.NombreMarca =
-                txtNombre.Text.Trim();
-
-            marca.Descripcion =
-                txtDescripcion.Text.Trim();
-
-            marca.Estado =
-                cmbEstado.SelectedItem
-                .ToString() == "Activo";
+            // =========================================================
+            // 6. CREAR OBJETO Y ACTUALIZAR EN BASE DE DATOS
+            // =========================================================
+            ClaseMarca marca = new ClaseMarca();
+            marca.IdMarca = idMarcaActual;
+            marca.NombreMarca = nombre;
+            marca.Descripcion = descripcion;
+            marca.Estado = cmbEstado.SelectedItem.ToString() == "Activo";
 
             if (marcaDAO.EditarMarca(marca))
             {
                 MessageBox.Show(
-                    "Marca actualizada correctamente.",
-                    "Correcto",
+                    "La marca se ha actualizado correctamente.",
+                    "Operación Exitosa",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
@@ -210,8 +227,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             else
             {
                 MessageBox.Show(
-                    "No se pudo actualizar la marca.",
-                    "Error",
+                    "No se pudo actualizar la marca en la base de datos. Verifique su conexión e intente nuevamente.",
+                    "Error de Sistema",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }

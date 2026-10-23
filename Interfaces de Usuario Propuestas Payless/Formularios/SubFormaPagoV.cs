@@ -85,6 +85,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubFormaPagoV_Load(object sender, EventArgs e)
         {
+            txtDigitosTarjeta.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos y control (como backspace)
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar))
+                {
+                    ev.Handled = true;
+                }
+            };
+            txtMontoCordobas.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos, punto decimal y control (como backspace)
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true;
+                }
+            };
+            txtDigitosTarjeta.MaxLength = 4;
+            txtDigitosTarjeta.KeyPress += (s, ev) =>
+            {
+                // Permitir solo dígitos y control (como backspace)
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar))
+                {
+                    ev.Handled = true;
+                }
+            };
             try
             {
                 CargarInformacionVenta();

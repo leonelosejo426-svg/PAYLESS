@@ -356,17 +356,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 {
                     GeneradorReporteProductosPDF.Generar(tablaReporte);
                 }
-                else if (reporte == "Reporte de Usuarios")
-                {
-                    GeneradorReporteUsuariosPDF.Generar(tablaReporte);
-                }
                 else if (reporte == "Reporte de Ventas")
                 {
                     bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
                     string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
                     string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
 
-                    // Llama a la utilitaria que genera el PDF corporativo
                     GeneradorReporteVentasPDF.Generar(
                         tablaReporte,
                         dtpFechaDesde.Value,
@@ -389,11 +384,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         usuario,
                         estado);
                 }
+                else if (reporte == "Reporte de Usuarios")
+                {
+                    // 1. Capturar los valores actuales de los filtros en la interfaz
+                    string usuarioSeleccionado = cbUsuario != null && cbUsuario.SelectedItem != null ? cbUsuario.SelectedItem.ToString() : "Todos";
+                    string rolSeleccionado = cbRol != null && cbRol.SelectedItem != null ? cbRol.SelectedItem.ToString() : "Todos";
+                    string estadoSeleccionado = cbEstado != null && cbEstado.SelectedItem != null ? cbEstado.SelectedItem.ToString() : "Todos";
+
+                    // 2. Consultar los datos utilizando el DAO con los filtros específicos
+                    ReporteUsuarioDAO dao = new ReporteUsuarioDAO();
+                    DataTable dt = dao.ObtenerReporteUsuarios(usuarioSeleccionado, rolSeleccionado, estadoSeleccionado);
+
+                    // 3. Validar si hay registros antes de intentar imprimir
+                    if (dt == null || dt.Rows.Count == 0)
+                    {
+                        MessageBox.Show("No hay registros disponibles para exportar con los filtros seleccionados.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    // 4. Llamar al generador de PDF corporativo que creamos
+                    ReporteUsuariosPDF.GenerarReporte(dt, usuarioSeleccionado, rolSeleccionado, estadoSeleccionado);
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al imprimir el reporte:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
         }
 
         private void ImprimirReporteCaja(int idCaja)
@@ -661,8 +678,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            string reporte =
-                cbTipoReporte.SelectedItem.ToString();
+            string reporte = cbTipoReporte.SelectedItem.ToString();
 
             if (reporte == "Reporte de Caja")
             {
@@ -680,7 +696,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 GenerarReporteVentas();
             }
-            else if (reporte == "Reporte de Compras") // <-- NUEVO
+            else if (reporte == "Reporte de Compras")
             {
                 GenerarReporteCompras();
             }
@@ -998,33 +1014,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             try
             {
-                string usuario =
-                    cbUsuario.SelectedItem == null
-                    ? "Todos"
-                    : cbUsuario.SelectedItem.ToString();
+                string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
+                string rol = cbRol.SelectedItem == null ? "Todos" : cbRol.SelectedItem.ToString();
+                string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
 
-                string rol =
-                    cbRol.SelectedItem == null
-                    ? "Todos"
-                    : cbRol.SelectedItem.ToString();
-
-                string estado =
-                    cbEstado.SelectedItem == null
-                    ? "Todos"
-                    : cbEstado.SelectedItem.ToString();
-
-                tablaReporte =
-                    reporteUsuarioDAO.ObtenerReporteUsuarios(
-                        usuario,
-                        rol,
-                        estado);
+                tablaReporte = reporteUsuarioDAO.ObtenerReporteUsuarios(usuario, rol, estado);
 
                 DGVtabla1.DataSource = tablaReporte;
 
-                if (tablaReporte.Rows.Count > 0)
+                if (tablaReporte != null && tablaReporte.Rows.Count > 0)
                 {
-                    FormatearReporteUsuarios();
-                    btnImprimir.Enabled = false;
+                    btnImprimir.Enabled = true;
                 }
                 else
                 {
@@ -1033,13 +1033,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Error al cargar el reporte de usuarios:\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-
+                MessageBox.Show("Error al cargar el reporte de usuarios:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnImprimir.Enabled = false;
             }
         }

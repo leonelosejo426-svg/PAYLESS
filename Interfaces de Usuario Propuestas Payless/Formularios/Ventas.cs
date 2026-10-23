@@ -1,6 +1,7 @@
 ﻿
 using Interfaces_de_Usuario_Propuestas_Payless.Datos;
 using Interfaces_de_Usuario_Propuestas_Payless.Entidades;
+using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -341,9 +342,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            // Creas la instancia de la subpantalla
             NuevaVenta ventana = new NuevaVenta();
-            ventana.ShowDialog();
+                 ventana.ShowDialog();
+            CargarVentas(); 
             this.Show();
         }
         

@@ -508,5 +508,86 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return tabla;
         }
 
+
+        // =========================================================
+        // MÉTODOS DE VALIDACIÓN DE DUPLICADOS PARA EDITAR Y CREAR
+        // =========================================================
+
+        public bool ExisteNombreUsuario(string nombreUsuario, int idExcluir = 0)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM usuario WHERE nombre_usuario = @usuario AND id_usuario <> @idExcluir;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@usuario", nombreUsuario);
+                    cmd.Parameters.AddWithValue("@idExcluir", idExcluir);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        public bool ExisteCedula(string cedula, int idExcluir = 0)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM usuario WHERE cedula = @cedula AND id_usuario <> @idExcluir;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@cedula", cedula);
+                    cmd.Parameters.AddWithValue("@idExcluir", idExcluir);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        public bool ExisteCorreo(string correo, int idExcluir = 0)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                // Corregido: La columna en tu tabla se llama "correo", no "gmail"
+                string sql = "SELECT COUNT(*) FROM usuario WHERE correo = @correo AND id_usuario <> @idExcluir;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@correo", correo);
+                    cmd.Parameters.AddWithValue("@idExcluir", idExcluir);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        public bool ExisteTelefono(string telefono, int idExcluir = 0)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM usuario WHERE telefono = @telefono AND id_usuario <> @idExcluir;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@telefono", telefono);
+                    cmd.Parameters.AddWithValue("@idExcluir", idExcluir);
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
     }
 }

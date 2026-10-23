@@ -14,14 +14,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
     public partial class Editar_usuarios : Form
     {
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
 
+        private bool verPassword = false;
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
         private int idUsuarioSeleccionado = 0;
+        private bool passwordVisible = false;
 
         public Editar_usuarios()
         {
             InitializeComponent();
+
         }
+
+
 
         // =========================================================
         // CARGAR LA PANTALLA
@@ -33,13 +38,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             CargarUsuarios();
             CargarRoles();
-            
+            idUsuarioSeleccionado = 0;
 
             cmbEstado.Items.Clear();
             cmbEstado.Items.Add("Activo");
             cmbEstado.Items.Add("Inactivo");
-
             cmbEstado.SelectedIndex = -1;
+
+            txtCodigo.Enabled = false; // Deshabilitar el TextBox de código
+
+            // Contraseñas ocultas por defecto
+            txtContraseña.PasswordChar = '●';
+            txtConfirmar.PasswordChar = '●';
+
+            txtGmail.MaxLength = 50;
+            txtNombreUsuario.MaxLength = 50;
+            txtNombreCompleto.MaxLength = 50;
+            txtCedula.MaxLength = 16;
+            txtTelefono.MaxLength = 8;
         }
 
         // =========================================================
@@ -64,11 +80,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
             try
             {
-                int idUsuario =
-                    Convert.ToInt32(cmbUsuario.SelectedValue);
-
-                DataTable tabla =
-                    usuarioDAO.ObtenerUsuario(idUsuario);
+                int idUsuario = Convert.ToInt32(cmbUsuario.SelectedValue);
+                DataTable tabla = usuarioDAO.ObtenerUsuario(idUsuario);
 
                 if (tabla == null || tabla.Rows.Count == 0)
                 {
@@ -83,11 +96,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 DataRow fila = tabla.Rows[0];
 
-                // Guardar ID seleccionado
-                idUsuarioSeleccionado =
-                    Convert.ToInt32(fila["id_usuario"]);
+                // Guardar ID seleccionado en la variable correcta
+                idUsuarioSeleccionado = Convert.ToInt32(fila["id_usuario"]);
 
-                // Cargar datos
+                // Cargar datos en los controles
                 txtCodigo.Text = fila["id_usuario"].ToString();
                 txtNombreUsuario.Text = fila["nombre_usuario"].ToString();
                 txtNombreCompleto.Text = fila["nombre_completo"].ToString();
@@ -99,30 +111,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 txtContraseña.Text = fila["password"].ToString();
                 txtConfirmar.Text = fila["password"].ToString();
 
-
-
                 // Rol
                 if (fila["id_rol"] != DBNull.Value)
                 {
-                    cmbRol.SelectedValue =
-                        Convert.ToInt32(fila["id_rol"]);
+                    cmbRol.SelectedValue = Convert.ToInt32(fila["id_rol"]);
                 }
 
                 // Estado
                 if (fila["estado"] != DBNull.Value)
                 {
-                    bool estado =
-                        Convert.ToBoolean(fila["estado"]);
-
-                    cmbEstado.SelectedIndex =
-                        estado ? 0 : 1;
+                    bool estado = Convert.ToBoolean(fila["estado"]);
+                    cmbEstado.SelectedIndex = estado ? 0 : 1;
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al buscar el usuario:\n\n" +
-                    ex.Message,
+                    "Error al buscar el usuario:\n\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -144,7 +149,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                btnActualizar.Focus();
+                cmbUsuario.Focus();
                 return;
             }
 
@@ -156,7 +161,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             string cedula = txtCedula.Text.Trim();
             string correo = txtGmail.Text.Trim();
 
-            // Validar nombre de usuario (Maysa a balikas, agrugi iti dakkel a letra)
+            // Validar nombre de usuario
             if (string.IsNullOrWhiteSpace(nombreUsuario))
             {
                 MessageBox.Show("Ingrese el nombre del usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -172,7 +177,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // Validar nombre completo (Nagan ken apelyido, tunggal balikas agrugi iti dakkel)
+            if (txtNombreUsuario.Text.Trim().Length > 50)
+            {
+                MessageBox.Show("El campo [nombre de usuario] no puede superar los 50 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreUsuario.Focus();
+                return;
+            }
+
+            // Validar nombre completo
             if (string.IsNullOrWhiteSpace(nombreCompleto))
             {
                 MessageBox.Show("Ingrese el nombre completo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -180,66 +192,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (password.Trim().Length > 20)
-            {
-                MessageBox.Show(
-                    "El campo [contraseña] no puede superar los [20] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtContraseña.Focus();
-                return;
-            }
-
-            if (txtNombreUsuario.Text.Trim().Length > 50)
-            {
-                MessageBox.Show(
-                    "El campo [nombre de usuario] no puede superar los [50] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtNombreUsuario.Focus();
-                return;
-            }
-
             if (txtNombreCompleto.Text.Trim().Length > 100)
             {
-                MessageBox.Show(
-                    "El campo [nombre completo] no puede superar los [100] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("El campo [nombre completo] no puede superar los 100 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombreCompleto.Focus();
                 return;
             }
 
-            Regex regexCompleto = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
-            if (!regexCompleto.IsMatch(nombreCompleto))
-            {
-                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombreCompleto.Focus();
-                return;
-            }
+            Regex regexCorreo = new Regex(@"^[a-zA-Z0-9._-]+@(gmail|yahoo)\.com$");
 
-            if (!password.Any(char.IsUpper))
+            if (!regexCorreo.IsMatch(correo))
             {
                 MessageBox.Show(
-                    "La contraseña debe contener al menos una letra mayúscula.",
-                    "Validación de Contraseña",
+                    "El correo electrónico no es válido.\n\n" +
+                    "• Debe pertenecer a Gmail o Yahoo (ejemplo: usuario456@gmail.com o usuario@yahoo.com).\n" +
+                    "• No se permiten caracteres especiales extraños (solo puntos, guiones o guiones bajos).",
+                    "Validación de Correo",
                     MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtContraseña.Focus();
+                    MessageBoxIcon.Warning);
+
+                txtGmail.Focus();
+                txtGmail.SelectAll();
                 return;
             }
 
-            // Validar contraseña (Minimo 6, 1 numero, 1 espesial)
+            // Validar contraseña
             if (string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Ingrese una contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtContraseña.Focus();
+                return;
+            }
+
+            if (password.Trim().Length > 20)
+            {
+                MessageBox.Show("El campo [contraseña] no puede superar los 20 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtContraseña.Focus();
                 return;
             }
@@ -252,6 +239,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            if (!password.Any(char.IsUpper))
+            {
+                MessageBox.Show("La contraseña debe contener al menos una letra mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtContraseña.Focus();
+                return;
+            }
+
             // Confirmar contraseña
             if (password != confirmarPassword)
             {
@@ -260,7 +254,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // Validar Teléfono (Exactamente 8 dígitos)
+            // Validar Teléfono
             if (telefono.Length != 8)
             {
                 MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -268,7 +262,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // Validar Cédula (Ejemplo: 441-241207-1002B)
+            // Validar Cédula
             Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
             if (!regexCedula.IsMatch(cedula))
             {
@@ -294,10 +288,51 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Validar estado
+            if (cmbEstado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione un estado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEstado.Focus();
+                return;
+            }
+
+            // =========================================================================
+            // VALIDACIÓN DE DUPLICADOS EXCLUYENDO AL USUARIO ACTUAL
+            // =========================================================================
+            int idVerificar = idUsuarioSeleccionado; // Pasamos el ID real para que no se choque consigo mismo
+
+            if (usuarioDAO.ExisteNombreUsuario(nombreUsuario, idVerificar))
+            {
+                MessageBox.Show("El nombre de usuario ya pertenece a otra cuenta.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombreUsuario.Focus();
+                return;
+            }
+
+            if (usuarioDAO.ExisteCedula(cedula, idVerificar))
+            {
+                MessageBox.Show("El número de cédula ya está registrado en otra cuenta.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCedula.Focus();
+                return;
+            }
+
+            if (usuarioDAO.ExisteCorreo(correo, idVerificar))
+            {
+                MessageBox.Show("El correo electrónico ya está registrado en otra cuenta.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtGmail.Focus();
+                return;
+            }
+
+            if (usuarioDAO.ExisteTelefono(telefono, idVerificar))
+            {
+                MessageBox.Show("El número de teléfono ya está registrado en otra cuenta.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                return;
+            }
+
             try
             {
                 int idRol = Convert.ToInt32(cmbRol.SelectedValue);
-                bool estadoDefault = true; // Naikkat ti cmbEstado, naipatulod ti default estado
+                bool estadoSeleccionado = (cmbEstado.SelectedIndex == 0); // 0 = Activo (true), 1 = Inactivo (false)
 
                 bool resultado = usuarioDAO.EditarUsuario(
                     idUsuarioSeleccionado,
@@ -308,7 +343,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     correo,
                     telefono,
                     cedula,
-                    estadoDefault
+                    estadoSeleccionado
                 );
 
                 if (resultado)
@@ -363,10 +398,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
         }
 
-        // =========================================================
-        // CARGAR ROLES
-        // =========================================================
-
         private void CargarRoles()
         {
             try
@@ -414,6 +445,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (txtTelefono.Text.Length >= 8 && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void btnVerPassword_Click(object sender, EventArgs e)
+        {
+            passwordVisible = !passwordVisible;
+
+            if (passwordVisible)
+            {
+                // Muestra el texto real
+                txtContraseña.PasswordChar = '\0';
+
+                // btnVerPassword.Text = "🔒"; // Opcional si cambias el icono
+            }
+            else
+            {
+                // Oculta con viñetas
+                txtContraseña.PasswordChar = '●';
+
+                // btnVerPassword.Text = "👁"; // Opcional
+            }
+        }
+
+        private void btnVerPasswordC_Click(object sender, EventArgs e)
+        {
+            passwordVisible = !passwordVisible;
+
+            if (passwordVisible)
+            {
+                // Muestra el texto real
+                txtConfirmar.PasswordChar = '\0';
+
+                // btnVerPassword.Text = "🔒"; // Opcional si cambias el icono
+            }
+            else
+            {
+                // Oculta con viñetas
+                txtConfirmar.PasswordChar = '●';
+
+                // btnVerPassword.Text = "👁"; // Opcional
             }
         }
     }

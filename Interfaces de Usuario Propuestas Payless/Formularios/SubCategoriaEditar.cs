@@ -87,23 +87,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
+            // 1. Verificar que se haya seleccionado y buscado una categoría
             if (string.IsNullOrWhiteSpace(txtCodigo.Text))
             {
-                MessageBox.Show("Primero busque una categoría.");
+                MessageBox.Show(
+                    "Primero busque una categoría para poder editarla.",
+                    "Aviso",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            int idCategoriaActual = Convert.ToInt32(txtCodigo.Text);
+            string nombre = txtNombre.Text.Trim();
+            string descripcion = txtDescripcion.Text.Trim();
+
+            // 2. Validar nombre vacío
+            if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("Ingrese el nombre de la categoría.");
+                MessageBox.Show("Ingrese el nombre de la categoría.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            if (txtNombre.Text.Trim().Length > 100)
+            // 3. Validar longitud del nombre
+            if (nombre.Length > 100)
             {
                 MessageBox.Show(
-                    "El campo [nombre] no puede superar los [100] caracteres.",
+                    "El campo [nombre] no puede superar los 100 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -112,10 +123,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (txtDescripcion.Text.Trim().Length > 200)
+            // 4. Validar descripción vacía
+            if (string.IsNullOrWhiteSpace(descripcion))
+            {
+                MessageBox.Show("Ingrese la descripción de la categoría.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDescripcion.Focus();
+                return;
+            }
+
+            // 5. Validar longitud de la descripción
+            if (descripcion.Length > 200)
             {
                 MessageBox.Show(
-                    "El campo [descripción] no puede superar los [200] caracteres.",
+                    "El campo [descripción] no puede superar los 200 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -124,19 +144,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // 6. Validar estado seleccionado
+            if (cmbEstado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione el estado de la categoría.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEstado.Focus();
+                return;
+            }
+
+            // =========================================================
+            // 7. VALIDAR DUPLICADOS EN LA BASE DE DATOS (EXCLUYENDO ESTE ID)
+            // =========================================================
+            if (categoriaDAO.ExisteNombre(nombre, idCategoriaActual))
+            {
+                MessageBox.Show("Ya existe otra categoría registrada con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                txtNombre.SelectAll();
+                return;
+            }
+
+            // =========================================================
+            // 8. ACTUALIZAR EN LA BASE DE DATOS
+            // =========================================================
             ClaseCategoria categoria = new ClaseCategoria();
-
-            categoria.IdCategoria =
-                Convert.ToInt32(txtCodigo.Text);
-
-            categoria.NombreCategoria =
-                txtNombre.Text.Trim();
-
-            categoria.Descripcion =
-                txtDescripcion.Text.Trim();
-
-            categoria.Estado =
-                cmbEstado.SelectedItem.ToString() == "Activo";
+            categoria.IdCategoria = idCategoriaActual;
+            categoria.NombreCategoria = nombre;
+            categoria.Descripcion = descripcion;
+            categoria.Estado = cmbEstado.SelectedItem.ToString() == "Activo";
 
             if (categoriaDAO.EditarCategoria(categoria))
             {

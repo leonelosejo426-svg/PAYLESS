@@ -40,7 +40,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // =====================================================
             // VALIDAR CAMPOS VACÍOS Y LONGITUDES
             // =====================================================
-
             if (string.IsNullOrWhiteSpace(nombre))
             {
                 MessageBox.Show("Ingrese el nombre del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -135,14 +134,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             // =====================================================
-            // VALIDAR DUPLICADOS EN LA BASE DE DATOS
+            // VALIDAR DUPLICADOS EN LA BASE DE DATOS (NUEVO REGISTRO)
             // =====================================================
-
             if (proveedorDAO.ExisteNombre(nombre))
             {
                 MessageBox.Show("Ya existe un proveedor registrado con este mismo nombre. Ingrese uno diferente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
-                return; 
+                return;
             }
 
             if (proveedorDAO.ExisteTelefono(telefono))
@@ -167,16 +165,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             // =====================================================
-            // CREAR OBJETO PROVEEDOR Y GUARDAR
+            // CREAR OBJETO PROVEEDOR Y GUARDAR (Estado activo por defecto)
             // =====================================================
-
             ClaseProveedor proveedor = new ClaseProveedor();
             proveedor.Nombre = nombre;
             proveedor.Telefono = telefono;
             proveedor.Correo = correo;
             proveedor.Direccion = direccion;
             proveedor.Ruc = ruc;
-            proveedor.EstadoProveedor = true;
+            proveedor.EstadoProveedor = true; // Activo por defecto
 
             bool agregado = proveedorDAO.AgregarProveedor(proveedor);
 
@@ -201,7 +198,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxIcon.Error);
             }
         }
-        
+
 
         private void SubProovedoresAgregar_Load(object sender, EventArgs e)
         {

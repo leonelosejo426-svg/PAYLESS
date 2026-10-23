@@ -14,6 +14,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         // =========================================================
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
+        private bool passwordVisible = false;
 
 
         // =========================================================
@@ -98,10 +99,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         {
             try
             {
-                // =================================================
-                // OBTENER DATOS
-                // =================================================
-
                 string nombreUsuario = txtUsuario.Text.Trim();
                 string nombreCompleto = txtCompleto.Text.Trim();
                 string password = txtContraseña.Text;
@@ -110,19 +107,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 string cedula = txtCedula.Text.Trim();
                 string correo = txtGmail.Text.Trim();
 
-
-                // =================================================
-                // VALIDAR NOMBRE DE USUARIO
-                // (Maysa a nagan, agrugi iti dakkel a letra)
-                // =================================================
-
+                // 1. VALIDACIONES DE TEXTO Y FORMATO (Tus validaciones existentes)
                 if (string.IsNullOrWhiteSpace(nombreUsuario))
                 {
                     MessageBox.Show("Ingrese el nombre del usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtUsuario.Focus();
                     return;
                 }
-
 
                 Regex regexUsuario = new Regex(@"^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$");
                 if (!regexUsuario.IsMatch(nombreUsuario))
@@ -134,44 +125,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 if (txtCompleto.Text.Trim().Length > 100)
                 {
-                    MessageBox.Show(
-                        "El campo [nombre completo] no puede superar los [100] caracteres.",
-                        "Validación de Longitud",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
+                    MessageBox.Show("El campo [nombre completo] no puede superar los 100 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtCompleto.Focus();
                     return;
                 }
-
-                if (txtContraseña.Text.Trim().Length > 20)
-                {
-                    MessageBox.Show(
-                        "El campo [contraseña] no puede superar los [20] caracteres.",
-                        "Validación de Longitud",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                    txtContraseña.Focus();
-                    return;
-                }
-
-                if (txtGmail.Text.Trim().Length > 50)
-                {
-                    MessageBox.Show(
-                        "El campo [gmail] no puede superar los [50] caracteres.",
-                        "Validación de Longitud",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                    txtGmail.Focus();
-                    return;
-                }
-
-                // =================================================
-                // VALIDAR NOMBRE COMPLETO
-                // (Maysa a nagan ken apelyido, tunggal balikas dakkel a letra)
-                // =================================================
 
                 if (string.IsNullOrWhiteSpace(nombreCompleto))
                 {
@@ -180,19 +137,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-                Regex regexCompleto = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
-                if (!regexCompleto.IsMatch(nombreCompleto))
+                Regex regexCorreo = new Regex(@"^[a-zA-Z0-9._-]+@(gmail|yahoo)\.com$");
+
+                if (!regexCorreo.IsMatch(correo))
                 {
-                    MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCompleto.Focus();
+                    MessageBox.Show(
+                        "El correo electrónico no es válido.\n\n" +
+                        "• Debe pertenecer a Gmail o Yahoo (ejemplo: usuario456@gmail.com o usuario@yahoo.com).\n" +
+                        "• No se permiten caracteres especiales extraños (solo puntos, guiones o guiones bajos).",
+                        "Validación de Correo",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning);
+
+                    txtGmail.Focus();
+                    txtGmail.SelectAll();
                     return;
                 }
-
-
-                // =================================================
-                // VALIDAR CONTRASEÑA
-                // (Minimo 6 caracteres, 1 especial, 1 numero)
-                // =================================================
 
                 if (string.IsNullOrWhiteSpace(password))
                 {
@@ -211,20 +171,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 if (!password.Any(char.IsUpper))
                 {
-                    MessageBox.Show(
-                        "La contraseña debe contener al menos una letra mayúscula.",
-                        "Validación de Contraseña",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
+                    MessageBox.Show("La contraseña debe contener al menos una letra mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtContraseña.Focus();
                     return;
                 }
-
-
-                // =================================================
-                // CONFIRMAR CONTRASEÑA
-                // =================================================
 
                 if (password != confirmarPassword)
                 {
@@ -233,22 +183,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-
-                // =================================================
-                // VALIDAR NUMERO DE TELEFONO
-                // =================================================
-
                 if (telefono.Length != 8)
                 {
                     MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtTelefono.Focus();
                     return;
                 }
-
-
-                // =================================================
-                // VALIDAR CEDULA (Ejemplo: 441-241207-1002B)
-                // =================================================
 
                 Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
                 if (!regexCedula.IsMatch(cedula))
@@ -258,11 +198,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-
-                // =================================================
-                // VALIDAR GMAIL (@gmail.com)
-                // =================================================
-
                 Regex regexGmail = new Regex(@"^[^@\s]+@gmail\.com$");
                 if (!regexGmail.IsMatch(correo))
                 {
@@ -271,11 +206,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-
-                // =================================================
-                // VALIDAR ROL
-                // =================================================
-
                 if (cmbRol.SelectedIndex == -1)
                 {
                     MessageBox.Show("Seleccione un rol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -283,67 +213,67 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-
-                // =================================================
-                // OBTENER ID DEL ROL
-                // =================================================
-
                 int idRol = Convert.ToInt32(cmbRol.SelectedValue);
 
+                // =========================================================================
+                // 2. VALIDAR DUPLICADOS ANTES DE INSERTAR EN LA BASE DE DATOS
+                // =========================================================================
+                if (usuarioDAO.ExisteNombreUsuario(nombreUsuario))
+                {
+                    MessageBox.Show("El nombre de usuario ya se encuentra registrado. Elija otro.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtUsuario.Focus();
+                    txtUsuario.SelectAll();
+                    return;
+                }
 
-                // =================================================
-                // GUARDAR MEDIANTE USUARIODAO 
-                // (Naikkaten ti estado, inkabil ti default a true wenno kasapulan)
-                // =================================================
+                if (usuarioDAO.ExisteCedula(cedula))
+                {
+                    MessageBox.Show("El número de cédula ingresado ya pertenece a otro usuario.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCedula.Focus();
+                    txtCedula.SelectAll();
+                    return;
+                }
 
-                bool estadoDefault = true; // Kas state a naikkaten ti UI, ipatulodtayon ti default
+                if (usuarioDAO.ExisteCorreo(correo))
+                {
+                    MessageBox.Show("El correo electrónico ya está registrado en el sistema.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtGmail.Focus();
+                    txtGmail.SelectAll();
+                    return;
+                }
 
-                bool resultado =
-                    usuarioDAO.AgregarUsuario(
-                        nombreUsuario,
-                        nombreCompleto,
-                        password,
-                        idRol,
-                        correo,
-                        telefono,
-                        cedula,
-                        estadoDefault);
+                // =========================================================================
+                // 3. INTENTAR GUARDAR
+                // =========================================================================
+                bool estadoDefault = true;
 
-
-                // =================================================
-                // RESULTADO
-                // =================================================
+                bool resultado = usuarioDAO.AgregarUsuario(
+                    nombreUsuario,
+                    nombreCompleto,
+                    password,
+                    idRol,
+                    correo,
+                    telefono,
+                    cedula,
+                    estadoDefault);
 
                 if (resultado)
                 {
-                    MessageBox.Show(
-                        "Usuario agregado correctamente.",
-                        "Guardar usuario",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
+                    MessageBox.Show("Usuario agregado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
                 else
                 {
-                    MessageBox.Show(
-                        "No se pudo agregar el usuario.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    MessageBox.Show("No se pudo agregar el usuario por un problema desconocido en la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Ocurrió un error al guardar el usuario.\n\n" +
-                    ex.Message,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Ocurrió un error inesperado al guardar el usuario:\n\n" + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+    
 
 
         // =========================================================
@@ -374,6 +304,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (txtTelefono.Text.Length >= 8 && !char.IsControl(e.KeyChar))
             {
                 e.Handled = true;
+            }
+        }
+
+        private void btnVerPassword_Click(object sender, EventArgs e)
+        {
+            passwordVisible = !passwordVisible;
+
+            if (passwordVisible)
+            {
+                // Muestra el texto real
+                txtContraseña.PasswordChar = '\0';
+
+                // btnVerPassword.Text = "🔒"; // Opcional si cambias el icono
+            }
+            else
+            {
+                // Oculta con viñetas
+                txtContraseña.PasswordChar = '●';
+
+                // btnVerPassword.Text = "👁"; // Opcional
+            }
+        }
+
+        private void btnConfirmarVC_Click(object sender, EventArgs e)
+        {
+            passwordVisible = !passwordVisible;
+
+            if (passwordVisible)
+            {
+                // Muestra el texto real
+                txtConfirmar.PasswordChar = '\0';
+
+                // btnVerPassword.Text = "🔒"; // Opcional si cambias el icono
+            }
+            else
+            {
+                // Oculta con viñetas
+                txtConfirmar.PasswordChar = '●';
+
+                // btnVerPassword.Text = "👁"; // Opcional
             }
         }
     }

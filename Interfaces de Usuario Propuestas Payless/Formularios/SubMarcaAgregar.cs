@@ -27,19 +27,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            string nombre = txtNombre.Text.Trim();
+            string descripcion = txtDescripcion.Text.Trim();
+
+            // 1. Validar nombre vacío
+            if (string.IsNullOrWhiteSpace(nombre))
             {
                 MessageBox.Show(
-                    "Ingrese el nombre de la marca.");
+                    "El campo 'Nombre de la marca' es obligatorio.",
+                    "Campo Requerido",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
                 txtNombre.Focus();
                 return;
             }
 
-            if (txtNombre.Text.Trim().Length > 100)
+            // 2. Validar longitudes
+            if (nombre.Length > 100)
             {
                 MessageBox.Show(
-                    "El campo [nombre] no puede superar los [100] caracteres.",
+                    "El nombre de la marca no puede superar los 100 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -48,10 +56,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (txtDescripcion.Text.Trim().Length > 200)
+            if (descripcion.Length > 200)
             {
                 MessageBox.Show(
-                    "El campo [descripción] no puede superar los [200] caracteres.",
+                    "La descripción no puede superar los 200 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -60,21 +68,31 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // 3. Validar Duplicados (Sin excluir ID, ya que es nuevo)
+            if (marcaDAO.ExisteNombre(nombre))
+            {
+                MessageBox.Show(
+                    "Ya existe una marca registrada con este mismo nombre.",
+                    "Registro Duplicado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                txtNombre.Focus();
+                txtNombre.SelectAll();
+                return;
+            }
+
+            // 4. Guardar
             ClaseMarca marca = new ClaseMarca();
-
-            marca.NombreMarca =
-                txtNombre.Text.Trim();
-
-            marca.Descripcion =
-                txtDescripcion.Text.Trim();
-
-            
+            marca.NombreMarca = nombre;
+            marca.Descripcion = descripcion;
+            marca.Estado = true; // Activo por defecto al crear
 
             if (marcaDAO.AgregarMarca(marca))
             {
                 MessageBox.Show(
-                    "Marca agregada correctamente.",
-                    "Correcto",
+                    "La marca ha sido agregada correctamente.",
+                    "Operación Exitosa",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
 
@@ -83,8 +101,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             else
             {
                 MessageBox.Show(
-                    "No se pudo agregar la marca.",
-                    "Error",
+                    "No se pudo agregar la marca a la base de datos.",
+                    "Error de Sistema",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }

@@ -685,6 +685,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 MessageBox.Show("Error al cargar el producto para editar:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void dgvDetalleCompra_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Reemplaza "colPrecioCompra", "colPrecioVenta" y "colSubtotal" por los nombres reales de tus columnas en el DataGridView
+            string nombreColumna = dgvDetalleCompra.Columns[e.ColumnIndex].Name;
+
+            if (nombreColumna == "colPrecioCompra" ||
+                nombreColumna == "colPrecioVenta" ||
+                nombreColumna == "colSubtotal")
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    if (decimal.TryParse(e.Value.ToString(), out decimal valor))
+                    {
+                        // Formato con comas para miles y decimales dinámicos (ej. 2,000.50 o 15,400)
+                        e.Value = valor.ToString("#,##0.##");
+                        e.FormattingApplied = true;
+                    }
+                }
+            }
+        }
     }
 }
 

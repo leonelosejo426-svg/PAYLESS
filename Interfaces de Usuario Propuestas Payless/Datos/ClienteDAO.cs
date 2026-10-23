@@ -27,15 +27,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-                    SELECT
-                        id_cliente,
-                        nombre,
-                        telefono,
-                        cedula,
-                        direccion,
-                        estado
-                    FROM cliente
-                    ORDER BY nombre";
+    SELECT
+        id_cliente,
+        nombre,
+        telefono,
+        cedula,
+        direccion,
+        CASE 
+            WHEN estado = TRUE THEN 'Activo' 
+            ELSE 'Inactivo' 
+        END AS estado
+    FROM cliente
+    ORDER BY nombre";
 
                 NpgsqlDataAdapter da =
                     new NpgsqlDataAdapter(
@@ -552,7 +555,5 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
             finally { conexionBD.CerrarConexion(); }
         }
-
-
     }
 }

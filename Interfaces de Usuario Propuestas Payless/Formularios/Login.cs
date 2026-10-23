@@ -1,5 +1,6 @@
 ﻿using Interfaces_de_Usuario_Propuestas_Payless.Conexion;
 using Interfaces_de_Usuario_Propuestas_Payless.Datos;
+using Npgsql;
 //using Interfaces_de_Usuario_Propuestas_Payless.Formularios;
 using System;
 using System.Collections.Generic;
@@ -7,17 +8,17 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
 {
     public partial class Login: Form
     {
-
+        private bool passwordVisible = false;
         private ConexionBD conexionBD = new ConexionBD();
         public ReporteUsuarioDAO reporteUsuarioDAO = new ReporteUsuarioDAO();
         public Login()
@@ -30,14 +31,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             string usuario = txtUsuario.Text.Trim();
             string contraseña = txtContraseña.Text;
 
-            if (string.IsNullOrEmpty(usuario))
+            bool usuarioVacio = string.IsNullOrWhiteSpace(usuario);
+            bool contrasenaVacia = string.IsNullOrWhiteSpace(contraseña);
+
+            // Validación de campos vacíos
+            if (usuarioVacio && contrasenaVacia)
+            {
+                MessageBox.Show("El usuario y la contraseña no pueden estar vacíos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtUsuario.Focus();
+                return;
+            }
+
+            if (usuarioVacio)
             {
                 MessageBox.Show("Ingrese el usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtUsuario.Focus();
                 return;
             }
 
-            if (string.IsNullOrEmpty(contraseña))
+            if (contrasenaVacia)
             {
                 MessageBox.Show("Ingrese la contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtContraseña.Focus();
@@ -46,7 +58,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             try
             {
-                // 1. Guardamos el historial de log en tu clase de reportes
+                // 1. Guardamos el historial de log
                 ReporteUsuarioDAO reporteDAO = new ReporteUsuarioDAO();
                 reporteDAO.IniciarSesion(usuario, contraseña);
 
@@ -57,12 +69,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 {
                     MessageBox.Show("Bienvenido " + ClaseSesion.RolActual + " " + ClaseSesion.UsuarioActual, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // 3. CONTROL DE ROLES: Solo el cajero está amarrado al estado de la caja
+                    // 3. CONTROL DE ROLES
                     if (ClaseSesion.RolActual.Trim().ToLower() == "cajero")
                     {
                         if (ClaseSesion.TieneCajaActiva)
                         {
-                            // Si ya se había aperturado previamente, entra directo a vender
                             MessageBox.Show("Detectamos una caja activa. Abriendo módulo de ventas...", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             Ventas ventanaVenta = new Ventas();
@@ -71,7 +82,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         }
                         else
                         {
-                            // Si no tiene caja abierta hoy, lo enviamos a aperturar pasándole el ID y Nombre
                             MessageBox.Show("Debe realizar la apertura de caja para iniciar operaciones.", "Apertura Obligatoria", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             AperturaCaja ventanaApertura = new AperturaCaja(ClaseSesion.IdUsuario, ClaseSesion.UsuarioActual);
@@ -81,7 +91,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     }
                     else
                     {
-                        // CUALQUIER OTRO ROL (Admin, Supervisor, etc.) entra directo al sistema normal
                         Menú_Principal ventana = new Menú_Principal();
                         ventana.FormClosed += (s, args) => this.Close();
                         ventana.Show();
@@ -91,7 +100,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 }
                 else
                 {
-                    MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Mensaje unificado y profesional para cuando las credenciales son incorrectas
+                    MessageBox.Show("Usuario y contraseña incorrectos.", "Error de Acceso", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     txtContraseña.Clear();
                     txtContraseña.Focus();
                 }
@@ -100,69 +110,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("Error al conectar con la base de datos: " + ex.Message, "Error Crítico", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
 
 
 
-
-
-
-            /* switch (usuario)
-             {
-                 case "Leonel":
-                     if (contraseña == "leonel123")
-                     {
-                         ClaseSesion.UsuarioActual = "Leonel";
-                         ClaseSesion.RolActual = "ADMIN";
-                     }
-                     else { MessageBox.Show("Contraseña incorrecta"); return; }
-                     break;
-
-                 case "Kelly":
-                     if (contraseña == "keling123")
-                     {
-                         ClaseSesion.UsuarioActual = "Keling";
-                         ClaseSesion.RolActual = "KELING";
-                     }
-                     else { MessageBox.Show("Contraseña incorrecta"); return; }
-                     break;
-
-                 case "Paola":
-                     if (contraseña == "paola123")
-                     {
-                         ClaseSesion.UsuarioActual = "Paola";
-                         ClaseSesion.RolActual = "PAOLA";
-                     }
-                     else { MessageBox.Show("Contraseña incorrecta"); return; }
-                     break;
-
-                 case "Felipe":
-                     if (contraseña == "felipe123")
-                     {
-                         ClaseSesion.UsuarioActual = "Felipe";
-                         ClaseSesion.RolActual = "FELIPE";
-                     }
-                     else { MessageBox.Show("Contraseña incorrecta"); return; }
-                     break;
-
-                 case "Yubelkis":
-                     if (contraseña == "yubelkis123")
-                     {
-                         ClaseSesion.UsuarioActual = "Yubelkis";
-                         ClaseSesion.RolActual = "YUBELKIS";
-                     }
-                     else { MessageBox.Show("Contraseña incorrecta"); return; }
-                     break;
-
-                 default:
-                     MessageBox.Show("Usuario no existe");
-                     return;
-             }
-
-             MessageBox.Show("Bienvenido " + ClaseSesion.UsuarioActual + "!");
-             this.Hide();
-             new Menú_Principal().Show();*/
-        }   
-       
 
         private void button2_Click(object sender, EventArgs e)
         {
@@ -221,6 +172,49 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             catch (Exception ex)
             {
                 MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnVerPassword_Click(object sender, EventArgs e)
+        {
+            passwordVisible = !passwordVisible;
+
+            if (passwordVisible)
+            {
+                // Muestra el texto real
+                txtContraseña.PasswordChar = '\0';
+
+                // btnVerPassword.Text = "🔒"; // Opcional si cambias el icono
+            }
+            else
+            {
+                // Oculta con viñetas
+                txtContraseña.PasswordChar = '●';
+
+                // btnVerPassword.Text = "👁"; // Opcional
+            }
+        }
+
+        private void txtUsuario_Validating(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void txtUsuario_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evita el sonido molesto de Windows
+                txtContraseña.Focus();     // Salta al campo de contraseña
+            }
+        }
+
+        private void txtContraseña_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true; // Evita el sonido molesto de Windows
+                btnSesion.PerformClick();  // Simula el clic en el botón de iniciar sesión
             }
         }
     }

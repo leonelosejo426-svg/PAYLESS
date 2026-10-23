@@ -21,23 +21,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            string nombre = txtNombre.Text.Trim();
+            string descripcion = txtDescripcion.Text.Trim();
+
+            // 1. Validar nombre vacío
+            if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("Ingrese el nombre de la categoría.");
+                MessageBox.Show("Ingrese el nombre de la categoría.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(txtDescripcion.Text))
-            {
-                MessageBox.Show("Ingrese la descripción de la categoría.");
-                txtDescripcion.Focus();
-                return;
-            }
-            if (txtNombre.Text.Trim().Length > 100)
+            // 2. Validar longitud del nombre
+            if (nombre.Length > 100)
             {
                 MessageBox.Show(
-                    "El campo [nombre] no puede superar los [100] caracteres.",
+                    "El campo [nombre] no puede superar los 100 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -46,10 +45,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (txtDescripcion.Text.Trim().Length > 200)
+            // 3. Validar descripción vacía
+            if (string.IsNullOrWhiteSpace(descripcion))
+            {
+                MessageBox.Show("Ingrese la descripción de la categoría.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtDescripcion.Focus();
+                return;
+            }
+
+            // 4. Validar longitud de la descripción
+            if (descripcion.Length > 200)
             {
                 MessageBox.Show(
-                    "El campo [descripción] no puede superar los [200] caracteres.",
+                    "El campo [descripción] no puede superar los 200 caracteres.",
                     "Validación de Longitud",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
@@ -58,13 +66,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // 5. Validar que se haya seleccionado un estado
+            if (cmbEstado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione el estado de la categoría.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbEstado.Focus();
+                return;
+            }
+
+            // =========================================================
+            // 6. VALIDAR DUPLICADOS EN LA BASE DE DATOS
+            // =========================================================
+            if (categoriaDAO.ExisteNombre(nombre))
+            {
+                MessageBox.Show("Ya existe una categoría registrada con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                txtNombre.SelectAll();
+                return;
+            }
+
+            // =========================================================
+            // 7. GUARDAR EN LA BASE DE DATOS
+            // =========================================================
             ClaseCategoria categoria = new ClaseCategoria();
-
-            categoria.NombreCategoria = txtNombre.Text.Trim();
-            categoria.Descripcion = txtDescripcion.Text.Trim();
-
-            categoria.Estado =
-                cmbEstado.SelectedItem.ToString() == "Activo";
+            categoria.NombreCategoria = nombre;
+            categoria.Descripcion = descripcion;
+            categoria.Estado = cmbEstado.SelectedItem.ToString() == "Activo";
 
             if (categoriaDAO.AgregarCategoria(categoria))
             {

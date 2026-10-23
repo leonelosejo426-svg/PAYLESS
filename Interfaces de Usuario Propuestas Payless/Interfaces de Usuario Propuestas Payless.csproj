@@ -572,6 +572,7 @@
     <Compile Include="Utilidades\NodoDetalleVenta.cs" />
     <Compile Include="Utilidades\NodoVenta.cs" />
     <Compile Include="Utilidades\RecursividadArqueo.cs" />
+    <Compile Include="Utilidades\ReporteUsuariosPDF.cs" />
     <EmbeddedResource Include="Formularios\EgresosCaja.resx">
       <DependentUpon>EgresosCaja.cs</DependentUpon>
     </EmbeddedResource>

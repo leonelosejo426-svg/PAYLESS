@@ -113,18 +113,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            if (txtDireccion.Text.Trim().Length > 200)
-            {
-                MessageBox.Show(
-                    "El campo [dirección] no puede superar los [200] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtDireccion.Focus();
-                return;
-            }
-
             if (txtNombre.Text.Trim().Length > 100)
             {
                 MessageBox.Show(
@@ -161,14 +149,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // Validar estado
-            if (CBestado.SelectedIndex == -1)
-            {
-                MessageBox.Show("Seleccione un estado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                CBestado.Focus();
-                return;
-            }
-
             // Validar dirección
             if (string.IsNullOrWhiteSpace(direccion))
             {
@@ -177,35 +157,58 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // =====================================================
-            // VALIDAR DUPLICADOS EN LA BASE DE DATOS
-            // =====================================================
-            ClienteDAO daoVerificar = new ClienteDAO();
-
-            if (daoVerificar.ExisteNombre(nombreCliente))
+            if (txtDireccion.Text.Trim().Length > 200)
             {
-                MessageBox.Show("Ya existe un cliente registrado con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "El campo [dirección] no puede superar los [200] caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtDireccion.Focus();
+                return;
+            }
+
+            // Validar estado
+            if (CBestado.SelectedIndex == -1)
+            {
+                MessageBox.Show("Seleccione un estado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CBestado.Focus();
+                return;
+            }
+
+            // =========================================================================
+            // VALIDACIONES DE DUPLICADOS (Excluyendo al cliente actual)
+            // =========================================================================
+            if (clienteDAO.ExisteNombre(nombreCliente, idClienteSeleccionado))
+            {
+                MessageBox.Show("Ya existe otro cliente registrado con este nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
+                txtNombre.SelectAll();
                 return;
             }
 
-            if (daoVerificar.ExisteCedula(cedula))
+            if (clienteDAO.ExisteCedula(cedula, idClienteSeleccionado))
             {
-                MessageBox.Show("El número de cédula ingresado ya pertenece a otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de cédula ya pertenece a otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCedula.Focus();
+                txtCedula.SelectAll();
                 return;
             }
 
-            if (daoVerificar.ExisteTelefono(telefono))
+            if (clienteDAO.ExisteTelefono(telefono, idClienteSeleccionado))
             {
-                MessageBox.Show("El número de teléfono ingresado ya se encuentra registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de teléfono ya se encuentra registrado por otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
+                txtTelefono.SelectAll();
                 return;
             }
 
+            // =========================================================================
+            // GUARDAR ACTUALIZACIÓN
+            // =========================================================================
             ClaseCliente cliente = new ClaseCliente();
 
-            // Cliente seleccionado
             cliente.IdCliente = idClienteSeleccionado;
             cliente.Codigo = txtCodigo.Text.Trim();
             cliente.Nombre = nombreCliente;

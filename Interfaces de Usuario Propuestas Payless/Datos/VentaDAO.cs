@@ -28,11 +28,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
-                // O puedes remover el WHERE estado = TRUE si necesitas listar absolutamente todos, 
-                // o usar COALESCE para evitar perder registros.
                 string sql = @"
-            SELECT id_cliente, nombre 
+            SELECT 
+                id_cliente, 
+                nombre 
             FROM cliente 
+            WHERE estado = TRUE 
             ORDER BY nombre;";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
@@ -989,6 +990,38 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
 
             return tabla;
+        }
+
+
+
+        public DataTable ObtenerProductosConStockYPreciosValidos()
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                // Agrupamos por id_producto y nombre para evitar duplicados que rompen el ComboBox
+                string sql = @"
+            SELECT p.id_producto, p.nombre 
+            FROM producto p
+            INNER JOIN producto_talla pt ON p.id_producto = pt.id_producto
+            INNER JOIN inventario i ON pt.id_producto_talla = i.id_producto_talla
+            WHERE i.stock_actual > i.stock_minimo 
+              AND pt.precio_venta > 0
+              AND p.estado_producto = true
+            GROUP BY p.id_producto, p.nombre";
+
+                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(sql, conexionBD.ObtenerConexion()))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
         }
     }
 }

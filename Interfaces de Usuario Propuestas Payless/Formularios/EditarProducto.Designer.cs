@@ -45,8 +45,10 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.CBcategoria = new System.Windows.Forms.ComboBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.cmbMarca = new System.Windows.Forms.ComboBox();
             this.cmbProveedor = new System.Windows.Forms.ComboBox();
+            this.cmbMarca = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtProducto = new System.Windows.Forms.TextBox();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.panel1.SuspendLayout();
@@ -150,14 +152,14 @@
             this.txtCodigo.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCodigo.Location = new System.Drawing.Point(151, 72);
             this.txtCodigo.Name = "txtCodigo";
-            this.txtCodigo.Size = new System.Drawing.Size(214, 26);
+            this.txtCodigo.Size = new System.Drawing.Size(97, 26);
             this.txtCodigo.TabIndex = 109;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(13, 14);
+            this.label3.Location = new System.Drawing.Point(16, 52);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(52, 19);
             this.label3.TabIndex = 92;
@@ -167,7 +169,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(13, 57);
+            this.label4.Location = new System.Drawing.Point(16, 95);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(76, 19);
             this.label4.TabIndex = 94;
@@ -177,7 +179,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(13, 99);
+            this.label6.Location = new System.Drawing.Point(16, 137);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(71, 19);
             this.label6.TabIndex = 94;
@@ -189,7 +191,7 @@
             this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnGuardar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnGuardar.ForeColor = System.Drawing.Color.White;
-            this.btnGuardar.Location = new System.Drawing.Point(17, 157);
+            this.btnGuardar.Location = new System.Drawing.Point(43, 185);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(127, 35);
             this.btnGuardar.TabIndex = 102;
@@ -203,7 +205,7 @@
             this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(183, 157);
+            this.btnCancelar.Location = new System.Drawing.Point(311, 185);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(127, 35);
             this.btnCancelar.TabIndex = 103;
@@ -214,7 +216,7 @@
             // CBcategoria
             // 
             this.CBcategoria.FormattingEnabled = true;
-            this.CBcategoria.Location = new System.Drawing.Point(109, 91);
+            this.CBcategoria.Location = new System.Drawing.Point(112, 129);
             this.CBcategoria.Name = "CBcategoria";
             this.CBcategoria.Size = new System.Drawing.Size(184, 27);
             this.CBcategoria.TabIndex = 105;
@@ -223,6 +225,8 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.txtProducto);
+            this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.cmbProveedor);
             this.panel1.Controls.Add(this.cmbMarca);
             this.panel1.Controls.Add(this.CBcategoria);
@@ -238,21 +242,39 @@
             this.panel1.TabIndex = 101;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
+            // cmbProveedor
+            // 
+            this.cmbProveedor.FormattingEnabled = true;
+            this.cmbProveedor.Location = new System.Drawing.Point(112, 87);
+            this.cmbProveedor.Name = "cmbProveedor";
+            this.cmbProveedor.Size = new System.Drawing.Size(234, 27);
+            this.cmbProveedor.TabIndex = 107;
+            // 
             // cmbMarca
             // 
             this.cmbMarca.FormattingEnabled = true;
-            this.cmbMarca.Location = new System.Drawing.Point(109, 11);
+            this.cmbMarca.Location = new System.Drawing.Point(112, 49);
             this.cmbMarca.Name = "cmbMarca";
             this.cmbMarca.Size = new System.Drawing.Size(184, 27);
             this.cmbMarca.TabIndex = 106;
             // 
-            // cmbProveedor
+            // label5
             // 
-            this.cmbProveedor.FormattingEnabled = true;
-            this.cmbProveedor.Location = new System.Drawing.Point(109, 49);
-            this.cmbProveedor.Name = "cmbProveedor";
-            this.cmbProveedor.Size = new System.Drawing.Size(234, 27);
-            this.cmbProveedor.TabIndex = 107;
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(16, 15);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(52, 19);
+            this.label5.TabIndex = 108;
+            this.label5.Text = "Marca:";
+            // 
+            // txtProducto
+            // 
+            this.txtProducto.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtProducto.Location = new System.Drawing.Point(109, 12);
+            this.txtProducto.Name = "txtProducto";
+            this.txtProducto.Size = new System.Drawing.Size(214, 26);
+            this.txtProducto.TabIndex = 110;
             // 
             // EditarProducto
             // 
@@ -299,5 +321,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox cmbProveedor;
         private System.Windows.Forms.ComboBox cmbMarca;
+        private System.Windows.Forms.TextBox txtProducto;
+        private System.Windows.Forms.Label label5;
     }
 }

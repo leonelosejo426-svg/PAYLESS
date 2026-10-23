@@ -143,6 +143,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
+            Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
+            if (!regexNombre.IsMatch(txtNombre.Text.Trim()))
+            {
+                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
             if (txtNombre.Text.Trim().Length < 3)
             {
                 MessageBox.Show("El nombre del proveedor debe tener al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -215,30 +223,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             string correo = txtCorreo.Text.Trim();
             string ruc = txtRuc.Text.Trim();
 
-            if (proveedorDAO.ExisteNombreEditar(nombre, idProveedorActual))
+            if (proveedorDAO.ExisteNombre(nombre, idProveedorActual))
             {
-                MessageBox.Show("Ya existe otro proveedor registrado con este mismo nombre. Ingrese uno diferente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ya existe otro proveedor registrado con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            if (proveedorDAO.ExisteTelefonoEditar(telefono, idProveedorActual))
+            if (proveedorDAO.ExisteTelefono(telefono, idProveedorActual))
             {
-                MessageBox.Show("El número de teléfono ingresado ya pertenece a otro proveedor registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de teléfono ya pertenece a otro proveedor registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
 
-            if (proveedorDAO.ExisteCorreoEditar(correo, idProveedorActual))
+            if (proveedorDAO.ExisteCorreo(correo, idProveedorActual))
             {
-                MessageBox.Show("El correo electrónico ingresado ya se encuentra registrado con otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El correo electrónico ya se encuentra registrado con otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCorreo.Focus();
                 return;
             }
 
-            if (proveedorDAO.ExisteRucEditar(ruc, idProveedorActual))
+            if (proveedorDAO.ExisteRuc(ruc, idProveedorActual))
             {
-                MessageBox.Show("El número de RUC ingresado ya está asignado a otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de RUC ya está asignado a otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtRuc.Focus();
                 return;
             }
@@ -257,19 +265,22 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 EstadoProveedor = cmbEstado.SelectedItem.ToString() == "Activo"
             };
 
+            // Nota: Asegúrate de que el método en tu DAO se llame ActualizarProveedor o EditarProveedor (según lo tengas implementado)
             bool actualizado = proveedorDAO.ActualizarProveedor(proveedor);
 
             if (actualizado)
             {
                 MessageBox.Show("Proveedor actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 CargarProveedores();
-                this.Close();
             }
             else
             {
                 MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+
+
 
         private void btnRegresar_Click(object sender, EventArgs e)
         {

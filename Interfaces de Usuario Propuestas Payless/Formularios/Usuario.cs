@@ -26,13 +26,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             ConfigurarDataGridView();
             ConfigurarComboBuscar();
-            MostrarUsuarios();
+            
 
             cmbBuscar.SelectedIndexChanged += cmbBuscar_SelectedIndexChanged;
         }
 
         private void Usuario_Load(object sender, EventArgs e)
         {
+            MostrarUsuarios();
+
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;
@@ -619,14 +621,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             Pusuario ventana = new Pusuario();
-            ventana.ShowDialog();
+                 ventana.ShowDialog();
+            MostrarUsuarios();
             this.Show();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
+            // 1. Abrimos la ventana de edición
             Editar_usuarios ventana = new Editar_usuarios();
             ventana.ShowDialog();
+
+            // 2. Apenas se cierra la ventana de edición, recargamos la grilla al instante
+            MostrarUsuarios();
+
+            // 3. Volvemos a mostrar este formulario (si ya lo tenías visible, puedes omitir el this.Show())
             this.Show();
         }
 
@@ -672,6 +681,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Reportes ventana = new Reportes();
             ventana.Show();
             this.Hide();
+        }
+
+        private void dgvUsuarios_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Verificamos que estemos en la columna de estado (ajusta "colEstado" si tu columna tiene otro nombre)
+            if (dgvUsuarios.Columns[e.ColumnIndex].Name == "colEstado")
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    bool estado = Convert.ToBoolean(e.Value);
+
+                    // Reemplazamos el True/False visualmente por Activo/Inactivo
+                    e.Value = estado ? "Activo" : "Inactivo";
+
+                    // Indicamos que ya formateamos la celda para que Windows Forms la pinte así
+                    e.FormattingApplied = true;
+                }
+            }
         }
     }
 }

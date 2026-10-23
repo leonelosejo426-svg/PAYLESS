@@ -342,25 +342,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
         private void AjustarColumnas()
         {
-            DGVtabla1.Columns[0].Width = 200;
+            DGVtabla1.Columns[0].Width = 50;
             DGVtabla1.Columns[1].Width = 150;
             DGVtabla1.Columns[2].Width = 150;
             DGVtabla1.Columns[3].Width = 150;
             DGVtabla1.Columns[4].Width = 150;
+
+            DGVtabla1.Columns[0].HeaderText = "ID";
+            DGVtabla1.Columns[5].HeaderText = "Estado";
         }
 
         private void btnAgregar_Click_3(object sender, EventArgs e)
         {
             SubClienteAgregar ventana = new SubClienteAgregar();
-            ventana.Show();
-            this.Hide();
+                 ventana.ShowDialog();
+            CargarClientes(); 
+            this.Show();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
             EditarCliente ventana = new EditarCliente();
-            ventana.Show();
-            this.Hide();
+                 ventana.ShowDialog();
+            CargarClientes();
+            this.Show();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -481,6 +486,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             ventana.Show();
             this.Hide();
 
+        }
+
+        private void DGVtabla1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            
         }
     }
 }

@@ -52,6 +52,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtCedula = new System.Windows.Forms.TextBox();
             this.txtGmail = new System.Windows.Forms.TextBox();
+            this.btnVerPassword = new System.Windows.Forms.Button();
+            this.btnConfirmarVC = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -151,7 +153,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(381, 94);
+            this.label8.Location = new System.Drawing.Point(405, 94);
             this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(145, 19);
@@ -162,18 +164,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(381, 140);
+            this.label9.Location = new System.Drawing.Point(405, 140);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(56, 19);
             this.label9.TabIndex = 8;
-            this.label9.Text = "Cedula";
+            this.label9.Text = "Cédula";
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(381, 182);
+            this.label10.Location = new System.Drawing.Point(405, 182);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(49, 19);
@@ -244,33 +246,63 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(544, 93);
+            this.txtTelefono.Location = new System.Drawing.Point(568, 93);
             this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(168, 26);
+            this.txtTelefono.Size = new System.Drawing.Size(216, 26);
             this.txtTelefono.TabIndex = 18;
             this.txtTelefono.TextChanged += new System.EventHandler(this.txtTelefono_TextChanged);
             this.txtTelefono.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTelefono_KeyPress);
             // 
             // txtCedula
             // 
-            this.txtCedula.Location = new System.Drawing.Point(544, 137);
+            this.txtCedula.Location = new System.Drawing.Point(568, 137);
             this.txtCedula.Name = "txtCedula";
-            this.txtCedula.Size = new System.Drawing.Size(168, 26);
+            this.txtCedula.Size = new System.Drawing.Size(216, 26);
             this.txtCedula.TabIndex = 19;
             // 
             // txtGmail
             // 
-            this.txtGmail.Location = new System.Drawing.Point(544, 175);
+            this.txtGmail.Location = new System.Drawing.Point(568, 175);
             this.txtGmail.Name = "txtGmail";
-            this.txtGmail.Size = new System.Drawing.Size(168, 26);
+            this.txtGmail.Size = new System.Drawing.Size(216, 26);
             this.txtGmail.TabIndex = 20;
+            // 
+            // btnVerPassword
+            // 
+            this.btnVerPassword.BackColor = System.Drawing.Color.Transparent;
+            this.btnVerPassword.FlatAppearance.BorderSize = 0;
+            this.btnVerPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerPassword.ForeColor = System.Drawing.Color.Black;
+            this.btnVerPassword.Location = new System.Drawing.Point(347, 215);
+            this.btnVerPassword.Name = "btnVerPassword";
+            this.btnVerPassword.Size = new System.Drawing.Size(41, 31);
+            this.btnVerPassword.TabIndex = 21;
+            this.btnVerPassword.Text = "👁️";
+            this.btnVerPassword.UseVisualStyleBackColor = false;
+            this.btnVerPassword.Click += new System.EventHandler(this.btnVerPassword_Click);
+            // 
+            // btnConfirmarVC
+            // 
+            this.btnConfirmarVC.BackColor = System.Drawing.Color.Transparent;
+            this.btnConfirmarVC.FlatAppearance.BorderSize = 0;
+            this.btnConfirmarVC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConfirmarVC.ForeColor = System.Drawing.Color.Black;
+            this.btnConfirmarVC.Location = new System.Drawing.Point(347, 175);
+            this.btnConfirmarVC.Name = "btnConfirmarVC";
+            this.btnConfirmarVC.Size = new System.Drawing.Size(41, 31);
+            this.btnConfirmarVC.TabIndex = 22;
+            this.btnConfirmarVC.Text = "👁️";
+            this.btnConfirmarVC.UseVisualStyleBackColor = false;
+            this.btnConfirmarVC.Click += new System.EventHandler(this.btnConfirmarVC_Click);
             // 
             // Pusuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(759, 386);
+            this.ClientSize = new System.Drawing.Size(817, 386);
+            this.Controls.Add(this.btnConfirmarVC);
+            this.Controls.Add(this.btnVerPassword);
             this.Controls.Add(this.txtGmail);
             this.Controls.Add(this.txtCedula);
             this.Controls.Add(this.txtTelefono);
@@ -327,5 +359,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.TextBox txtCedula;
         private System.Windows.Forms.TextBox txtGmail;
+        private System.Windows.Forms.Button btnVerPassword;
+        private System.Windows.Forms.Button btnConfirmarVC;
     }
 }

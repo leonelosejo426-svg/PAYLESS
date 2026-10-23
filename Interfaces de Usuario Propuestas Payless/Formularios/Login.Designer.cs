@@ -43,6 +43,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.btnVerPassword = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -70,6 +71,8 @@
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(167, 31);
             this.txtUsuario.TabIndex = 63;
+            this.txtUsuario.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtUsuario_KeyDown);
+            this.txtUsuario.Validating += new System.ComponentModel.CancelEventHandler(this.txtUsuario_Validating);
             // 
             // txtContraseña
             // 
@@ -83,6 +86,7 @@
             this.txtContraseña.PasswordChar = '*';
             this.txtContraseña.Size = new System.Drawing.Size(167, 31);
             this.txtContraseña.TabIndex = 64;
+            this.txtContraseña.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtContraseña_KeyDown);
             // 
             // label3
             // 
@@ -235,6 +239,21 @@
             this.label6.TabIndex = 123;
             this.label6.Text = "Sistema De Control de Ventas";
             // 
+            // btnVerPassword
+            // 
+            this.btnVerPassword.BackColor = System.Drawing.Color.Transparent;
+            this.btnVerPassword.FlatAppearance.BorderSize = 0;
+            this.btnVerPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnVerPassword.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnVerPassword.ForeColor = System.Drawing.Color.Black;
+            this.btnVerPassword.Location = new System.Drawing.Point(344, 315);
+            this.btnVerPassword.Name = "btnVerPassword";
+            this.btnVerPassword.Size = new System.Drawing.Size(41, 31);
+            this.btnVerPassword.TabIndex = 124;
+            this.btnVerPassword.Text = "👁️";
+            this.btnVerPassword.UseVisualStyleBackColor = false;
+            this.btnVerPassword.Click += new System.EventHandler(this.btnVerPassword_Click);
+            // 
             // Login
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -243,6 +262,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(487, 545);
+            this.Controls.Add(this.btnVerPassword);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label5);
@@ -284,6 +304,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btnVerPassword;
     }
 }
 

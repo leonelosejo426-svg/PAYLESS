@@ -33,7 +33,6 @@
             this.btnGuardar = new System.Windows.Forms.Button();
             this.label23 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
             this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
             this.label25 = new System.Windows.Forms.Label();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -123,6 +122,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.lblTotalTarjeta = new System.Windows.Forms.Label();
+            this.lblUsuario = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -175,17 +175,6 @@
             this.label24.Size = new System.Drawing.Size(101, 26);
             this.label24.TabIndex = 74;
             this.label24.Text = "Usuario:";
-            // 
-            // txtUsuario
-            // 
-            this.txtUsuario.BackColor = System.Drawing.Color.White;
-            this.txtUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUsuario.ForeColor = System.Drawing.Color.Black;
-            this.txtUsuario.Location = new System.Drawing.Point(134, 88);
-            this.txtUsuario.Multiline = true;
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(194, 39);
-            this.txtUsuario.TabIndex = 75;
             // 
             // dateTimePicker2
             // 
@@ -1084,6 +1073,18 @@
             this.lblTotalTarjeta.TabIndex = 216;
             this.lblTotalTarjeta.Text = "C $ 0.00";
             // 
+            // lblUsuario
+            // 
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.BackColor = System.Drawing.Color.Transparent;
+            this.lblUsuario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuario.ForeColor = System.Drawing.Color.Black;
+            this.lblUsuario.Location = new System.Drawing.Point(155, 88);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Size = new System.Drawing.Size(101, 26);
+            this.lblUsuario.TabIndex = 217;
+            this.lblUsuario.Text = "Usuario:";
+            // 
             // ArqueodeCaja
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -1092,6 +1093,7 @@
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1456, 942);
+            this.Controls.Add(this.lblUsuario);
             this.Controls.Add(this.lblTotalTarjeta);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.label4);
@@ -1150,7 +1152,6 @@
             this.Controls.Add(this.label25);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.label26);
-            this.Controls.Add(this.txtUsuario);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.label27);
             this.Controls.Add(this.label23);
@@ -1180,7 +1181,6 @@
         private System.Windows.Forms.Button btnGuardar;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.DateTimePicker dateTimePicker2;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
@@ -1270,5 +1270,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label lblTotalTarjeta;
+        private System.Windows.Forms.Label lblUsuario;
     }
 }

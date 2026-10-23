@@ -26,6 +26,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void EditarProducto_Load(object sender, EventArgs e)
         {
+            txtProducto.MaxLength = 50;
             DataTable productos = productoDAO.MostrarProductos();
 
             CBnombreP.DataSource = productos;
@@ -110,8 +111,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // ID
             idProductoSeleccionado = Convert.ToInt32(producto["id_producto"]);
 
-            // Nombre
-            CBnombreP.Text = producto["nombre"]?.ToString() ?? "";
+            // Nombre -> Ahora se carga en el TextBox dedicado para la edición
+            txtProducto.Text = producto["nombre"]?.ToString() ?? "";
 
             // Asignar Categoría por ID si existe
             if (producto.Table.Columns.Contains("id_categoria") && producto["id_categoria"] != DBNull.Value)
@@ -136,9 +137,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 txtCodigo.Text = producto["codigo"]?.ToString() ?? "";
             else
                 txtCodigo.Text = idProductoSeleccionado.ToString();
+
         }
-
-
 
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -154,8 +154,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // Validar Nombre del Producto
-            string nombre = CBnombreP.Text.Trim();
+            // Validar Nombre del Producto directamente desde el TextBox de edición
+            string nombre = txtProducto.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(nombre))
             {
@@ -165,7 +165,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
-                CBnombreP.Focus();
+                txtProducto.Focus();
                 return;
             }
 
@@ -244,13 +244,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             CBnombreP.SelectedIndex = -1;
             CBnombreP.Text = "";
+
+            txtProducto.Clear(); // Limpia la caja de texto de edición del nombre
+
             CBcategoria.SelectedIndex = -1;
             CBcategoria.Text = "";
 
             cmbMarca.SelectedIndex = -1;
             cmbMarca.Text = "";
+
             cmbProveedor.SelectedIndex = -1;
             cmbProveedor.Text = "";
+
             txtCodigo.Clear();
         }
 

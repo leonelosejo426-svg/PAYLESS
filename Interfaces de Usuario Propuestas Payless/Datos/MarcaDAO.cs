@@ -385,5 +385,46 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return tabla;
         }
+
+
+        public bool ExisteNombre(string nombre, int? idExcluir = null)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM marca WHERE LOWER(nombre) = LOWER(@nombre)";
+                if (idExcluir.HasValue) sql += " AND id_marca <> @idExcluir";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@nombre", nombre);
+                    if (idExcluir.HasValue) cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
+
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+        public bool ExisteDescripcion(string descripcion, int? idExcluir = null)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COUNT(*) FROM marca WHERE LOWER(descripcion) = LOWER(@descripcion)"; // Cambia "marca" según corresponda
+                if (idExcluir.HasValue) sql += " AND id_marca <> @idExcluir";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@descripcion", descripcion);
+                    if (idExcluir.HasValue) cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
+
+                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+                }
+            }
+            finally { conexionBD.CerrarConexion(); }
+        }
+
+
     }
 }
