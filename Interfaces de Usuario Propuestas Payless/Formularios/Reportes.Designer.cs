@@ -106,7 +106,7 @@
             this.label1.Location = new System.Drawing.Point(29, 722);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(148, 26);
+            this.label1.Size = new System.Drawing.Size(100, 19);
             this.label1.TabIndex = 129;
             this.label1.Text = "📋   Reportes";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -121,9 +121,10 @@
             this.label27.Location = new System.Drawing.Point(29, 808);
             this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(121, 26);
+            this.label27.Size = new System.Drawing.Size(80, 19);
             this.label27.TabIndex = 128;
             this.label27.Text = "🆘   Ayuda";
+            this.label27.Click += new System.EventHandler(this.label27_Click);
             // 
             // lblMantenimiento
             // 
@@ -135,7 +136,7 @@
             this.lblMantenimiento.Location = new System.Drawing.Point(30, 673);
             this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblMantenimiento.Name = "lblMantenimiento";
-            this.lblMantenimiento.Size = new System.Drawing.Size(213, 26);
+            this.lblMantenimiento.Size = new System.Drawing.Size(140, 19);
             this.lblMantenimiento.TabIndex = 127;
             this.lblMantenimiento.Text = "🛠️   Mantenimiento";
             this.lblMantenimiento.Click += new System.EventHandler(this.lblMantenimiento_Click);
@@ -150,7 +151,7 @@
             this.lblCaja.Location = new System.Drawing.Point(29, 246);
             this.lblCaja.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCaja.Name = "lblCaja";
-            this.lblCaja.Size = new System.Drawing.Size(105, 26);
+            this.lblCaja.Size = new System.Drawing.Size(69, 19);
             this.lblCaja.TabIndex = 126;
             this.lblCaja.Text = "💰   Caja";
             this.lblCaja.Click += new System.EventHandler(this.lblCaja_Click);
@@ -165,7 +166,7 @@
             this.lblCredito.Location = new System.Drawing.Point(29, 568);
             this.lblCredito.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCredito.Name = "lblCredito";
-            this.lblCredito.Size = new System.Drawing.Size(135, 26);
+            this.lblCredito.Size = new System.Drawing.Size(88, 19);
             this.lblCredito.TabIndex = 125;
             this.lblCredito.Text = "🧾   Credito";
             this.lblCredito.Click += new System.EventHandler(this.lblCredito_Click);
@@ -180,7 +181,7 @@
             this.lblInventario.Location = new System.Drawing.Point(30, 618);
             this.lblInventario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblInventario.Name = "lblInventario";
-            this.lblInventario.Size = new System.Drawing.Size(163, 26);
+            this.lblInventario.Size = new System.Drawing.Size(107, 19);
             this.lblInventario.TabIndex = 124;
             this.lblInventario.Text = "📦   Inventario";
             this.lblInventario.Click += new System.EventHandler(this.lblInventario_Click);
@@ -195,7 +196,7 @@
             this.lblVenta.Location = new System.Drawing.Point(30, 524);
             this.lblVenta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblVenta.Name = "lblVenta";
-            this.lblVenta.Size = new System.Drawing.Size(124, 26);
+            this.lblVenta.Size = new System.Drawing.Size(84, 19);
             this.lblVenta.TabIndex = 123;
             this.lblVenta.Text = "🛒   Ventas";
             this.lblVenta.Click += new System.EventHandler(this.lblVenta_Click);
@@ -210,7 +211,7 @@
             this.lblCompras.Location = new System.Drawing.Point(31, 473);
             this.lblCompras.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCompras.Name = "lblCompras";
-            this.lblCompras.Size = new System.Drawing.Size(149, 26);
+            this.lblCompras.Size = new System.Drawing.Size(98, 19);
             this.lblCompras.TabIndex = 122;
             this.lblCompras.Text = "💳   Compras";
             this.lblCompras.Click += new System.EventHandler(this.lblCompras_Click);
@@ -225,7 +226,7 @@
             this.lblUsuarios.Location = new System.Drawing.Point(30, 291);
             this.lblUsuarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuarios.Name = "lblUsuarios";
-            this.lblUsuarios.Size = new System.Drawing.Size(146, 26);
+            this.lblUsuarios.Size = new System.Drawing.Size(97, 19);
             this.lblUsuarios.TabIndex = 121;
             this.lblUsuarios.Text = "👥   Usuarios";
             this.lblUsuarios.Click += new System.EventHandler(this.lblUsuarios_Click);
@@ -240,7 +241,7 @@
             this.lblCliente.Location = new System.Drawing.Point(31, 338);
             this.lblCliente.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(140, 26);
+            this.lblCliente.Size = new System.Drawing.Size(94, 19);
             this.lblCliente.TabIndex = 120;
             this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
             this.lblCliente.Click += new System.EventHandler(this.lblCliente_Click);
@@ -266,7 +267,7 @@
             this.label26.Location = new System.Drawing.Point(31, 192);
             this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(107, 26);
+            this.label26.Size = new System.Drawing.Size(73, 19);
             this.label26.TabIndex = 116;
             this.label26.Text = "☰   Menú";
             this.label26.Click += new System.EventHandler(this.label26_Click_2);
@@ -281,7 +282,7 @@
             this.lblProveedores.Location = new System.Drawing.Point(30, 426);
             this.lblProveedores.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblProveedores.Name = "lblProveedores";
-            this.lblProveedores.Size = new System.Drawing.Size(183, 26);
+            this.lblProveedores.Size = new System.Drawing.Size(122, 19);
             this.lblProveedores.TabIndex = 119;
             this.lblProveedores.Text = "🚚   Proveedores";
             this.lblProveedores.Click += new System.EventHandler(this.lblProveedores_Click);
@@ -296,7 +297,7 @@
             this.lblProductos.Location = new System.Drawing.Point(31, 383);
             this.lblProductos.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblProductos.Name = "lblProductos";
-            this.lblProductos.Size = new System.Drawing.Size(160, 26);
+            this.lblProductos.Size = new System.Drawing.Size(104, 19);
             this.lblProductos.TabIndex = 118;
             this.lblProductos.Text = "🛍️   Productos";
             this.lblProductos.Click += new System.EventHandler(this.lblProductos_Click);
@@ -335,7 +336,7 @@
             this.label3.Location = new System.Drawing.Point(47, 30);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(208, 55);
+            this.label3.Size = new System.Drawing.Size(137, 36);
             this.label3.TabIndex = 0;
             this.label3.Text = "Reportes";
             // 
@@ -348,7 +349,7 @@
             this.label4.Location = new System.Drawing.Point(719, 51);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(137, 26);
+            this.label4.Size = new System.Drawing.Size(92, 19);
             this.label4.TabIndex = 2;
             this.label4.Text = "Acerca De...";
             this.label4.Click += new System.EventHandler(this.label4_Click);
@@ -362,7 +363,7 @@
             this.label2.Location = new System.Drawing.Point(221, 127);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(240, 26);
+            this.label2.Size = new System.Drawing.Size(159, 19);
             this.label2.TabIndex = 120;
             this.label2.Text = "Seleccione un Reporte";
             // 
@@ -372,7 +373,7 @@
             this.cbTipoReporte.FormattingEnabled = true;
             this.cbTipoReporte.Location = new System.Drawing.Point(387, 119);
             this.cbTipoReporte.Name = "cbTipoReporte";
-            this.cbTipoReporte.Size = new System.Drawing.Size(200, 35);
+            this.cbTipoReporte.Size = new System.Drawing.Size(200, 27);
             this.cbTipoReporte.TabIndex = 121;
             this.cbTipoReporte.SelectedIndexChanged += new System.EventHandler(this.cbTipoReporte_SelectedIndexChanged);
             // 
@@ -428,7 +429,7 @@
             this.dtpFechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaDesde.Location = new System.Drawing.Point(718, 151);
             this.dtpFechaDesde.Name = "dtpFechaDesde";
-            this.dtpFechaDesde.Size = new System.Drawing.Size(112, 35);
+            this.dtpFechaDesde.Size = new System.Drawing.Size(112, 26);
             this.dtpFechaDesde.TabIndex = 128;
             this.dtpFechaDesde.ValueChanged += new System.EventHandler(this.dtpFechaDesde_ValueChanged);
             // 
@@ -438,7 +439,7 @@
             this.dtpFechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpFechaHasta.Location = new System.Drawing.Point(718, 184);
             this.dtpFechaHasta.Name = "dtpFechaHasta";
-            this.dtpFechaHasta.Size = new System.Drawing.Size(112, 35);
+            this.dtpFechaHasta.Size = new System.Drawing.Size(112, 26);
             this.dtpFechaHasta.TabIndex = 129;
             this.dtpFechaHasta.ValueChanged += new System.EventHandler(this.dtpFechaHasta_ValueChanged);
             // 
@@ -451,7 +452,7 @@
             this.label5.Location = new System.Drawing.Point(594, 127);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(180, 26);
+            this.label5.Size = new System.Drawing.Size(117, 19);
             this.label5.TabIndex = 122;
             this.label5.Text = "Tipo de reporte:";
             // 
@@ -464,7 +465,7 @@
             this.label6.Location = new System.Drawing.Point(594, 190);
             this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(142, 26);
+            this.label6.Size = new System.Drawing.Size(94, 19);
             this.label6.TabIndex = 130;
             this.label6.Text = "Fecha hasta:";
             // 
@@ -477,7 +478,7 @@
             this.label7.Location = new System.Drawing.Point(594, 158);
             this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(145, 26);
+            this.label7.Size = new System.Drawing.Size(97, 19);
             this.label7.TabIndex = 131;
             this.label7.Text = "Fecha desde:\n";
             // 
@@ -487,7 +488,7 @@
             this.cbCriterio.FormattingEnabled = true;
             this.cbCriterio.Location = new System.Drawing.Point(719, 118);
             this.cbCriterio.Name = "cbCriterio";
-            this.cbCriterio.Size = new System.Drawing.Size(148, 35);
+            this.cbCriterio.Size = new System.Drawing.Size(148, 27);
             this.cbCriterio.TabIndex = 132;
             this.cbCriterio.SelectedIndexChanged += new System.EventHandler(this.cbCriterio_SelectedIndexChanged);
             // 
@@ -497,7 +498,7 @@
             this.cbUsuario.FormattingEnabled = true;
             this.cbUsuario.Location = new System.Drawing.Point(884, 150);
             this.cbUsuario.Name = "cbUsuario";
-            this.cbUsuario.Size = new System.Drawing.Size(112, 35);
+            this.cbUsuario.Size = new System.Drawing.Size(112, 27);
             this.cbUsuario.TabIndex = 133;
             this.cbUsuario.SelectedIndexChanged += new System.EventHandler(this.cbUsuario_SelectedIndexChanged);
             this.cbUsuario.TextChanged += new System.EventHandler(this.cbUsuario_TextChanged);
@@ -509,7 +510,7 @@
             this.cbEstado.FormattingEnabled = true;
             this.cbEstado.Location = new System.Drawing.Point(1020, 150);
             this.cbEstado.Name = "cbEstado";
-            this.cbEstado.Size = new System.Drawing.Size(112, 35);
+            this.cbEstado.Size = new System.Drawing.Size(112, 27);
             this.cbEstado.TabIndex = 134;
             this.cbEstado.SelectedIndexChanged += new System.EventHandler(this.cbEstado_SelectedIndexChanged);
             // 
@@ -522,7 +523,7 @@
             this.lblUsuario.Location = new System.Drawing.Point(880, 119);
             this.lblUsuario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(102, 26);
+            this.lblUsuario.Size = new System.Drawing.Size(68, 19);
             this.lblUsuario.TabIndex = 135;
             this.lblUsuario.Text = "Usuarios";
             // 
@@ -535,7 +536,7 @@
             this.label9.Location = new System.Drawing.Point(1016, 121);
             this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 26);
+            this.label9.Size = new System.Drawing.Size(55, 19);
             this.label9.TabIndex = 136;
             this.label9.Text = "Estado";
             // 
@@ -548,7 +549,7 @@
             this.lblRol.Location = new System.Drawing.Point(880, 185);
             this.lblRol.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(48, 26);
+            this.lblRol.Size = new System.Drawing.Size(33, 19);
             this.lblRol.TabIndex = 138;
             this.lblRol.Text = "Rol";
             // 
@@ -558,13 +559,13 @@
             this.cbRol.FormattingEnabled = true;
             this.cbRol.Location = new System.Drawing.Point(884, 216);
             this.cbRol.Name = "cbRol";
-            this.cbRol.Size = new System.Drawing.Size(112, 35);
+            this.cbRol.Size = new System.Drawing.Size(112, 27);
             this.cbRol.TabIndex = 137;
             this.cbRol.SelectedIndexChanged += new System.EventHandler(this.cbRol_SelectedIndexChanged);
             // 
             // Reportes
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));

@@ -99,6 +99,8 @@
             // 
             this.btnValidar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnValidar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnValidar.FlatAppearance.BorderSize = 0;
+            this.btnValidar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnValidar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnValidar.ForeColor = System.Drawing.Color.White;
             this.btnValidar.Location = new System.Drawing.Point(717, 190);
@@ -111,10 +113,10 @@
             // 
             // button3
             // 
-            this.button3.BackColor = System.Drawing.Color.White;
+            this.button3.BackColor = System.Drawing.Color.Transparent;
             this.button3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Times New Roman", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button3.ForeColor = System.Drawing.Color.Black;
             this.button3.Location = new System.Drawing.Point(37, 564);
@@ -215,9 +217,11 @@
             // 
             this.btnCambiarPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnCambiarPassword.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCambiarPassword.FlatAppearance.BorderSize = 0;
+            this.btnCambiarPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCambiarPassword.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCambiarPassword.ForeColor = System.Drawing.Color.White;
-            this.btnCambiarPassword.Location = new System.Drawing.Point(790, 533);
+            this.btnCambiarPassword.Location = new System.Drawing.Point(717, 533);
             this.btnCambiarPassword.Name = "btnCambiarPassword";
             this.btnCambiarPassword.Size = new System.Drawing.Size(262, 54);
             this.btnCambiarPassword.TabIndex = 95;
@@ -230,6 +234,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1139, 617);
             this.Controls.Add(this.btnCambiarPassword);
             this.Controls.Add(this.txtConfirmarPassword);

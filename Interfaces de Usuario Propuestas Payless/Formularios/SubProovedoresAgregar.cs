@@ -23,9 +23,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Proveedores ventana = new Proveedores();
-            ventana.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)

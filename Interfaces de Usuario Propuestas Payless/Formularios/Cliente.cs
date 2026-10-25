@@ -122,7 +122,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Cliente_Load(object sender, EventArgs e)
         {
-
+            CargarClientes();
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;

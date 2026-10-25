@@ -342,7 +342,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            NuevaVenta ventana = new NuevaVenta();
+                NuevaVenta ventana = new NuevaVenta();
                  ventana.ShowDialog();
             CargarVentas(); 
             this.Show();

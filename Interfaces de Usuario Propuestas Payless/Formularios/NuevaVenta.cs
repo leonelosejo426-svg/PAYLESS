@@ -472,10 +472,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
             // NUEVA VALIDACIÓN DE STOCK MÍNIMO CON ALERTA OK/CANCEL
             // =========================================================================
 
-            // Supongamos que tienes una variable global o la obtienes de tu BD: int stockMinimoBD = ...; (ej. 5)
-            // Si aún no tienes la variable de stock mínimo en tu formulario, puedes declararla arriba, 
-            // por ejemplo: private int stockMinimoBD = 5; (o traerla desde el DAO junto con el stock).
-            int stockMinimoBD = 5; // <--- Cambia esto por la variable real que traigas de tu BD para este producto
+            
+            int stockMinimoBD = 5; 
 
             // Calculamos cuánto es lo máximo que se puede vender respetando el stock mínimo
             int cantidadMaximaPermitida = stock - stockMinimoBD;
@@ -753,7 +751,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void btnPagar_Click(object sender, EventArgs e)
         {
-            if (CBcliente.SelectedIndex == -1)
+        if (CBcliente.SelectedIndex == -1)
             {
                 MessageBox.Show(
                     "Seleccione un cliente.",

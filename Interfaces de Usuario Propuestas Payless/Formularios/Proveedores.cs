@@ -53,7 +53,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void Proveedores_Load(object sender, EventArgs e)
         {
-
+            CargarProveedores();    
 
             cmbBuscar.Items.Clear();
 
@@ -230,13 +230,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             SubProovedoresAgregar ventana = new SubProovedoresAgregar();
-            ventana.Show(); this.Hide();
+            ventana.ShowDialog(); this.Show ();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
             SubProveedorEditar ventana = new SubProveedorEditar();
-            ventana.Show(); this.Hide();
+            ventana.ShowDialog(); this.Show();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -439,6 +439,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             Reportes ventana = new Reportes();
             ventana.Show();
             this.Hide();
+        }
+
+        private void DGVtabla1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            // Verificamos que estemos en la columna de estado (ajusta "estado_proveedor" si tu columna tiene otro nombre)
+            if (DGVtabla1.Columns[e.ColumnIndex].Name == "estado")
+            {
+                if (e.Value != null && e.Value != DBNull.Value)
+                {
+                    bool estado = Convert.ToBoolean(e.Value);
+
+                    // Reemplazamos el True/False visualmente por Activo/Inactivo
+                    e.Value = estado ? "Activo" : "Inactivo";
+
+                    // Indicamos que ya formateamos la celda para que Windows Forms la pinte así
+                    e.FormattingApplied = true;
+                }
+            }
         }
     }
 
