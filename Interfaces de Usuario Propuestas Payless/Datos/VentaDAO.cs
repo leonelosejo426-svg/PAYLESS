@@ -889,7 +889,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
 
 
-        
+
 
         public DataTable MostrarVentasDeCajaAbierta()
         {
@@ -899,44 +899,40 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.AbrirConexion();
 
+                // Blindado: Filtramos directamente por el ID de la caja activa almacenada en la sesión del usuario actual
                 string sql = @"
-            SELECT
-                v.id_venta,
-                v.codigo_venta,
-                v.fecha,
-                COALESCE(c.nombre, 'Consumidor final') AS cliente,
-                v.subtotal,
-                v.iva,
-                v.total,
-                CASE
-                    WHEN v.estado = TRUE THEN 'Activo'
-                    ELSE 'Anulado'
-                END AS estado
-            FROM venta v
-            INNER JOIN caja cj
-                ON cj.id_caja = v.id_caja
-            LEFT JOIN cliente c
-                ON c.id_cliente = v.id_cliente
-            WHERE cj.estado_caja = 'Abierta'
-              AND cj.id_caja = (
-                  SELECT MAX(id_caja)
-                  FROM caja
-                  WHERE estado_caja = 'Abierta'
-              )
+            SELECT 
+                v.id_venta, 
+                v.codigo_venta, 
+                v.fecha, 
+                COALESCE(c.nombre, 'Consumidor final') AS cliente, 
+                v.subtotal, 
+                v.iva, 
+                v.total, 
+                CASE 
+                    WHEN v.estado = TRUE THEN 'Activo' 
+                    ELSE 'Anulado' 
+                END AS estado 
+            FROM venta v 
+            LEFT JOIN cliente c ON c.id_cliente = v.id_cliente 
+            WHERE v.id_caja = @idCaja 
             ORDER BY v.id_venta ASC;";
 
-                using (NpgsqlCommand cmd = new NpgsqlCommand(
-                    sql, conexionBD.ObtenerConexion()))
-                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    da.Fill(tabla);
+                    // Pasamos el ID de la caja del usuario logueado (Felipe o Pablo de forma independiente)
+                    cmd.Parameters.AddWithValue("@idCaja", ClaseSesion.IdCajaActiva);
+
+                    using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd))
+                    {
+                        da.Fill(tabla);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error al consultar las ventas de la caja abierta: "
-                    + ex.Message,
+                    "Error al consultar las ventas de la caja abierta: " + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);

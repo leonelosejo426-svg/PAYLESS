@@ -81,6 +81,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Se eliminó 'A-Z' para prohibir las mayúsculas
+            Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
+
+            if (!regexCorreo.IsMatch(correo))
+            {
+                MessageBox.Show(
+                    "El correo electrónico no es válido.\n\n" +
+                    "• Debe estar completamente en minúsculas.\n" +
+                    "• Debe pertenecer a Gmail o Yahoo (ejemplo: usuario456@gmail.com).\n" +
+                    "• Solo se permiten puntos, guiones o guiones bajos.",
+                    "Validación de Correo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+
+                txtCorreo.Focus();
+                txtCorreo.SelectAll();
+                return;
+            }
+
+
             if (string.IsNullOrWhiteSpace(correo))
             {
                 MessageBox.Show("Ingrese el correo del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -88,12 +109,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (!Regex.IsMatch(correo, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
-            {
-                MessageBox.Show("Ingrese un correo electrónico válido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCorreo.Focus();
-                return;
-            }
+            
 
             if (correo.Length > 50)
             {

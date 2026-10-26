@@ -102,7 +102,7 @@
             this.DGVtabla1.Location = new System.Drawing.Point(188, 200);
             this.DGVtabla1.Name = "DGVtabla1";
             this.DGVtabla1.RowHeadersWidth = 62;
-            this.DGVtabla1.Size = new System.Drawing.Size(640, 333);
+            this.DGVtabla1.Size = new System.Drawing.Size(803, 403);
             this.DGVtabla1.TabIndex = 26;
             this.DGVtabla1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGVtabla1_CellContentClick);
             this.DGVtabla1.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.DGVtabla1_CellFormatting);
@@ -371,7 +371,7 @@
             this.panel2.ForeColor = System.Drawing.Color.White;
             this.panel2.Location = new System.Drawing.Point(-4, -10);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1016, 70);
+            this.panel2.Size = new System.Drawing.Size(1086, 70);
             this.panel2.TabIndex = 60;
             // 
             // label18
@@ -469,7 +469,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(916, 734);
+            this.ClientSize = new System.Drawing.Size(1030, 734);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.txtBuscar);
             this.Controls.Add(this.btnEditar);

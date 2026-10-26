@@ -64,12 +64,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-                // 3. Evaluamos los escenarios específicos
+                // 3. Evaluamos los escenarios específicos de credenciales
                 string resultadoValidacion = usuarioDAO.ValidarCredenciales(usuario, contraseña);
 
                 if (resultadoValidacion == "OK")
                 {
-                    // Iniciamos la sesión global
+                    // Iniciamos la sesión global (carga IdUsuario, RolActual, UsuarioActual, etc.)
                     usuarioDAO.IniciarSesion(usuario, contraseña);
 
                     MessageBox.Show("Bienvenido " + ClaseSesion.RolActual + " " + ClaseSesion.UsuarioActual, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -77,8 +77,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     // CONTROL DE ROLES
                     if (ClaseSesion.RolActual.Trim().ToLower() == "cajero")
                     {
-                        if (ClaseSesion.TieneCajaActiva)
+                        // =========================================================================
+                        // AISLAMIENTO DE CAJA: Verificamos si ESTE USUARIO tiene su propia caja abierta
+                        // =========================================================================
+                        int idCajaActual = new ArqueoCajaDAO().ObtenerCajaAbiertaPorUsuario(ClaseSesion.IdUsuario);
+
+                        if (idCajaActual > 0)
                         {
+                            ClaseSesion.TieneCajaActiva = true;
+                            // Guardamos el ID de la caja del usuario para que todas sus ventas vayan aquí
+                            ClaseSesion.IdCajaActiva = idCajaActual;
+
                             MessageBox.Show("Detectamos una caja activa. Abriendo módulo de ventas...", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             Ventas ventanaVenta = new Ventas();
@@ -87,6 +96,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         }
                         else
                         {
+                            ClaseSesion.TieneCajaActiva = false;
+
                             MessageBox.Show("Debe realizar la apertura de caja para iniciar operaciones.", "Apertura Obligatoria", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                             AperturaCaja ventanaApertura = new AperturaCaja(ClaseSesion.IdUsuario, ClaseSesion.UsuarioActual);

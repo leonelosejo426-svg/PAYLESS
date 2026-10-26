@@ -26,7 +26,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private decimal ingresos = 0;
         private decimal egresos = 0;
         private decimal montoEsperado = 0;
-        private decimal montoArqueado = 0;
+
+        private decimal montoArqueo = 0;
         private decimal diferencia = 0;
 
         private decimal efectivoCordobas = 0;
@@ -83,140 +84,95 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            DataRow fila =
-                tabla.Rows[0];
+            DataRow fila = tabla.Rows[0];
 
-            idCajaActual =
-                Convert.ToInt32(
-                    fila["id_caja"]);
+            idCajaActual = Convert.ToInt32(fila["id_caja"]);
+            saldoInicial = Convert.ToDecimal(fila["saldo_inicial"]);
 
-            saldoInicial =
-                Convert.ToDecimal(
-                    fila["saldo_inicial"]);
+            // 1. Cargar desgloses puros de la base de datos
+            egresos = cierreDAO.ObtenerEgresos(idCajaActual);
+            efectivoCordobas = cierreDAO.ObtenerEfectivoCordobas(idCajaActual);
+            tarjetas = cierreDAO.ObtenerTarjetas(idCajaActual);
 
-            ingresos =
-                cierreDAO.ObtenerIngresos(
-                    idCajaActual);
+            decimal dollarsFisicos = cierreDAO.ObtenerEfectivoDolares(idCajaActual);
+            decimal tipoCambio = Convert.ToDecimal(fila["tipo_cambio_dolar"]);
+            efectivoDolares = dollarsFisicos * tipoCambio;
 
-            egresos =
-                cierreDAO.ObtenerEgresos(
-                    idCajaActual);
+            // 2. Traemos el ingreso neto real facturado (C$ 14,163.05)
+            ingresos = cierreDAO.ObtenerIngresos(idCajaActual);
 
-            montoEsperado =
-                saldoInicial +
-                ingresos -
-                egresos;
+            // =========================================================================
+            // 🧮 CORRECCIÓN DE LUGAR: ASIGNACIÓN CORRECTA DE SALDOS
+            // =========================================================================
 
-            if (fila["monto_arqueo"] != DBNull.Value)
-            {
-                montoArqueado =
-                    Convert.ToDecimal(
-                        fila["monto_arqueo"]);
-            }
+            // MONTO ESPERADO (SISTEMA): Debe dar tus C$ 14,463.05 perfectos de la caja principal
+            montoEsperado = saldoInicial + ingresos - egresos;
 
-            diferencia =
-                montoArqueado -
-                montoEsperado;
+            // MONTO ARQUEADO (LO QUE TÚ ARQUEASTE): Leemos directo la columna de tu pantalla de Arqueo
+            montoArqueo = fila["monto_arqueo"] != DBNull.Value
+                ? Convert.ToDecimal(fila["monto_arqueo"])
+                : 0m;
 
-            efectivoCordobas =
-                cierreDAO.ObtenerEfectivoCordobas(
-                    idCajaActual);
+            // TU FÓRMULA ESTRICTA: Monto contado (físico) - Monto esperado (sistema)
+            diferencia = montoArqueo - montoEsperado;
 
-            decimal dolares =
-                cierreDAO.ObtenerEfectivoDolares(
-                    idCajaActual);
-
-            decimal tipoCambio =
-                Convert.ToDecimal(
-                    fila["tipo_cambio_dolar"]);
-
-            efectivoDolares =
-                dolares * tipoCambio;
-
-            tarjetas =
-                cierreDAO.ObtenerTarjetas(
-                    idCajaActual);
+            // =========================================================================
 
             MostrarInformacion();
         }
+
+
+
+
 
         // =====================================================
         // MOSTRAR INFORMACIÓN
         // =====================================================
         private void MostrarInformacion()
         {
-            lblSaldoInicial.Text =
-                "C$ " +
-                saldoInicial.ToString("N2");
+            lblSaldoInicial.Text = "C$ " + saldoInicial.ToString("N2");
+            lblIngresos.Text = "C$ " + ingresos.ToString("N2");
+            lblEgresos.Text = "C$ " + egresos.ToString("N2");
+            lblMontoEsperado.Text = "C$ " + montoEsperado.ToString("N2");
+            lblMontoArqueado.Text = "C$ " + montoArqueo.ToString("N2");
+            lblDiferencia.Text = "C$ " + diferencia.ToString("N2");
+            lblEfectivoCordobas.Text = "C$ " + efectivoCordobas.ToString("N2");
+            lblEfectivoDolares.Text = "C$ " + efectivoDolares.ToString("N2");
+            lblMontoTarjetas.Text = "C$ " + tarjetas.ToString("N2");
 
-            lblIngresos.Text =
-                "C$ " +
-                ingresos.ToString("N2");
-
-            lblEgresos.Text =
-                "C$ " +
-                egresos.ToString("N2");
-
-            lblMontoEsperado.Text =
-                "C$ " +
-                montoEsperado.ToString("N2");
-
-            lblMontoArqueado.Text =
-                "C$ " +
-                montoArqueado.ToString("N2");
-
-            lblDiferencia.Text =
-                "C$ " +
-                diferencia.ToString("N2");
-
-            lblEfectivoCordobas.Text =
-                "C$ " +
-                efectivoCordobas.ToString("N2");
-
-            lblEfectivoDolares.Text =
-                "C$ " +
-                efectivoDolares.ToString("N2");
-
-            lblMontoTarjetas.Text =
-                "C$ " +
-                tarjetas.ToString("N2");
-
-            // El saldo final corresponde
-            // al dinero físico arqueado.
-            lblSaldoFinal.Text =
-                "C$ " +
-                montoArqueado.ToString("N2");
+            // CORRECCIÓN: El saldo final de cierre debe incluir el efectivo físico arqueado + las ventas por tarjeta
+            decimal saldoFinalTotal = montoArqueo + tarjetas;
+            lblSaldoFinal.Text = "C$ " + saldoFinalTotal.ToString("N2");
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
             DialogResult respuesta =
-                MessageBox.Show(
-                    "¿Está seguro de cerrar la caja?\n\n" +
-                    "Monto esperado: C$ " +
-                    montoEsperado.ToString("N2") +
-                    "\nMonto arqueado: C$ " +
-                    montoArqueado.ToString("N2") +
-                    "\nDiferencia: C$ " +
-                    diferencia.ToString("N2"),
-                    "Confirmar cierre de caja",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question);
+        MessageBox.Show(
+            "¿Está seguro de cerrar la caja?\n\n" +
+            "Monto esperado: C$ " + montoEsperado.ToString("N2") +
+            "\nMonto arqueado: C$ " + montoArqueo.ToString("N2") +
+            "\nDiferencia: C$ " + diferencia.ToString("N2"),
+            "Confirmar cierre de caja",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
 
             if (respuesta != DialogResult.Yes)
                 return;
+
+            // Calculamos el saldo final total (Efectivo arqueado + Tarjetas)
+            decimal saldoFinalGlobal = montoArqueo + tarjetas;
 
             bool resultado =
                 cierreDAO.GuardarCierre(
                     idCajaActual,
                     montoEsperado,
-                    montoArqueado,
+                    montoArqueo,
                     diferencia,
-                    montoArqueado);
+                    saldoFinalGlobal);
 
             if (resultado)
             {
-                // ¡IMPORTANTE! Liberamos el candado global de la caja activa
                 ClaseSesion.TieneCajaActiva = false;
 
                 MessageBox.Show(

@@ -63,7 +63,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             cmbBuscar.SelectedIndex = 0;
 
-            CargarProveedores();
+           
 
 
             lblCaja.Enabled = false;
@@ -230,17 +230,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnAgregar_Click(object sender, EventArgs e)
         {
             SubProovedoresAgregar ventana = new SubProovedoresAgregar();
-            ventana.ShowDialog(); this.Show ();
+            ventana.ShowDialog(); CargarProveedores(); this.Show ();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
             SubProveedorEditar ventana = new SubProveedorEditar();
-            ventana.ShowDialog(); this.Show();
+            ventana.ShowDialog(); CargarProveedores(); this.Show();
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
-        {
+        {   
 
 
         }
@@ -286,21 +286,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void AjustarColumnas()
         {
+  
+
             if (DGVtabla1.Columns.Contains("id_proveedor"))
-                DGVtabla1.Columns["id_proveedor"].Width = 80;
+                DGVtabla1.Columns["id_proveedor"].Width = 50;
 
             if (DGVtabla1.Columns.Contains("nombre"))
-                DGVtabla1.Columns["nombre"].Width = 200;
+                DGVtabla1.Columns["nombre"].Width = 230;
 
             if (DGVtabla1.Columns.Contains("direccion"))
-                DGVtabla1.Columns["direccion"].Width = 250;
+                DGVtabla1.Columns["direccion"].Width = 125;
 
             if (DGVtabla1.Columns.Contains("ruc"))
                 DGVtabla1.Columns["ruc"].Width = 150;
 
             if (DGVtabla1.Columns.Contains("estado"))
             {
-                DGVtabla1.Columns["estado"].Width = 100;
+                DGVtabla1.Columns["estado"].Width = 125;
                 DGVtabla1.Columns["estado"].HeaderText = "Estado";
             }
         }

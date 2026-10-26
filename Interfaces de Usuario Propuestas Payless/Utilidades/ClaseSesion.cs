@@ -16,6 +16,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         public static string RolActual { get; set; }
 
         public static bool TieneCajaActiva { get; set; }
+        public static int IdCajaActiva { get; set; }
 
         /* public static string UsuarioActual;
          public static string RolActual;*/

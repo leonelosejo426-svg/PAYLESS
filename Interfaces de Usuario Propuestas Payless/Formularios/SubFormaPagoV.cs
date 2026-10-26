@@ -846,7 +846,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnCancelar_Click_1(object sender, EventArgs e)
         {
-            this.Hide();
+            
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
         }
     }
 }

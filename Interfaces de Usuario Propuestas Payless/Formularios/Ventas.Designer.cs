@@ -51,7 +51,6 @@
             this.cbBuscarPor = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtBuscar = new System.Windows.Forms.TextBox();
-            this.btnEliminar = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.lblCaja = new System.Windows.Forms.Label();
             this.lblCredito = new System.Windows.Forms.Label();
@@ -303,7 +302,6 @@
             this.groupBox3.Controls.Add(this.cbBuscarPor);
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.txtBuscar);
-            this.groupBox3.Controls.Add(this.btnEliminar);
             this.groupBox3.Controls.Add(this.btnAgregar);
             this.groupBox3.Font = new System.Drawing.Font("Times New Roman", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(196, 82);
@@ -357,23 +355,6 @@
             this.txtBuscar.Name = "txtBuscar";
             this.txtBuscar.Size = new System.Drawing.Size(106, 22);
             this.txtBuscar.TabIndex = 119;
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.BackColor = System.Drawing.Color.Black;
-            this.btnEliminar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEliminar.FlatAppearance.BorderSize = 0;
-            this.btnEliminar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEliminar.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminar.ForeColor = System.Drawing.Color.White;
-            this.btnEliminar.Location = new System.Drawing.Point(731, 26);
-            this.btnEliminar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(112, 32);
-            this.btnEliminar.TabIndex = 115;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = false;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // button4
             // 
@@ -593,7 +574,6 @@
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Label lblMantenimiento;
         private System.Windows.Forms.Label lblInventario;

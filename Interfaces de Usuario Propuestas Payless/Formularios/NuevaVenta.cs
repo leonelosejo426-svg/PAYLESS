@@ -751,7 +751,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void btnPagar_Click(object sender, EventArgs e)
         {
-        if (CBcliente.SelectedIndex == -1)
+            if (CBcliente.SelectedIndex == -1)
             {
                 MessageBox.Show(
                     "Seleccione un cliente.",
@@ -759,7 +759,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
+                CBcliente.Focus();
                 return;
             }
 
@@ -771,41 +771,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
 
-            decimal subtotal =
-                listaDetalleVenta.ObtenerSubtotal();
+            decimal subtotal = listaDetalleVenta.ObtenerSubtotal();
 
-            decimal iva =
-                subtotal * 0.15m;
+            // CORREGIDO: Se agregó el operador de multiplicación (*)
+            decimal iva = subtotal * 0.15m;
 
-            decimal total =
-                subtotal + iva;
+            decimal total = subtotal + iva;
 
-            DataTable detalleVenta =
-                CrearDetalleVenta();
+            DataTable detalleVenta = CrearDetalleVenta();
 
-            int idCliente =
-                ObtenerIdCliente();
+            int idCliente = ObtenerIdCliente();
 
-            int idCaja =
-                ventaDAO.ObtenerIdCajaAbierta();
-
-            if (idCaja <= 0)
-            {
-                MessageBox.Show(
-                    "No existe una caja abierta.",
-                    "Caja",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-
-                return;
-            }
-
-            // USUARIO QUE INICIÓ SESIÓN
+            // =========================================================================
+            // VALIDACIÓN Y OBTENCIÓN SEGURA DE LA CAJA ACTIVA DEL USUARIO ACTUAL
+            // =========================================================================
             int idUsuario = ClaseSesion.IdUsuario;
 
             if (idUsuario <= 0)
@@ -816,32 +798,57 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return;
             }
 
-            SubFormaPagoV formaPago =
-                new SubFormaPagoV(
-                    txtCodigoVenta.Text,
-                    idCliente,
-                    idUsuario,
-                    idCaja,
-                    subtotal,
-                    iva,
-                    total,
-                    detalleVenta
+            // Consultamos directamente al DAO para asegurar que traemos la caja abierta de ESTE usuario
+            ArqueoCajaDAO arqueoDao = new ArqueoCajaDAO();
+            int idCaja = arqueoDao.ObtenerCajaAbiertaPorUsuario(idUsuario);
+
+            // Sincronizamos la sesión global
+            ClaseSesion.IdCajaActiva = idCaja;
+
+            if (idCaja <= 0)
+            {
+                MessageBox.Show(
+                    "No existe una caja abierta para este turno. Debe realizar la apertura de caja.",
+                    "Caja",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
                 );
+                return;
+            }
 
-            DialogResult resultado =
-                formaPago.ShowDialog();
+            // Abrimos el formulario de pago pasando todos los datos necesarios
+            SubFormaPagoV formaPago = new SubFormaPagoV(
+                txtCodigoVenta.Text,
+                idCliente,
+                idUsuario,
+                idCaja,
+                subtotal,
+                iva,
+                total,
+                detalleVenta
+            );
 
+            // Mostramos la ventana de pago de forma modal
+            DialogResult resultado = formaPago.ShowDialog();
+
+            // =========================================================================
+            // CONTROL AL REGRESAR DE LA PANTALLA DE PAGO
+            // =========================================================================
             if (resultado == DialogResult.OK)
             {
+                // CASO A: Pago exitoso. Refrescamos y limpiamos para una NUEVA VENTA
                 listaDetalleVenta.Limpiar();
-
                 dgvDetalleVenta.Rows.Clear();
 
-                Close();
+                MessageBox.Show("Venta registrada con éxito.", "Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                // CASO B: Canceló o regresó sin pagar. 
+                // NO HACEMOS NADA. El carrito y los productos se conservan intactos.
             }
         }
 

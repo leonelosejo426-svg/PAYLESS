@@ -109,12 +109,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // =====================================================
             ClienteDAO daoVerificar = new ClienteDAO();
 
-            if (daoVerificar.ExisteNombre(nombreCliente))
-            {
-                MessageBox.Show("Ya existe un cliente registrado con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                q.Focus();
-                return;
-            }
+            
 
             if (daoVerificar.ExisteCedula(cedula))
             {
@@ -171,9 +166,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            Cliente ventana = new Cliente();
-            ventana.Show();
-            this.Hide();
+            this.Close();
         }
 
         private void SubClienteAgregar_Load(object sender, EventArgs e)

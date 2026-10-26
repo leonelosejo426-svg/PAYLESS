@@ -78,8 +78,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             //Abrir la pantalla principal de clientes
 
-            Cliente cliente = new Cliente();
-            cliente.Show();
+            
             this.Close();
         }
 
@@ -180,13 +179,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // =========================================================================
             // VALIDACIONES DE DUPLICADOS (Excluyendo al cliente actual)
             // =========================================================================
-            if (clienteDAO.ExisteNombre(nombreCliente, idClienteSeleccionado))
-            {
-                MessageBox.Show("Ya existe otro cliente registrado con este nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombre.Focus();
-                txtNombre.SelectAll();
-                return;
-            }
+            
 
             if (clienteDAO.ExisteCedula(cedula, idClienteSeleccionado))
             {

@@ -365,7 +365,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void btnArqueodecaja_Click(object sender, EventArgs e)
         {
 
-            if (idCajaActual == 0)
+            // Obtenemos directamente la caja del usuario actual de la sesión
+            int idCajaActual = ClaseSesion.IdCajaActiva;
+
+            if (idCajaActual <= 0)
+            {
+                // Si por alguna razón la sesión venía en 0, la consultamos a la BD
+                idCajaActual = arqueoDAO.ObtenerCajaAbiertaPorUsuario(ClaseSesion.IdUsuario);
+                ClaseSesion.IdCajaActiva = idCajaActual;
+            }
+
+            if (idCajaActual <= 0)
             {
                 MessageBox.Show(
                     "No hay una caja abierta para realizar el arqueo.",
@@ -376,7 +386,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // Verificar si ya existe un arqueo guardado
+            // Verificar si esta caja específica ya guardó un arqueo previo
             bool yaTieneArqueo = arqueoDAO.TieneArqueoRegistrado(idCajaActual);
 
             if (yaTieneArqueo)
@@ -398,6 +408,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             formulario.ShowDialog();
 
             CargarCaja();
+        
         }
 
         private void btnCierredecaja_Click(object sender, EventArgs e)

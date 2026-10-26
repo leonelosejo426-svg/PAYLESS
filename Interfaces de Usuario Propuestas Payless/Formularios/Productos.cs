@@ -182,6 +182,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             cmdBuscarProducto.Items.Add("Marca");
             cmdBuscarProducto.Items.Add("Proveedor");
             cmdBuscarProducto.Items.Add("Estado");
+            cmdBuscarProducto.Items.Add("Todos");
 
             cmdBuscarProducto.SelectedIndex = -1;
         }
@@ -599,7 +600,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                             return;
                         }
 
-                        break;
+                        string estadoTodos = texto.Trim().ToLower(); // .Trim() elimina espacios fantasmas al inicio/final
+
+                        // Si el cuadro de texto está vacío o el usuario escribió "todos"
+                        if (string.IsNullOrEmpty(estadoTodos) || estadoTodos == "todos")
+                        {
+                            vista.RowFilter = string.Empty; // Mostrar todos los productos
+                        }
+                        else
+                        {
+                            MessageBox.Show(
+                                "Deje el campo vacío o escriba 'Todos' para mostrar todos los productos.",
+                                "Aviso",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Information);
+
+                            txtBuscarProducto.Focus();
+                            txtBuscarProducto.SelectAll();
+                            return; // Detiene la ejecución aquí si hay un error
+                        }
+
+                        break; 
                 }
 
 

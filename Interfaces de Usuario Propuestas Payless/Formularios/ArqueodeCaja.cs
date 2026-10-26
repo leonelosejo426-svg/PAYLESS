@@ -25,6 +25,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // Ventas esperadas del turno por moneda
         private decimal ventasEsperadasCordobas = 0m;
         private decimal ventasEsperadasDolares = 0m;
+        private decimal ventasTotalesGlobales = 0m; 
 
         public ArqueodeCaja()
         {
@@ -43,8 +44,36 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void ArqueodeCaja_Load(object sender, EventArgs e)
         {
+            // =====================================================
+            // ORDEN DE TABULACIONES (TAB INDEX)
+            // =====================================================
+            // 1. Primero los Dólares (de mayor a menor denominación)
+            txt100Dolares.TabIndex = 1;
+            txt50Dolares.TabIndex = 2;
+            txt20Dolares.TabIndex = 3;
+            txt10Dolares.TabIndex = 4;
+            txt5Dolares.TabIndex = 5;
+            txt1Dolar.TabIndex = 6;
+
+            // 2. Luego los Billetes de Córdobas (de mayor a menor)
+            txt1000Cordobas.TabIndex = 7;
+            txt500Cordobas.TabIndex = 8;
+            txt200Cordobas.TabIndex = 9;
+            txt100Cordobas.TabIndex = 10;
+            txt50Cordobas.TabIndex = 11;
+            txt20Cordobas.TabIndex = 12;
+            txt10Cordobas.TabIndex = 13;
+            txt5Cordobas.TabIndex = 14;
+
+            // 3. Finalmente las Monedas de Córdobas
+            txt5Moneda.TabIndex = 15;
+            txt1Moneda.TabIndex = 16;
+            txt50Centavos.TabIndex = 17;
+            txt25Centavos.TabIndex = 18;
+
             lblUsuario.Text = ClaseSesion.UsuarioActual;
-            idCajaActual = arqueoDAO.ObtenerCajaAbierta();
+
+            idCajaActual = arqueoDAO.ObtenerCajaAbiertaPorUsuario(ClaseSesion.IdUsuario);
 
             if (idCajaActual == 0)
             {
@@ -58,26 +87,36 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblTipoCambio", true).Length > 0)
                 lblTipoCambio.Text = "C$ " + tipoCambio.ToString("N2");
 
-            // 1. Obtener el total de ventas en córdobas registradas en la caja
-            decimal ventasTotalesCordobas = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
+            // 1. Obtener valores base y movimientos de la caja
+            decimal saldoInicial = arqueoDAO.ObtenerSaldoInicialCaja(idCajaActual);
+            decimal egresos = arqueoDAO.ObtenerEgresosCaja(idCajaActual);
 
-            // =====================================================
-            // 2. CARGAR Y MOSTRAR LAS VENTAS POR TARJETA (SOLO REFLEJO)
-            // =====================================================
+            // Obtenemos los valores puros correctos
+            decimal ventasCordobasPuras = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
+            decimal ventasDolaresPuras = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
             decimal ventasTarjeta = arqueoDAO.ObtenerVentasTarjetaCaja(idCajaActual);
+
+            decimal dolaresConvertidosVentas = ventasDolaresPuras * tipoCambio;
+
+            // --- TOTAL GLOBAL COMERCIAL (Incluye Tarjetas) ---
+            ventasTotalesGlobales = ventasCordobasPuras + dolaresConvertidosVentas + ventasTarjeta + saldoInicial - egresos;
+
+            if (Controls.Find("lblVentasTotales", true).Length > 0)
+            {
+                lblVentasTotales.Text = "C$ " + ventasTotalesGlobales.ToString("N2");
+            }
 
             if (lblTotalTarjeta != null)
             {
                 lblTotalTarjeta.Text = "C$ " + ventasTarjeta.ToString("N2");
             }
 
-            // 3. Ajustar las ventas esperadas en córdobas (Efectivo real)
-            // Se restan las tarjetas para que el efectivo físico esperado no las exija en la gaveta
-            ventasEsperadasCordobas = ventasTotalesCordobas - ventasTarjeta;
-            if (ventasEsperadasCordobas < 0) ventasEsperadasCordobas = 0m;
+            // --- VALORES ESPERADOS REALES EN GAVETA (Físico puro) ---
+            // Las córdobas esperadas llevan el saldo inicial + córdobas netas de ventas - egresos
+            ventasEsperadasCordobas = saldoInicial + ventasCordobasPuras - egresos;
 
-            // 4. Cargar ventas esperadas en Dólares
-            ventasEsperadasDolares = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
+            // Los dólares esperados son exactamente los dólares puros recibidos en efectivo en las ventas
+            ventasEsperadasDolares = ventasDolaresPuras;
 
             ConfigurarEventos();
             CalcularArqueo();
@@ -135,14 +174,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         // =====================================================
         private void CalcularArqueo()
         {
-            // 1. DÓLARES (RECURSIVO)
+            // 1. CONTEO DE DÓLARES
             int[] cantDolares = {
-                Cantidad(txt100Dolares), Cantidad(txt50Dolares), Cantidad(txt20Dolares),
-                Cantidad(txt10Dolares),  Cantidad(txt5Dolares),  Cantidad(txt1Dolar)
-            };
+            Cantidad(txt100Dolares), Cantidad(txt50Dolares), Cantidad(txt20Dolares),
+            Cantidad(txt10Dolares),  Cantidad(txt5Dolares),  Cantidad(txt1Dolar)
+        };
             decimal[] denomDolares = { 100m, 50m, 20m, 10m, 5m, 1m };
 
-            // Subtotales individuales dólares
             lblTotal100Dolares.Text = "$ " + (cantDolares[0] * 100m).ToString("N2");
             lblTotal50Dolares.Text = "$ " + (cantDolares[1] * 50m).ToString("N2");
             lblTotal20Dolares.Text = "$ " + (cantDolares[2] * 20m).ToString("N2");
@@ -151,16 +189,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblTotal1Dolar.Text = "$ " + (cantDolares[5] * 1m).ToString("N2");
 
             decimal totalDolares = RecursividadArqueo.SumarDenominacionesRecursivo(cantDolares, denomDolares);
+
+            // CORREGIDO: Se agregó el operador de multiplicación (*)
             decimal conversionDolares = totalDolares * tipoCambio;
 
-            // 2. BILLETES CÓRDOBAS (RECURSIVO)
+            // 2. CONTEO DE BILLETES CÓRDOBAS
             int[] cantBilletesCor = {
-                Cantidad(txt1000Cordobas), Cantidad(txt500Cordobas), Cantidad(txt200Cordobas), Cantidad(txt100Cordobas),
-                Cantidad(txt50Cordobas),   Cantidad(txt20Cordobas),  Cantidad(txt10Cordobas),  Cantidad(txt5Cordobas)
-            };
+            Cantidad(txt1000Cordobas), Cantidad(txt500Cordobas), Cantidad(txt200Cordobas), Cantidad(txt100Cordobas),
+            Cantidad(txt50Cordobas),   Cantidad(txt20Cordobas),  Cantidad(txt10Cordobas),  Cantidad(txt5Cordobas)
+        };
             decimal[] denomBilletesCor = { 1000m, 500m, 200m, 100m, 50m, 20m, 10m, 5m };
 
-            // Subtotales individuales billetes
             lblTotal1000Cordobas.Text = "C$ " + (cantBilletesCor[0] * 1000m).ToString("N2");
             lblTotal500Cordobas.Text = "C$ " + (cantBilletesCor[1] * 500m).ToString("N2");
             lblTotal200Cordobas.Text = "C$ " + (cantBilletesCor[2] * 200m).ToString("N2");
@@ -172,13 +211,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             decimal totalBilletesCordobas = RecursividadArqueo.SumarDenominacionesRecursivo(cantBilletesCor, denomBilletesCor);
 
-            // 3. MONEDAS CÓRDOBAS (RECURSIVO)
+            // 3. CONTEO DE MONEDAS CÓRDOBAS
             int[] cantMonedas = {
-                Cantidad(txt5Moneda), Cantidad(txt1Moneda), Cantidad(txt50Centavos), Cantidad(txt25Centavos)
-            };
+            Cantidad(txt5Moneda), Cantidad(txt1Moneda), Cantidad(txt50Centavos), Cantidad(txt25Centavos)
+        };
             decimal[] denomMonedas = { 5m, 1m, 0.50m, 0.25m };
 
-            // Subtotales individuales monedas
             lblTotal5Moneda.Text = "C$ " + (cantMonedas[0] * 5m).ToString("N2");
             lblTotal1Moneda.Text = "C$ " + (cantMonedas[1] * 1m).ToString("N2");
             lblTotal50Centavos.Text = "C$ " + (cantMonedas[2] * 0.50m).ToString("N2");
@@ -186,14 +224,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             decimal totalMonedas = RecursividadArqueo.SumarDenominacionesRecursivo(cantMonedas, denomMonedas);
 
-            // 4. TOTAL ACUMULADO ARQUEADO EN CÓRDOBAS (Para el monto general de caja)
-            List<decimal> subtotales = new List<decimal> { totalBilletesCordobas, totalMonedas, conversionDolares };
-            decimal montoTotalArqueado = RecursividadArqueo.SumarListaRecursivo(subtotales);
+            // 4. ATRIBUTO ÚNICO PARA BD: MONTO TOTAL ARQUEADO
+            decimal montoTotalArqueado = totalBilletesCordobas + totalMonedas + conversionDolares;
 
             if (Controls.Find("lblMontoTotalArqueado", true).Length > 0)
                 lblMontoTotalArqueado.Text = "C$ " + montoTotalArqueado.ToString("N2");
 
-            // 5. RESUMEN EN PANTALLA
+            // 5. RESUMEN VISUAL EN PANTALLA
+            // Aquí mostramos el total global comercial real de las ventas del turno
+            if (Controls.Find("lblVentasTotales", true).Length > 0)
+                lblVentasTotales.Text = "C$ " + ventasTotalesGlobales.ToString("N2");
+
             if (Controls.Find("lblTotalEnCordobas", true).Length > 0)
                 lblTotalEnCordobas.Text = "C$ " + totalBilletesCordobas.ToString("N2");
 
@@ -206,9 +247,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblConversionDolares", true).Length > 0)
                 lblConversionDolares.Text = "C$ " + conversionDolares.ToString("N2");
 
-            // --- CÁLCULO DE DIFERENCIAS INDEPENDIENTES (CÓRDOBAS) ---
-            decimal totalCordobasReal = totalBilletesCordobas + totalMonedas;
-            var (faltanteCor, sobranteCor) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasCordobas, totalCordobasReal);
+            // --- DIFERENCIA EXCLUSIVA EN CÓRDOBAS ---
+            decimal totalCordobasContadas = totalBilletesCordobas + totalMonedas;
+            var (faltanteCor, sobranteCor) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasCordobas, totalCordobasContadas);
 
             if (Controls.Find("lblFaltanteCordobas", true).Length > 0)
                 lblFaltanteCordobas.Text = "C$ " + faltanteCor.ToString("N2");
@@ -216,7 +257,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblSobranteCordobas", true).Length > 0)
                 lblSobranteCordobas.Text = "C$ " + sobranteCor.ToString("N2");
 
-            // --- CÁLCULO DE DIFERENCIAS INDEPENDIENTES (DÓLARES) ---
+            // --- DIFERENCIA EXCLUSIVA EN DÓLARES ---
             var (faltanteDol, sobranteDol) = RecursividadArqueo.CalcularDiferenciaRecursivo(ventasEsperadasDolares, totalDolares);
 
             if (Controls.Find("lblFaltanteDolares", true).Length > 0)
@@ -225,6 +266,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (Controls.Find("lblSobranteDolares", true).Length > 0)
                 lblSobranteDolares.Text = "$ " + sobranteDol.ToString("N2");
         }
+
 
 
         private void ActualizarResumenArqueo(decimal totalBilletesCordobas, decimal totalMonedas, decimal totalDolares, decimal conversionDolares)
@@ -306,9 +348,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         {
             decimal montoArqueo = ObtenerMontoArqueado();
 
+            // 1. Obtenemos los valores base de la caja
+            decimal saldoInicial = arqueoDAO.ObtenerSaldoInicialCaja(idCajaActual);
+            decimal egresos = arqueoDAO.ObtenerEgresosCaja(idCajaActual);
+            decimal ventasCordobasPuras = arqueoDAO.ObtenerVentasCordobasCaja(idCajaActual);
+            decimal ventasDolaresPuras = arqueoDAO.ObtenerVentasDolaresCaja(idCajaActual);
+            decimal ventasTarjeta = arqueoDAO.ObtenerVentasTarjetaCaja(idCajaActual);
+
+            // 2. MONTO ESPERADO PURAMENTE EN EFECTIVO (Sin tarjetas, para la gaveta)
+            decimal montoEsperadoEfectivo = saldoInicial + ventasCordobasPuras + (ventasDolaresPuras * tipoCambio) - egresos;
+
+            // Diferencia entre lo que contaste físicamente y el efectivo real esperado
+            decimal diferenciaFinal = montoArqueo - montoEsperadoEfectivo;
+
             DialogResult respuesta = MessageBox.Show(
                 "¿Está seguro de guardar el arqueo?\n\n" +
-                "Monto arqueado: C$ " + montoArqueo.ToString("N2"),
+                "Monto arqueado: C$ " + montoArqueo.ToString("N2") + "\n" +
+                "Diferencia: C$ " + diferenciaFinal.ToString("N2"),
                 "Confirmar arqueo",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
@@ -316,7 +372,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (respuesta != DialogResult.Yes)
                 return;
 
-            bool resultado = arqueoDAO.GuardarArqueo(idCajaActual, montoArqueo);
+            // 3. Saldo final global consolidado de la caja (Efectivo arqueado + Tarjetas)
+            decimal saldoFinalTotal = montoArqueo + ventasTarjeta;
+
+            // 4. Guardamos en la BD
+            bool resultado = arqueoDAO.GuardarArqueo(
+                idCajaActual,
+                montoEsperadoEfectivo, // Aquí viaja el esperado limpio de efectivo
+                montoArqueo,
+                diferenciaFinal,       // Aquí viaja la diferencia real de la gaveta
+                saldoFinalTotal        // Aquí viaja el total global con tarjetas para el cierre
+            );
 
             if (resultado)
             {
@@ -328,6 +394,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 MessageBox.Show("No se pudo guardar el arqueo.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         private decimal ObtenerMontoArqueado()
         {

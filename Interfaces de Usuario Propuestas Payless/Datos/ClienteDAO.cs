@@ -499,24 +499,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return cliente;
         }
 
-        public bool ExisteNombre(string nombre, int? idExcluir = null)
-        {
-            try
-            {
-                conexionBD.AbrirConexion();
-                string sql = "SELECT COUNT(*) FROM cliente WHERE LOWER(nombre) = LOWER(@nombre)";
-                if (idExcluir.HasValue) sql += " AND id_cliente <> @idExcluir";
-
-                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
-                {
-                    cmd.Parameters.AddWithValue("@nombre", nombre);
-                    if (idExcluir.HasValue) cmd.Parameters.AddWithValue("@idExcluir", idExcluir.Value);
-
-                    return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
-                }
-            }
-            finally { conexionBD.CerrarConexion(); }
-        }
+       
 
         public bool ExisteCedula(string cedula, int? idExcluir = null)
         {

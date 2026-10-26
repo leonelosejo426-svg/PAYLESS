@@ -137,22 +137,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-                Regex regexCorreo = new Regex(@"^[a-zA-Z0-9._-]+@(gmail|yahoo)\.com$");
+                // Se eliminó 'A-Z' para prohibir las mayúsculas
+                Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
 
                 if (!regexCorreo.IsMatch(correo))
                 {
                     MessageBox.Show(
                         "El correo electrónico no es válido.\n\n" +
-                        "• Debe pertenecer a Gmail o Yahoo (ejemplo: usuario456@gmail.com o usuario@yahoo.com).\n" +
-                        "• No se permiten caracteres especiales extraños (solo puntos, guiones o guiones bajos).",
+                        "• Debe estar completamente en minúsculas.\n" +
+                        "• Debe pertenecer a Gmail o Yahoo (ejemplo: usuario456@gmail.com).\n" +
+                        "• Solo se permiten puntos, guiones o guiones bajos.",
                         "Validación de Correo",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                        MessageBoxIcon.Warning
+                    );
 
                     txtGmail.Focus();
                     txtGmail.SelectAll();
                     return;
                 }
+
 
                 if (string.IsNullOrWhiteSpace(password))
                 {
@@ -285,7 +289,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
 
 
-            this.DialogResult = DialogResult.Cancel;
+            
             this.Close();
         }
 

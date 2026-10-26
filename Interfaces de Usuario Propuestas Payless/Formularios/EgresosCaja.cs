@@ -58,66 +58,65 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnGuardarMovimiento_Click(object sender, EventArgs e)
         {
-            string descripcion =
-               txtConcepto.Text.Trim();
+            string descripcion = txtConcepto.Text.Trim();
 
             if (string.IsNullOrEmpty(descripcion))
             {
-                MessageBox.Show(
-                    "Ingrese el concepto del egreso.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese el concepto del egreso.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtConcepto.Focus();
                 return;
             }
 
             if (txtConcepto.Text.Trim().Length > 100)
             {
-                MessageBox.Show(
-                    "El campo [concepto] no puede superar los [100] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("El campo [concepto] no puede superar los [100] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtConcepto.Focus();
                 return;
             }
 
             if (txtMonto.Text.Trim().Length > 8)
             {
-                MessageBox.Show(
-                    "El campo [monto] no puede superar los [8] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("El campo [monto] no puede superar los [8] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return;
             }
 
             decimal monto;
 
-            if (!decimal.TryParse(
-                txtMonto.Text.Trim(),
-                out monto))
+            if (!decimal.TryParse(txtMonto.Text.Trim(), out monto))
             {
-                MessageBox.Show(
-                    "Ingrese un monto válido.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Ingrese un monto válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return;
             }
 
             if (monto <= 0)
             {
+                MessageBox.Show("El monto debe ser mayor que cero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtMonto.Focus();
+                return;
+            }
+
+            if (idCajaActual == 0)
+            {
+                MessageBox.Show("No hay una caja abierta.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // =====================================================
+            // 🌟 VALIDACIÓN DE SALDO Y FONDO DE CAMBIO MÍNIMO (500 C$)
+            // =====================================================
+            CajaDAO cajaDAO = new CajaDAO();
+            decimal saldoDisponible = cajaDAO.ObtenerSaldoDisponible(idCajaActual);
+
+            // 1. Validar si el egreso es mayor al dinero total que hay en caja
+            if (monto > saldoDisponible)
+            {
                 MessageBox.Show(
-                    "El monto debe ser mayor que cero.",
-                    "Aviso",
+                    $"No hay suficiente dinero en caja para realizar este egreso.\n\n" +
+                    $"Monto solicitado: C$ {monto:N2}\n" +
+                    $"Saldo disponible actual: C$ {saldoDisponible:N2}",
+                    "Dinero Insuficiente",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
 
@@ -125,43 +124,43 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (idCajaActual == 0)
+            // 2. Validar que quede el fondo de cambio mínimo (Ej: 500 córdobas) para las ventas
+            decimal fondoCambioMinimo = 500.00m;
+            decimal saldoRestanteDespuesDelEgreso = saldoDisponible - monto;
+
+            if (saldoRestanteDespuesDelEgreso < fondoCambioMinimo)
             {
-                MessageBox.Show(
-                    "No hay una caja abierta.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
+                DialogResult alertaCambio = MessageBox.Show(
+                    $"⚠️ ¡ADVERTENCIA: FONDO DE CAMBIO EN RIESGO!\n\n" +
+                    $"Si realizas este egreso, el saldo final de la caja quedará en **C$ {saldoRestanteDespuesDelEgreso:N2}**.\n" +
+                    $"Esto está por debajo del límite de seguridad mínimo de **C$ {500.00:N2}** necesario para dar vuelto en las próximas ventas.\n\n" +
+                    $"¿Estás totalmente seguro de autorizar y realizar este egreso?",
+                    "Alerta de Fondo de Cambio",
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning);
 
-                return;
+                // Si el usuario presiona 'No', detenemos el proceso
+                if (alertaCambio != DialogResult.Yes)
+                {
+                    txtMonto.Focus();
+                    return;
+                }
             }
+            // =====================================================
 
-            bool resultado =
-                egresosDAO.RegistrarEgreso(
-                    descripcion,
-                    monto,
-                    idCajaActual);
+            bool resultado = egresosDAO.RegistrarEgreso(descripcion, monto, idCajaActual);
 
             if (resultado)
             {
-                MessageBox.Show(
-                    "Egreso registrado correctamente.",
-                    "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+                MessageBox.Show("Egreso registrado correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 txtConcepto.Clear();
                 txtMonto.Clear();
-
                 txtConcepto.Focus();
             }
             else
             {
-                MessageBox.Show(
-                    "No se pudo registrar el egreso.",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo registrar el egreso.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

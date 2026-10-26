@@ -96,31 +96,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         // =====================================================
         // 3. GUARDAR ARQUEO
         // =====================================================
-        public bool GuardarArqueo(
-            int idCaja,
-            decimal montoArqueo)
+        public bool GuardarArqueo(int idCaja, decimal montoEsperado, decimal montoArqueo, decimal diferencia, decimal saldoFinal)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
+                // Agregamos monto_esperado para que se actualice con el efectivo real calculado
                 string sql = @"
-                    UPDATE caja
-                    SET monto_arqueo = @montoArqueo
-                    WHERE id_caja = @idCaja;";
+            UPDATE caja 
+            SET monto_esperado = @montoEsperado,
+                monto_arqueo = @montoArqueo,
+                diferencia = @diferencia,
+                saldo_final = @saldoFinal
+            WHERE id_caja = @idCaja;";
 
-                using (NpgsqlCommand cmd =
-                    new NpgsqlCommand(
-                        sql,
-                        conexionBD.ObtenerConexion()))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@montoArqueo",
-                        montoArqueo);
-
-                    cmd.Parameters.AddWithValue(
-                        "@idCaja",
-                        idCaja);
+                    cmd.Parameters.AddWithValue("@montoEsperado", montoEsperado);
+                    cmd.Parameters.AddWithValue("@montoArqueo", montoArqueo);
+                    cmd.Parameters.AddWithValue("@diferencia", diferencia);
+                    cmd.Parameters.AddWithValue("@saldoFinal", saldoFinal);
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
 
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -131,103 +128,173 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             }
         }
 
+        // =====================================================
+        // VENTAS TOTAles GLOBALES (Resumen comercial: Córdobas + Dólares + Tarjetas)
+        // =====================================================
         public decimal ObtenerVentasTotalesCaja(int idCaja)
         {
-            decimal totalVentas = 0m;
-            // Se cambia estado = 'COMPLETADA' por estado = true
-            string query = "SELECT COALESCE(SUM(total), 0) FROM venta WHERE id_caja = @idCaja AND estado = true;";
-
-            using (var conexion = conexionBD.ObtenerConexion())
-            {
-                conexion.Open();
-                using (var cmd = new NpgsqlCommand(query, conexion))
-                {
-                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        totalVentas = Convert.ToDecimal(result);
-                    }
-                }
-            }
-            return totalVentas;
-        }
-
-
-
-
-        public decimal ObtenerVentasCordobasCaja(int idCaja)
-        {
-            decimal totalCordobas = 0m;
-            string query = "SELECT COALESCE(SUM(total), 0) FROM venta WHERE id_caja = @idCaja AND estado = true;";
-
             try
             {
-                var conexion = conexionBD.ObtenerConexion();
                 conexionBD.AbrirConexion();
+                string query = "SELECT COALESCE(SUM(total), 0) FROM venta WHERE id_caja = @idCaja AND estado = true;";
 
-                using (var cmd = new NpgsqlCommand(query, conexion))
+                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idCaja", idCaja);
                     object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        totalCordobas = Convert.ToDecimal(result);
-                    }
-                }
-            }
-            finally
-            {
-                conexionBD.CerrarConexion(); // Libera la conexión sin destruirla
-            }
-
-            return totalCordobas;
-        }
-
-        public decimal ObtenerVentasDolaresCaja(int idCaja)
-        {
-            decimal totalDolares = 0m;
-            // Asumiendo que la tabla forma_pago o venta almacena el equivalente en dólares de las ventas en moneda extranjera
-            string query = @"SELECT COALESCE(SUM(fp.monto_dolares), 0) 
-                     FROM forma_pago fp 
-                     INNER JOIN venta v ON fp.id_venta = v.id_venta 
-                     WHERE v.id_caja = @idCaja AND v.estado = true;";
-
-            try
-            {
-                var conexion = conexionBD.ObtenerConexion();
-                conexionBD.AbrirConexion();
-
-                using (var cmd = new NpgsqlCommand(query, conexion))
-                {
-                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        totalDolares = Convert.ToDecimal(result);
-                    }
+                    return (result != null && result != DBNull.Value) ? Convert.ToDecimal(result) : 0m;
                 }
             }
             finally
             {
                 conexionBD.CerrarConexion();
             }
-
-            return totalDolares;
         }
+
+        // =====================================================
+        // EFECTIVO TOTAL ESPERADO EN GAVETA (Suma exacta idéntica al saldo final de Caja)
+        // =====================================================
+        public decimal ObtenerVentasEfectivoCaja(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string query = @"
+            SELECT COALESCE(SUM(
+                GREATEST(COALESCE(fp.monto_cordobas, 0) - COALESCE(fp.cambio, 0), 0) + 
+                (COALESCE(fp.monto_dolares, 0) * COALESCE(NULLIF(fp.tipo_cambio, 0), c.tipo_cambio_dolar))
+            ), 0) 
+            FROM venta v 
+            INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta 
+            INNER JOIN caja c ON v.id_caja = c.id_caja
+            WHERE v.id_caja = @idCaja 
+              AND v.estado = true 
+              AND fp.tipo_pago != 'Tarjeta';";
+
+                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object result = cmd.ExecuteScalar();
+                    return (result != null && result != DBNull.Value) ? Convert.ToDecimal(result) : 0m;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        // =====================================================
+        // VENTAS POR TARJETA (Para pannakabukel ti saldo final)
+        // =====================================================
+        public decimal ObtenerVentasTarjetaCaja(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string query = @"
+            SELECT COALESCE(SUM(fp.monto_tarjeta), 0) 
+            FROM forma_pago fp 
+            INNER JOIN venta v ON fp.id_venta = v.id_venta 
+            WHERE v.id_caja = @idCaja AND v.estado = true;";
+
+                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object result = cmd.ExecuteScalar();
+                    return (result != null && result != DBNull.Value) ? Convert.ToDecimal(result) : 0m;
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+        // =====================================================
+        // 2. VENTAS EN EFECTIVO CÓRDOBAS (Neto: Córdobas - Cambio, sin Tarjetas)
+        // =====================================================
+        public decimal ObtenerVentasCordobasCaja(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT COALESCE(
+                SUM(
+                    GREATEST(COALESCE(fp.monto_cordobas, 0) - COALESCE(fp.cambio, 0), 0)
+                ), 0
+            )
+            FROM venta v
+            INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta
+            WHERE v.id_caja = @idCaja
+              AND v.estado = TRUE
+              AND fp.tipo_pago <> 'Tarjeta';";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+
+
+        // =====================================================
+        // 3. VENTAS EN EFECTIVO DÓLARES (Puro ingresado sin tarjetas)
+        // =====================================================
+  
+       public decimal ObtenerVentasDolaresCaja(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+
+                string sql = @"
+            SELECT COALESCE(
+                SUM(COALESCE(fp.monto_dolares, 0)), 0
+            )
+            FROM venta v
+            INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta
+            WHERE v.id_caja = @idCaja
+              AND v.estado = TRUE
+              AND fp.tipo_pago <> 'Tarjeta';";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    return Convert.ToDecimal(cmd.ExecuteScalar());
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
+
+
 
         // =====================================================
         // VERIFICAR SI LA CAJA TIENE ARQUEO REGISTRADO
         // =====================================================
+
         public bool TieneArqueoRegistrado(int idCaja)
         {
             try
             {
                 conexionBD.AbrirConexion();
 
-                // Verificamos si la caja existe y tiene un valor asignado en monto_arqueo (permitiendo 0 o más)
+                // Verificamos que tenga un arqueo guardado y que el monto sea mayor a 0 
+                // (evita que las cajas recién aperturadas con 0 o NULL disparen la alerta)
                 string sql = @"
-            SELECT monto_arqueo 
+            SELECT COALESCE(monto_arqueo, 0) 
             FROM caja 
             WHERE id_caja = @idCaja;";
 
@@ -236,10 +303,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     cmd.Parameters.AddWithValue("@idCaja", idCaja);
                     object resultado = cmd.ExecuteScalar();
 
-                    // Si el resultado no es nulo, significa que la caja existe y el arqueo fue procesado/guardado
                     if (resultado != null && resultado != DBNull.Value)
                     {
-                        return true;
+                        decimal montoArqueo = Convert.ToDecimal(resultado);
+                        // Si el monto es mayor a 0, significa que SÍ se registró un arqueo real previamente
+                        return montoArqueo > 0;
                     }
                 }
             }
@@ -285,28 +353,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             return 0m;
         }
 
-        // =====================================================
-        // OBTENER VENTAS POR TARJETA PARA EL ARQUEO (Visualización)
-        // =====================================================
-        public decimal ObtenerVentasTarjetaCaja(int idCaja)
-        {
-            decimal totalTarjeta = 0m;
-            string query = @"
-        SELECT COALESCE(SUM(fp.monto_tarjeta), 0) 
-        FROM forma_pago fp 
-        INNER JOIN venta v ON fp.id_venta = v.id_venta 
-        WHERE v.id_caja = @idCaja AND v.estado = true;";
 
+
+        // =====================================================
+        // OBTENER CAJA ABIERTA POR USUARIO (Aislamiento de turnos)
+        // =====================================================
+        public int ObtenerCajaAbiertaPorUsuario(int idUsuario)
+        {
             try
             {
                 conexionBD.AbrirConexion();
-                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
+
+                // Buscamos una caja que esté ABIERTA y pertenezca EXCLUSIVAMENTE a este usuario
+                string sql = @"
+            SELECT id_caja
+            FROM caja
+            WHERE id_usuario = @idUsuario 
+              AND estado_caja = 'Abierta'
+            ORDER BY id_caja DESC
+            LIMIT 1;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
-                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    object resultado = cmd.ExecuteScalar();
+
+                    if (resultado != null && resultado != DBNull.Value)
                     {
-                        totalTarjeta = Convert.ToDecimal(result);
+                        return Convert.ToInt32(resultado);
                     }
                 }
             }
@@ -315,28 +389,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.CerrarConexion();
             }
 
-            return totalTarjeta;
+            return 0; // Si devuelve 0, significa que este usuario NO tiene caja abierta y debe abrir una nueva.
         }
 
-        public decimal ObtenerVentasEfectivoCaja(int idCaja)
+        // =====================================================
+        // OBTENER EGRESOS TOTALES DE LA CAJA
+        // =====================================================
+        public decimal ObtenerEgresosCaja(int idCaja)
         {
-            decimal totalEfectivo = 0m;
-            string query = @"
-        SELECT COALESCE(SUM(v.total), 0) 
-        FROM venta v 
-        INNER JOIN forma_pago fp ON v.id_venta = fp.id_venta 
-        WHERE v.id_caja = @idCaja AND v.estado = true AND fp.tipo_pago = 'Efectivo';";
-
             try
             {
                 conexionBD.AbrirConexion();
-                using (var cmd = new NpgsqlCommand(query, conexionBD.ObtenerConexion()))
+                string sql = "SELECT COALESCE(SUM(monto), 0) FROM egreso_caja WHERE id_caja = @idCaja;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
                     cmd.Parameters.AddWithValue("@idCaja", idCaja);
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
+                    object resultado = cmd.ExecuteScalar();
+                    if (resultado != null && resultado != DBNull.Value)
                     {
-                        totalEfectivo = Convert.ToDecimal(result);
+                        return Convert.ToDecimal(resultado);
                     }
                 }
             }
@@ -344,8 +416,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             {
                 conexionBD.CerrarConexion();
             }
+            return 0m;
+        }
 
-            return totalEfectivo;
+        // =====================================================
+        // OBTENER SALDO INICIAL DE LA CAJA
+        // =====================================================
+        public decimal ObtenerSaldoInicialCaja(int idCaja)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = "SELECT COALESCE(saldo_inicial, 0) FROM caja WHERE id_caja = @idCaja;";
+
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idCaja", idCaja);
+                    object resultado = cmd.ExecuteScalar();
+                    if (resultado != null && resultado != DBNull.Value)
+                    {
+                        return Convert.ToDecimal(resultado);
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+            return 0m;
         }
 
     }
