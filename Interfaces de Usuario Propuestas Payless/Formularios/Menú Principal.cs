@@ -78,8 +78,41 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
+
+
+        private void ConfigurarMenuRoles()
+        {
+            string rol = ClaseSesion.RolActual;
+
+            bool esAdmin = (rol == "Administrador");
+            bool esGerente = (rol == "Gerente");
+            bool esCajero = (rol == "Cajero");
+
+            // Módulos que cambian según el rol (estos suben/bajan sin afectar a Ayuda)
+           
+            lblVenta.Visible = esAdmin || esGerente || esCajero;
+            lblCaja.Visible = esAdmin || esGerente || esCajero;
+            lblReportes.Visible = esAdmin || esGerente || esCajero;
+            lblCredito.Visible = esAdmin || esGerente;
+            lblInventario.Visible = esAdmin || esGerente;
+            lblCompras.Visible = esAdmin || esGerente;
+            lblCliente.Visible = esAdmin || esGerente || esCajero;
+            lblMantenimiento.Visible = esAdmin || esGerente;
+
+            lblProductos.Visible = esAdmin;
+            lblProveedores.Visible = esAdmin;
+            lblUsuarios.Visible = esAdmin;
+
+
+            // Ayuda se mantiene siempre visible y fija en la parte inferior gracias al Anchor = Bottom
+            lblAyuda.Visible = true;
+        }
+
+
         private void Menú_Principal_Load(object sender, EventArgs e)
         {
+            ConfigurarMenuRoles();
+
             lblUsuario.Text = "Usuario: " +  ClaseSesion.UsuarioActual;
             lblRol.Text = "Rol: " + ClaseSesion.RolActual;
 
@@ -88,15 +121,16 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             lblProductos.Enabled = false;
             lblVenta.Enabled = false;
             lblCompras.Enabled = false;
-            lblUsuarios.Enabled = false; 
-            
-            
+            lblUsuarios.Enabled = false;
+
+
             lblCliente.Enabled = false;
-            lblCredito.Enabled = false;
+            lblVenta.Enabled = false;
             lblInventario.Enabled = false;
             lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
 
-            
+
             switch (ClaseSesion.RolActual)
             {
                 case "Administrador":
@@ -107,10 +141,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblMantenimiento.Enabled = true;
                     lblCliente.Enabled = true;
-                    lblCredito.Enabled = true;
+                    lblVenta.Enabled = true;
                     lblInventario.Enabled = true;
                     lblProveedores.Enabled = true;
                     lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
 
 
                     break;
@@ -120,6 +155,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblCaja.Enabled = true;
                     lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblReportes.Enabled = true;
+
 
                     break;
 
@@ -127,6 +168,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     lblCaja.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblReportes.Enabled = true;
 
                     break;
             }

@@ -44,14 +44,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void AperturaCaja_Load(object sender, EventArgs e)
         {
-            // 1. Tus asignaciones automáticas de interfaz
+            // Configuramos longitudes máximas según tus validaciones (Límite 5)
+            txtMontoInicial.MaxLength = 5;
+            txtCambioDolar.MaxLength = 5;
+
+            // 1. Asignaciones automáticas de interfaz
             dtpFecha.Value = DateTime.Now;
             dtpHora.Value = DateTime.Now;
             lblUsuario.Text = ClaseSesion.UsuarioActual;
 
-            // 2. CANDADO DE PROTECCIÓN: Si ya hay una caja abierta en el sistema...
-            if (ClaseSesion.TieneCajaActiva)
+            // 2. CANDADO DE PROTECCIÓN DOBLE: Revisa la variable local O consulta a la Base de Datos
+            if (ClaseSesion.TieneCajaActiva || aperturaCajaDAO.ExisteCajaAbierta(ClaseSesion.IdUsuario))
             {
+                // Aseguramos que la variable de sesión esté en true si la base de datos detectó la caja abierta
+                ClaseSesion.TieneCajaActiva = true;
+
                 // Deshabilitamos los controles para que no puedan modificar nada
                 txtMontoInicial.Enabled = false;
                 txtCambioDolar.Enabled = false;
@@ -59,13 +66,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 btnAperturarCaja.Text = "Caja Ya Abierta";
 
                 // Mostramos el aviso de advertencia en pantalla
-                MessageBox.Show("Atención: Ya existe una caja activa en el sistema.\n" +
+                MessageBox.Show("Atención: Ya existe una caja activa en el sistema para este usuario.\n" +
                                 "No se permiten nuevas aperturas ni modificaciones hasta que se realice el cierre correspondiente.",
                                 "Módulo Protegido", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                // Si está libre, aseguramos que los campos estén disponibles para rellenar
+                // Si está libre tanto en memoria como en BD, habilitamos los campos
                 txtMontoInicial.Enabled = true;
                 txtCambioDolar.Enabled = true;
                 btnAperturarCaja.Enabled = true;
@@ -114,10 +121,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                if (txtMontoInicial.Text.Trim().Length > 5)
+                if (txtMontoInicial.Text.Trim().Length > 8)
                 {
                     MessageBox.Show(
-                        "El campo [monto inicial] no puede superar los [5] caracteres.",
+                        "El campo [monto inicial] no puede superar los [8] caracteres.",
                         "Validación de Longitud",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
@@ -126,10 +133,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     return;
                 }
 
-                if (cambioDolar <= 0)
+                // 🌟 CORRECCIÓN: Rango estricto para el cambio de dólar (Mínimo 35.5, Máximo 45.0)
+                if (cambioDolar < 35.5m || cambioDolar > 45.0m)
                 {
-                    MessageBox.Show("El cambio de dólar debe ser mayor que cero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(
+                        "El tipo de cambio del dólar permitido debe estar entre 35.50 y 45.00 córdobas.",
+                        "Aviso de Rango",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Warning
+                    );
                     txtCambioDolar.Focus();
+                    txtCambioDolar.SelectAll();
                     return;
                 }
 
@@ -148,14 +162,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                 if (resultado)
                 {
-                    // ¡IMPORTANTE!: Actualizamos la variable de sesión en caliente
                     ClaseSesion.TieneCajaActiva = true;
 
                     MessageBox.Show("La caja se aperturó correctamente.", "Apertura de Caja", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Redirección y enlace de ciclo de vida a la pantalla operativa de Caja (Ventas)
                     Caja frmCaja = new Caja();
-                    frmCaja.FormClosed += (s, args) => this.Close(); // Evita que la app se quede colgada en segundo plano
+                    frmCaja.FormClosed += (s, args) => this.Close();
                     frmCaja.Show();
 
                     this.Hide();

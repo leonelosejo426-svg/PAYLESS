@@ -8,12 +8,14 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Media.TextFormatting;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 {
     public partial class SubProveedorEditar : Form
     {
         ProveedorDAO proveedorDAO = new ProveedorDAO();
+        private int idProveedorSeleccionado = 0;
         public SubProveedorEditar()
         {
             InitializeComponent();
@@ -77,16 +79,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
-            int idProveedor =
-                Convert.ToInt32(
-                    cmbProveedor.SelectedValue);
+            // 🌟 CORRECCIÓN: Guardamos el ID seleccionado en la variable global
+            idProveedorSeleccionado = Convert.ToInt32(cmbProveedor.SelectedValue);
 
-            CargarProveedor(idProveedor);
+            CargarProveedor(idProveedorSeleccionado);
         }
+
         private void CargarProveedor(int idProveedor)
         {
-            ClaseProveedor proveedor =
-                proveedorDAO.ObtenerProveedor(idProveedor);
+            ClaseProveedor proveedor = proveedorDAO.ObtenerProveedor(idProveedor);
 
             if (proveedor == null)
             {
@@ -99,83 +100,101 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 return;
             }
 
-            txtCodigo.Text =
-                proveedor.IdProveedor.ToString();
+            txtCodigo.Text = proveedor.IdProveedor.ToString();
+            txtNombre.Text = proveedor.Nombre;
+            txtTelefono.Text = proveedor.Telefono;
+            txtCorreo.Text = proveedor.Correo;
+            txtDireccion.Text = proveedor.Direccion;
+            txtRuc.Text = proveedor.Ruc;
 
-            txtNombre.Text =
-                proveedor.Nombre;
-
-            txtTelefono.Text =
-                proveedor.Telefono;
-
-            txtCorreo.Text =
-                proveedor.Correo;
-
-            txtDireccion.Text =
-                proveedor.Direccion;
-
-            txtRuc.Text =
-                proveedor.Ruc;
-
-            cmbEstado.SelectedItem =
-                proveedor.EstadoProveedor
+            cmbEstado.SelectedItem = proveedor.EstadoProveedor
                 ? "Activo"
                 : "Inactivo";
         }
-
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-
-            // 1. Verificar que se haya seleccionado y buscado un proveedor
-            if (string.IsNullOrWhiteSpace(txtCodigo.Text))
+            /// 1. Validar que se haya seleccionado un proveedor previamente
+            if (idProveedorSeleccionado == 0)
             {
-                MessageBox.Show("Primero busque un proveedor para editar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione y busque un proveedor para editar.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cmbProveedor.Focus();
                 return;
             }
 
-            int idProveedorActual = Convert.ToInt32(txtCodigo.Text);
+            // Quitar espacios innecesarios
+            string nombre = txtNombre.Text.Trim();
+            string telefono = txtTelefono.Text.Trim();
+            string correo = txtCorreo.Text.Trim();
+            string direccion = txtDireccion.Text.Trim();
+            string ruc = txtRuc.Text.Trim();
 
-            // 2. Validaciones de campos vacíos y longitud
-            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            // =====================================================
+            // 1. VALIDAR CAMPOS VACÍOS, LONGITUDES Y FORMATOS (EN ORDEN ESTRICTO)
+            // =====================================================
+
+            // 1.1 Validar Nombre
+            if (string.IsNullOrWhiteSpace(nombre))
             {
                 MessageBox.Show("Ingrese el nombre del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
-            if (!regexNombre.IsMatch(txtNombre.Text.Trim()))
-            {
-                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombre.Focus();
-                return;
-            }
-
-            if (txtNombre.Text.Trim().Length < 3)
+            if (nombre.Length < 3)
             {
                 MessageBox.Show("El nombre del proveedor debe tener al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            if (txtNombre.Text.Trim().Length > 100)
+            if (nombre.Length > 100)
             {
-                MessageBox.Show("El campo [NOMBRE] no puede superar los 100 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El campo [nombre] no puede superar los [100] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            if (txtTelefono.Text.Length != 8)
+            Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
+            if (!regexNombre.IsMatch(nombre))
             {
-                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            // 1.2 Validar Teléfono (Segundo campo a validar)
+            if (string.IsNullOrWhiteSpace(telefono))
+            {
+                MessageBox.Show("Ingrese el teléfono del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
 
-            // Se eliminó 'A-Z' para prohibir las mayúsculas
-            Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
+            if (telefono.Length != 8 || !telefono.All(char.IsDigit))
+            {
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos numéricos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                txtTelefono.SelectAll();
+                return;
+            }
 
-            if (!regexCorreo.IsMatch(txtCorreo.Text.Trim()))
+            // 1.3 Validar Correo (Tercer campo a validar)
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("Ingrese el correo del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
+            if (correo.Length > 50)
+            {
+                MessageBox.Show("El campo [correo] no puede superar los [50] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
+            Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
+            if (!regexCorreo.IsMatch(correo))
             {
                 MessageBox.Show(
                     "El correo electrónico no es válido.\n\n" +
@@ -186,110 +205,116 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 txtCorreo.Focus();
                 txtCorreo.SelectAll();
                 return;
             }
 
-
-            if (txtCorreo.Text.Trim().Length > 50)
-            {
-                MessageBox.Show("El campo [CORREO] no puede superar los 50 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCorreo.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtDireccion.Text))
+            // 1.4 Validar Dirección (Cuarto campo a validar)
+            if (string.IsNullOrWhiteSpace(direccion))
             {
                 MessageBox.Show("Ingrese la dirección del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDireccion.Focus();
                 return;
             }
 
-            if (txtDireccion.Text.Trim().Length > 200)
+            if (direccion.Length > 200)
             {
-                MessageBox.Show("El campo [DIRECCIÓN] no puede superar los 200 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El campo [dirección] no puede superar los [200] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDireccion.Focus();
                 return;
             }
 
+            // 1.5 Validar Código RUC (Quinto campo a validar)
+            if (string.IsNullOrWhiteSpace(ruc))
+            {
+                MessageBox.Show("Ingrese el código RUC del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtRuc.Focus();
+                return;
+            }
+
             Regex regexRuc = new Regex(@"^[A-Z0-9\-]{14}$");
-            if (!regexRuc.IsMatch(txtRuc.Text.Trim()))
+            if (!regexRuc.IsMatch(ruc))
             {
                 MessageBox.Show("El RUC de Nicaragua debe tener un formato válido de 14 caracteres (ej. J1310000252297).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtRuc.Focus();
                 return;
             }
 
+            // 1.6 Validar Estado (Sexto campo a validar)
             if (cmbEstado.SelectedIndex == -1)
             {
-                MessageBox.Show("Seleccione el estado del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un estado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 cmbEstado.Focus();
                 return;
             }
 
-            // =========================================================
-            // 3. VALIDAR DUPLICADOS EN LA BASE DE DATOS (EXCLUYENDO ESTE ID)
-            // =========================================================
-            string nombre = txtNombre.Text.Trim();
-            string telefono = txtTelefono.Text.Trim();
-            string correo = txtCorreo.Text.Trim();
-            string ruc = txtRuc.Text.Trim();
+            // =====================================================
+            // 2. VALIDAR DUPLICADOS EN LA BASE DE DATOS (EXCLUYENDO AL PROVEEDOR ACTUAL)
+            // =====================================================
+            int idVerificar = idProveedorSeleccionado;
 
-            if (proveedorDAO.ExisteNombre(nombre, idProveedorActual))
+            if (proveedorDAO.ExisteNombre(nombre, idVerificar))
             {
                 MessageBox.Show("Ya existe otro proveedor registrado con este mismo nombre.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
 
-            if (proveedorDAO.ExisteTelefono(telefono, idProveedorActual))
+            if (proveedorDAO.ExisteTelefono(telefono, idVerificar))
             {
-                MessageBox.Show("El número de teléfono ya pertenece a otro proveedor registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de teléfono ingresado ya pertenece a otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
 
-            if (proveedorDAO.ExisteCorreo(correo, idProveedorActual))
+            if (proveedorDAO.ExisteCorreo(correo, idVerificar))
             {
-                MessageBox.Show("El correo electrónico ya se encuentra registrado con otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El correo electrónico ingresado ya se encuentra registrado con otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCorreo.Focus();
                 return;
             }
 
-            if (proveedorDAO.ExisteRuc(ruc, idProveedorActual))
+            if (proveedorDAO.ExisteRuc(ruc, idVerificar))
             {
-                MessageBox.Show("El número de RUC ya está asignado a otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de RUC ingresado ya está asignado a otro proveedor.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtRuc.Focus();
                 return;
             }
 
-            // =========================================================
-            // 4. CREAR OBJETO Y ACTUALIZAR EN BD
-            // =========================================================
-            ClaseProveedor proveedor = new ClaseProveedor
-            {
-                IdProveedor = idProveedorActual,
-                Nombre = nombre,
-                Telefono = telefono,
-                Correo = correo,
-                Direccion = txtDireccion.Text.Trim(),
-                Ruc = ruc,
-                EstadoProveedor = cmbEstado.SelectedItem.ToString() == "Activo"
-            };
+            // =====================================================
+            // 3. ACTUALIZAR PROVEEDOR EN LA BASE DE DATOS
+            // =====================================================
+            ClaseProveedor proveedor = new ClaseProveedor();
+            proveedor.IdProveedor = idProveedorSeleccionado;
+            proveedor.Nombre = nombre;
+            proveedor.Telefono = telefono;
+            proveedor.Correo = correo;
+            proveedor.Direccion = direccion;
+            proveedor.Ruc = ruc;
+            proveedor.EstadoProveedor = (cmbEstado.Text == "Activo");
 
-            // Nota: Asegúrate de que el método en tu DAO se llame ActualizarProveedor o EditarProveedor (según lo tengas implementado)
-            bool actualizado = proveedorDAO.ActualizarProveedor(proveedor);
+            bool actualizado = proveedorDAO.EditarProveedor(proveedor);
 
             if (actualizado)
             {
-                MessageBox.Show("Proveedor actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CargarProveedores();
+                MessageBox.Show(
+                    "Proveedor actualizado correctamente.",
+                    "Actualización exitosa",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                Proveedores ventana = new Proveedores();
+                ventana.Show();
+                this.Close();
             }
             else
             {
-                MessageBox.Show("No se pudo actualizar el proveedor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "No se pudo actualizar el proveedor. Verifique los datos e intente nuevamente.",
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
             }
         }
 

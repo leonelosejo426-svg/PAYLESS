@@ -29,6 +29,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void EgresosCaja_Load(object sender, EventArgs e)
         {
+            txtMonto.KeyPress += (s, args) =>
+            {
+                // Permitir solo dígitos, un punto decimal y teclas de control
+                if (!char.IsControl(args.KeyChar) && !char.IsDigit(args.KeyChar) && args.KeyChar != '.')
+                {
+                    args.Handled = true;
+                }
+                // Permitir solo un punto decimal
+                if (args.KeyChar == '.' && txtMonto.Text.Contains('.'))
+                {
+                    args.Handled = true;
+                }
+            };
             ObtenerCajaActual();
         }
 
@@ -90,9 +103,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (monto <= 0)
+            // 🌟 CORRECCIÓN: El monto debe ser estrictamente mayor o igual a 1 (prohíbe 0.99 o menos)
+            if (monto < 1m)
             {
-                MessageBox.Show("El monto debe ser mayor que cero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El monto del egreso debe ser como mínimo de 1 córdoba.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtMonto.Focus();
                 return;
             }
@@ -124,16 +138,18 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // 2. Validar que quede el fondo de cambio mínimo (Ej: 500 córdobas) para las ventas
+            // 2. Validar que quede el fondo de cambio mínimo (500 córdobas) para las ventas
             decimal fondoCambioMinimo = 500.00m;
+
+            // 🌟 CORRECCIÓN: Se agregó el operador de resta (-) que faltaba en tu snippet original
             decimal saldoRestanteDespuesDelEgreso = saldoDisponible - monto;
 
             if (saldoRestanteDespuesDelEgreso < fondoCambioMinimo)
             {
                 DialogResult alertaCambio = MessageBox.Show(
                     $"⚠️ ¡ADVERTENCIA: FONDO DE CAMBIO EN RIESGO!\n\n" +
-                    $"Si realizas este egreso, el saldo final de la caja quedará en **C$ {saldoRestanteDespuesDelEgreso:N2}**.\n" +
-                    $"Esto está por debajo del límite de seguridad mínimo de **C$ {500.00:N2}** necesario para dar vuelto en las próximas ventas.\n\n" +
+                    $"Si realizas este egreso, el saldo final de la caja quedará en C$ {saldoRestanteDespuesDelEgreso:N2}.\n" +
+                    $"Esto está por debajo del límite de seguridad mínimo de C$ {500.00:N2} necesario para dar vuelto en las próximas ventas.\n\n" +
                     $"¿Estás totalmente seguro de autorizar y realizar este egreso?",
                     "Alerta de Fondo de Cambio",
                     MessageBoxButtons.YesNo,

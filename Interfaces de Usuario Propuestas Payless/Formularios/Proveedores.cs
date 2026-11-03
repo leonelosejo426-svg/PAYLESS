@@ -38,7 +38,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             // Conectar el botón Buscar con su evento
             btnBuscar.Click += btnBuscar_Click;
 
-            // Cargar el evento del formulario
+            // Agregar esta línea para capturar el error de formato del DataGridView
+            DGVtabla1.DataError += new DataGridViewDataErrorEventHandler(DGVtabla1_DataError);
+
+            btnBuscar.Click += btnBuscar_Click;
             this.Load += Proveedores_Load;
         }
 
@@ -51,8 +54,39 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         }
 
+
+        private void ConfigurarMenuRoles()
+        {
+            string rol = ClaseSesion.RolActual;
+
+            bool esAdmin = (rol == "Administrador");
+            bool esGerente = (rol == "Gerente");
+            bool esCajero = (rol == "Cajero");
+
+            // Módulos que cambian según el rol (estos suben/bajan sin afectar a Ayuda)
+            lblMenu.Visible = esAdmin || esGerente || esCajero;
+            lblVenta.Visible = esAdmin || esGerente || esCajero;
+            lblCaja.Visible = esAdmin || esGerente || esCajero;
+            lblReportes.Visible = esAdmin || esGerente || esCajero;
+            lblCredito.Visible = esAdmin || esGerente;
+            lblInventario.Visible = esAdmin || esGerente;
+            lblCompras.Visible = esAdmin || esGerente;
+            lblCliente.Visible = esAdmin || esGerente || esCajero;
+            lblMantenimiento.Visible = esAdmin || esGerente;
+
+            lblProductos.Visible = esAdmin;
+            lblProveedores.Visible = esAdmin;
+            lblUsuarios.Visible = esAdmin;
+
+
+            // Ayuda se mantiene siempre visible y fija en la parte inferior gracias al Anchor = Bottom
+            lblAyuda.Visible = true;
+        }
+
+
         private void Proveedores_Load(object sender, EventArgs e)
         {
+            ConfigurarMenuRoles();
             CargarProveedores();    
 
             cmbBuscar.Items.Clear();
@@ -63,7 +97,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             cmbBuscar.SelectedIndex = 0;
 
-           
+
 
 
             lblCaja.Enabled = false;
@@ -105,6 +139,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblCaja.Enabled = true;
                     lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblReportes.Enabled = true;
+
 
                     break;
 
@@ -112,6 +152,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     lblCaja.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblReportes.Enabled = true;
 
                     break;
             }
@@ -262,17 +304,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 DataTable tabla = proveedorDAO.MostrarProveedores();
 
-                if (tabla == null || tabla.Columns.Count == 0)
+                if (tabla == null || tabla.Rows.Count == 0)
                 {
                     MessageBox.Show("No se encontraron datos de proveedores.");
                     return;
                 }
 
+                // Asignar los datos
                 DGVtabla1.DataSource = tabla;
 
-                if (DGVtabla1.Columns.Contains("estado"))
+                // Ocultar el ID si existe en la fuente de datos
+                if (DGVtabla1.Columns.Contains("id_proveedor"))
                 {
-                    DGVtabla1.Columns["estado"].HeaderText = "Estado";
+                    DGVtabla1.Columns["id_proveedor"].Visible = false;
                 }
 
                 AjustarColumnas();
@@ -286,24 +330,33 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void AjustarColumnas()
         {
-  
-
+            // Ocultar el ID siempre
             if (DGVtabla1.Columns.Contains("id_proveedor"))
-                DGVtabla1.Columns["id_proveedor"].Width = 50;
+                DGVtabla1.Columns["id_proveedor"].Visible = false;
 
             if (DGVtabla1.Columns.Contains("nombre"))
+            {
+                DGVtabla1.Columns["nombre"].HeaderText = "Nombre";
                 DGVtabla1.Columns["nombre"].Width = 230;
+            }
 
             if (DGVtabla1.Columns.Contains("direccion"))
+            {
+                DGVtabla1.Columns["direccion"].HeaderText = "Dirección";
                 DGVtabla1.Columns["direccion"].Width = 125;
+            }
 
             if (DGVtabla1.Columns.Contains("ruc"))
-                DGVtabla1.Columns["ruc"].Width = 150;
-
-            if (DGVtabla1.Columns.Contains("estado"))
             {
-                DGVtabla1.Columns["estado"].Width = 125;
-                DGVtabla1.Columns["estado"].HeaderText = "Estado";
+                DGVtabla1.Columns["ruc"].HeaderText = "RUC";
+                DGVtabla1.Columns["ruc"].Width = 150;
+            }
+
+            // Aquí usamos "Estado" con la E mayúscula tal como lo definimos en el SELECT del DAO
+            if (DGVtabla1.Columns.Contains("Estado"))
+            {
+                DGVtabla1.Columns["Estado"].HeaderText = "Estado";
+                DGVtabla1.Columns["Estado"].Width = 125;
             }
         }
 
@@ -445,20 +498,78 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void DGVtabla1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            // Verificamos que estemos en la columna de estado (ajusta "estado_proveedor" si tu columna tiene otro nombre)
-            if (DGVtabla1.Columns[e.ColumnIndex].Name == "estado")
-            {
-                if (e.Value != null && e.Value != DBNull.Value)
-                {
-                    bool estado = Convert.ToBoolean(e.Value);
+           
+        }
 
-                    // Reemplazamos el True/False visualmente por Activo/Inactivo
-                    e.Value = estado ? "Activo" : "Inactivo";
+        private void DGVtabla1_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            e.ThrowException = false;
+        }
 
-                    // Indicamos que ya formateamos la celda para que Windows Forms la pinte así
-                    e.FormattingApplied = true;
-                }
-            }
+        private void lblCaja_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja(); ventana.Show(); this.Hide();
+        }
+
+        private void lblMenu_Click(object sender, EventArgs e)
+        {
+            Menú_Principal ventana = new Menú_Principal(); ventana.Show(); this.Hide();
+        }
+
+        private void lblUsuarios_Click(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCliente_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente(); ventana.Show(); this.Hide();
+        }
+
+        private void lblProveedores_Click(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores(); ventana.Show(); this.Hide();
+        }
+
+        private void lblProductos_Click(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCompras_Click(object sender, EventArgs e)
+        {
+            Compras_nuevo ventana = new Compras_nuevo(); ventana.Show(); this.Hide();
+        }
+
+        private void lblVenta_Click(object sender, EventArgs e)
+        {
+            Ventas ventana = new Ventas(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCredito_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito(); ventana.Show(); this.Hide();
+        }
+
+        private void lblInventario_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario(); ventana.Show(); this.Hide();
+        }
+
+        private void lblMantenimiento_Click(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento(); ventana.Show(); this.Hide();
+        }
+
+        private void lblReportes_Click_1(object sender, EventArgs e)
+        {
+            Reportes
+                ventana = new Reportes(); ventana.Show(); this.Hide();
+        }
+
+        private void lblAyuda_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

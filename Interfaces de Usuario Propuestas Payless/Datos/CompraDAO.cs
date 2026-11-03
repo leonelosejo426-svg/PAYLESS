@@ -125,14 +125,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 throw new Exception("No existe una caja abierta. No se pueden registrar compras con la caja cerrada.");
             }
 
-            // Creamos la conexión directamente usando la contraseña explícita de tu clase ConexionBD para evitar problemas de pool
             string cadenaConexionDirecta = $"Host={conexionBD.ObtenerHost()};Port={conexionBD.ObtenerPuerto()};Database={conexionBD.ObtenerBaseDatos()};Username={conexionBD.ObtenerUsuario()};Password={conexionBD.ObtenerPassword()}";
 
             using (NpgsqlConnection conexion = new NpgsqlConnection(cadenaConexionDirecta))
             {
                 conexion.Open();
 
-                // Validar estrictamente en la base de datos que la caja siga abierta justo al momento de registrar
                 string sqlVerificarCaja = "SELECT estado_caja FROM caja WHERE id_caja = @idCaja;";
                 using (NpgsqlCommand cmdCheck = new NpgsqlCommand(sqlVerificarCaja, conexion))
                 {
@@ -150,9 +148,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     {
                         // 2. Insertar Encabezado de Compra incluyendo id_caja
                         string sqlCompra = @"
-                    INSERT INTO compra (id_proveedor, total, estado, fecha, id_caja)
-                    VALUES (@idProveedor, @total, TRUE, CURRENT_TIMESTAMP, @idCaja)
-                    RETURNING id_compra;";
+                            INSERT INTO compra (id_proveedor, total, estado, fecha, id_caja)
+                            VALUES (@idProveedor, @total, TRUE, CURRENT_TIMESTAMP, @idCaja)
+                            RETURNING id_compra;";
 
                         int idCompra;
                         using (NpgsqlCommand cmdCompra = new NpgsqlCommand(sqlCompra, conexion, transaccion))
@@ -167,32 +165,55 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
                         while (actual != null)
                         {
-                            // 3. Buscar si la Talla existe para este producto
                             int idProductoTalla = 0;
+                            int stockActual = 0;
+                            int stockMaximo = 100;
+
+                            // 3. Buscar la talla y su inventario actual / máximo
                             string sqlBuscarTalla = @"
-                        SELECT id_producto_talla 
-                        FROM producto_talla 
-                        WHERE id_producto = @idProducto 
-                          AND LOWER(TRIM(talla)) = LOWER(TRIM(@talla));";
+                                SELECT 
+                                    pt.id_producto_talla, 
+                                    COALESCE(i.stock_actual, 0) AS stock_actual, 
+                                    COALESCE(i.stock_maximo, 100) AS stock_maximo 
+                                FROM producto_talla pt
+                                LEFT JOIN inventario i ON pt.id_producto_talla = i.id_producto_talla
+                                WHERE pt.id_producto = @idProducto 
+                                  AND LOWER(TRIM(pt.talla)) = LOWER(TRIM(@talla));";
 
                             using (NpgsqlCommand cmdBuscar = new NpgsqlCommand(sqlBuscarTalla, conexion, transaccion))
                             {
                                 cmdBuscar.Parameters.AddWithValue("@idProducto", actual.IdProducto);
                                 cmdBuscar.Parameters.AddWithValue("@talla", actual.Talla);
-                                object res = cmdBuscar.ExecuteScalar();
-                                if (res != null && res != DBNull.Value)
+
+                                using (var reader = cmdBuscar.ExecuteReader())
                                 {
-                                    idProductoTalla = Convert.ToInt32(res);
+                                    if (reader.Read())
+                                    {
+                                        idProductoTalla = reader.GetInt32(0);
+                                        stockActual = reader.GetInt32(1);
+                                        stockMaximo = reader.GetInt32(2);
+                                    }
                                 }
                             }
 
-                            // 4. Si no existe, crear la Talla en producto_talla
+                            // 🌟 Validación estricta de stock máximo (Límite global 100)
+                            if (stockMaximo > 0 && (stockActual + actual.Cantidad) > stockMaximo)
+                            {
+                                throw new Exception(
+                                    $"El producto '{actual.Producto}' (Talla: {actual.Talla}) supera el stock máximo permitido de {stockMaximo}.\n\n" +
+                                    $"• Stock Actual en BD: {stockActual}\n" +
+                                    $"• Cantidad Intentando Comprar: {actual.Cantidad}\n" +
+                                    $"• Stock Resultante: {stockActual + actual.Cantidad}"
+                                );
+                            }
+
+                            // 4. Si no existe la talla, se crea en producto_talla y se inicializa en inventario
                             if (idProductoTalla == 0)
                             {
                                 string sqlCrearTalla = @"
-                        INSERT INTO producto_talla (id_producto, talla)
-                        VALUES (@idProducto, @talla)
-                        RETURNING id_producto_talla;";
+                                    INSERT INTO producto_talla (id_producto, talla)
+                                    VALUES (@idProducto, @talla)
+                                    RETURNING id_producto_talla;";
 
                                 using (NpgsqlCommand cmdCrear = new NpgsqlCommand(sqlCrearTalla, conexion, transaccion))
                                 {
@@ -200,12 +221,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                                     cmdCrear.Parameters.AddWithValue("@talla", actual.Talla);
                                     idProductoTalla = Convert.ToInt32(cmdCrear.ExecuteScalar());
                                 }
+
+                                string sqlCrearInventario = @"
+                                    INSERT INTO inventario (stock_actual, stock_minimo, stock_maximo, fecha_actualizacion, id_producto_talla)
+                                    VALUES (0, 5, 100, CURRENT_TIMESTAMP, @idProductoTalla);";
+
+                                using (NpgsqlCommand cmdInvInit = new NpgsqlCommand(sqlCrearInventario, conexion, transaccion))
+                                {
+                                    cmdInvInit.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
+                                    cmdInvInit.ExecuteNonQuery();
+                                }
                             }
 
-                            // 5. Insertar Detalle de Compra
+                            // 5. Insertar Detalle de Compra 
+                            // (El trigger 'trg_actualizar_inventario_compra' se encargará automáticamente de actualizar el inventario)
                             string sqlDetalle = @"
-                        INSERT INTO detalle_compra (id_compra, id_producto_talla, cantidad, precio_compra, subtotal)
-                        VALUES (@idCompra, @idProductoTalla, @cantidad, @precioCompra, @subtotal);";
+                                INSERT INTO detalle_compra (id_compra, id_producto_talla, cantidad, precio_compra, subtotal)
+                                VALUES (@idCompra, @idProductoTalla, @cantidad, @precioCompra, @subtotal);";
 
                             using (NpgsqlCommand cmdDetalle = new NpgsqlCommand(sqlDetalle, conexion, transaccion))
                             {
@@ -217,13 +249,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                                 cmdDetalle.ExecuteNonQuery();
                             }
 
-                            // 6. Actualizar Precio de Venta en la tabla 'producto_talla' si aplica
+                            // 6. Actualizar Precio de Venta si aplica
                             if (actual.PrecioVenta > 0)
                             {
                                 string sqlPrecio = @"
-                            UPDATE producto_talla
-                            SET precio_venta = @precioVenta
-                            WHERE id_producto_talla = @idProductoTalla;";
+                                    UPDATE producto_talla
+                                    SET precio_venta = @precioVenta
+                                    WHERE id_producto_talla = @idProductoTalla;";
 
                                 using (NpgsqlCommand cmdPrecio = new NpgsqlCommand(sqlPrecio, conexion, transaccion))
                                 {
@@ -247,6 +279,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 }
             }
         }
+
 
 
         public bool EliminarCompra(int idCompra)

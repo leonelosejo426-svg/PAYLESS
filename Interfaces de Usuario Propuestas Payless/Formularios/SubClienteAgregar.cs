@@ -27,24 +27,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             string telefono = txtTelefono.Text.Trim();
             string direccion = richtxtDirreccion.Text.Trim();
 
-            // Validar nombre (Al menos un nombre y un apellido, cada palabra con mayúscula inicial)
+            // =========================================================================
+            // 1. VALIDACIONES DE CAMPOS VACÍOS, FORMATO Y LONGITUD (EN ORDEN)
+            // =========================================================================
+
+            // 1.1 Validar Nombre del Cliente
             if (string.IsNullOrWhiteSpace(nombreCliente))
             {
                 MessageBox.Show("Ingrese el nombre del cliente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 q.Focus();
-                return;
-            }
-
-            // Validar que el texto NO supere el máximo de 150 caracteres
-            if (richtxtDirreccion.Text.Trim().Length > 150)
-            {
-                MessageBox.Show(
-                    "El campo dirección no puede superar los 150 caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                richtxtDirreccion.Focus();
                 return;
             }
 
@@ -56,11 +47,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-                // Cambia 'q' por el nombre real de tu TextBox (por ejemplo: txtNombre.Focus();)
                 q.Focus();
                 return;
             }
-
 
             Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
             if (!regexNombre.IsMatch(nombreCliente))
@@ -70,7 +59,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // Validar cédula (Formato ejemplo: 441-241207-1002B)
+            // 1.2 Validar Cédula (Formato estricto con validación lógica de fecha: DDMMYY)
             if (string.IsNullOrWhiteSpace(cedula))
             {
                 MessageBox.Show("Ingrese el número de cédula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -78,25 +67,49 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // Expresión regular base: 3 dígitos - 6 dígitos (fecha) - 4 dígitos numéricos y 1 letra Mayúscula
             Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
             if (!regexCedula.IsMatch(cedula))
             {
                 MessageBox.Show("La cédula debe cumplir con el formato correcto, por ejemplo: 441-241207-1002B", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtcedula.Focus();
+                txtcedula.SelectAll();
                 return;
             }
 
-            // Validar teléfono (Exactamente 8 dígitos)
-            if (telefono.Length != 8)
+            // Validación lógica de los 6 dígitos del medio como fecha (DDMMYY: Días 01-31, Meses 01-12)
+            string parteFecha = cedula.Substring(4, 6); // Extrae los 6 dígitos centrales ej: "241207"
+            if (int.TryParse(parteFecha.Substring(0, 2), out int dia) && dia >= 1 && dia <= 31 &&
+                int.TryParse(parteFecha.Substring(2, 2), out int mes) && mes >= 1 && mes <= 12 &&
+                int.TryParse(parteFecha.Substring(4, 2), out int anio))
             {
-                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // La estructura de fecha interna es válida
+            }
+            else
+            {
+                MessageBox.Show("Los 6 dígitos centrales de la cédula no corresponden a una fecha válida (Día: 01-31, Mes: 01-12).\nEjemplo válido: 441-241207-1002B", "Validación de Cédula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtcedula.Focus();
+                txtcedula.SelectAll();
+                return;
+            }
+
+            // 1.3 Validar Teléfono (Exactamente 8 dígitos numéricos)
+            if (string.IsNullOrWhiteSpace(telefono))
+            {
+                MessageBox.Show("Ingrese el número de teléfono.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
 
-           
+            if (telefono.Length != 8 || !telefono.All(char.IsDigit))
+            {
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos numéricos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                txtTelefono.SelectAll();
+                return;
+            }
 
-            // Validar dirección
+            // 1.4 Validar Dirección
             if (string.IsNullOrWhiteSpace(direccion))
             {
                 MessageBox.Show("Ingrese la dirección.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -104,17 +117,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // =====================================================
-            // VALIDAR DUPLICADOS EN LA BASE DE DATOS
-            // =====================================================
-            ClienteDAO daoVerificar = new ClienteDAO();
+            if (direccion.Length > 150)
+            {
+                MessageBox.Show(
+                    "El campo dirección no puede superar los 150 caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                richtxtDirreccion.Focus();
+                return;
+            }
 
-            
+            // =========================================================================
+            // 2. VALIDAR DUPLICADOS EN LA BASE DE DATOS
+            // =========================================================================
+            ClienteDAO daoVerificar = new ClienteDAO();
 
             if (daoVerificar.ExisteCedula(cedula))
             {
                 MessageBox.Show("El número de cédula ingresado ya pertenece a otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtcedula.Focus();
+                txtcedula.SelectAll();
                 return;
             }
 
@@ -122,19 +146,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             {
                 MessageBox.Show("El número de teléfono ingresado ya se encuentra registrado.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
+                txtTelefono.SelectAll();
                 return;
             }
 
-            // Crear objeto cliente
+            // =========================================================================
+            // 3. GUARDAR CLIENTE EN LA BASE DE DATOS
+            // =========================================================================
             ClaseCliente cliente = new ClaseCliente();
-
             cliente.Nombre = nombreCliente;
             cliente.Cedula = cedula;
             cliente.Telefono = telefono;
             cliente.Direccion = direccion;
-          
 
-            // Guardar cliente
             ClienteDAO dao = new ClienteDAO();
 
             if (dao.AgregarCliente(cliente))
@@ -150,7 +174,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 txtcedula.Clear();
                 txtTelefono.Clear();
                 richtxtDirreccion.Clear();
-               
 
                 q.Focus();
             }

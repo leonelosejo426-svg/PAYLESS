@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -129,6 +130,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             if (txtNuevaPassword.Text != txtConfirmarPassword.Text)
             {
                 MessageBox.Show("Las contraseñas no coinciden.");
+                return;
+            }
+
+            Regex regexPassword = new Regex(@"^(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{6,}$");
+            if (!regexPassword.IsMatch(txtNuevaPassword.Text.Trim()))
+            {
+                MessageBox.Show("La contraseña debe tener al menos 6 caracteres, incluir al menos un número y un carácter especial.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNuevaPassword.Focus();
                 return;
             }
 

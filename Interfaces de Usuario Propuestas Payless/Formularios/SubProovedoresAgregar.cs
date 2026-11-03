@@ -36,19 +36,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             string ruc = txtRUC.Text.Trim();
 
             // =====================================================
-            // VALIDAR CAMPOS VACÍOS Y LONGITUDES
+            // 1. VALIDAR CAMPOS VACÍOS, LONGITUDES Y FORMATOS (EN ORDEN)
             // =====================================================
+
+            // 1.1 Validar Nombre
             if (string.IsNullOrWhiteSpace(nombre))
             {
                 MessageBox.Show("Ingrese el nombre del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtNombre.Focus();
-                return;
-            }
-
-            Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
-            if (!regexNombre.IsMatch(nombre))
-            {
-                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtNombre.Focus();
                 return;
             }
@@ -67,6 +61,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            Regex regexNombre = new Regex(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)+$");
+            if (!regexNombre.IsMatch(nombre))
+            {
+                MessageBox.Show("El nombre completo debe tener al menos un nombre y un apellido, y cada palabra debe empezar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            // 1.2 Validar Teléfono
             if (string.IsNullOrWhiteSpace(telefono))
             {
                 MessageBox.Show("Ingrese el teléfono del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -74,16 +77,30 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            if (telefono.Length != 8)
+            if (telefono.Length != 8 || !telefono.All(char.IsDigit))
             {
-                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos numéricos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
+                txtTelefono.SelectAll();
                 return;
             }
 
-            // Se eliminó 'A-Z' para prohibir las mayúsculas
-            Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
+            // 1.3 Validar Correo (Primero vacío, luego longitud, luego formato Regex)
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                MessageBox.Show("Ingrese el correo del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
 
+            if (correo.Length > 50)
+            {
+                MessageBox.Show("El campo [correo] no puede superar los [50] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCorreo.Focus();
+                return;
+            }
+
+            Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
             if (!regexCorreo.IsMatch(correo))
             {
                 MessageBox.Show(
@@ -95,29 +112,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 txtCorreo.Focus();
                 txtCorreo.SelectAll();
                 return;
             }
 
-
-            if (string.IsNullOrWhiteSpace(correo))
-            {
-                MessageBox.Show("Ingrese el correo del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCorreo.Focus();
-                return;
-            }
-
-            
-
-            if (correo.Length > 50)
-            {
-                MessageBox.Show("El campo [correo] no puede superar los [50] caracteres.", "Validación de Longitud", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtCorreo.Focus();
-                return;
-            }
-
+            // 1.4 Validar Dirección
             if (string.IsNullOrWhiteSpace(direccion))
             {
                 MessageBox.Show("Ingrese la dirección del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -132,6 +132,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
+            // 1.5 Validar Código RUC
             if (string.IsNullOrWhiteSpace(ruc))
             {
                 MessageBox.Show("Ingrese el código RUC del proveedor.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -148,7 +149,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             // =====================================================
-            // VALIDAR DUPLICADOS EN LA BASE DE DATOS (NUEVO REGISTRO)
+            // 2. VALIDAR DUPLICADOS EN LA BASE DE DATOS (NUEVO REGISTRO)
             // =====================================================
             if (proveedorDAO.ExisteNombre(nombre))
             {
@@ -179,7 +180,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             // =====================================================
-            // CREAR OBJETO PROVEEDOR Y GUARDAR (Estado activo por defecto)
+            // 3. CREAR OBJETO PROVEEDOR Y GUARDAR (Estado activo por defecto)
             // =====================================================
             ClaseProveedor proveedor = new ClaseProveedor();
             proveedor.Nombre = nombre;

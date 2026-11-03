@@ -1009,9 +1009,42 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
 
+        public (int stockActual, int stockMaximo) ObtenerStockActualYMaximo(int idProducto, string talla)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
 
+                string sql = @"
+            SELECT 
+                COALESCE(i.stock_actual, 0), 
+                COALESCE(i.stock_maximo, 100)
+            FROM producto_talla pt
+            LEFT JOIN inventario i ON pt.id_producto_talla = i.id_producto_talla
+            WHERE pt.id_producto = @idProducto 
+              AND LOWER(TRIM(pt.talla)) = LOWER(TRIM(@talla));";
 
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@idProducto", idProducto);
+                    cmd.Parameters.AddWithValue("@talla", talla);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return (reader.GetInt32(0), reader.GetInt32(1));
+                        }
+                    }
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+
+            return (0, 100);
+        }
 
     }
-
 }

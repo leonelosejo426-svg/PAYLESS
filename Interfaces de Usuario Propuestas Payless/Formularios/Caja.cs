@@ -49,9 +49,37 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
           
         }
+        private void ConfigurarMenuRoles()
+        {
+            string rol = ClaseSesion.RolActual;
+
+            bool esAdmin = (rol == "Administrador");
+            bool esGerente = (rol == "Gerente");
+            bool esCajero = (rol == "Cajero");
+
+            // Módulos que cambian según el rol (estos suben/bajan sin afectar a Ayuda)
+            lblMenu.Visible = esAdmin || esGerente || esCajero;
+            lblVenta.Visible = esAdmin || esGerente || esCajero;
+            lblCaja.Visible = esAdmin || esGerente || esCajero;
+            lblReportes.Visible = esAdmin || esGerente || esCajero;
+            lblCredito.Visible = esAdmin || esGerente;
+            lblInventario.Visible = esAdmin || esGerente;
+            lblCompras.Visible = esAdmin || esGerente;
+            lblCliente.Visible = esAdmin || esGerente || esCajero;
+            lblMantenimiento.Visible = esAdmin || esGerente;
+
+            lblProductos.Visible = esAdmin;
+            lblProveedores.Visible = esAdmin;
+            lblUsuarios.Visible = esAdmin;
+
+
+            // Ayuda se mantiene siempre visible y fija en la parte inferior gracias al Anchor = Bottom
+            lblAyuda.Visible = true;
+        }
 
         private void Caja_Load(object sender, EventArgs e)
         {
+            ConfigurarMenuRoles();
             lblUsuario.Text = ClaseSesion.UsuarioActual;
 
             lblCaja.Enabled = false;
@@ -93,6 +121,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblCaja.Enabled = true;
                     lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblReportes.Enabled = true;
+
 
                     break;
 
@@ -100,6 +134,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     lblCaja.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblReportes.Enabled = true;
 
                     break;
             }
@@ -352,14 +388,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnAperturadecaja_Click(object sender, EventArgs e)
         {
-            AperturaCaja ventana =
-                new AperturaCaja(
-                    ClaseSesion.IdUsuario,
-                    ClaseSesion.UsuarioActual);
+            // 1. Instanciamos el DAO para revisar la Base de Datos en tiempo real
+            AperturaCajaDAO aperturaDAO = new AperturaCajaDAO();
 
-            ventana.ShowDialog();
+            // 2. CANDADO: Si ya existe una caja abierta, no lo dejamos entrar a Apertura
+            if (ClaseSesion.TieneCajaActiva || aperturaDAO.ExisteCajaAbierta(ClaseSesion.IdUsuario))
+            {
+                ClaseSesion.TieneCajaActiva = true; // Aseguramos el estado en memoria
 
+                MessageBox.Show("Ya cuentas con una caja abierta activa.",
+                                "Caja Activa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // AQUÍ ABRES LA PANTALLA QUE CORRESPONDA (Por ejemplo, tu formulario de Caja/Ventas o Arqueo)
+                // Ejemplo si deseas mandarlo a la pantalla operativa:
+                // Caja frmCaja = new Caja();
+                // frmCaja.Show();
+
+                // O si este es el comportamiento que buscas, simplemente salimos para que no abra Apertura:
+                return;
+            }
+
+            // 3. Si NO tiene caja abierta, procedemos a mostrar la pantalla de Apertura de forma limpia
+            AperturaCaja ventana = new AperturaCaja(ClaseSesion.IdUsuario, ClaseSesion.UsuarioActual);
+
+            // Ocultamos esta ventana de inmediato para que no se quede atrás estorbando
             this.Hide();
+
+            // Mostramos la apertura. Al usar Show(), el flujo no se congela de forma síncrona aquí.
+            ventana.Show();
         }
 
         private void btnArqueodecaja_Click(object sender, EventArgs e)
@@ -795,6 +851,133 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
             // 3. Recargar los datos de la caja por si se registró un nuevo egreso
             CargarCaja();
+        }
+
+        private void flowLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void lblMenu_Click(object sender, EventArgs e)
+        {
+            Menú_Principal ventana = new Menú_Principal();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCaja_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblUsuarios_Click(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCliente_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblProveedores_Click(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblProductos_Click(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos();
+            ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblCompras_Click(object sender, EventArgs e)
+        {
+            Compras_nuevo ventana = new Compras_nuevo();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblVenta_Click(object sender, EventArgs e)
+        {
+            Ventas ventana = new Ventas();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCredito_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblInventario_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblMantenimiento_Click(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblReportes_Click_1(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblAyuda_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string rutaPDF = @"C:\Users\Lenovo\Desktop\PAYLESS\Interfaces de Usuario Propuestas Payless\Ayuda\Manual_Usuario.pdf";
+
+                if (!File.Exists(rutaPDF))
+                {
+                    MessageBox.Show($"No se encontró el manual en la ruta:\n{rutaPDF}",
+                                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 1. Convertir la ruta del disco a formato URI web (maneja espacios y caracteres especiales)
+                string uriPDF = new Uri(rutaPDF).AbsoluteUri;
+
+                // 2. Cambia el número 2 por el número exacto de la página de Caja
+                int numeroPaginaCaja = 2;
+
+                // 3. Crear el argumento en formato file:///C:/...#page=2
+                string argumentos = $"\"{uriPDF}#page={numeroPaginaCaja}\"";
+
+                ProcessStartInfo edgeInfo = new ProcessStartInfo
+                {
+                    FileName = "msedge.exe",
+                    Arguments = argumentos,
+                    UseShellExecute = true
+                };
+
+                Process.Start(edgeInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

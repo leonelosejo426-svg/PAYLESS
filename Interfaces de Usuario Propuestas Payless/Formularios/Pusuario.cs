@@ -15,6 +15,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
         private bool passwordVisible = false;
+        private bool cargandoFormulario = true;
+        private bool cargandoDatos = false;
+
 
 
         // =========================================================
@@ -39,6 +42,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void Pusuario_Load(object sender, EventArgs e)
         {
+            
+
+
             txtUsuario.MaxLength = 50;
             txtCompleto.MaxLength = 100;
             txtTelefono.MaxLength = 8;
@@ -53,6 +59,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             // Contraseñas ocultas
             txtContraseña.PasswordChar = '●';
             txtConfirmar.PasswordChar = '●';
+            cargandoFormulario = false;
         }
 
 
@@ -107,11 +114,23 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 string cedula = txtCedula.Text.Trim();
                 string correo = txtGmail.Text.Trim();
 
-                // 1. VALIDACIONES DE TEXTO Y FORMATO (Tus validaciones existentes)
+                // =========================================================================
+                // FASE 1: VALIDACIONES DE FORMATO, LONGITUD Y REGLAS LOCALES
+                // =========================================================================
+
+                // 1. Nombre de Usuario
                 if (string.IsNullOrWhiteSpace(nombreUsuario))
                 {
                     MessageBox.Show("Ingrese el nombre del usuario.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtUsuario.Focus();
+                    return;
+                }
+
+                if (nombreUsuario.Length < 3)
+                {
+                    MessageBox.Show("El nombre de usuario debe tener al menos 3 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtUsuario.Focus();
+                    txtUsuario.SelectAll();
                     return;
                 }
 
@@ -120,16 +139,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 {
                     MessageBox.Show("El nombre de usuario debe ser una sola palabra y comenzar con mayúscula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtUsuario.Focus();
+                    txtUsuario.SelectAll();
                     return;
                 }
 
-                if (txtCompleto.Text.Trim().Length > 100)
-                {
-                    MessageBox.Show("El campo [nombre completo] no puede superar los 100 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCompleto.Focus();
-                    return;
-                }
-
+                // 2. Nombre Completo (Validado: sin números y al menos dos palabras)
                 if (string.IsNullOrWhiteSpace(nombreCompleto))
                 {
                     MessageBox.Show("Ingrese el nombre completo.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -137,9 +151,81 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
-                // Se eliminó 'A-Z' para prohibir las mayúsculas
-                Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
+                if (nombreCompleto.Length > 100)
+                {
+                    MessageBox.Show("El campo [nombre completo] no puede superar los 100 caracteres.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCompleto.Focus();
+                    return;
+                }
 
+                Regex regexNombreCompleto = new Regex(@"^[A-Za-záéíóúñÁÉÍÓÚÑ]+(\s+[A-Za-záéíóúñÁÉÍÓÚÑ]+)+$");
+                if (!regexNombreCompleto.IsMatch(nombreCompleto))
+                {
+                    MessageBox.Show("El nombre completo debe contener al menos un nombre y un apellido, y no debe incluir números ni símbolos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCompleto.Focus();
+                    txtCompleto.SelectAll();
+                    return;
+                }
+
+                // 3. Número de Teléfono
+                if (string.IsNullOrWhiteSpace(telefono))
+                {
+                    MessageBox.Show("Ingrese el número de teléfono.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTelefono.Focus();
+                    return;
+                }
+
+                if (telefono.Length != 8 || !telefono.All(char.IsDigit))
+                {
+                    MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos numéricos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTelefono.Focus();
+                    txtTelefono.SelectAll();
+                    return;
+                }
+
+                // 4. Cédula
+                // Validar Cédula (Formato estricto con validación lógica de fecha: DDMMYY)
+                if (string.IsNullOrWhiteSpace(cedula))
+                {
+                    MessageBox.Show("Ingrese el número de cédula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCedula.Focus();
+                    return;
+                }
+
+                Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
+                if (!regexCedula.IsMatch(cedula))
+                {
+                    MessageBox.Show("La cédula debe cumplir con el formato correcto, por ejemplo: 441-241207-1002B", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCedula.Focus();
+                    txtCedula.SelectAll();
+                    return;
+                }
+
+                // Validación lógica de los 6 dígitos del medio como fecha (DDMMYY: Días 01-31, Meses 01-12)
+                string parteFecha = cedula.Substring(4, 6); // Extrae los 6 dígitos centrales ej: "241207"
+                if (int.TryParse(parteFecha.Substring(0, 2), out int dia) && dia >= 1 && dia <= 31 &&
+                    int.TryParse(parteFecha.Substring(2, 2), out int mes) && mes >= 1 && mes <= 12 &&
+                    int.TryParse(parteFecha.Substring(4, 2), out int anio))
+                {
+                    // La estructura de fecha interna es válida
+                }
+                else
+                {
+                    MessageBox.Show("Los 6 dígitos centrales de la cédula no corresponden a una fecha válida (Día: 01-31, Mes: 01-12).\nEjemplo válido: 441-241207-1002B", "Validación de Cédula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtCedula.Focus();
+                    txtCedula.SelectAll();
+                    return;
+                }
+
+                // 5. Correo Electrónico (Gmail / Yahoo)
+                if (string.IsNullOrWhiteSpace(correo))
+                {
+                    MessageBox.Show("Ingrese el correo electrónico.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtGmail.Focus();
+                    return;
+                }
+
+                Regex regexCorreo = new Regex(@"^[a-z0-9._-]+@(gmail|yahoo)\.com$");
                 if (!regexCorreo.IsMatch(correo))
                 {
                     MessageBox.Show(
@@ -151,13 +237,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Warning
                     );
-
                     txtGmail.Focus();
                     txtGmail.SelectAll();
                     return;
                 }
 
-
+                // 6. Contraseña
                 if (string.IsNullOrWhiteSpace(password))
                 {
                     MessageBox.Show("Ingrese una contraseña.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -184,32 +269,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 {
                     MessageBox.Show("Las contraseñas no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtConfirmar.Focus();
+                    txtConfirmar.SelectAll();
                     return;
                 }
 
-                if (telefono.Length != 8)
-                {
-                    MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtTelefono.Focus();
-                    return;
-                }
-
-                Regex regexCedula = new Regex(@"^\d{3}-\d{6}-\d{4}[A-Z]$");
-                if (!regexCedula.IsMatch(cedula))
-                {
-                    MessageBox.Show("La cédula debe cumplir con el formato correcto, por ejemplo: 441-241207-1002B", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtCedula.Focus();
-                    return;
-                }
-
-                Regex regexGmail = new Regex(@"^[^@\s]+@gmail\.com$");
-                if (!regexGmail.IsMatch(correo))
-                {
-                    MessageBox.Show("El correo debe ser una dirección válida de Gmail (@gmail.com).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtGmail.Focus();
-                    return;
-                }
-
+                // 7. Rol
+                // Validar Rol seleccionado
                 if (cmbRol.SelectedIndex == -1)
                 {
                     MessageBox.Show("Seleccione un rol.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -217,10 +282,36 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     return;
                 }
 
+                // Obtener el texto del rol seleccionado (asegúrate de que cmbRol muestre el nombre del rol o ajústalo según tu binding)
+                string rolSeleccionado = cmbRol.Text.Trim();
                 int idRol = Convert.ToInt32(cmbRol.SelectedValue);
 
+                // Validar límites por tipo de rol
+                if (rolSeleccionado.Equals("Administrador", StringComparison.OrdinalIgnoreCase))
+                {
+                    int cantAdmins = usuarioDAO.ContarUsuariosPorRol("Administrador", 0);
+                    if (cantAdmins >= 1)
+                    {
+                        MessageBox.Show("Ya existe un Administrador registrado en el sistema. Solo se permite un Administrador.", "Límite de Rol", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbRol.Focus();
+                        return;
+                    }
+                }
+                else if (rolSeleccionado.Equals("Gerente", StringComparison.OrdinalIgnoreCase))
+                {
+                    int cantGerentes = usuarioDAO.ContarUsuariosPorRol("Gerente", 0);
+                    int limiteGerentes = 5; // Puedes cambiar este número si deseas otro límite
+                    if (cantGerentes >= limiteGerentes)
+                    {
+                        MessageBox.Show($"Se ha alcanzado el límite máximo de gerentes permitidos ({limiteGerentes}).", "Límite de Rol", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        cmbRol.Focus();
+                        return;
+                    }
+                }
+                // Los cajeros quedan con acceso libre (infinito)
+
                 // =========================================================================
-                // 2. VALIDAR DUPLICADOS ANTES DE INSERTAR EN LA BASE DE DATOS
+                // FASE 2: VALIDAR DUPLICADOS EN LA BASE DE DATOS
                 // =========================================================================
                 if (usuarioDAO.ExisteNombreUsuario(nombreUsuario))
                 {
@@ -247,7 +338,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 }
 
                 // =========================================================================
-                // 3. INTENTAR GUARDAR
+                // FASE 3: INTENTAR GUARDAR EN LA BD
                 // =========================================================================
                 bool estadoDefault = true;
 
@@ -348,6 +439,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 txtConfirmar.PasswordChar = '●';
 
                 // btnVerPassword.Text = "👁"; // Opcional
+            }
+        }
+
+        private void cmbRol_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 3. Si se está cargando el formulario o no hay selección, no hacemos nada
+            if (cargandoFormulario || cmbRol.SelectedIndex == -1) return;
+
+            string rolSeleccionado = cmbRol.Text.Trim();
+            int idVerificar = 0; // Como es nuevo usuario, siempre es 0
+
+            if (rolSeleccionado.Equals("Administrador", StringComparison.OrdinalIgnoreCase))
+            {
+                int cantAdmins = usuarioDAO.ContarUsuariosPorRol("Administrador", idVerificar);
+                if (cantAdmins >= 1)
+                {
+                    MessageBox.Show("Ya existe un Administrador registrado en el sistema. Solo se permite un Administrador.", "Límite de Rol", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbRol.SelectedIndex = -1; // Limpia la selección
+                }
+            }
+            else if (rolSeleccionado.Equals("Gerente", StringComparison.OrdinalIgnoreCase))
+            {
+                int cantGerentes = usuarioDAO.ContarUsuariosPorRol("Gerente", idVerificar);
+                int limiteGerentes = 2; // Límite máximo de gerentes
+                if (cantGerentes >= limiteGerentes)
+                {
+                    MessageBox.Show($"Se ha alcanzado el límite máximo de gerentes permitidos ({limiteGerentes}).", "Límite de Rol", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cmbRol.SelectedIndex = -1; // Limpia la selección
+                }
             }
         }
     }

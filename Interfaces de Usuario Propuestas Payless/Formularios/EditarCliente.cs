@@ -96,10 +96,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             string telefono = txtTelefono.Text.Trim();
             string direccion = txtDireccion.Text.Trim();
 
-            // Validar nombre completo (Al menos un nombre y un apellido, cada palabra con mayúscula inicial)
+            // =========================================================================
+            // 1. VALIDACIONES DE CAMPOS VACÍOS, FORMATO Y LONGITUD (EN ORDEN ESTRICTO)
+            // =========================================================================
+
+            // 1.1 Validar Nombre del Cliente
             if (string.IsNullOrWhiteSpace(nombreCliente))
             {
                 MessageBox.Show("Ingrese el nombre del cliente.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtNombre.Focus();
+                return;
+            }
+
+            if (nombreCliente.Length > 100)
+            {
+                MessageBox.Show(
+                    "El campo [nombre] no puede superar los [100] caracteres.",
+                    "Validación de Longitud",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
                 txtNombre.Focus();
                 return;
             }
@@ -112,19 +128,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            if (txtNombre.Text.Trim().Length > 100)
-            {
-                MessageBox.Show(
-                    "El campo [nombre] no puede superar los [100] caracteres.",
-                    "Validación de Longitud",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtNombre.Focus();
-                return;
-            }
-
-            // Validar cédula (Formato ejemplo: 441-241207-1002B)
+            // 1.2 Validar Cédula (Formato estricto con validación lógica de fecha: DDMMYY)
             if (string.IsNullOrWhiteSpace(cedula))
             {
                 MessageBox.Show("Ingrese el número de cédula.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -137,18 +141,43 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("La cédula debe cumplir con el formato correcto, por ejemplo: 441-241207-1002B", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCedula.Focus();
+                txtCedula.SelectAll();
                 return;
             }
 
-            // Validar teléfono (Exactamente 8 dígitos)
-            if (telefono.Length != 8)
+            // Validación lógica de los 6 dígitos del medio como fecha (DDMMYY: Días 01-31, Meses 01-12)
+            string parteFecha = cedula.Substring(4, 6); // Extrae los 6 dígitos centrales ej: "241207"
+            if (int.TryParse(parteFecha.Substring(0, 2), out int dia) && dia >= 1 && dia <= 31 &&
+                int.TryParse(parteFecha.Substring(2, 2), out int mes) && mes >= 1 && mes <= 12 &&
+                int.TryParse(parteFecha.Substring(4, 2), out int anio))
             {
-                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // La estructura de fecha interna es válida
+            }
+            else
+            {
+                MessageBox.Show("Los 6 dígitos centrales de la cédula no corresponden a una fecha válida (Día: 01-31, Mes: 01-12).\nEjemplo válido: 441-241207-1002B", "Validación de Cédula", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtCedula.Focus();
+                txtCedula.SelectAll();
+                return;
+            }
+
+            // 1.3 Validar Teléfono (Exactamente 8 dígitos numéricos)
+            if (string.IsNullOrWhiteSpace(telefono))
+            {
+                MessageBox.Show("Ingrese el número de teléfono.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTelefono.Focus();
                 return;
             }
 
-            // Validar dirección
+            if (telefono.Length != 8 || !telefono.All(char.IsDigit))
+            {
+                MessageBox.Show("El número de teléfono debe tener exactamente 8 dígitos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtTelefono.Focus();
+                txtTelefono.SelectAll();
+                return;
+            }
+
+            // 1.4 Validar Dirección
             if (string.IsNullOrWhiteSpace(direccion))
             {
                 MessageBox.Show("Ingrese la dirección.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -156,7 +185,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            if (txtDireccion.Text.Trim().Length > 200)
+            if (direccion.Length > 200)
             {
                 MessageBox.Show(
                     "El campo [dirección] no puede superar los [200] caracteres.",
@@ -168,7 +197,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            // Validar estado
+            // 1.5 Validar Estado
             if (CBestado.SelectedIndex == -1)
             {
                 MessageBox.Show("Seleccione un estado.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -177,10 +206,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
             // =========================================================================
-            // VALIDACIONES DE DUPLICADOS (Excluyendo al cliente actual)
+            // 2. VALIDACIONES DE DUPLICADOS (Excluyendo al cliente actual)
             // =========================================================================
-            
-
             if (clienteDAO.ExisteCedula(cedula, idClienteSeleccionado))
             {
                 MessageBox.Show("El número de cédula ya pertenece a otro cliente.", "Duplicado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -198,7 +225,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
 
             // =========================================================================
-            // GUARDAR ACTUALIZACIÓN
+            // 3. GUARDAR ACTUALIZACIÓN
             // =========================================================================
             ClaseCliente cliente = new ClaseCliente();
 

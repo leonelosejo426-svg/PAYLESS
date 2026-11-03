@@ -124,17 +124,17 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                         documento.Add(new Paragraph(" ", FontFactory.GetFont(FontFactory.HELVETICA, 4f)));
                     }
 
-                    // 3. TABLA DE PRODUCTOS (10 COLUMNAS AJUSTADAS)
-                    PdfPTable tabla = new PdfPTable(10) { WidthPercentage = 100f };
-                    tabla.SetWidths(new float[] { 5f, 18f, 11f, 11f, 13f, 6f, 10f, 6f, 6f, 14f });
+                    // 3. TABLA DE PRODUCTOS (11 COLUMNAS: Incluyendo Stock Máximo)
+                    PdfPTable tabla = new PdfPTable(11) { WidthPercentage = 100f };
+                    tabla.SetWidths(new float[] { 5f, 16f, 10f, 10f, 12f, 5f, 9f, 6f, 6f, 6f, 15f });
 
-                    string[] encabezados = { "ID", "Producto", "Categoría", "Marca", "Proveedor", "Talla", "Precio", "Stock", "Min", "Alerta" };
+                    string[] encabezados = { "ID", "Producto", "Categoría", "Marca", "Proveedor", "Talla", "Precio", "Stock", "Mín", "Máx", "Alerta" };
                     foreach (string enc in encabezados)
                     {
                         PdfPCell cellHeader = new PdfPCell(new Phrase(enc, fuenteCabeceraTabla))
                         {
                             BackgroundColor = colorNaranjaPayless,
-                            HorizontalAlignment = (enc == "ID" || enc == "Talla" || enc == "Stock" || enc == "Min" || enc == "Alerta")
+                            HorizontalAlignment = (enc == "ID" || enc == "Talla" || enc == "Stock" || enc == "Mín" || enc == "Máx" || enc == "Alerta")
                                 ? Element.ALIGN_CENTER
                                 : (enc == "Precio" ? Element.ALIGN_RIGHT : Element.ALIGN_LEFT),
                             Padding = 4f,
@@ -150,7 +150,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                         string alerta = datos.Columns.Contains("Alerta") ? fila["Alerta"].ToString() : "Normal";
                         bool esStockBajo = alerta.Contains("STOCK BAJO");
 
-                        // Si es stock bajo, fondo rojo claro; de lo contrario, intercalado gris/blanco
                         BaseColor bgFila = esStockBajo ? colorRojoFondo : (esGris ? colorGrisClaro : BaseColor.WHITE);
                         Font fuenteAplicada = esStockBajo ? fuenteTextoAlerta : fuenteTexto;
 
@@ -163,6 +162,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                         object valPrecio = datos.Columns.Contains("Precio Venta") ? fila["Precio Venta"] : 0;
                         string stock = datos.Columns.Contains("Stock") ? fila["Stock"].ToString() : "0";
                         string stockMin = datos.Columns.Contains("Stock Minimo") ? fila["Stock Minimo"].ToString() : (datos.Columns.Contains("Stock Mínimo") ? fila["Stock Mínimo"].ToString() : "0");
+                        string stockMax = datos.Columns.Contains("Stock Maximo") ? fila["Stock Maximo"].ToString() : (datos.Columns.Contains("Stock Máximo") ? fila["Stock Máximo"].ToString() : "100");
 
                         AgregarCeldaTabla(tabla, idProd, fuenteAplicada, bgFila, colorBorde, Element.ALIGN_CENTER);
                         AgregarCeldaTabla(tabla, producto, fuenteAplicada, bgFila, colorBorde, Element.ALIGN_LEFT);
@@ -173,6 +173,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Utilidades
                         AgregarCeldaTabla(tabla, FormatoMoneda(valPrecio), fuenteAplicada, bgFila, colorBorde, Element.ALIGN_RIGHT);
                         AgregarCeldaTabla(tabla, stock, fuenteAplicada, bgFila, colorBorde, Element.ALIGN_CENTER);
                         AgregarCeldaTabla(tabla, stockMin, fuenteAplicada, bgFila, colorBorde, Element.ALIGN_CENTER);
+                        AgregarCeldaTabla(tabla, stockMax, fuenteAplicada, bgFila, colorBorde, Element.ALIGN_CENTER); // 🌟 Columna Stock Máximo
                         AgregarCeldaTabla(tabla, alerta, fuenteAplicada, bgFila, colorBorde, Element.ALIGN_CENTER);
 
                         esGris = !esGris;

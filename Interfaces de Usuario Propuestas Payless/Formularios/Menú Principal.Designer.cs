@@ -30,19 +30,20 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menú_Principal));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.lblReportes = new System.Windows.Forms.Label();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.lblMantenimiento = new System.Windows.Forms.Label();
-            this.lblInventario = new System.Windows.Forms.Label();
             this.lblCaja = new System.Windows.Forms.Label();
-            this.lblCredito = new System.Windows.Forms.Label();
-            this.lblVenta = new System.Windows.Forms.Label();
-            this.lblCompras = new System.Windows.Forms.Label();
-            this.lblProductos = new System.Windows.Forms.Label();
-            this.lblUsuarios = new System.Windows.Forms.Label();
-            this.lblCliente = new System.Windows.Forms.Label();
             this.lblProveedores = new System.Windows.Forms.Label();
+            this.lblCliente = new System.Windows.Forms.Label();
+            this.lblUsuarios = new System.Windows.Forms.Label();
+            this.lblProductos = new System.Windows.Forms.Label();
+            this.lblCompras = new System.Windows.Forms.Label();
+            this.lblVenta = new System.Windows.Forms.Label();
+            this.lblCredito = new System.Windows.Forms.Label();
+            this.lblInventario = new System.Windows.Forms.Label();
+            this.lblMantenimiento = new System.Windows.Forms.Label();
+            this.lblReportes = new System.Windows.Forms.Label();
+            this.lblAyuda = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.lblAcercaD = new System.Windows.Forms.Label();
@@ -57,6 +58,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
+            this.flowLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -67,19 +69,7 @@
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.Color.White;
-            this.groupBox1.Controls.Add(this.lblReportes);
-            this.groupBox1.Controls.Add(this.pictureBox1);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.lblMantenimiento);
-            this.groupBox1.Controls.Add(this.lblInventario);
-            this.groupBox1.Controls.Add(this.lblCaja);
-            this.groupBox1.Controls.Add(this.lblCredito);
-            this.groupBox1.Controls.Add(this.lblVenta);
-            this.groupBox1.Controls.Add(this.lblCompras);
-            this.groupBox1.Controls.Add(this.lblProductos);
-            this.groupBox1.Controls.Add(this.lblUsuarios);
-            this.groupBox1.Controls.Add(this.lblCliente);
-            this.groupBox1.Controls.Add(this.lblProveedores);
+            this.groupBox1.Controls.Add(this.flowLayoutPanel2);
             this.groupBox1.Location = new System.Drawing.Point(1, -25);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.groupBox1.Name = "groupBox1";
@@ -89,60 +79,153 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
-            // lblReportes
+            // flowLayoutPanel2
             // 
-            this.lblReportes.AutoSize = true;
-            this.lblReportes.BackColor = System.Drawing.Color.White;
-            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblReportes.ForeColor = System.Drawing.Color.Black;
-            this.lblReportes.Location = new System.Drawing.Point(7, 538);
-            this.lblReportes.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblReportes.Name = "lblReportes";
-            this.lblReportes.Size = new System.Drawing.Size(100, 19);
-            this.lblReportes.TabIndex = 133;
-            this.lblReportes.Text = "📋   Reportes";
-            this.lblReportes.Click += new System.EventHandler(this.label2_Click);
+            this.flowLayoutPanel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flowLayoutPanel2.Controls.Add(this.pictureBox1);
+            this.flowLayoutPanel2.Controls.Add(this.lblCaja);
+            this.flowLayoutPanel2.Controls.Add(this.lblUsuarios);
+            this.flowLayoutPanel2.Controls.Add(this.lblCliente);
+            this.flowLayoutPanel2.Controls.Add(this.lblProveedores);
+            this.flowLayoutPanel2.Controls.Add(this.lblProductos);
+            this.flowLayoutPanel2.Controls.Add(this.lblCompras);
+            this.flowLayoutPanel2.Controls.Add(this.lblVenta);
+            this.flowLayoutPanel2.Controls.Add(this.lblCredito);
+            this.flowLayoutPanel2.Controls.Add(this.lblInventario);
+            this.flowLayoutPanel2.Controls.Add(this.lblMantenimiento);
+            this.flowLayoutPanel2.Controls.Add(this.lblReportes);
+            this.flowLayoutPanel2.Controls.Add(this.lblAyuda);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(-12, 16);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 683);
+            this.flowLayoutPanel2.TabIndex = 0;
+            this.flowLayoutPanel2.WrapContents = false;
             // 
             // pictureBox1
             // 
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(18, 39);
+            this.pictureBox1.Location = new System.Drawing.Point(33, 26);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(33, 26, 3, 3);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(133, 88);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 132;
             this.pictureBox1.TabStop = false;
             // 
-            // label4
+            // lblCaja
             // 
-            this.label4.AutoSize = true;
-            this.label4.BackColor = System.Drawing.Color.Transparent;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(14, 647);
-            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(80, 19);
-            this.label4.TabIndex = 131;
-            this.label4.Text = "🆘   Ayuda";
+            this.lblCaja.AutoSize = true;
+            this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCaja.ForeColor = System.Drawing.Color.Black;
+            this.lblCaja.Location = new System.Drawing.Point(23, 127);
+            this.lblCaja.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblCaja.Name = "lblCaja";
+            this.lblCaja.Size = new System.Drawing.Size(69, 19);
+            this.lblCaja.TabIndex = 128;
+            this.lblCaja.Text = "💰   Caja";
+            this.lblCaja.Click += new System.EventHandler(this.lblCaja_Click_1);
             // 
-            // lblMantenimiento
+            // lblProveedores
             // 
-            this.lblMantenimiento.AutoSize = true;
-            this.lblMantenimiento.BackColor = System.Drawing.Color.Transparent;
-            this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMantenimiento.ForeColor = System.Drawing.Color.Black;
-            this.lblMantenimiento.Location = new System.Drawing.Point(6, 500);
-            this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblMantenimiento.Name = "lblMantenimiento";
-            this.lblMantenimiento.Size = new System.Drawing.Size(140, 19);
-            this.lblMantenimiento.TabIndex = 130;
-            this.lblMantenimiento.Text = "🛠️   Mantenimiento";
-            this.lblMantenimiento.Click += new System.EventHandler(this.label3_Click_1);
+            this.lblProveedores.AutoSize = true;
+            this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProveedores.ForeColor = System.Drawing.Color.Black;
+            this.lblProveedores.Location = new System.Drawing.Point(23, 262);
+            this.lblProveedores.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblProveedores.Name = "lblProveedores";
+            this.lblProveedores.Size = new System.Drawing.Size(122, 19);
+            this.lblProveedores.TabIndex = 121;
+            this.lblProveedores.Text = "🚚   Proveedores";
+            this.lblProveedores.Click += new System.EventHandler(this.lblProveedores_Click);
+            // 
+            // lblCliente
+            // 
+            this.lblCliente.AutoSize = true;
+            this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCliente.ForeColor = System.Drawing.Color.Black;
+            this.lblCliente.Location = new System.Drawing.Point(23, 217);
+            this.lblCliente.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblCliente.Name = "lblCliente";
+            this.lblCliente.Size = new System.Drawing.Size(94, 19);
+            this.lblCliente.TabIndex = 122;
+            this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
+            this.lblCliente.Click += new System.EventHandler(this.lblCliente_Click);
+            // 
+            // lblUsuarios
+            // 
+            this.lblUsuarios.AutoSize = true;
+            this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUsuarios.ForeColor = System.Drawing.Color.Black;
+            this.lblUsuarios.Location = new System.Drawing.Point(23, 172);
+            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblUsuarios.Name = "lblUsuarios";
+            this.lblUsuarios.Size = new System.Drawing.Size(97, 19);
+            this.lblUsuarios.TabIndex = 123;
+            this.lblUsuarios.Text = "👥   Usuarios";
+            this.lblUsuarios.Click += new System.EventHandler(this.lblUsuarios_Click);
+            // 
+            // lblProductos
+            // 
+            this.lblProductos.AutoSize = true;
+            this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblProductos.ForeColor = System.Drawing.Color.Black;
+            this.lblProductos.Location = new System.Drawing.Point(23, 307);
+            this.lblProductos.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblProductos.Name = "lblProductos";
+            this.lblProductos.Size = new System.Drawing.Size(104, 19);
+            this.lblProductos.TabIndex = 120;
+            this.lblProductos.Text = "🛍️   Productos";
+            this.lblProductos.Click += new System.EventHandler(this.lblProductos_Click);
+            // 
+            // lblCompras
+            // 
+            this.lblCompras.AutoSize = true;
+            this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCompras.ForeColor = System.Drawing.Color.Black;
+            this.lblCompras.Location = new System.Drawing.Point(23, 352);
+            this.lblCompras.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblCompras.Name = "lblCompras";
+            this.lblCompras.Size = new System.Drawing.Size(98, 19);
+            this.lblCompras.TabIndex = 124;
+            this.lblCompras.Text = "💳   Compras";
+            this.lblCompras.Click += new System.EventHandler(this.label21_Click);
+            // 
+            // lblVenta
+            // 
+            this.lblVenta.AutoSize = true;
+            this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVenta.ForeColor = System.Drawing.Color.Black;
+            this.lblVenta.Location = new System.Drawing.Point(23, 397);
+            this.lblVenta.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblVenta.Name = "lblVenta";
+            this.lblVenta.Size = new System.Drawing.Size(84, 19);
+            this.lblVenta.TabIndex = 125;
+            this.lblVenta.Text = "🛒   Ventas";
+            this.lblVenta.Click += new System.EventHandler(this.lblVenta_Click_1);
+            // 
+            // lblCredito
+            // 
+            this.lblCredito.AutoSize = true;
+            this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCredito.ForeColor = System.Drawing.Color.Black;
+            this.lblCredito.Location = new System.Drawing.Point(23, 442);
+            this.lblCredito.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblCredito.Name = "lblCredito";
+            this.lblCredito.Size = new System.Drawing.Size(88, 19);
+            this.lblCredito.TabIndex = 127;
+            this.lblCredito.Text = "🧾   Credito";
+            this.lblCredito.Click += new System.EventHandler(this.lblCredito_Click);
             // 
             // lblInventario
             // 
@@ -151,125 +234,58 @@
             this.lblInventario.Cursor = System.Windows.Forms.Cursors.Hand;
             this.lblInventario.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblInventario.ForeColor = System.Drawing.Color.Black;
-            this.lblInventario.Location = new System.Drawing.Point(7, 459);
-            this.lblInventario.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblInventario.Location = new System.Drawing.Point(23, 487);
+            this.lblInventario.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
             this.lblInventario.Name = "lblInventario";
             this.lblInventario.Size = new System.Drawing.Size(107, 19);
             this.lblInventario.TabIndex = 129;
             this.lblInventario.Text = "🏢   Inventario";
             this.lblInventario.Click += new System.EventHandler(this.label6_Click);
             // 
-            // lblCaja
+            // lblMantenimiento
             // 
-            this.lblCaja.AutoSize = true;
-            this.lblCaja.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCaja.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCaja.ForeColor = System.Drawing.Color.Black;
-            this.lblCaja.Location = new System.Drawing.Point(6, 143);
-            this.lblCaja.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCaja.Name = "lblCaja";
-            this.lblCaja.Size = new System.Drawing.Size(69, 19);
-            this.lblCaja.TabIndex = 128;
-            this.lblCaja.Text = "💰   Caja";
-            this.lblCaja.Click += new System.EventHandler(this.lblCaja_Click_1);
+            this.lblMantenimiento.AutoSize = true;
+            this.lblMantenimiento.BackColor = System.Drawing.Color.Transparent;
+            this.lblMantenimiento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblMantenimiento.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMantenimiento.ForeColor = System.Drawing.Color.Black;
+            this.lblMantenimiento.Location = new System.Drawing.Point(23, 532);
+            this.lblMantenimiento.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblMantenimiento.Name = "lblMantenimiento";
+            this.lblMantenimiento.Size = new System.Drawing.Size(140, 19);
+            this.lblMantenimiento.TabIndex = 130;
+            this.lblMantenimiento.Text = "🛠️   Mantenimiento";
+            this.lblMantenimiento.Click += new System.EventHandler(this.label3_Click_1);
             // 
-            // lblCredito
+            // lblReportes
             // 
-            this.lblCredito.AutoSize = true;
-            this.lblCredito.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCredito.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCredito.ForeColor = System.Drawing.Color.Black;
-            this.lblCredito.Location = new System.Drawing.Point(7, 421);
-            this.lblCredito.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCredito.Name = "lblCredito";
-            this.lblCredito.Size = new System.Drawing.Size(88, 19);
-            this.lblCredito.TabIndex = 127;
-            this.lblCredito.Text = "🧾   Credito";
-            this.lblCredito.Click += new System.EventHandler(this.lblCredito_Click);
+            this.lblReportes.AutoSize = true;
+            this.lblReportes.BackColor = System.Drawing.Color.White;
+            this.lblReportes.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblReportes.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblReportes.ForeColor = System.Drawing.Color.Black;
+            this.lblReportes.Location = new System.Drawing.Point(23, 577);
+            this.lblReportes.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblReportes.Name = "lblReportes";
+            this.lblReportes.Size = new System.Drawing.Size(100, 19);
+            this.lblReportes.TabIndex = 133;
+            this.lblReportes.Text = "📋   Reportes";
+            this.lblReportes.Click += new System.EventHandler(this.label2_Click);
             // 
-            // lblVenta
+            // lblAyuda
             // 
-            this.lblVenta.AutoSize = true;
-            this.lblVenta.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblVenta.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVenta.ForeColor = System.Drawing.Color.Black;
-            this.lblVenta.Location = new System.Drawing.Point(7, 377);
-            this.lblVenta.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblVenta.Name = "lblVenta";
-            this.lblVenta.Size = new System.Drawing.Size(84, 19);
-            this.lblVenta.TabIndex = 125;
-            this.lblVenta.Text = "🛒   Ventas";
-            this.lblVenta.Click += new System.EventHandler(this.lblVenta_Click_1);
-            // 
-            // lblCompras
-            // 
-            this.lblCompras.AutoSize = true;
-            this.lblCompras.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCompras.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCompras.ForeColor = System.Drawing.Color.Black;
-            this.lblCompras.Location = new System.Drawing.Point(7, 335);
-            this.lblCompras.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCompras.Name = "lblCompras";
-            this.lblCompras.Size = new System.Drawing.Size(98, 19);
-            this.lblCompras.TabIndex = 124;
-            this.lblCompras.Text = "💳   Compras";
-            this.lblCompras.Click += new System.EventHandler(this.label21_Click);
-            // 
-            // lblProductos
-            // 
-            this.lblProductos.AutoSize = true;
-            this.lblProductos.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblProductos.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProductos.ForeColor = System.Drawing.Color.Black;
-            this.lblProductos.Location = new System.Drawing.Point(7, 250);
-            this.lblProductos.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblProductos.Name = "lblProductos";
-            this.lblProductos.Size = new System.Drawing.Size(104, 19);
-            this.lblProductos.TabIndex = 120;
-            this.lblProductos.Text = "🛍️   Productos";
-            this.lblProductos.Click += new System.EventHandler(this.lblProductos_Click);
-            // 
-            // lblUsuarios
-            // 
-            this.lblUsuarios.AutoSize = true;
-            this.lblUsuarios.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblUsuarios.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblUsuarios.ForeColor = System.Drawing.Color.Black;
-            this.lblUsuarios.Location = new System.Drawing.Point(6, 175);
-            this.lblUsuarios.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblUsuarios.Name = "lblUsuarios";
-            this.lblUsuarios.Size = new System.Drawing.Size(97, 19);
-            this.lblUsuarios.TabIndex = 123;
-            this.lblUsuarios.Text = "👥   Usuarios";
-            this.lblUsuarios.Click += new System.EventHandler(this.lblUsuarios_Click);
-            // 
-            // lblCliente
-            // 
-            this.lblCliente.AutoSize = true;
-            this.lblCliente.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblCliente.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCliente.ForeColor = System.Drawing.Color.Black;
-            this.lblCliente.Location = new System.Drawing.Point(6, 213);
-            this.lblCliente.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblCliente.Name = "lblCliente";
-            this.lblCliente.Size = new System.Drawing.Size(94, 19);
-            this.lblCliente.TabIndex = 122;
-            this.lblCliente.Text = "🧑‍🤝‍🧑   Clientes";
-            this.lblCliente.Click += new System.EventHandler(this.lblCliente_Click);
-            // 
-            // lblProveedores
-            // 
-            this.lblProveedores.AutoSize = true;
-            this.lblProveedores.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblProveedores.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblProveedores.ForeColor = System.Drawing.Color.Black;
-            this.lblProveedores.Location = new System.Drawing.Point(6, 293);
-            this.lblProveedores.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblProveedores.Name = "lblProveedores";
-            this.lblProveedores.Size = new System.Drawing.Size(122, 19);
-            this.lblProveedores.TabIndex = 121;
-            this.lblProveedores.Text = "🚚   Proveedores";
-            this.lblProveedores.Click += new System.EventHandler(this.lblProveedores_Click);
+            this.lblAyuda.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblAyuda.AutoSize = true;
+            this.lblAyuda.BackColor = System.Drawing.Color.Transparent;
+            this.lblAyuda.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lblAyuda.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAyuda.ForeColor = System.Drawing.Color.Black;
+            this.lblAyuda.Location = new System.Drawing.Point(23, 622);
+            this.lblAyuda.Margin = new System.Windows.Forms.Padding(23, 10, 4, 16);
+            this.lblAyuda.Name = "lblAyuda";
+            this.lblAyuda.Size = new System.Drawing.Size(80, 19);
+            this.lblAyuda.TabIndex = 131;
+            this.lblAyuda.Text = "🆘   Ayuda";
             // 
             // panel2
             // 
@@ -453,7 +469,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1121, 666);
+            this.ClientSize = new System.Drawing.Size(1121, 661);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -472,7 +488,8 @@
             this.Text = "Menú_Principal";
             this.Load += new System.EventHandler(this.Menú_Principal_Load);
             this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.flowLayoutPanel2.ResumeLayout(false);
+            this.flowLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -503,7 +520,7 @@
         private System.Windows.Forms.Label lblProductos;
         private System.Windows.Forms.Label lblInventario;
         private System.Windows.Forms.Label lblMantenimiento;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblAyuda;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label lblUsuario;
@@ -513,5 +530,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
     }
 }

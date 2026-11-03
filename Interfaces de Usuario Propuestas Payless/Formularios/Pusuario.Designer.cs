@@ -54,6 +54,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.txtGmail = new System.Windows.Forms.TextBox();
             this.btnVerPassword = new System.Windows.Forms.Button();
             this.btnConfirmarVC = new System.Windows.Forms.Button();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -112,9 +120,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.label3.Location = new System.Drawing.Point(13, 140);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(127, 19);
+            this.label3.Size = new System.Drawing.Size(131, 19);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Nombre completo";
+            this.label3.Text = "Nombre Completo";
             // 
             // label4
             // 
@@ -178,9 +186,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.label10.Location = new System.Drawing.Point(405, 182);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(49, 19);
+            this.label10.Size = new System.Drawing.Size(56, 19);
             this.label10.TabIndex = 9;
-            this.label10.Text = "Gmail";
+            this.label10.Text = "Correo";
             // 
             // btnGuardar
             // 
@@ -213,8 +221,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.cmbRol.FormattingEnabled = true;
             this.cmbRol.Location = new System.Drawing.Point(173, 264);
             this.cmbRol.Name = "cmbRol";
-            this.cmbRol.Size = new System.Drawing.Size(140, 27);
+            this.cmbRol.Size = new System.Drawing.Size(168, 27);
             this.cmbRol.TabIndex = 12;
+            this.cmbRol.SelectedIndexChanged += new System.EventHandler(this.cmbRol_SelectedIndexChanged);
             // 
             // txtUsuario
             // 
@@ -273,9 +282,9 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.btnVerPassword.FlatAppearance.BorderSize = 0;
             this.btnVerPassword.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnVerPassword.ForeColor = System.Drawing.Color.Black;
-            this.btnVerPassword.Location = new System.Drawing.Point(347, 215);
+            this.btnVerPassword.Location = new System.Drawing.Point(346, 175);
             this.btnVerPassword.Name = "btnVerPassword";
-            this.btnVerPassword.Size = new System.Drawing.Size(41, 31);
+            this.btnVerPassword.Size = new System.Drawing.Size(27, 26);
             this.btnVerPassword.TabIndex = 21;
             this.btnVerPassword.Text = "👁️";
             this.btnVerPassword.UseVisualStyleBackColor = false;
@@ -287,13 +296,109 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.btnConfirmarVC.FlatAppearance.BorderSize = 0;
             this.btnConfirmarVC.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConfirmarVC.ForeColor = System.Drawing.Color.Black;
-            this.btnConfirmarVC.Location = new System.Drawing.Point(347, 175);
+            this.btnConfirmarVC.Location = new System.Drawing.Point(346, 215);
             this.btnConfirmarVC.Name = "btnConfirmarVC";
-            this.btnConfirmarVC.Size = new System.Drawing.Size(41, 31);
+            this.btnConfirmarVC.Size = new System.Drawing.Size(27, 26);
             this.btnConfirmarVC.TabIndex = 22;
             this.btnConfirmarVC.Text = "👁️";
             this.btnConfirmarVC.UseVisualStyleBackColor = false;
             this.btnConfirmarVC.Click += new System.EventHandler(this.btnConfirmarVC_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Red;
+            this.label7.Location = new System.Drawing.Point(348, 94);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(17, 19);
+            this.label7.TabIndex = 23;
+            this.label7.Text = "*";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Red;
+            this.label11.Location = new System.Drawing.Point(348, 137);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(17, 19);
+            this.label11.TabIndex = 24;
+            this.label11.Text = "*";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.Red;
+            this.label12.Location = new System.Drawing.Point(787, 93);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(17, 19);
+            this.label12.TabIndex = 25;
+            this.label12.Text = "*";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.Red;
+            this.label13.Location = new System.Drawing.Point(787, 137);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(17, 19);
+            this.label13.TabIndex = 26;
+            this.label13.Text = "*";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.Color.Red;
+            this.label14.Location = new System.Drawing.Point(787, 175);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(17, 19);
+            this.label14.TabIndex = 27;
+            this.label14.Text = "*";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.Red;
+            this.label15.Location = new System.Drawing.Point(370, 215);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(17, 19);
+            this.label15.TabIndex = 28;
+            this.label15.Text = "*";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.Red;
+            this.label16.Location = new System.Drawing.Point(370, 175);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(17, 19);
+            this.label16.TabIndex = 29;
+            this.label16.Text = "*";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.Red;
+            this.label17.Location = new System.Drawing.Point(348, 264);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(17, 19);
+            this.label17.TabIndex = 30;
+            this.label17.Text = "*";
             // 
             // Pusuario
             // 
@@ -301,6 +406,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(817, 386);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.btnConfirmarVC);
             this.Controls.Add(this.btnVerPassword);
             this.Controls.Add(this.txtGmail);
@@ -361,5 +474,13 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
         private System.Windows.Forms.TextBox txtGmail;
         private System.Windows.Forms.Button btnVerPassword;
         private System.Windows.Forms.Button btnConfirmarVC;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
     }
 }

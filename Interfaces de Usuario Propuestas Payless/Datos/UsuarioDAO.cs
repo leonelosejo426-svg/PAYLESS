@@ -668,5 +668,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.CerrarConexion();
             }
         }
+
+        public int ContarUsuariosPorRol(string nombreRol, int idExcluir = 0)
+        {
+            try
+            {
+                conexionBD.AbrirConexion();
+                string sql = @"SELECT COUNT(*) FROM usuario u 
+                       INNER JOIN rol r ON u.id_rol = r.id_rol 
+                       WHERE LOWER(r.nombre_rol) = LOWER(@nombreRol) 
+                       AND u.id_usuario <> @idExcluir;";
+                using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@nombreRol", nombreRol);
+                    cmd.Parameters.AddWithValue("@idExcluir", idExcluir);
+                    return Convert.ToInt32(cmd.ExecuteScalar());
+                }
+            }
+            finally
+            {
+                conexionBD.CerrarConexion();
+            }
+        }
     }
 }

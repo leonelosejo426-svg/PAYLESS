@@ -38,6 +38,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
         private void NuevaVenta_Load(object sender, EventArgs e)
         {
+            colIdProductoTalla.Visible = false;
+
             lblUsuario.Text = ClaseSesion.UsuarioActual;
 
             txtCantidad.KeyPress += (s, ev) =>
@@ -405,7 +407,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
 
@@ -417,7 +418,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
 
@@ -429,7 +429,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
 
@@ -452,7 +451,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
 
@@ -464,59 +462,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
 
-            // =========================================================================
-            // NUEVA VALIDACIÓN DE STOCK MÍNIMO CON ALERTA OK/CANCEL
-            // =========================================================================
-
-            
-            int stockMinimoBD = 5; 
-
-            // Calculamos cuánto es lo máximo que se puede vender respetando el stock mínimo
-            int cantidadMaximaPermitida = stock - stockMinimoBD;
-
-            // Si la cantidad que quiere vender supera lo permitido por el stock mínimo:
-            if (cantidad > cantidadMaximaPermitida)
-            {
-                if (cantidadMaximaPermitida <= 0)
-                {
-                    MessageBox.Show(
-                        "No se puede realizar la venta. El producto se encuentra en su límite de stock mínimo.",
-                        "Stock Insuficiente",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                    return false;
-                }
-
-                // Mostramos la alerta con OK / Cancel
-                DialogResult respuesta = MessageBox.Show(
-                    $"¡Alerta de Stock Mínimo!\n\n" +
-                    $"Si vende {cantidad} unidades, se quedará sin stock o por debajo del mínimo permitido ({stockMinimoBD}).\n\n" +
-                    $"La cantidad máxima que puede vender respetando el stock mínimo es de: {cantidadMaximaPermitida} unidades.\n\n" +
-                    $"¿Desea agregar únicamente los {cantidadMaximaPermitida} productos permitidos?",
-                    "Advertencia de Stock Mínimo",
-                    MessageBoxButtons.OKCancel,
-                    MessageBoxIcon.Question
-                );
-
-                if (respuesta == DialogResult.OK)
-                {
-                    // Forzamos el TextBox de cantidad a que tome solo lo permitido automáticamente
-                    txtCantidad.Text = cantidadMaximaPermitida.ToString();
-                    return true; // Permite continuar y agregar los productos ajustados
-                }
-                else
-                {
-                    // Si le da en Cancelar, frena el proceso
-                    return false;
-                }
-            }
-            // =========================================================================
-
+            // Única restricción de cantidad: que no supere el stock real disponible (permite comprar los 60 de 60)
             if (cantidad > stock)
             {
                 MessageBox.Show(
@@ -526,9 +475,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
-
                 return false;
             }
+
+            // =========================================================================
+            // 🌟 ALERTA DE STOCK BAJO (Si el stock restante es menor o igual a 5)
+            // =========================================================================
+            int stockMinimoBD = 5;
+            int stockRestanteProyectado = stock - cantidad;
+
+            if (stockRestanteProyectado <= stockMinimoBD)
+            {
+                MessageBox.Show(
+                    $"⚠️ **¡Alerta de Stock Bajo!**\n\n" +
+                    $"El producto **'{CBproducto.Text}'** (Talla: {CBTalla.Text}) quedará con un stock crítico de **{stockRestanteProyectado} unidades** (menor o igual al mínimo permitido de {stockMinimoBD}).",
+                    "⚠️ Stock Bajo",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+            }
+            // =========================================================================
 
             return true;
         }
@@ -776,7 +742,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
 
             decimal subtotal = listaDetalleVenta.ObtenerSubtotal();
 
-            // CORREGIDO: Se agregó el operador de multiplicación (*)
+            // 🌟 CORREGIDO: Se agregó el operador de multiplicación (*)
             decimal iva = subtotal * 0.15m;
 
             decimal total = subtotal + iva;
@@ -819,6 +785,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 return;
             }
 
+
             // Abrimos el formulario de pago pasando todos los datos necesarios
             SubFormaPagoV formaPago = new SubFormaPagoV(
                 txtCodigoVenta.Text,
@@ -843,7 +810,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 listaDetalleVenta.Limpiar();
                 dgvDetalleVenta.Rows.Clear();
 
-                MessageBox.Show("Venta registrada con éxito.", "Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // 🌟 ACTUALIZAR EL CÓDIGO DE VENTA EN TIEMPO REAL
+                VentaDAO ventaDAO = new VentaDAO();
+                txtCodigoVenta.Text = ventaDAO.GenerarCodigoVenta();
+
+               
             }
             else
             {
@@ -851,6 +822,34 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Entidades
                 // NO HACEMOS NADA. El carrito y los productos se conservan intactos.
             }
         }
+
+
+
+
+        private void PrepararNuevaVenta()
+        {
+            // 1. Limpiar la tabla y la lista de detalles
+            dgvDetalleVenta.Rows.Clear();
+            if (listaDetalleVenta != null)
+            {
+                listaDetalleVenta.Limpiar(); // O tu método para vaciar el carrito
+            }
+
+            // 2. Limpiar campos y reiniciar selecciones
+            CBcliente.SelectedIndex = -1;
+            CBproducto.SelectedIndex = -1;
+
+            // 3. Generar y mostrar el NUEVO código de venta en tiempo real usando tu método real
+            txtCodigoVenta.Text = ventaDAO.GenerarCodigoVenta();
+
+            // 4. Reiniciar etiquetas de totales en pantalla
+            // (Ajusta los nombres de tus Labels si son diferentes)
+            lblSubtotal.Text = "C$ 0.00";
+            lblIVA.Text = "C$ 0.00";
+            lblTotal.Text = "C$ 0.00";
+        }
+
+
 
         private DataTable CrearDetalleVenta()
         {

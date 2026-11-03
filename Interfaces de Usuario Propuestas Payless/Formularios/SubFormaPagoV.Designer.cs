@@ -418,6 +418,7 @@
             this.txtMontoDolares.Name = "txtMontoDolares";
             this.txtMontoDolares.Size = new System.Drawing.Size(187, 35);
             this.txtMontoDolares.TabIndex = 132;
+            this.txtMontoDolares.TextChanged += new System.EventHandler(this.txtMontoDolares_TextChanged_1);
             // 
             // label28
             // 
@@ -453,6 +454,7 @@
             this.txtMontoCordobas.Name = "txtMontoCordobas";
             this.txtMontoCordobas.Size = new System.Drawing.Size(187, 35);
             this.txtMontoCordobas.TabIndex = 129;
+            this.txtMontoCordobas.TextChanged += new System.EventHandler(this.txtMontoCordobas_TextChanged_1);
             // 
             // label31
             // 

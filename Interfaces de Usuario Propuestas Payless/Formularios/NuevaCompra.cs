@@ -232,178 +232,97 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 return;
             }
 
-            // =====================================================
-            // VALIDACIÓN DE TALLA (Solo números, formato 45 o 45.1)
-            // =====================================================
             string tallaTexto = txtTalla.Text.Trim().Replace(",", ".");
-            bool formatoTallaValido = System.Text.RegularExpressions.Regex.IsMatch(tallaTexto, @"^\d{1,2}(\.\d)?$");
-
-            if (string.IsNullOrWhiteSpace(tallaTexto) || !formatoTallaValido)
+            if (string.IsNullOrWhiteSpace(tallaTexto))
             {
-                MessageBox.Show(
-                    "Ingrese una talla válida.\nDebe ser un número entero o con un solo decimal (Ejemplo: 42 o 42.5).",
-                    "Validación de Talla",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("Ingrese una talla válida.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtTalla.Focus();
                 return;
             }
 
-            // =====================================================
-            // VALIDACIÓN DE PRECIO DE COMPRA
-            // =====================================================
-            string precioCompraTexto = txtPrecioCompra.Text.Trim().Replace(",", ".");
-            if (!decimal.TryParse(precioCompraTexto, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal precioCompra) || precioCompra <= 0)
+            if (!decimal.TryParse(txtPrecioCompra.Text.Trim().Replace(",", "."), out decimal precioCompra) || precioCompra <= 0)
             {
-                MessageBox.Show(
-                    "Ingrese un precio de compra válido mayor a cero.",
-                    "Validación de Precio",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("Ingrese un precio de compra válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPrecioCompra.Focus();
                 return;
             }
 
-            // =====================================================
-            // VALIDACIÓN DE PRECIO DE VENTA
-            // =====================================================
-            string precioVentaTexto = txtPrecioVenta.Text.Trim().Replace(",", ".");
-            if (!decimal.TryParse(precioVentaTexto, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out decimal precioVenta) || precioVenta <= 0)
+            if (!decimal.TryParse(txtPrecioVenta.Text.Trim().Replace(",", "."), out decimal precioVenta) || precioVenta <= 0)
             {
-                MessageBox.Show(
-                    "Ingrese un precio de venta válido mayor a cero.",
-                    "Validación de Precio",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("Ingrese un precio de venta válido.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtPrecioVenta.Focus();
                 return;
             }
 
-            // =====================================================
-            // VALIDACIÓN: PRECIO DE COMPRA MENOR AL DE VENTA
-            // =====================================================
-            if (precioCompra >= precioVenta)
-            {
-                MessageBox.Show(
-                    "El precio de venta debe de ser mayor a precio compra.",
-                    "Validación de Precios",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
-                txtPrecioVenta.Focus();
-                return;
-            }
-
-            // =====================================================
-            // RECOMENDACIÓN DE MARGEN (Mínimo 20% expresado en C$)
-            // =====================================================
-            decimal precioRecomendado = precioCompra * 1.20m; // Se le suma el 20% al precio de compra
-
-            if (precioVenta < precioRecomendado)
-            {
-                DialogResult confirmacion = MessageBox.Show(
-                    $"SUGERENCIA DE PRECIO DE VENTA:\n\n" +
-                    $"• Precio de Compra: C$ {precioCompra:N2}\n" +
-                    $"• Precio de Venta Ingresado: C$ {precioVenta:N2}\n" +
-                    $"• Precio Recomendado (+20%): C$ {precioRecomendado:N2}\n\n" +
-                    $"El precio ingresado es menor a la recomendación de C$ {precioRecomendado:N2}.\n" +
-                    $"¿Desea continuar e ingresar este precio de todas formas?",
-                    "Recomendación de Margen",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
-
-                if (confirmacion == DialogResult.No)
-                {
-                    txtPrecioVenta.Focus();
-                    return;
-                }
-            }
-
-            // =====================================================
-            // VALIDACIÓN DE CANTIDAD
-            // =====================================================
             if (!int.TryParse(txtCantidad.Text.Trim(), out int cantidad) || cantidad <= 0)
             {
-                MessageBox.Show(
-                    "Ingrese una cantidad válida mayor a cero.",
-                    "Validación de Cantidad",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning
-                );
+                MessageBox.Show("Ingrese una cantidad válida mayor a cero.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtCantidad.Focus();
                 return;
             }
 
-            DataRowView producto = cbProducto.SelectedItem as DataRowView;
-            if (producto == null) return;
+            DataRowView productoSel = cbProducto.SelectedItem as DataRowView;
+            if (productoSel == null) return;
+            int idProducto = Convert.ToInt32(productoSel["id_producto"]);
 
-            int idProducto = Convert.ToInt32(producto["id_producto"]);
+            // =========================================================================
+            // 🌟 VALIDACIÓN DE STOCK MÁXIMO AL AGREGAR A LA LISTA
+            // =========================================================================
+            var (stockActual, stockMaximo) = productoDAO.ObtenerStockActualYMaximo(idProducto, tallaTexto);
 
-            // 1. VERIFICAR SI YA EXISTE EL PRODUCTO CON LA MISMA TALLA EN LA LISTA
-            NodoDetalleCompra nodoExistente = listaDetalleCompra.BuscarPorProductoYTalla(idProducto, tallaTexto);
-
-            if (nodoExistente != null)
+            int cantidadEnGrilla = 0;
+            NodoDetalleCompra nodoExistenteEnLista = listaDetalleCompra.BuscarPorProductoYTalla(idProducto, tallaTexto);
+            if (nodoExistenteEnLista != null)
             {
-                // CASO A: Misma talla y MISMOS precios -> Se suman las cantidades
-                if (nodoExistente.PrecioCompra == precioCompra && nodoExistente.PrecioVenta == precioVenta)
-                {
-                    nodoExistente.Cantidad += cantidad;
-                    nodoExistente.Subtotal = nodoExistente.PrecioCompra * nodoExistente.Cantidad;
+                cantidadEnGrilla = nodoExistenteEnLista.Cantidad;
+            }
 
-                    MessageBox.Show(
-                        "El producto ya se encontraba en el detalle con la misma talla y precios. Se ha actualizado sumando la cantidad.",
-                        "Cantidad Actualizada",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                }
-                // CASO B: Misma talla pero DIFERENTES precios -> BLOQUEO y mensaje de advertencia
-                else
-                {
-                    MessageBox.Show(
-                        $"Ya existe el producto '{nodoExistente.Producto}' con la talla {tallaTexto}, pero con precios diferentes:\n\n" +
-                        $"• Registrado en lista -> Compra: C$ {nodoExistente.PrecioCompra:N2} | Venta: C$ {nodoExistente.PrecioVenta:N2}\n" +
-                        $"• Intentando agregar -> Compra: C$ {precioCompra:N2} | Venta: C$ {precioVenta:N2}\n\n" +
-                        $"No se puede agregar el mismo producto/talla con precios distintos. Debe eliminar el registro anterior o cambiar los precios.",
-                        "Conflicto de Precios",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning
-                    );
-                    txtPrecioCompra.Focus();
-                    return;
-                }
+            int stockFinalProyectado = stockActual + cantidadEnGrilla + cantidad;
+
+            if (stockMaximo > 0 && stockFinalProyectado > stockMaximo)
+            {
+                MessageBox.Show(
+                    $"⚠️ No se puede agregar esta cantidad al detalle:\n\n" +
+                    $"• Producto: {productoSel["nombre"]} (Talla {tallaTexto})\n" +
+                    $"• Stock Actual en BD: {stockActual}\n" +
+                    $"• Ya en lista de compra: {cantidadEnGrilla}\n" +
+                    $"• Cantidad que intenta agregar: {cantidad}\n" +
+                    $"• Total resultante ({stockFinalProyectado}) supera el Stock Máximo permitido ({stockMaximo}).",
+                    "⚠️ Límite de Stock Máximo Exceeded", // <-- Título claro de la alerta
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
+                txtCantidad.Focus();
+                return; // Se detiene y NO agrega a la tabla
+            }
+            // =========================================================================
+
+            if (nodoExistenteEnLista != null)
+            {
+                nodoExistenteEnLista.Cantidad += cantidad;
+                nodoExistenteEnLista.Subtotal = nodoExistenteEnLista.PrecioCompra * nodoExistenteEnLista.Cantidad;
             }
             else
             {
-                // CASO C: Es completamente nuevo o tiene otra talla -> Se crea una fila nueva
-                decimal subtotal = precioCompra * cantidad;
-
                 NodoDetalleCompra nuevo = new NodoDetalleCompra
                 {
-                    IdProducto = idProducto,
-                    Producto = producto["nombre"].ToString(),
-                    Categoria = producto["nombre_categoria"].ToString(),
-                    Marca = producto["nombre_marca"].ToString(),
+                    
+                    Producto = productoSel["nombre"].ToString(),
+                    Categoria = cbCategoria.Text,
+                    Marca = cbMarca.Text,
                     Talla = tallaTexto,
                     PrecioCompra = precioCompra,
                     PrecioVenta = precioVenta,
                     Cantidad = cantidad,
-                    Subtotal = subtotal
+                    Subtotal = precioCompra * cantidad // 🌟 Corregido aquí
                 };
-
                 listaDetalleCompra.Agregar(nuevo);
             }
 
-            // 2. Refrescar la grilla y recalcular totales
             ActualizarGridDetalle();
             CalcularTotales();
             LimpiarCamposProducto();
         }
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (listaDetalleCompra.EstaVacia())
@@ -432,7 +351,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             while (actual != null)
             {
                 dgvDetalleCompra.Rows.Add(
-                    actual.IdProducto,     // Columna 0: ID
+                   
                     actual.Producto,       // Columna 1: Producto
                     actual.Categoria,      // Columna 2: Categoría
                     actual.Marca,          // Columna 3: Marca
@@ -485,16 +404,21 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             }
 
             decimal subtotal = listaDetalleCompra.ObtenerSubtotal();
-            decimal total = subtotal + (subtotal * 0.15m);
+            decimal total = subtotal + (subtotal * 0.15m); // 🌟 Corregido el operador de multiplicación aquí
             int idProveedor = Convert.ToInt32(cbProveedor.SelectedValue);
+
+            // 🛡️ Bloquear el botón inmediatamente para evitar doble clic accidental
+            btnGuardarCompra.Enabled = false;
 
             try
             {
+                // Envía la compra completa al DAO para ejecutar la transacción en la BD
                 int idCompra = compraDAO.RegistrarCompraTransaccional(idProveedor, total, listaDetalleCompra);
 
                 lblNoCompra.Text = idCompra.ToString();
                 MessageBox.Show("Compra guardada e inventario actualizado correctamente.");
 
+                // Limpieza de la pantalla tras un registro exitoso
                 listaDetalleCompra.Limpiar();
                 dgvDetalleCompra.Rows.Clear();
 
@@ -510,6 +434,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             catch (Exception ex)
             {
                 MessageBox.Show("Error al guardar la compra:\n" + ex.Message);
+            }
+            finally
+            {
+                // 🔓 Volver a habilitar el botón al terminar (exitoso o con error)
+                btnGuardarCompra.Enabled = true;
             }
         }
 

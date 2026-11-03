@@ -20,7 +20,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 {
     public partial class SubFormaPagoV : Form
     {
-
+        private bool pagoConfirmadoExitosamente = false; 
 
 
         private VentaDAO ventaDAO;
@@ -85,22 +85,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void SubFormaPagoV_Load(object sender, EventArgs e)
         {
-            txtDigitosTarjeta.KeyPress += (s, ev) =>
-            {
-                // Permitir solo dígitos y control (como backspace)
-                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar))
-                {
-                    ev.Handled = true;
-                }
-            };
-            txtMontoCordobas.KeyPress += (s, ev) =>
-            {
-                // Permitir solo dígitos, punto decimal y control (como backspace)
-                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
-                {
-                    ev.Handled = true;
-                }
-            };
             txtDigitosTarjeta.MaxLength = 4;
             txtDigitosTarjeta.KeyPress += (s, ev) =>
             {
@@ -110,6 +94,32 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     ev.Handled = true;
                 }
             };
+
+            // =========================================================================
+            // 🌟 USAR KeyPressEventHandler EN LUGAR DE EventHandler
+            // =========================================================================
+            KeyPressEventHandler validarDecimalKeyPress = (s, ev) =>
+            {
+                TextBox txt = s as TextBox;
+
+                // Permitir números, tecla de retroceso (Backspace) y el punto decimal (.)
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true;
+                }
+
+                // Bloquear si el usuario intenta escribir un segundo punto decimal
+                if (ev.KeyChar == '.' && txt.Text.Contains("."))
+                {
+                    ev.Handled = true;
+                }
+            };
+
+            // Aplicar el evento de validación decimal a ambos TextBox de montos
+            txtMontoCordobas.KeyPress += validarDecimalKeyPress;
+            txtMontoDolares.KeyPress += validarDecimalKeyPress;
+            // =========================================================================
+
             try
             {
                 CargarInformacionVenta();
@@ -118,9 +128,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
                 rbEfectivo.Checked = true;
 
-                // ==========================================
-                // FORZAR LA CONEXIÓN DE LOS EVENTOS DE TEXTO
-                // ==========================================
+                // Forzar la conexión de los eventos de texto
                 txtMontoCordobas.TextChanged -= txtMontoCordobas_TextChanged;
                 txtMontoCordobas.TextChanged += txtMontoCordobas_TextChanged;
 
@@ -136,8 +144,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                     MessageBoxIcon.Error
                 );
             }
-
-
         }
 
         // =====================================================
@@ -297,6 +303,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             if (string.IsNullOrWhiteSpace(texto))
                 return 0;
 
+            // 🌟 1. Eliminamos las comas que usa el formato de miles (Ej: "32,300" se vuelve "32300")
+            texto = texto.Replace(",", "").Trim();
+
+            // 🌟 2. Aseguramos que el punto sea reconocido como separador decimal universal
             texto = texto.Replace(",", ".");
 
             if (decimal.TryParse(
@@ -464,24 +474,27 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
     string tipoTarjeta,
     decimal montoTarjeta)
         {
-            bool resultado =
-                ventaDAO.RegistrarVentaConPago(
-                    codigoVenta,
-                    idCliente,
-                    idUsuario,
-                    idCaja,
-                    subtotal,
-                    iva,
-                    total,
-                    tipoPago,
-                    montoCordobas,
-                    montoDolares,
-                    tipoCambioActual,
-                    cambio,
-                    tipoTarjeta,
-                    montoTarjeta,
-                    detalleVenta
-                );
+            // 🌟 Declaramos la variable out requerida por el nuevo método de VentaDAO
+            List<string> productosStockBajo;
+
+            bool resultado = ventaDAO.RegistrarVentaConPago(
+                codigoVenta,
+                idCliente,
+                idUsuario,
+                idCaja,
+                subtotal,
+                iva,
+                total,
+                tipoPago,
+                montoCordobas,
+                montoDolares,
+                tipoCambioActual,
+                cambio,
+                tipoTarjeta,
+                montoTarjeta,
+                detalleVenta,
+                out productosStockBajo // <-- Parámetro exigido por el DAO actualizado
+            );
 
             if (!resultado)
             {
@@ -499,7 +512,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
             btnConfirmarPago.Enabled = false;
             btnImprimirFactura.Enabled = true;
 
-            // Mostramos el cambio de forma dinámica en el mensaje si fue pago en efectivo
             string mensajeCambio = tipoPago == "Efectivo" ? "\nCambio a devolver: C$ " + cambio.ToString("N2") : "\nMétodo: Pago con Tarjeta (" + tipoTarjeta + ")";
 
             MessageBox.Show(
@@ -511,9 +523,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
                 "Pago confirmado",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
-                
             );
-          
         }
 
         // =====================================================
@@ -846,9 +856,124 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Formularios
 
         private void btnCancelar_Click_1(object sender, EventArgs e)
         {
-            
-            this.DialogResult = DialogResult.Cancel;
+            if (pagoConfirmado) // O pagoConfirmadoExitosamente
+            {
+                // CASO 1: El pago YA se confirmó con éxito. 
+                // Si le da a cancelar ahora, entendemos que quiere cerrar la ventana de pago para iniciar una NUEVA VENTA (con todo reseteado).
+                this.DialogResult = DialogResult.OK; // Indicamos al formulario principal que limpie y prepare nueva venta
+            }
+            else
+            {
+                // CASO 2: El pago NO se ha confirmado (canceló porque faltó un producto o se arrepintió).
+                DialogResult respuesta = MessageBox.Show(
+                    "¿Desea cancelar el pago y volver a la venta para agregar más productos?",
+                    "Cancelar Pago",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (respuesta == DialogResult.Yes)
+                {
+                    this.DialogResult = DialogResult.Cancel; // Regresa normal a la venta actual con sus productos intactos
+                }
+                else
+                {
+                    return; // Se queda en la pantalla de pago si le dio a "No" por accidente
+                }
+            }
+
             this.Close();
+        }
+
+        private void txtMontoCordobas_TextChanged_1(object sender, EventArgs e)
+        {
+            txtMontoCordobas.TextChanged -= txtMontoCordobas_TextChanged_1;
+
+            try
+            {
+                string texto = txtMontoCordobas.Text.Trim();
+
+                if (texto.EndsWith("."))
+                {
+                    txtMontoCordobas.TextChanged += txtMontoCordobas_TextChanged_1;
+                    return;
+                }
+
+                string textoLimpio = texto.Replace(",", "");
+                if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal numero))
+                {
+                    txtMontoCordobas.Text = numero.ToString("#,##0.##", CultureInfo.InvariantCulture);
+
+                    // 🌟 Forzar el cursor siempre al final para que no salte a la mitad
+                    txtMontoCordobas.SelectionStart = txtMontoCordobas.Text.Length;
+                }
+            }
+            catch { }
+
+            txtMontoCordobas.TextChanged += txtMontoCordobas_TextChanged_1;
+            CalcularEfectivo();
+        }
+
+        private void txtMontoDolares_TextChanged_1(object sender, EventArgs e)
+        {
+            txtMontoDolares.TextChanged -= txtMontoDolares_TextChanged_1;
+
+            try
+            {
+                string texto = txtMontoDolares.Text.Trim();
+
+                if (texto.EndsWith("."))
+                {
+                    txtMontoDolares.TextChanged += txtMontoDolares_TextChanged_1;
+                    return;
+                }
+
+                string textoLimpio = texto.Replace(",", "");
+                if (decimal.TryParse(textoLimpio, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal numero))
+                {
+                    txtMontoDolares.Text = numero.ToString("#,##0.##", CultureInfo.InvariantCulture);
+
+                    // 🌟 Forzar el cursor siempre al final para que no salte a la mitad
+                    txtMontoDolares.SelectionStart = txtMontoDolares.Text.Length;
+                }
+            }
+            catch { }
+
+            txtMontoDolares.TextChanged += txtMontoDolares_TextChanged_1;
+            CalcularEfectivo();
+        }
+
+        private void ConfigurarEventosTecladoMontos()
+        {
+            // Evento KeyPress para Córdobas (permite números, controles y UN solo punto decimal)
+            txtMontoCordobas.KeyPress += (s, ev) =>
+            {
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true; // Bloquea cualquier otra letra o símbolo
+                }
+
+                // Permitir un solo punto decimal
+                if (ev.KeyChar == '.' && (s as TextBox).Text.IndexOf('.') > -1)
+                {
+                    ev.Handled = true;
+                }
+            };
+
+            // Evento KeyPress para Dólares (permite números, controles y UN solo punto decimal)
+            txtMontoDolares.KeyPress += (s, ev) =>
+            {
+                if (!char.IsControl(ev.KeyChar) && !char.IsDigit(ev.KeyChar) && ev.KeyChar != '.')
+                {
+                    ev.Handled = true;
+                }
+
+                // Permitir un solo punto decimal
+                if (ev.KeyChar == '.' && (s as TextBox).Text.IndexOf('.') > -1)
+                {
+                    ev.Handled = true;
+                }
+            };
         }
     }
 }

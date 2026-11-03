@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Threading.Tasks;
+using Interfaces_de_Usuario_Propuestas_Payless.Utilidades;
 using System.Windows.Forms;
 
 namespace Interfaces_de_Usuario_Propuestas_Payless
@@ -31,9 +32,38 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             InitializeComponent();
         }
 
+        private void ConfigurarMenuRoles()
+        {
+            string rol = ClaseSesion.RolActual;
+
+            bool esAdmin = (rol == "Administrador");
+            bool esGerente = (rol == "Gerente");
+            bool esCajero = (rol == "Cajero");
+
+            // Módulos que cambian según el rol (estos suben/bajan sin afectar a Ayuda)
+            lblMenu.Visible = esAdmin || esGerente || esCajero;
+            lblVenta.Visible = esAdmin || esGerente || esCajero;
+            lblCaja.Visible = esAdmin || esGerente || esCajero;
+            lblReportes.Visible = esAdmin || esGerente || esCajero;
+            lblCredito.Visible = esAdmin || esGerente;
+            lblInventario.Visible = esAdmin || esGerente;
+            lblCompras.Visible = esAdmin || esGerente;
+            lblCliente.Visible = esAdmin || esGerente || esCajero;
+            lblMantenimiento.Visible = esAdmin || esGerente;
+
+            lblProductos.Visible = esAdmin;
+            lblProveedores.Visible = esAdmin;
+            lblUsuarios.Visible = esAdmin;
+
+
+            // Ayuda se mantiene siempre visible y fija en la parte inferior gracias al Anchor = Bottom
+            lblAyuda.Visible = true;
+        }
+
         private void Reportes_Load(object sender, EventArgs e)
         {
-
+            btnGenerar.Visible = false;
+            ConfigurarMenuRoles();
 
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
@@ -44,9 +74,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
             lblCliente.Enabled = false;
-            lblCredito.Enabled = false;
+            lblVenta.Enabled = false;
             lblInventario.Enabled = false;
             lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
 
 
             switch (ClaseSesion.RolActual)
@@ -59,10 +90,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblMantenimiento.Enabled = true;
                     lblCliente.Enabled = true;
-                    lblCredito.Enabled = true;
+                    lblVenta.Enabled = true;
                     lblInventario.Enabled = true;
                     lblProveedores.Enabled = true;
                     lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
 
 
                     break;
@@ -72,6 +104,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblCaja.Enabled = true;
                     lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblReportes.Enabled = true;
+
 
                     break;
 
@@ -79,6 +117,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     lblCaja.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblReportes.Enabled = true;
 
                     break;
             }
@@ -267,65 +307,26 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void btnGenerar_Click(object sender, EventArgs e)
         {
-            if (cbTipoReporte.SelectedItem == null)
+            if (cbTipoReporte.SelectedItem == null || cbCriterio.SelectedItem == null)
             {
-                MessageBox.Show(
-                    "Seleccione un reporte.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Seleccione un reporte y un criterio.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (cbCriterio.SelectedItem == null)
-            {
-                MessageBox.Show(
-                    "Seleccione un criterio de consulta.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            bool usarFechas =
-                cbCriterio.SelectedItem.ToString()
-                == "Por período";
-
-            if (usarFechas &&
-                dtpFechaDesde.Value.Date >
-                dtpFechaHasta.Value.Date)
-            {
-                MessageBox.Show(
-                    "La fecha desde no puede ser mayor que la fecha hasta.",
-                    "Aviso",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
-                return;
-            }
-
-            string reporte =
-                cbTipoReporte.SelectedItem.ToString();
-
-            if (reporte == "Reporte de Caja")
-            {
-                GenerarReporteCaja(usarFechas);
-            }
-            else
-            {
-                MessageBox.Show(
-                    "Este reporte todavía no ha sido programado.",
-                    "Información",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-            }
+            // 🌟 1. Llamar la validación aquí antes de generar
+            ValidarFechasSeleccionadas();
         }
 
         
 
         private void btnImprimir_Click(object sender, EventArgs e)
+        {
+            EjecutarImpresion(true);
+           
+
+        }
+
+        private void EjecutarImpresion(bool esHistorico)
         {
             if (cbTipoReporte.SelectedItem == null)
             {
@@ -333,86 +334,191 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 return;
             }
 
-            if (tablaReporte == null || tablaReporte.Rows.Count == 0)
-            {
-                MessageBox.Show("No hay información para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             string reporte = cbTipoReporte.SelectedItem.ToString();
 
             try
             {
+                // ==========================================
+                // 1. REPORTE DE CAJA
+                // ==========================================
                 if (reporte == "Reporte de Caja")
                 {
-                    if (DGVtabla1.CurrentRow == null)
+                    if (esHistorico)
                     {
-                        MessageBox.Show("Seleccione una caja para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        // Copiamos la tabla actual para no afectar la visualización en pantalla
+                        DataTable datosParaImprimir = tablaReporte.Copy();
+
+                        // Eliminamos las columnas de ID para cumplir con la regla operativa en el PDF
+                        if (datosParaImprimir.Columns.Contains("ID Caja")) datosParaImprimir.Columns.Remove("ID Caja");
+                        if (datosParaImprimir.Columns.Contains("id_caja")) datosParaImprimir.Columns.Remove("id_caja");
+
+                        // Llama al método que imprime todo el histórico de cajas limpio en PDF
+                        GeneradorReporteCajaPDF.Generar(datosParaImprimir);
+                    }
+                    else
+                    {
+                        // Imprime individualmente la caja que tengas seleccionada en la tabla
+                        if (DGVtabla1.CurrentRow == null)
+                        {
+                            MessageBox.Show("Seleccione una caja de la tabla para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        int idCaja = Convert.ToInt32(DGVtabla1.CurrentRow.Cells["ID Caja"].Value);
+                        GeneradorReporteCajaPDF.Generar(tablaReporte, idCaja);
+                    }
+                }
+                // ==========================================
+                // 2. REPORTE DE PRODUCTOS
+                // ==========================================
+                else if (reporte == "Reporte de Productos")
+                {
+                    DataTable dtAImprimir;
+
+                    if (esHistorico)
+                    {
+                        dtAImprimir = reporteProductoDAO.ObtenerReporteProductos("Todos");
+                    }
+                    else
+                    {
+                        if (DGVtabla1.CurrentRow != null)
+                        {
+                            dtAImprimir = tablaReporte.Clone();
+                            DataRowView filaSeleccionada = (DataRowView)DGVtabla1.CurrentRow.DataBoundItem;
+                            dtAImprimir.ImportRow(filaSeleccionada.Row);
+                        }
+                        else
+                        {
+                            dtAImprimir = tablaReporte;
+                        }
+                    }
+
+                    if (dtAImprimir == null || dtAImprimir.Rows.Count == 0)
+                    {
+                        MessageBox.Show("No hay información para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    int idCaja = Convert.ToInt32(DGVtabla1.CurrentRow.Cells["ID Caja"].Value);
-                    GeneradorReporteCajaPDF.Generar(tablaReporte, idCaja);
+                    GeneradorReporteProductosPDF.Generar(dtAImprimir);
                 }
-                else if (reporte == "Reporte de Productos")
-                {
-                    GeneradorReporteProductosPDF.Generar(tablaReporte);
-                }
+                // ==========================================
+                // 3. REPORTE DE VENTAS
+                // ==========================================
                 else if (reporte == "Reporte de Ventas")
                 {
-                    bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+                    DataTable dtAImprimir;
+
+                    if (esHistorico)
+                    {
+                        dtAImprimir = reporteVentaDAO.ObtenerReporteVentas(DateTime.MinValue, DateTime.MaxValue, false, "Todos", "Todos");
+                    }
+                    else
+                    {
+                        if (DGVtabla1.CurrentRow != null)
+                        {
+                            dtAImprimir = tablaReporte.Clone();
+                            DataRowView filaSeleccionada = (DataRowView)DGVtabla1.CurrentRow.DataBoundItem;
+                            dtAImprimir.ImportRow(filaSeleccionada.Row);
+                        }
+                        else
+                        {
+                            dtAImprimir = tablaReporte;
+                        }
+                    }
+
+                    if (dtAImprimir == null || dtAImprimir.Rows.Count == 0)
+                    {
+                        MessageBox.Show("No hay información para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    bool usarFechas = !esHistorico && cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
                     string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
                     string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
 
-                    GeneradorReporteVentasPDF.Generar(
-                        tablaReporte,
-                        dtpFechaDesde.Value,
-                        dtpFechaHasta.Value,
-                        usarFechas,
-                        usuario,
-                        estado);
+                    GeneradorReporteVentasPDF.Generar(dtAImprimir, dtpFechaDesde.Value, dtpFechaHasta.Value, usarFechas, usuario, estado);
                 }
+                // ==========================================
+                // 4. REPORTE DE COMPRAS
+                // ==========================================
                 else if (reporte == "Reporte de Compras")
                 {
-                    bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+                    DataTable dtAImprimir;
+
+                    if (esHistorico)
+                    {
+                        dtAImprimir = reporteCompraDAO.ObtenerReporteCompras(DateTime.MinValue, DateTime.MaxValue, false, "Todos", "Todos");
+                    }
+                    else
+                    {
+                        if (DGVtabla1.CurrentRow != null)
+                        {
+                            dtAImprimir = tablaReporte.Clone();
+                            DataRowView filaSeleccionada = (DataRowView)DGVtabla1.CurrentRow.DataBoundItem;
+                            dtAImprimir.ImportRow(filaSeleccionada.Row);
+                        }
+                        else
+                        {
+                            dtAImprimir = tablaReporte;
+                        }
+                    }
+
+                    if (dtAImprimir == null || dtAImprimir.Rows.Count == 0)
+                    {
+                        MessageBox.Show("No hay información para imprimir.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    bool usarFechas = !esHistorico && cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
                     string usuario = cbUsuario.SelectedItem == null ? "Todos" : cbUsuario.SelectedItem.ToString();
                     string estado = cbEstado.SelectedItem == null ? "Todos" : cbEstado.SelectedItem.ToString();
 
-                    GeneradorReporteCompraPDF.Generar(
-                        tablaReporte,
-                        dtpFechaDesde.Value,
-                        dtpFechaHasta.Value,
-                        usarFechas,
-                        usuario,
-                        estado);
+                    GeneradorReporteCompraPDF.Generar(dtAImprimir, dtpFechaDesde.Value, dtpFechaHasta.Value, usarFechas, usuario, estado);
                 }
+                // ==========================================
+                // 5. REPORTE DE USUARIOS
+                // ==========================================
                 else if (reporte == "Reporte de Usuarios")
                 {
-                    // 1. Capturar los valores actuales de los filtros en la interfaz
                     string usuarioSeleccionado = cbUsuario != null && cbUsuario.SelectedItem != null ? cbUsuario.SelectedItem.ToString() : "Todos";
                     string rolSeleccionado = cbRol != null && cbRol.SelectedItem != null ? cbRol.SelectedItem.ToString() : "Todos";
                     string estadoSeleccionado = cbEstado != null && cbEstado.SelectedItem != null ? cbEstado.SelectedItem.ToString() : "Todos";
 
-                    // 2. Consultar los datos utilizando el DAO con los filtros específicos
                     ReporteUsuarioDAO dao = new ReporteUsuarioDAO();
-                    DataTable dt = dao.ObtenerReporteUsuarios(usuarioSeleccionado, rolSeleccionado, estadoSeleccionado);
+                    DataTable dt;
 
-                    // 3. Validar si hay registros antes de intentar imprimir
+                    if (esHistorico)
+                    {
+                        dt = dao.ObtenerReporteUsuarios("Todos", "Todos", "Todos");
+                    }
+                    else
+                    {
+                        if (DGVtabla1.CurrentRow != null)
+                        {
+                            dt = tablaReporte.Clone();
+                            DataRowView filaSeleccionada = (DataRowView)DGVtabla1.CurrentRow.DataBoundItem;
+                            dt.ImportRow(filaSeleccionada.Row);
+                        }
+                        else
+                        {
+                            dt = dao.ObtenerReporteUsuarios(usuarioSeleccionado, rolSeleccionado, estadoSeleccionado);
+                        }
+                    }
+
                     if (dt == null || dt.Rows.Count == 0)
                     {
-                        MessageBox.Show("No hay registros disponibles para exportar con los filtros seleccionados.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("No hay registros disponibles para exportar.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // 4. Llamar al generador de PDF corporativo que creamos
                     ReporteUsuariosPDF.GenerarReporte(dt, usuarioSeleccionado, rolSeleccionado, estadoSeleccionado);
                 }
+
+                MessageBox.Show("Reporte exportado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al imprimir el reporte:\n\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void ImprimirReporteCaja(int idCaja)
@@ -441,19 +547,29 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
         private void cbCriterio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cbCriterio.SelectedItem == null)
-                return;
+            if (cbCriterio.SelectedItem == null) return;
 
-            bool usarFechas =
-                cbCriterio.SelectedItem.ToString()
-                == "Por período";
-
+            bool usarFechas = cbCriterio.SelectedItem.ToString() == "Por período";
             dtpFechaDesde.Enabled = usarFechas;
             dtpFechaHasta.Enabled = usarFechas;
 
-            // Actualizar automáticamente
-            // cuando cambie el criterio
+            if (usarFechas)
+            {
+                // 🌟 2. Llamar aquí también
+                ValidarFechasSeleccionadas();
+            }
+
             GenerarReporteSeleccionado();
+        }
+
+        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
+        {
+            if (dtpFechaDesde.Enabled)
+            {
+                // 🌟 3. Llamar aquí al cambiar la fecha de inicio
+                ValidarFechasSeleccionadas();
+                GenerarReporteSeleccionado();
+            }
         }
 
 
@@ -535,7 +651,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             }
             else if (reporte == "Reporte de Productos")
             {
-                // Cambiar etiquetas dinámicamente para Productos
                 lblRol.Text = "Categoría:";
                 lblUsuario.Text = "Producto:";
 
@@ -543,17 +658,19 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 cbCriterio.Enabled = false;
 
                 cbUsuario.Enabled = true;
-                CargarProductosReporteProductos(); // Carga de productos
+                CargarProductosReporteProductos();
 
                 cbRol.Enabled = true;
-                CargarCategoriasReporteProductos(); // Carga de categorías desde la BD
+                CargarCategoriasReporteProductos();
 
                 cbEstado.Enabled = true;
                 dtpFechaDesde.Enabled = false;
                 dtpFechaHasta.Enabled = false;
 
-                CargarEstadosProductos();
+                // 🌟 NUEVO: Carga ordenada con opción de Stock Bajo
+                CargarEstadosProductosParaFiltroStock();
             }
+        
             else if (reporte == "Reporte de Usuarios")
             {
                 cbCriterio.SelectedIndex = 0;
@@ -595,7 +712,15 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
 
-
+        private void CargarEstadosProductosParaFiltroStock()
+        {
+            cbEstado.Items.Clear();
+            cbEstado.Items.Add("Todos");
+            cbEstado.Items.Add("Activo");
+            cbEstado.Items.Add("Inactivo");
+            cbEstado.Items.Add("Stock Bajo"); // Filtro prioritario requerido
+            cbEstado.SelectedIndex = 0;
+        }
 
 
 
@@ -658,11 +783,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             GenerarReporteSeleccionado();
         }
 
-        private void dtpFechaDesde_ValueChanged(object sender, EventArgs e)
-        {
-            if (dtpFechaDesde.Enabled)
-                GenerarReporteSeleccionado();
-        }
+        
 
         private void dtpFechaHasta_ValueChanged(object sender, EventArgs e)
         {
@@ -701,6 +822,60 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             else if (reporte == "Reporte de Compras")
             {
                 GenerarReporteCompras();
+            }
+            OcultarColumnasId();
+        }
+
+        private DateTime ObtenerPrimeraFechaSistema()
+        {
+            try
+            {
+                return new DateTime(2025, 1, 1); // Fecha base de respaldo segura para tu sistema
+            }
+            catch
+            {
+                return new DateTime(2025, 1, 1);
+            }
+        }
+
+        private void ValidarFechasSeleccionadas()
+        {
+            bool usarFechas = cbCriterio.SelectedItem != null && cbCriterio.SelectedItem.ToString() == "Por período";
+            if (!usarFechas) return;
+
+            DateTime primeraFechaPermitida = ObtenerPrimeraFechaSistema();
+            bool huboCorreccion = false;
+
+            // 1. Validar si la fecha "desde" es anterior al primer registro del sistema
+            if (dtpFechaDesde.Value.Date < primeraFechaPermitida.Date)
+            {
+                MessageBox.Show(
+                    $"La fecha de inicio no puede ser anterior al primer registro del sistema ({primeraFechaPermitida:dd/MM/yyyy}). Se ha restablecido a la fecha mínima permitida.",
+                    "Validación de Fecha",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                dtpFechaDesde.Value = primeraFechaPermitida; // Restablecer a la fecha por defecto segura
+                huboCorreccion = true;
+            }
+
+            // 2. Validar si la fecha "desde" es mayor que la fecha "hasta"
+            if (dtpFechaDesde.Value.Date > dtpFechaHasta.Value.Date)
+            {
+                MessageBox.Show(
+                    "La fecha 'desde' no puede ser mayor que la fecha 'hasta'. Se ha restablecido al valor correspondiente.",
+                    "Validación de Fecha",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+
+                dtpFechaDesde.Value = dtpFechaHasta.Value.Date;
+                huboCorreccion = true;
+            }
+
+            // 🌟 Si hubo una corrección automática, regeneramos el reporte de inmediato para que salgan los registros
+            if (huboCorreccion)
+            {
+                GenerarReporteSeleccionado();
             }
         }
 
@@ -824,14 +999,28 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     productoFiltro = cbUsuario.Text.Trim();
                 }
 
-                // Obtener la tabla base desde la base de datos
-                tablaReporte = reporteProductoDAO.ObtenerReporteProductos(estado);
+                // 🌟 CORRECCIÓN: Si el estado es "Stock Bajo", pedimos "Todos" al DAO para poder evaluarlo localmente con LINQ
+                string estadoParaDAO = (estado == "Stock Bajo") ? "Todos" : estado;
+                tablaReporte = reporteProductoDAO.ObtenerReporteProductos(estadoParaDAO);
 
                 if (tablaReporte != null && tablaReporte.Rows.Count > 0)
                 {
                     var query = tablaReporte.AsEnumerable();
 
-                    // 1. Filtrar por Categoría (soporta tanto 'categoria' como 'nombre_categoria' o 'Categoría')
+                    // 1. Filtrar por Estado / Stock Bajo de forma local
+                    if (estado == "Stock Bajo")
+                    {
+                        string colStock = tablaReporte.Columns.Contains("stock") ? "stock" : (tablaReporte.Columns.Contains("Stock") ? "Stock" : "");
+                        string colMin = tablaReporte.Columns.Contains("stock_minimo") ? "stock_minimo" : (tablaReporte.Columns.Contains("Stock Minimo") ? "Stock Minimo" : "");
+
+                        if (!string.IsNullOrEmpty(colStock) && !string.IsNullOrEmpty(colMin))
+                        {
+                            query = query.Where(row => row[colStock] != DBNull.Value && row[colMin] != DBNull.Value &&
+                                                      Convert.ToInt32(row[colStock]) <= Convert.ToInt32(row[colMin]));
+                        }
+                    }
+
+                    // 2. Filtrar por Categoría
                     if (categoriaFiltro != "Todas")
                     {
                         string colCat = tablaReporte.Columns.Contains("categoria") ? "categoria" :
@@ -845,7 +1034,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                         }
                     }
 
-                    // 2. Filtrar por Nombre de Producto (Búsqueda parcial en 'nombre' o 'Producto')
+                    // 3. Filtrar por Nombre de Producto
                     if (productoFiltro != "Todos" && !string.IsNullOrEmpty(productoFiltro))
                     {
                         string colNombre = tablaReporte.Columns.Contains("nombre") ? "nombre" :
@@ -866,11 +1055,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                 if (tablaReporte != null && tablaReporte.Rows.Count > 0)
                 {
                     FormatearReporteProductos();
+                    OcultarColumnasId(); // Oculta los IDs por directiva
                     btnImprimir.Enabled = true;
+                    if (btnImprimir != null) btnImprimir.Enabled = true;
                 }
                 else
                 {
                     btnImprimir.Enabled = false;
+                    if (btnImprimir != null) btnImprimir.Enabled = false;
                 }
             }
             catch (Exception ex)
@@ -1324,6 +1516,151 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             {
                 MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void lblMenu_Click(object sender, EventArgs e)
+        {
+            Menú_Principal ventana = new Menú_Principal(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCaja_Click_1(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja(); ventana.Show(); this.Hide();
+        }
+
+        private void lblUsuarios_Click_1(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCliente_Click_1(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente(); ventana.Show(); this.Hide();
+        }
+
+        private void lblProveedores_Click_1(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores(); ventana.Show(); this.Hide();
+        }
+
+        private void lblProductos_Click_1(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCompras_Click_1(object sender, EventArgs e)
+        {
+            Compras_nuevo ventana = new Compras_nuevo(); ventana.Show(); this.Hide();
+        }
+
+        private void lblVenta_Click_1(object sender, EventArgs e)
+        {
+            Ventas ventana = new Ventas(); ventana.Show(); this.Hide();
+        }
+
+        private void lblCredito_Click_1(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito(); ventana.Show(); this.Hide();
+        }
+
+        private void lblInventario_Click_1(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario(); ventana.Show(); this.Hide();
+        }
+
+        private void lblMantenimiento_Click_1(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento(); ventana.Show(); this.Hide();
+        }
+
+        private void lblReportes_Click(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes(); ventana.Show(); this.Hide();
+        }
+
+        private void lblAyuda_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string rutaPDF = @"C:\Users\Lenovo\Desktop\PAYLESS\Interfaces de Usuario Propuestas Payless\Ayuda\Manual_Usuario.pdf";
+
+                if (!File.Exists(rutaPDF))
+                {
+                    MessageBox.Show($"No se encontró el manual en la ruta:\n{rutaPDF}",
+                                    "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // 1. Convertir la ruta del disco a formato URI web (maneja espacios y caracteres especiales)
+                string uriPDF = new Uri(rutaPDF).AbsoluteUri;
+
+                // 2. Cambia el número 8 por el número exacto de la página de Caja
+                int numeroPaginaCaja = 8;
+
+                // 3. Crear el argumento en formato file:///C:/...#page=2
+                string argumentos = $"\"{uriPDF}#page={numeroPaginaCaja}\"";
+
+                ProcessStartInfo edgeInfo = new ProcessStartInfo
+                {
+                    FileName = "msedge.exe",
+                    Arguments = argumentos,
+                    UseShellExecute = true
+                };
+
+                Process.Start(edgeInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el manual: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+        }
+
+        // Método auxiliar estricto para ocultar cualquier columna de ID en las tablas
+        private void OcultarColumnasId()
+        {
+            foreach (DataGridViewColumn col in DGVtabla1.Columns)
+            {
+                string nombreCol = col.Name.ToLower();
+                string headerCol = col.HeaderText.ToLower();
+
+                if (nombreCol.StartsWith("id") || headerCol.StartsWith("id") || nombreCol.Contains("_id") || headerCol.Contains("id "))
+                {
+                    col.Visible = false;
+                }
+            }
+        }
+
+        private void btnImprimirSeleccionado_Click(object sender, EventArgs e)
+        {
+            EjecutarImpresion(false);
+        }
+
+        // Método auxiliar para clonar el DataTable y quitarle cualquier columna que sea un ID
+        private static DataTable OcultarColumnasIdEnDataTable(DataTable datosOriginales)
+        {
+            DataTable dtLimpio = datosOriginales.Copy();
+
+            // Recorremos las columnas de derecha a izquierda para eliminarlas con seguridad sin romper el índice
+            for (int i = dtLimpio.Columns.Count - 1; i >= 0; i--)
+            {
+                string nombreColumna = dtLimpio.Columns[i].ColumnName;
+
+                // Si la columna se llama "ID", empieza con "ID " o contiene "id" (case-insensitive), la eliminamos del PDF
+                if (nombreColumna.Equals("ID", StringComparison.OrdinalIgnoreCase) ||
+                    nombreColumna.StartsWith("ID_", StringComparison.OrdinalIgnoreCase) ||
+                    nombreColumna.StartsWith("ID ", StringComparison.OrdinalIgnoreCase) ||
+                    nombreColumna.IndexOf("id", StringComparison.OrdinalIgnoreCase) >= 0 && (nombreColumna.Length <= 5 || nombreColumna.StartsWith("id_")))
+                {
+                    // O si simplemente quieres buscar cualquier columna que contenga "ID":
+                    // if (nombreColumna.IndexOf("ID", StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        // dtLimpio.Columns.RemoveAt(i);
+                    }
+                }
+            }
+
+            return dtLimpio;
         }
     }
 }

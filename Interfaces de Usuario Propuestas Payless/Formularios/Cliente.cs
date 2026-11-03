@@ -120,9 +120,40 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
             this.Hide();
         }
 
+        private void ConfigurarMenuRoles()
+        {
+            string rol = ClaseSesion.RolActual;
+
+            bool esAdmin = (rol == "Administrador");
+            bool esGerente = (rol == "Gerente");
+            bool esCajero = (rol == "Cajero");
+
+            // Módulos que cambian según el rol (estos suben/bajan sin afectar a Ayuda)
+            lblMenu.Visible = esAdmin || esGerente || esCajero;
+            lblVenta.Visible = esAdmin || esGerente || esCajero;
+            lblCaja.Visible = esAdmin || esGerente || esCajero;
+            lblReportes.Visible = esAdmin || esGerente || esCajero;
+            lblCredito.Visible = esAdmin || esGerente;
+            lblInventario.Visible = esAdmin || esGerente;
+            lblCompras.Visible = esAdmin || esGerente;
+            lblCliente.Visible = esAdmin || esGerente || esCajero;
+            lblMantenimiento.Visible = esAdmin || esGerente;
+
+            lblProductos.Visible = esAdmin;
+            lblProveedores.Visible = esAdmin;
+            lblUsuarios.Visible = esAdmin;
+
+
+            // Ayuda se mantiene siempre visible y fija en la parte inferior gracias al Anchor = Bottom
+            lblAyuda.Visible = true;
+        }
+
         private void Cliente_Load(object sender, EventArgs e)
         {
+            ConfigurarMenuRoles();
             CargarClientes();
+
+
             lblCaja.Enabled = false;
             lblProveedores.Enabled = false;
             lblProductos.Enabled = false;
@@ -132,9 +163,10 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
 
             lblCliente.Enabled = false;
-            lblCredito.Enabled = false;
+            lblVenta.Enabled = false;
             lblInventario.Enabled = false;
             lblMantenimiento.Enabled = false;
+            lblReportes.Enabled = false;
 
 
             switch (ClaseSesion.RolActual)
@@ -147,10 +179,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblUsuarios.Enabled = true;
                     lblMantenimiento.Enabled = true;
                     lblCliente.Enabled = true;
-                    lblCredito.Enabled = true;
+                    lblVenta.Enabled = true;
                     lblInventario.Enabled = true;
                     lblProveedores.Enabled = true;
                     lblProductos.Enabled = true;
+                    lblReportes.Enabled = true;
 
 
                     break;
@@ -160,6 +193,12 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
                     lblCaja.Enabled = true;
                     lblCompras.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblMantenimiento.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblCredito.Enabled = true;
+                    lblInventario.Enabled = true;
+                    lblReportes.Enabled = true;
+
 
                     break;
 
@@ -167,6 +206,8 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
 
                     lblCaja.Enabled = true;
                     lblVenta.Enabled = true;
+                    lblCliente.Enabled = true;
+                    lblReportes.Enabled = true;
 
                     break;
             }
@@ -342,14 +383,14 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         }
         private void AjustarColumnas()
         {
-            DGVtabla1.Columns[0].Width = 50;
+      
+            DGVtabla1.Columns[0].Width = 150;
             DGVtabla1.Columns[1].Width = 150;
             DGVtabla1.Columns[2].Width = 150;
-            DGVtabla1.Columns[3].Width = 150;
-            DGVtabla1.Columns[4].Width = 150;
+            DGVtabla1.Columns[3].Width = 200;
 
-            DGVtabla1.Columns[0].HeaderText = "ID";
-            DGVtabla1.Columns[5].HeaderText = "Estado";
+            
+            DGVtabla1.Columns[4].HeaderText = "Estado";
         }
 
         private void btnAgregar_Click_3(object sender, EventArgs e)
@@ -491,6 +532,96 @@ namespace Interfaces_de_Usuario_Propuestas_Payless
         private void DGVtabla1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             
+        }
+
+        private void lblMenu_Click(object sender, EventArgs e)
+        {
+            Menú_Principal ventana = new Menú_Principal();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCaja_Click(object sender, EventArgs e)
+        {
+            Caja ventana = new Caja();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblUsuarios_Click(object sender, EventArgs e)
+        {
+            Usuario ventana = new Usuario();
+            ventana.Show();
+            this.Hide();
+        }
+
+        private void lblCliente_Click(object sender, EventArgs e)
+        {
+            Cliente ventana = new Cliente();
+            ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblProveedores_Click_1(object sender, EventArgs e)
+        {
+            Proveedores ventana = new Proveedores();
+            ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblProductos_Click(object sender, EventArgs e)
+        {
+            Productos ventana = new Productos();
+            ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblCompras_Click(object sender, EventArgs e)
+        {
+            Compras_nuevo ventana = new Compras_nuevo();
+            ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblVenta_Click(object sender, EventArgs e)
+        {
+            Ventas ventana = new Ventas();
+            ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblCredito_Click(object sender, EventArgs e)
+        {
+            Credito ventana = new Credito(); ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblInventario_Click(object sender, EventArgs e)
+        {
+            inventario ventana = new inventario(); ventana.Show();
+            this.Hide();
+
+        }
+
+        private void lblMantenimiento_Click(object sender, EventArgs e)
+        {
+            Mantenimiento ventana = new Mantenimiento(); ventana.Show(); this.Hide();
+        }
+
+        private void lblReportes_Click_1(object sender, EventArgs e)
+        {
+            Reportes ventana = new Reportes(); ventana.Show(); this.Hide();
+        }
+
+        private void lblAyuda_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

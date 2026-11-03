@@ -357,7 +357,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
         }
 
         // =====================================================
-        // 10. REGISTRAR VENTA Y PAGO (Blindado con validación de caja abierta)
+        // 10. REGISTRAR VENTA Y PAGO (Permite agotar stock hasta 0 y detecta stock bajo)
         // =====================================================
         public bool RegistrarVentaConPago(
             string codigoVenta,
@@ -374,8 +374,11 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
             decimal cambio,
             string tipoTarjeta,
             decimal montoTarjeta,
-            DataTable detalleVenta)
+            DataTable detalleVenta,
+            out List<string> productosStockBajo) // 🌟 Parámetro de salida para la alerta en UI
         {
+            productosStockBajo = new List<string>();
+
             try
             {
                 conexionBD.AbrirConexion();
@@ -399,36 +402,35 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                     {
                         // A. Insertar Encabezado de Venta asociando la caja actual
                         string sqlVenta = @"
-                        INSERT INTO venta
-                        (
-                            codigo_venta,
-                            fecha,
-                            subtotal,
-                            descuento,
-                            iva,
-                            total,
-                            estado,
-                            id_cliente,
-                            id_usuario,
-                            id_caja
-                        )
-                        VALUES
-                        (
-                            @codigoVenta,
-                            CURRENT_TIMESTAMP,
-                            @subtotal,
-                            0,
-                            @iva,
-                            @total,
-                            TRUE,
-                            @idCliente,
-                            @idUsuario,
-                            @idCaja
-                        )
-                        RETURNING id_venta;";
+                    INSERT INTO venta 
+                    (
+                        codigo_venta, 
+                        fecha, 
+                        subtotal, 
+                        descuento, 
+                        iva, 
+                        total, 
+                        estado, 
+                        id_cliente, 
+                        id_usuario, 
+                        id_caja
+                    ) 
+                    VALUES 
+                    (
+                        @codigoVenta, 
+                        CURRENT_TIMESTAMP, 
+                        @subtotal, 
+                        0, 
+                        @iva, 
+                        @total, 
+                        TRUE, 
+                        @idCliente, 
+                        @idUsuario, 
+                        @idCaja
+                    ) 
+                    RETURNING id_venta;";
 
                         int idVenta;
-
                         using (NpgsqlCommand cmdVenta = new NpgsqlCommand(sqlVenta, conexion, transaccion))
                         {
                             cmdVenta.Parameters.AddWithValue("@codigoVenta", codigoVenta);
@@ -442,7 +444,7 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             idVenta = Convert.ToInt32(cmdVenta.ExecuteScalar());
                         }
 
-                        // B. Insertar Detalle de Venta
+                        // B. Insertar Detalle de Venta y actualizar Inventario
                         foreach (DataRow fila in detalleVenta.Rows)
                         {
                             int idProductoTalla = Convert.ToInt32(fila["id_producto_talla"]);
@@ -450,23 +452,24 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             decimal precioUnitario = Convert.ToDecimal(fila["precio_venta"]);
                             decimal subtotalLinea = Convert.ToDecimal(fila["subtotal"]);
 
+                            // 1. Insertar detalle
                             string sqlDetalle = @"
-                            INSERT INTO detalle_venta
-                            (
-                                id_venta,
-                                id_producto_talla,
-                                cantidad,
-                                precio_unitario,
-                                subtotal
-                            )
-                            VALUES
-                            (
-                                @idVenta,
-                                @idProductoTalla,
-                                @cantidad,
-                                @precioUnitario,
-                                @subtotal
-                            );";
+                        INSERT INTO detalle_venta 
+                        (
+                            id_venta, 
+                            id_producto_talla, 
+                            cantidad, 
+                            precio_unitario, 
+                            subtotal
+                        ) 
+                        VALUES 
+                        (
+                            @idVenta, 
+                            @idProductoTalla, 
+                            @cantidad, 
+                            @precioUnitario, 
+                            @subtotal
+                        );";
 
                             using (NpgsqlCommand cmdDetalle = new NpgsqlCommand(sqlDetalle, conexion, transaccion))
                             {
@@ -475,35 +478,74 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                                 cmdDetalle.Parameters.AddWithValue("@cantidad", cantidad);
                                 cmdDetalle.Parameters.AddWithValue("@precioUnitario", precioUnitario);
                                 cmdDetalle.Parameters.AddWithValue("@subtotal", subtotalLinea);
-
                                 cmdDetalle.ExecuteNonQuery();
+                            }
+
+                            // 2. Descontar stock y consultar estado resultante para alertas
+                            string sqlInventario = @"
+                        UPDATE inventario 
+                        SET stock_actual = stock_actual - @cantidad, 
+                            fecha_actualizacion = CURRENT_TIMESTAMP 
+                        WHERE id_producto_talla = @idProductoTalla;
+
+                        SELECT 
+                            COALESCE(i.stock_actual, 0), 
+                            COALESCE(i.stock_minimo, 5), 
+                            p.nombre, 
+                            pt.talla 
+                        FROM inventario i
+                        JOIN producto_talla pt ON i.id_producto_talla = pt.id_producto_talla
+                        JOIN producto p ON pt.id_producto = p.id_producto
+                        WHERE i.id_producto_talla = @idProductoTalla;";
+
+                            using (NpgsqlCommand cmdInv = new NpgsqlCommand(sqlInventario, conexion, transaccion))
+                            {
+                                cmdInv.Parameters.AddWithValue("@cantidad", cantidad);
+                                cmdInv.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
+
+                                using (var reader = cmdInv.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        int stockActual = reader.GetInt32(0);
+                                        int stockMinimo = reader.GetInt32(1);
+                                        string nombreProd = reader.GetString(2);
+                                        string tallaProd = reader.GetString(3);
+
+                                        // Si queda con stock bajo o igual al mínimo, lo agregamos a la alerta
+                                        if (stockActual <= stockMinimo)
+                                        {
+                                            productosStockBajo.Add($"• {nombreProd} (Talla: {tallaProd}) - Stock restante: {stockActual}");
+                                        }
+                                    }
+                                }
                             }
                         }
 
                         // C. Insertar Forma de Pago
                         string sqlPago = @"
-                        INSERT INTO forma_pago
-                        (
-                            tipo_pago,
-                            monto_cordobas,
-                            monto_dolares,
-                            tipo_cambio,
-                            cambio,
-                            tipo_tarjeta,
-                            monto_tarjeta,
-                            id_venta
-                        )
-                        VALUES
-                        (
-                            @tipoPago,
-                            @montoCordobas,
-                            @montoDolares,
-                            @tipoCambio,
-                            @cambio,
-                            @tipoTarjeta,
-                            @montoTarjeta,
-                            @idVenta
-                        );";
+                    INSERT INTO forma_pago 
+                    (
+                        tipo_pago, 
+                        monto_cordobas, 
+                        monto_dolares, 
+                        tipo_cambio, 
+                        cambio, 
+                        tipo_tarjeta, 
+                        monto_tarjeta, 
+                        id_venta
+                    ) 
+                    VALUES 
+                    (
+                        @tipoPago, 
+                        @montoCordobas, 
+                        @montoDolares, 
+                        @tipoCambio, 
+                        @cambio, 
+                        @tipoTarjeta, 
+                        @montoTarjeta, 
+                        @idVenta
+                    );";
 
                         using (NpgsqlCommand cmdPago = new NpgsqlCommand(sqlPago, conexion, transaccion))
                         {
@@ -517,25 +559,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                             cmdPago.Parameters.AddWithValue("@idVenta", idVenta);
 
                             cmdPago.ExecuteNonQuery();
-                        }
-                        // D. Descontar stock del inventario por cada producto vendido
-                        foreach (DataRow fila in detalleVenta.Rows)
-                        {
-                            int idProductoTalla = Convert.ToInt32(fila["id_producto_talla"]);
-                            int cantidad = Convert.ToInt32(fila["cantidad"]);
-
-                            string sqlInventario = @"
-        UPDATE inventario
-        SET stock_actual = stock_actual - @cantidad,
-            fecha_actualizacion = CURRENT_TIMESTAMP
-        WHERE id_producto_talla = @idProductoTalla;";
-
-                            using (NpgsqlCommand cmdInv = new NpgsqlCommand(sqlInventario, conexion, transaccion))
-                            {
-                                cmdInv.Parameters.AddWithValue("@cantidad", cantidad);
-                                cmdInv.Parameters.AddWithValue("@idProductoTalla", idProductoTalla);
-                                cmdInv.ExecuteNonQuery();
-                            }
                         }
 
                         transaccion.Commit();

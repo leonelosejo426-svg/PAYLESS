@@ -56,15 +56,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.txtCantidad = new System.Windows.Forms.TextBox();
             this.dgvDetalleCompra = new System.Windows.Forms.DataGridView();
-            this.colIdProductoTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrecioCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colPrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblSubtotal = new System.Windows.Forms.Label();
             this.lblIVA = new System.Windows.Forms.Label();
             this.lblTotal = new System.Windows.Forms.Label();
@@ -76,6 +67,14 @@
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.colProducto = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colMarca = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTalla = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecioCompra = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colPrecioVenta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCantidad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSubtotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalleCompra)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -348,7 +347,6 @@
             this.dgvDetalleCompra.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvDetalleCompra.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetalleCompra.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colIdProductoTalla,
             this.colProducto,
             this.colCategoria,
             this.colMarca,
@@ -372,51 +370,6 @@
             this.dgvDetalleCompra.TabIndex = 50;
             this.dgvDetalleCompra.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalleCompra_CellDoubleClick);
             this.dgvDetalleCompra.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgvDetalleCompra_CellFormatting);
-            // 
-            // colIdProductoTalla
-            // 
-            this.colIdProductoTalla.HeaderText = "ID";
-            this.colIdProductoTalla.Name = "colIdProductoTalla";
-            // 
-            // colProducto
-            // 
-            this.colProducto.HeaderText = "Producto";
-            this.colProducto.Name = "colProducto";
-            // 
-            // colCategoria
-            // 
-            this.colCategoria.HeaderText = "Categoria";
-            this.colCategoria.Name = "colCategoria";
-            // 
-            // colMarca
-            // 
-            this.colMarca.HeaderText = "Marca";
-            this.colMarca.Name = "colMarca";
-            // 
-            // colTalla
-            // 
-            this.colTalla.HeaderText = "Talla";
-            this.colTalla.Name = "colTalla";
-            // 
-            // colPrecioCompra
-            // 
-            this.colPrecioCompra.HeaderText = "P. Compra";
-            this.colPrecioCompra.Name = "colPrecioCompra";
-            // 
-            // colPrecioVenta
-            // 
-            this.colPrecioVenta.HeaderText = "P. Venta";
-            this.colPrecioVenta.Name = "colPrecioVenta";
-            // 
-            // colCantidad
-            // 
-            this.colCantidad.HeaderText = "Cantidad";
-            this.colCantidad.Name = "colCantidad";
-            // 
-            // colSubtotal
-            // 
-            this.colSubtotal.HeaderText = "SubTotal";
-            this.colSubtotal.Name = "colSubtotal";
             // 
             // lblSubtotal
             // 
@@ -547,6 +500,46 @@
             this.label5.TabIndex = 2;
             this.label5.Text = "Acerca De...";
             // 
+            // colProducto
+            // 
+            this.colProducto.HeaderText = "Producto";
+            this.colProducto.Name = "colProducto";
+            // 
+            // colCategoria
+            // 
+            this.colCategoria.HeaderText = "Categoria";
+            this.colCategoria.Name = "colCategoria";
+            // 
+            // colMarca
+            // 
+            this.colMarca.HeaderText = "Marca";
+            this.colMarca.Name = "colMarca";
+            // 
+            // colTalla
+            // 
+            this.colTalla.HeaderText = "Talla";
+            this.colTalla.Name = "colTalla";
+            // 
+            // colPrecioCompra
+            // 
+            this.colPrecioCompra.HeaderText = "P. Compra";
+            this.colPrecioCompra.Name = "colPrecioCompra";
+            // 
+            // colPrecioVenta
+            // 
+            this.colPrecioVenta.HeaderText = "P. Venta";
+            this.colPrecioVenta.Name = "colPrecioVenta";
+            // 
+            // colCantidad
+            // 
+            this.colCantidad.HeaderText = "Cantidad";
+            this.colCantidad.Name = "colCantidad";
+            // 
+            // colSubtotal
+            // 
+            this.colSubtotal.HeaderText = "SubTotal";
+            this.colSubtotal.Name = "colSubtotal";
+            // 
             // NuevaCompra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -637,7 +630,6 @@
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIdProductoTalla;
         private System.Windows.Forms.DataGridViewTextBoxColumn colProducto;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCategoria;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMarca;

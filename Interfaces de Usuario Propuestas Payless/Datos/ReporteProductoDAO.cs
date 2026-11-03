@@ -23,24 +23,25 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
                 conexionBD.AbrirConexion();
 
                 string sql = @"
-    SELECT
-        ""ID Producto"",
-        ""Producto"",
-        ""Categoria"",
-        ""Marca"",
-        ""Proveedor"",
-        ""Talla"",
-        ""Precio Venta"",
-        ""Stock"",
-        ""Stock Minimo"",
-        ""Alerta"",
-        ""Estado""
-    FROM vw_reporte_productos
-    WHERE
-        @estado = 'Todos'
-        OR ""Estado"" = @estado
-    ORDER BY ""Producto"", ""Talla"";
-";
+                    SELECT
+                        ""ID Producto"",
+                        ""Producto"",
+                        ""Categoria"",
+                        ""Marca"",
+                        ""Proveedor"",
+                        ""Talla"",
+                        ""Precio Venta"",
+                        ""Stock"",
+                        ""Stock Minimo"",
+                        ""Stock Maximo"", 
+                        ""Alerta"",
+                        ""Estado""
+                    FROM vw_reporte_productos
+                    WHERE
+                        @estado = 'Todos'
+                        OR ""Estado"" = @estado
+                    ORDER BY ""Producto"", ""Talla"";
+                ";
 
                 using (NpgsqlCommand cmd = new NpgsqlCommand(sql, conexionBD.ObtenerConexion()))
                 {
@@ -59,7 +60,6 @@ namespace Interfaces_de_Usuario_Propuestas_Payless.Datos
 
             return tabla;
         }
-
 
 
 
